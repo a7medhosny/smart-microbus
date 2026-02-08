@@ -24,4 +24,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get youDontHaveAccount => 'You don\'t have an account';
+
+  @override
+  String get loginToContinueToYourAccount => 'Log in to continue to your account';
 }

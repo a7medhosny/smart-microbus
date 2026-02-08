@@ -4,5 +4,6 @@
   "email": "Email",
   "password": "Password",
   "welcomeUser": "Welcome {name}",
-  "youDontHaveAccount":"You don't have an account"
+  "youDontHaveAccount":"You don't have an account",
+  "loginToContinueToYourAccount" : "Log in to continue to your account"
 }

@@ -4,5 +4,7 @@
   "email": "البريد الإلكتروني",
   "password": "كلمة المرور",
   "welcomeUser": "مرحبا {name}",
-  "youDontHaveAccount":"ليس لديك حساب"
+  "youDontHaveAccount":"ليس لديك حساب",
+  "loginToContinueToYourAccount" : "ِسجل دخول للمتابعة الي حسابك"
+
 }
