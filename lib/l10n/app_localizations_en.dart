@@ -21,4 +21,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String welcomeUser(Object name) {
     return 'Welcome $name';
   }
+
+  @override
+  String get youDontHaveAccount => 'You don\'t have an account';
 }

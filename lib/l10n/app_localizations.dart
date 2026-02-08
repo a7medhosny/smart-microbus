@@ -118,6 +118,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Welcome {name}'**
   String welcomeUser(Object name);
+
+  /// No description provided for @youDontHaveAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'You don\'t have an account'**
+  String get youDontHaveAccount;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

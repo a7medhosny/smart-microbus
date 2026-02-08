@@ -3,5 +3,6 @@
   "login": "Login",
   "email": "Email",
   "password": "Password",
-  "welcomeUser": "Welcome {name}"
+  "welcomeUser": "Welcome {name}",
+  "youDontHaveAccount":"You don't have an account"
 }
