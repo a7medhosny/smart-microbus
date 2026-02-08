@@ -27,4 +27,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get loginToContinueToYourAccount => 'ِسجل دخول للمتابعة الي حسابك';
+
+  @override
+  String get loginNow => 'سجل الان';
 }

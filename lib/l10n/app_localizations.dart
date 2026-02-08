@@ -130,6 +130,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Log in to continue to your account'**
   String get loginToContinueToYourAccount;
+
+  /// No description provided for @loginNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Login now'**
+  String get loginNow;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

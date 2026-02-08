@@ -4,6 +4,12 @@
   "email": "Email",
   "password": "Password",
   "welcomeUser": "Welcome {name}",
+<<<<<<< ours
   "youDontHaveAccount":"You don't have an account",
   "loginToContinueToYourAccount" : "Log in to continue to your account"
+=======
+  "loginToContinueToYourAccount" : "Log in to continue to your account",
+  "loginNow" : "Login now" 
+
+>>>>>>> theirs
 }
