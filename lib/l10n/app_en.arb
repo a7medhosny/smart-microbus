@@ -3,5 +3,6 @@
   "login": "Login",
   "email": "Email",
   "password": "Password",
-  "welcomeUser": "Welcome {name}"
+  "welcomeUser": "Welcome {name}",
+  "loginToContinueToYourAccount" : "Log in to continue to your account"
 }

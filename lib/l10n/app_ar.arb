@@ -3,5 +3,7 @@
   "login": "تسجيل الدخول",
   "email": "البريد الإلكتروني",
   "password": "كلمة المرور",
-  "welcomeUser": "مرحبا {name}"
+  "welcomeUser": "مرحبا {name}",
+  "loginToContinueToYourAccount" : "ِسجل دخول للمتابعة الي حسابك"
+
 }

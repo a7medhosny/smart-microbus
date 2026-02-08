@@ -118,6 +118,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Welcome {name}'**
   String welcomeUser(Object name);
+
+  /// No description provided for @loginToContinueToYourAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Log in to continue to your account'**
+  String get loginToContinueToYourAccount;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

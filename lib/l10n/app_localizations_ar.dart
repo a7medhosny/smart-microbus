@@ -21,4 +21,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String welcomeUser(Object name) {
     return 'مرحبا $name';
   }
+
+  @override
+  String get loginToContinueToYourAccount => 'ِسجل دخول للمتابعة الي حسابك';
 }

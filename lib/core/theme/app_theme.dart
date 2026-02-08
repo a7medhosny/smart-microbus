@@ -49,6 +49,8 @@ class AppTheme {
     dividerColor: AppColorsLight.divider,
 
     iconTheme: const IconThemeData(color: AppColorsLight.iconInactive),
+    
+    
 
     textTheme: TextTheme(
       bodyLarge: AppTextStyles.regular(16, color: AppColorsLight.textPrimary),
