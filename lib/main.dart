@@ -84,7 +84,7 @@ class HomeScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(tr.welcomeUser('Ahmed')),
+        title: Text(tr.welcomeToMinya),
         centerTitle: true,
 
         /// 🌙 Toggle Theme Icon

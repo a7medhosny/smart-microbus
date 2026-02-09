@@ -95,17 +95,71 @@ abstract class AppLocalizations {
     Locale('en')
   ];
 
-  /// No description provided for @login.
+  /// No description provided for @appName.
   ///
   /// In en, this message translates to:
-  /// **'Login'**
-  String get login;
+  /// **'SMART MICROBUS'**
+  String get appName;
 
-  /// No description provided for @email.
+  /// No description provided for @welcomeToMinya.
   ///
   /// In en, this message translates to:
-  /// **'Email'**
-  String get email;
+  /// **'Welcome to Minya'**
+  String get welcomeToMinya;
+
+  /// No description provided for @chooseRoleDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Please choose your role to start using the smart transport system'**
+  String get chooseRoleDescription;
+
+  /// No description provided for @passenger.
+  ///
+  /// In en, this message translates to:
+  /// **'Passenger'**
+  String get passenger;
+
+  /// No description provided for @passengerDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Search for your trip and book your seat بسهولة'**
+  String get passengerDescription;
+
+  /// No description provided for @driver.
+  ///
+  /// In en, this message translates to:
+  /// **'Driver'**
+  String get driver;
+
+  /// No description provided for @driverDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Start your trips and receive passenger bookings'**
+  String get driverDescription;
+
+  /// No description provided for @welcomeBack.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome Back'**
+  String get welcomeBack;
+
+  /// No description provided for @loginToContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Log in to continue to your account'**
+  String get loginToContinue;
+
+  /// No description provided for @phoneNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone Number'**
+  String get phoneNumber;
+
+  /// No description provided for @enterPhoneNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'01xxxxxxxxx'**
+  String get enterPhoneNumber;
 
   /// No description provided for @password.
   ///
@@ -113,28 +167,76 @@ abstract class AppLocalizations {
   /// **'Password'**
   String get password;
 
-  /// No description provided for @welcomeUser.
+  /// No description provided for @forgotPassword.
   ///
   /// In en, this message translates to:
-  /// **'Welcome {name}'**
-  String welcomeUser(Object name);
+  /// **'Forgot Password?'**
+  String get forgotPassword;
 
-  /// No description provided for @youDontHaveAccount.
+  /// No description provided for @login.
   ///
   /// In en, this message translates to:
-  /// **'You don\'t have an account'**
-  String get youDontHaveAccount;
+  /// **'Login'**
+  String get login;
 
-  /// No description provided for @loginToContinueToYourAccount.
+  /// No description provided for @dontHaveAccount.
   ///
   /// In en, this message translates to:
-  /// **'Log in to continue to your account'**
-  String get loginToContinueToYourAccount;
+  /// **'Don’t have an account?'**
+  String get dontHaveAccount;
+
+  /// No description provided for @registerNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Register Now'**
+  String get registerNow;
+
+  /// No description provided for @createNewAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Create New Account'**
+  String get createNewAccount;
+
+  /// No description provided for @registerToSmartMicrobus.
+  ///
+  /// In en, this message translates to:
+  /// **'Join the Smart Microbus service in simple steps'**
+  String get registerToSmartMicrobus;
+
+  /// No description provided for @fullName.
+  ///
+  /// In en, this message translates to:
+  /// **'Full Name'**
+  String get fullName;
+
+  /// No description provided for @enterFullName.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your name here'**
+  String get enterFullName;
+
+  /// No description provided for @confirmPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Password'**
+  String get confirmPassword;
+
+  /// No description provided for @register.
+  ///
+  /// In en, this message translates to:
+  /// **'Register'**
+  String get register;
+
+  /// No description provided for @alreadyHaveAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Already have an account?'**
+  String get alreadyHaveAccount;
 
   /// No description provided for @loginNow.
   ///
   /// In en, this message translates to:
-  /// **'Login now'**
+  /// **'Log in'**
   String get loginNow;
 }
 

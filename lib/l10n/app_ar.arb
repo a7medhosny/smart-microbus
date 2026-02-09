@@ -1,15 +1,47 @@
 {
   "@@locale": "ar",
-  "login": "تسجيل الدخول",
-  "email": "البريد الإلكتروني",
-  "password": "كلمة المرور",
-  "welcomeUser": "مرحبا {name}",
-<<<<<<< ours
-  "youDontHaveAccount":"ليس لديك حساب",
-  "loginToContinueToYourAccount" : "ِسجل دخول للمتابعة الي حسابك"
-=======
-  "loginToContinueToYourAccount" : "ِسجل دخول للمتابعة الي حسابك",
-  "loginNow" : "سجل الان" 
->>>>>>> theirs
 
+
+  "appName": "SMART MICROBUS",
+
+
+  "welcomeToMinya": "أهلاً بك في المنيا",
+  "chooseRoleDescription": "يرجى اختيار دورك للبدء في استخدام نظام النقل الذكي",
+
+  "passenger": "راكب",
+  "passengerDescription": "ابحث عن رحلتك واحجز مقعدك بسهولة",
+
+  "driver": "سائق",
+  "driverDescription": "ابدأ رحلاتك واستقبل حجوزات الركاب",
+
+
+
+  "welcomeBack": "مرحباً بك",
+  "loginToContinue": "سجل الدخول للمتابعة إلى حسابك",
+
+  "phoneNumber": "رقم الهاتف",
+  "enterPhoneNumber": "01xxxxxxxxx",
+
+  "password": "كلمة المرور",
+
+  "forgotPassword": "نسيت كلمة المرور؟",
+
+  "login": "تسجيل الدخول",
+
+  "dontHaveAccount": "ليس لديك حساب؟",
+  "registerNow": "سجل الآن",
+
+
+  "createNewAccount": "إنشاء حساب جديد",
+  "registerToSmartMicrobus": "انضم بخطوات بسيطة إلى خدمة الميكروباص الذكي",
+
+  "fullName": "الاسم بالكامل",
+  "enterFullName": "أدخل اسمك هنا",
+
+  "confirmPassword": "تأكيد كلمة المرور",
+
+  "register": "تسجيل",
+
+  "alreadyHaveAccount": "هل لديك حساب بالفعل؟",
+  "loginNow": "سجل دخول"
 }

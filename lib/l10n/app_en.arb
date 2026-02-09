@@ -1,15 +1,46 @@
 {
   "@@locale": "en",
-  "login": "Login",
-  "email": "Email",
-  "password": "Password",
-  "welcomeUser": "Welcome {name}",
-<<<<<<< ours
-  "youDontHaveAccount":"You don't have an account",
-  "loginToContinueToYourAccount" : "Log in to continue to your account"
-=======
-  "loginToContinueToYourAccount" : "Log in to continue to your account",
-  "loginNow" : "Login now" 
 
->>>>>>> theirs
+
+  "appName": "SMART MICROBUS",
+
+  "welcomeToMinya": "Welcome to Minya",
+  "chooseRoleDescription": "Please choose your role to start using the smart transport system",
+
+  "passenger": "Passenger",
+  "passengerDescription": "Search for your trip and book your seat بسهولة",
+
+  "driver": "Driver",
+  "driverDescription": "Start your trips and receive passenger bookings",
+
+
+
+  "welcomeBack": "Welcome Back",
+  "loginToContinue": "Log in to continue to your account",
+
+  "phoneNumber": "Phone Number",
+  "enterPhoneNumber": "01xxxxxxxxx",
+
+  "password": "Password",
+
+  "forgotPassword": "Forgot Password?",
+
+  "login": "Login",
+
+  "dontHaveAccount": "Don’t have an account?",
+  "registerNow": "Register Now",
+
+
+  "createNewAccount": "Create New Account",
+  "registerToSmartMicrobus": "Join the Smart Microbus service in simple steps",
+
+  "fullName": "Full Name",
+  "enterFullName": "Enter your name here",
+
+  "confirmPassword": "Confirm Password",
+
+  "register": "Register",
+
+  "alreadyHaveAccount": "Already have an account?",
+  "loginNow": "Log in"
 }

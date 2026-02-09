@@ -6,12 +6,14 @@ class CustomTextField extends StatefulWidget {
     required this.labelText,
     required this.controller,
     required this.validator,
+    required this.hintText,
     this.keyboardType = TextInputType.text,
   });
 
   final String labelText;
   final TextEditingController controller;
   final String? Function(String?)? validator;
+  final String hintText;
   final TextInputType keyboardType;
 
   @override
@@ -33,6 +35,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
       textInputAction: TextInputAction.done,
       decoration: InputDecoration(
         labelText: widget.labelText,
+        hintText: widget.hintText,
         border: const UnderlineInputBorder(),
         suffixIcon:
             isPasswordField
