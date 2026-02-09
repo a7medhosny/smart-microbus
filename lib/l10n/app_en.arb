@@ -36,6 +36,9 @@
 
   "fullName": "Full Name",
   "enterFullName": "Enter your name here",
+  "licenseNumber": "License Number",
+  "enterLicenseNumber": "Enter license"
+  ,
 
   "confirmPassword": "Confirm Password",
 

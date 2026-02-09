@@ -37,6 +37,8 @@
 
   "fullName": "الاسم بالكامل",
   "enterFullName": "أدخل اسمك هنا",
+  "licenseNumber": "رقم الرخصة",
+  "enterLicenseNumber": "أدخل رقم الرخصة",
 
   "confirmPassword": "تأكيد كلمة المرور",
 

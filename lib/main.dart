@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:smart_microbus/core/networking/dio_factory.dart';
 import 'package:smart_microbus/core/routing/routes.dart';
+import 'package:smart_microbus/features/register/presentation/cubit/register_cubit.dart';
 import 'package:smart_microbus/l10n/app_localizations.dart';
 
 import 'core/di/dependency_injection.dart';
@@ -37,6 +38,7 @@ class MyApp extends StatelessWidget {
 
         /// 🎨 Theme Cubit
         BlocProvider(create: (_) => getIt<ThemeCubit>()),
+        BlocProvider(create: (_) => getIt<RegisterCubit>()),
       ],
 
       child: BlocBuilder<LocaleCubit, LocaleState>(
@@ -123,6 +125,15 @@ class HomeScreen extends StatelessWidget {
                 localeCubit.toArabic();
               },
               child: const Text("العربية"),
+            ),
+            const SizedBox(height: 12),
+
+            /// 🇸🇦 Arabic
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, Routes.register);
+              },
+              child: Text(tr.register),
             ),
 
             const SizedBox(height: 24),

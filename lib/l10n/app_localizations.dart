@@ -215,6 +215,18 @@ abstract class AppLocalizations {
   /// **'Enter your name here'**
   String get enterFullName;
 
+  /// No description provided for @licenseNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'License Number'**
+  String get licenseNumber;
+
+  /// No description provided for @enterLicenseNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter license'**
+  String get enterLicenseNumber;
+
   /// No description provided for @confirmPassword.
   ///
   /// In en, this message translates to:

@@ -69,6 +69,12 @@ class AppLocalizationsAr extends AppLocalizations {
   String get enterFullName => 'أدخل اسمك هنا';
 
   @override
+  String get licenseNumber => 'رقم الرخصة';
+
+  @override
+  String get enterLicenseNumber => 'أدخل رقم الرخصة';
+
+  @override
   String get confirmPassword => 'تأكيد كلمة المرور';
 
   @override

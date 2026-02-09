@@ -69,6 +69,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get enterFullName => 'Enter your name here';
 
   @override
+  String get licenseNumber => 'License Number';
+
+  @override
+  String get enterLicenseNumber => 'Enter license';
+
+  @override
   String get confirmPassword => 'Confirm Password';
 
   @override

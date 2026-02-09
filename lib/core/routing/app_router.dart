@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smart_microbus/features/register/presentation/pages/register_screen.dart';
 import 'package:smart_microbus/main.dart';
 
 import 'routes.dart';
@@ -25,6 +26,10 @@ class AppRouter {
 
       // ================= REGISTER =================
       case Routes.register:
+        return _materialRoute(const RegisterScreen());
+
+      // ================= OTP VERIFICATION =================
+      case Routes.otpVerification:
         return _materialRoute(const Placeholder());
 
       // ================= DEFAULT =================
