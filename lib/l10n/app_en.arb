@@ -45,5 +45,10 @@
   "register": "Register",
 
   "alreadyHaveAccount": "Already have an account?",
-  "loginNow": "Log in"
+  "loginNow": "Log in",
+  "verifyOtpTitle": "Verify Code",
+  "otpSentTo": "Code sent to",
+  "verify": "Verify",
+  "resendCode": "Resend Code"
+  
 }

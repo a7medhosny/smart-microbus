@@ -49,8 +49,21 @@ class AppTheme {
     dividerColor: AppColorsLight.divider,
 
     iconTheme: const IconThemeData(color: AppColorsLight.iconInactive),
-    
-    
+
+    // elevatedButtonTheme: ElevatedButtonThemeData(
+    //   style: ElevatedButton.styleFrom(
+    //     backgroundColor: AppColorsLight.primary,
+    //     foregroundColor: Colors.white,
+
+    //     minimumSize: const Size(double.infinity, 52),
+
+    //     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+
+    //     textStyle: AppTextStyles.medium(16, color: Colors.white),
+
+    //     elevation: 0,
+    //   ),
+    // ),
 
     textTheme: TextTheme(
       bodyLarge: AppTextStyles.regular(16, color: AppColorsLight.textPrimary),
@@ -108,6 +121,21 @@ class AppTheme {
     dividerColor: AppColorsDark.divider,
 
     iconTheme: const IconThemeData(color: AppColorsDark.iconInactive),
+
+    // elevatedButtonTheme: ElevatedButtonThemeData(
+    //   style: ElevatedButton.styleFrom(
+    //     backgroundColor: AppColorsDark.primary,
+    //     foregroundColor: AppColorsDark.surface,
+
+    //     minimumSize: const Size(double.infinity, 52),
+
+    //     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+
+    //     textStyle: AppTextStyles.medium(16),
+
+    //     elevation: 0,
+    //   ),
+    // ),
 
     textTheme: TextTheme(
       bodyLarge: AppTextStyles.regular(16, color: AppColorsDark.textPrimary),

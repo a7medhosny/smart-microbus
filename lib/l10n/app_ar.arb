@@ -45,5 +45,9 @@
   "register": "تسجيل",
 
   "alreadyHaveAccount": "هل لديك حساب بالفعل؟",
-  "loginNow": "سجل دخول"
+  "loginNow": "سجل دخول",
+   "verifyOtpTitle": "تأكيد الكود",
+  "otpSentTo": "تم إرسال الكود إلى",
+  "verify": "تأكيد",
+  "resendCode": "إعادة إرسال الكود"
 }

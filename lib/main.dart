@@ -128,12 +128,23 @@ class HomeScreen extends StatelessWidget {
             ),
             const SizedBox(height: 12),
 
-            /// 🇸🇦 Arabic
             ElevatedButton(
               onPressed: () {
                 Navigator.pushNamed(context, Routes.register);
               },
               child: Text(tr.register),
+            ),
+            const SizedBox(height: 12),
+
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(
+                  context,
+                  Routes.otpVerification,
+                  arguments: '01110718472',
+                );
+              },
+              child: Text(tr.verify),
             ),
 
             const SizedBox(height: 24),

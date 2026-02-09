@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smart_microbus/core/routing/routes.dart';
 
-import '../../../../l10n/app_localizations.dart';
-import '../controllers/register_controllers.dart';
-import '../cubit/register_cubit.dart';
+import '../../../../../core/storage/cache_helper.dart';
+import '../../../../../core/storage/cache_keys.dart';
+import '../../../../../l10n/app_localizations.dart';
+import '../../controllers/register_controllers.dart';
+import '../../cubit/register_cubit.dart';
 
 class RegisterButton extends StatelessWidget {
   const RegisterButton({super.key, required this.controllers});
@@ -69,11 +72,26 @@ class RegisterButton extends StatelessWidget {
 
   // ================= NAVIGATION =================
 
-  void _goToOtp(BuildContext context) {
-    Navigator.pushNamed(
-      context,
-      "/verifyOtp",
-      arguments: {"phone": controllers.phoneController.text},
-    );
-  }
+ void _goToOtp(BuildContext context) async {
+  await CacheHelper.insertToCache(
+    key: CacheKeys.otpFlowActive,
+    value: 'true',
+  );
+
+  await CacheHelper.insertToCache(
+    key: CacheKeys.otpPhone,
+    value:
+        controllers.phoneController.text,
+  );
+
+  Navigator.pushNamed(
+    context,
+    Routes.otpVerification,
+    arguments: {
+      "phone":
+          controllers.phoneController.text,
+    },
+  );
+}
+
 }

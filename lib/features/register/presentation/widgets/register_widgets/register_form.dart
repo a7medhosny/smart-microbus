@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:smart_microbus/l10n/app_localizations.dart';
 
-import '../../../../../core/widgets/custom_text_field.dart';
-import '../controllers/register_controllers.dart';
+import '../../../../../../core/widgets/custom_text_field.dart';
+import '../../controllers/register_controllers.dart';
 
 class RegisterForm extends StatefulWidget {
   const RegisterForm({super.key, required this.controllers});

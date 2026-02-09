@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smart_microbus/l10n/app_localizations.dart';
 
 class CustomTextField extends StatefulWidget {
   const CustomTextField({
@@ -25,7 +26,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
 
   @override
   Widget build(BuildContext context) {
-    final isPasswordField = widget.labelText.toLowerCase().contains('password');
+    final isPasswordField = widget.labelText.toLowerCase().contains(AppLocalizations.of(context)!.password);
 
     return TextFormField(
       controller: widget.controller,

@@ -85,4 +85,16 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get loginNow => 'سجل دخول';
+
+  @override
+  String get verifyOtpTitle => 'تأكيد الكود';
+
+  @override
+  String get otpSentTo => 'تم إرسال الكود إلى';
+
+  @override
+  String get verify => 'تأكيد';
+
+  @override
+  String get resendCode => 'إعادة إرسال الكود';
 }

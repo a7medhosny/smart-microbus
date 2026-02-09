@@ -85,4 +85,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get loginNow => 'Log in';
+
+  @override
+  String get verifyOtpTitle => 'Verify Code';
+
+  @override
+  String get otpSentTo => 'Code sent to';
+
+  @override
+  String get verify => 'Verify';
+
+  @override
+  String get resendCode => 'Resend Code';
 }
