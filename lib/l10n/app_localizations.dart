@@ -191,6 +191,30 @@ abstract class AppLocalizations {
   /// **'Forgot Password?'**
   String get forgotPassword;
 
+  /// No description provided for @forgetPasswordFormTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Forget Password Form'**
+  String get forgetPasswordFormTitle;
+
+  /// No description provided for @forgetPasswordFormDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'This is where the forget password form will be implemented.'**
+  String get forgetPasswordFormDescription;
+
+  /// No description provided for @sendResetLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Send reset link'**
+  String get sendResetLink;
+
+  /// No description provided for @passwordResetSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Password reset link sent successfully'**
+  String get passwordResetSent;
+
   /// No description provided for @login.
   ///
   /// In en, this message translates to:

@@ -29,6 +29,10 @@
 
 
   "forgotPassword": "Forgot Password?",
+   "forgetPasswordFormTitle": "Forget Password Form",
+  "forgetPasswordFormDescription": "This is where the forget password form will be implemented.",
+  "sendResetLink": "Send reset link",
+  "passwordResetSent": "Password reset link sent successfully",
 
   "login": "Login",
 

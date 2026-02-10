@@ -22,7 +22,7 @@ class LoginCubit extends Cubit<LoginState> {
     );
   }
 
-  Future<void> forgetPassword(ForgetPasswordEntity entity) async {
+  Future<void> forgetPassword({required ForgetPasswordEntity entity}) async {
     emit(ForgetPasswordLoading());
     final result = await forgetPasswordUseCase(entity);
     result.fold(

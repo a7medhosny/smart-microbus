@@ -57,6 +57,18 @@ class AppLocalizationsAr extends AppLocalizations {
   String get forgotPassword => 'نسيت كلمة المرور؟';
 
   @override
+  String get forgetPasswordFormTitle => 'نموذج استعادة كلمة المرور';
+
+  @override
+  String get forgetPasswordFormDescription => 'سيتم تنفيذ نموذج استعادة كلمة المرور هنا.';
+
+  @override
+  String get sendResetLink => 'إرسال رابط الاستعادة';
+
+  @override
+  String get passwordResetSent => 'تم إرسال رابط استعادة كلمة المرور بنجاح';
+
+  @override
   String get login => 'تسجيل الدخول';
 
   @override

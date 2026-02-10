@@ -28,7 +28,10 @@
 "rememberMe": "تذكرني",
 
   "forgotPassword": "نسيت كلمة المرور؟",
-
+  "forgetPasswordFormTitle": "نموذج استعادة كلمة المرور",
+  "forgetPasswordFormDescription": "سيتم تنفيذ نموذج استعادة كلمة المرور هنا.",
+ "sendResetLink": "إرسال رابط الاستعادة",
+  "passwordResetSent": "تم إرسال رابط استعادة كلمة المرور بنجاح",
   "login": "تسجيل الدخول",
 
   "dontHaveAccount": "ليس لديك حساب؟",

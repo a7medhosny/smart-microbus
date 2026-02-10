@@ -57,6 +57,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get forgotPassword => 'Forgot Password?';
 
   @override
+  String get forgetPasswordFormTitle => 'Forget Password Form';
+
+  @override
+  String get forgetPasswordFormDescription => 'This is where the forget password form will be implemented.';
+
+  @override
+  String get sendResetLink => 'Send reset link';
+
+  @override
+  String get passwordResetSent => 'Password reset link sent successfully';
+
+  @override
   String get login => 'Login';
 
   @override

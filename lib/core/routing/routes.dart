@@ -4,7 +4,7 @@ class Routes {
   // ================= AUTH =================
   static const String login = '/LoginScreen';
   static const String register = '/register';
-  static const String forgotPassword = '/forgot-password';
+  static const String forgotPassword = '/ForgetpPasswordScreen';
   static const String resetPassword = '/reset-password';
 
   // ================= LAYOUT =================

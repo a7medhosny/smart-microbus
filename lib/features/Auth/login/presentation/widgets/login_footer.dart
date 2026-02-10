@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:smart_microbus/core/helpers/extensions.dart';
+import 'package:smart_microbus/core/helpers/spacing.dart';
+import 'package:smart_microbus/core/routing/routes.dart';
 import 'package:smart_microbus/l10n/app_localizations.dart';
 
 class LoginFooter extends StatelessWidget {
@@ -7,23 +10,45 @@ class LoginFooter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+
+    return Column(
       children: [
-        Text(
-          loc.dontHaveAccount,
-          style: Theme.of(context).textTheme.bodyMedium,
-        ),
-        TextButton(
-          onPressed: () {
-            //register screen
-          },
-          child: Text(
-            loc.registerNow,
-            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-              color: Theme.of(context).colorScheme.primary,
+        Align(
+          alignment: Alignment.centerRight,
+          child: TextButton(
+            onPressed: () {
+              context.pushNamed(Routes.forgotPassword);
+            },
+            child: Text(
+              loc.forgotPassword,
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                color: Theme.of(context).colorScheme.primary,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ),
+        ),
+
+        verticalSpace(30),
+
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              loc.dontHaveAccount,
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+            TextButton(
+              onPressed: () {},
+              child: Text(
+                loc.registerNow,
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  color: Theme.of(context).colorScheme.primary,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
         ),
       ],
     );
