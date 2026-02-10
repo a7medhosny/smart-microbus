@@ -17,10 +17,15 @@ class VerifyOtpScreen extends StatefulWidget {
 
 class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
   final controller = OtpController();
+ @override
+  void initState() {
+    super.initState();
+    controller.startResendTimer(); // start timer when open the screen 
+  }
 
   @override
   void dispose() {
-    controller.dispose();
+    controller.disposeAll();
     super.dispose();
   }
 
@@ -53,7 +58,8 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
 
               const SizedBox(height: 16),
 
-              const ResendCodeText(),
+               ResendCodeText(phoneNumber: widget.phoneNumber, controller: controller,
+               ),
             ],
           ),
         ),

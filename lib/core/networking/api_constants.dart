@@ -20,6 +20,11 @@ class ApiConstants {
 
   static const String verifyOtpEndpoint =
       '/Account/verify-otp';
+  static const String confirmAccountEndpoint =
+      '/Account/confirm-account';
+  static const String resendConfirmationEndpoint =
+      '/Account/resend-confirmation';
+      
 
   static const String resetPasswordEndpoint =
       '/Account/reset-password';

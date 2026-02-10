@@ -1,8 +1,10 @@
 import 'package:smart_microbus/features/register/data/datasource/register_remote_data_source.dart';
 
 import '../models/auth_response_model.dart';
+import '../models/confirm_account_request_model.dart';
 import '../models/register_driver_request_model.dart';
 import '../models/register_passenger_request_model.dart';
+import '../models/resend_confirmation_request_model.dart';
 import '../models/verify_otp_request_model.dart';
 import 'register_api_service.dart';
 
@@ -27,9 +29,25 @@ class RegisterRemoteDataSourceImpl
   }
 
   @override
-  Future<void> verifyOtp(
+  Future<AuthResponseModel> verifyOtp(
     VerifyOtpRequestModel model,
   ) {
     return apiService.verifyOtp(model);
+  }
+
+  @override
+  Future<AuthResponseModel> confirmAccount(
+    ConfirmAccountRequestModel model,
+  ) {
+    return apiService.confirmAccount(model);
+  }
+
+  // ---------------- RESEND CONFIRMATION ----------------
+
+  @override
+  Future<AuthResponseModel> resendConfirmation(
+    ResendConfirmationRequestModel model,
+  ) {
+    return apiService.resendConfirmation(model);
   }
 }

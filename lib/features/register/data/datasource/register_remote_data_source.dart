@@ -1,6 +1,8 @@
 import '../models/auth_response_model.dart';
+import '../models/confirm_account_request_model.dart';
 import '../models/register_driver_request_model.dart';
 import '../models/register_passenger_request_model.dart';
+import '../models/resend_confirmation_request_model.dart';
 import '../models/verify_otp_request_model.dart';
 
 abstract class RegisterRemoteDataSource {
@@ -12,7 +14,15 @@ abstract class RegisterRemoteDataSource {
     RegisterPassengerRequestModel model,
   );
 
-  Future<void> verifyOtp(
+  Future<AuthResponseModel> verifyOtp(
     VerifyOtpRequestModel model,
+  );
+
+  Future<AuthResponseModel> confirmAccount(
+    ConfirmAccountRequestModel model,
+  );
+
+  Future<AuthResponseModel> resendConfirmation(
+    ResendConfirmationRequestModel model,
   );
 }

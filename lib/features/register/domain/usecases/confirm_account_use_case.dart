@@ -3,14 +3,14 @@ import 'package:smart_microbus/features/register/domain/repositories/register_re
 
 import '../../../../core/error/failure.dart';
 import '../entities/auth_response.dart';
-import '../entities/verify_otp_request.dart';
+import '../entities/confirm_account_request.dart';
 
-class VerifyOtpUseCase {
+class ConfirmAccountUseCase {
   final RegisterRepository registerRepoistory;
 
-  VerifyOtpUseCase(this.registerRepoistory);
+  ConfirmAccountUseCase(this.registerRepoistory);
 
-  Future<Either<Failure, AuthResponse>> call(VerifyOtpRequest request) {
-    return registerRepoistory.verifyOtp(request);
+  Future<Either<Failure, AuthResponse>> call(ConfirmAccountRequest request) {
+    return registerRepoistory.confirmAccount(request);
   }
 }

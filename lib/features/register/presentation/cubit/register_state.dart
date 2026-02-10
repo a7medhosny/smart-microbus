@@ -82,3 +82,62 @@ final class VerifyOtpError
   @override
   List<Object?> get props => [message];
 }
+
+// ================= CONFIRM ACCOUNT =================
+
+final class ConfirmAccountLoading
+    extends RegisterState {}
+
+final class ConfirmAccountSuccess
+    extends RegisterState {
+  final AuthResponse response;
+
+  const ConfirmAccountSuccess(
+    this.response,
+  );
+
+  @override
+  List<Object?> get props => [response];
+}
+
+final class ConfirmAccountError
+    extends RegisterState {
+  final String message;
+
+  const ConfirmAccountError(
+    this.message,
+  );
+
+  @override
+  List<Object?> get props => [message];
+}
+
+// ================= RESEND CONFIRMATION =================
+
+final class ResendConfirmationLoading
+    extends RegisterState {}
+
+final class ResendConfirmationSuccess
+    extends RegisterState {
+  final AuthResponse response;
+
+  const ResendConfirmationSuccess(
+    this.response,
+  );
+
+  @override
+  List<Object?> get props => [response];
+}
+
+final class ResendConfirmationError
+    extends RegisterState {
+  final String message;
+
+  const ResendConfirmationError(
+    this.message,
+  );
+
+  @override
+  List<Object?> get props => [message];
+}
+
