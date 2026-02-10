@@ -21,8 +21,11 @@
 
   "phoneNumber": "رقم الهاتف",
   "enterPhoneNumber": "01xxxxxxxxx",
+  "phoneRequired": "من فضلك أدخل رقم الهاتف",
 
   "password": "كلمة المرور",
+  "passwordRequired": "من فضلك أدخل كلمة المرور",
+"rememberMe": "تذكرني",
 
   "forgotPassword": "نسيت كلمة المرور؟",
 

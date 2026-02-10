@@ -42,7 +42,16 @@ class AppLocalizationsAr extends AppLocalizations {
   String get enterPhoneNumber => '01xxxxxxxxx';
 
   @override
+  String get phoneRequired => 'من فضلك أدخل رقم الهاتف';
+
+  @override
   String get password => 'كلمة المرور';
+
+  @override
+  String get passwordRequired => 'من فضلك أدخل كلمة المرور';
+
+  @override
+  String get rememberMe => 'تذكرني';
 
   @override
   String get forgotPassword => 'نسيت كلمة المرور؟';

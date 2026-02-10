@@ -8,6 +8,7 @@ import 'package:smart_microbus/features/Auth/login/data/repos/login_repo._impl.d
 import 'package:smart_microbus/features/Auth/login/domain/repos/login_repo.dart';
 import 'package:smart_microbus/features/Auth/login/domain/usecases/forget_password_use_case.dart';
 import 'package:smart_microbus/features/Auth/login/domain/usecases/login_use_case.dart';
+import 'package:smart_microbus/features/Auth/login/presentation/cubit/cubit/login_cubit.dart';
 
 import '../storage/cache_helper.dart';
 
@@ -53,5 +54,11 @@ Future<void> setupDependencyInjection() async {
   getIt.registerFactory<LoginUseCase>(() => LoginUseCase(getIt<LoginRepo>()));
   getIt.registerFactory<ForgetPasswordUseCase>(
     () => ForgetPasswordUseCase(getIt<LoginRepo>()),
+  );
+  getIt.registerFactory<LoginCubit>(
+    () => LoginCubit(
+      loginUseCase: getIt<LoginUseCase>(),
+      forgetPasswordUseCase: getIt<ForgetPasswordUseCase>(),
+    ),
   );
 }

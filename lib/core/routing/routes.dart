@@ -2,7 +2,7 @@ class Routes {
   static const String initial = '/';
 
   // ================= AUTH =================
-  static const String login = '/login';
+  static const String login = '/LoginScreen';
   static const String register = '/register';
   static const String forgotPassword = '/forgot-password';
   static const String resetPassword = '/reset-password';
@@ -31,11 +31,9 @@ class Routes {
 
   // ================= CATEGORIES =================
   static const String categories = '/categories';
-  static const String productsByCategory =
-      '/products-by-category';
+  static const String productsByCategory = '/products-by-category';
 
   // ================= BRANDS =================
   static const String brands = '/brands';
-  static const String productsByBrand =
-      '/products-by-brand';
+  static const String productsByBrand = '/products-by-brand';
 }

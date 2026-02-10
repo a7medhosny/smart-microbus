@@ -20,8 +20,13 @@
 
   "phoneNumber": "Phone Number",
   "enterPhoneNumber": "01xxxxxxxxx",
+  "phoneRequired": "Please enter phone number",
 
   "password": "Password",
+  "passwordRequired": "Please enter password",
+
+  "rememberMe": "Remember me",
+
 
   "forgotPassword": "Forgot Password?",
 

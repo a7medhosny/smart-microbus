@@ -15,7 +15,7 @@ class AppTheme {
       primary: AppColorsLight.primary,
       secondary: AppColorsLight.secondary,
       surface: AppColorsLight.surface,
-      surfaceContainerHighest: AppColorsLight.grey100,
+      // surfaceContainerHighest: AppColorsLight.grey100,
       onSurface: AppColorsLight.textPrimary,
       onSurfaceVariant: AppColorsLight.textSecondary,
     ),
@@ -33,6 +33,18 @@ class AppTheme {
     ),
 
     inputDecorationTheme: InputDecorationTheme(
+      labelStyle: const TextStyle(
+        color: AppColorsLight.textSecondary,
+        fontSize: 14,
+      ),
+      floatingLabelBehavior: FloatingLabelBehavior.always,
+
+      floatingLabelStyle: const TextStyle(
+        color: AppColorsLight.primary,
+        fontSize: 14,
+        fontWeight: FontWeight.w600,
+      ),
+
       filled: true,
       fillColor: AppColorsLight.grey100,
       hintStyle: TextStyle(color: AppColorsLight.textSecondary),
@@ -49,8 +61,6 @@ class AppTheme {
     dividerColor: AppColorsLight.divider,
 
     iconTheme: const IconThemeData(color: AppColorsLight.iconInactive),
-    
-    
 
     textTheme: TextTheme(
       bodyLarge: AppTextStyles.regular(16, color: AppColorsLight.textPrimary),
@@ -74,7 +84,7 @@ class AppTheme {
       primary: AppColorsDark.primary,
       secondary: AppColorsDark.secondary,
       surface: AppColorsDark.surface,
-      surfaceContainerHighest: AppColorsDark.grey200,
+      // surfaceContainerHighest: AppColorsDark.grey200,
       onSurface: AppColorsDark.textPrimary,
       onSurfaceVariant: AppColorsDark.textSecondary,
     ),
@@ -92,6 +102,17 @@ class AppTheme {
     ),
 
     inputDecorationTheme: InputDecorationTheme(
+      labelStyle: const TextStyle(
+        color: AppColorsDark.textSecondary,
+        fontSize: 14,
+      ),
+      floatingLabelStyle: const TextStyle(
+        color: AppColorsDark.primary,
+        fontSize: 14,
+        fontWeight: FontWeight.w600,
+      ),
+      floatingLabelBehavior: FloatingLabelBehavior.always,
+
       filled: true,
       fillColor: AppColorsDark.grey200,
       hintStyle: TextStyle(color: AppColorsDark.textSecondary),

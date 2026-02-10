@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:smart_microbus/core/networking/dio_factory.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import 'package:smart_microbus/core/helpers/extensions.dart';
 import 'package:smart_microbus/core/routing/routes.dart';
 import 'package:smart_microbus/l10n/app_localizations.dart';
 
 import 'core/di/dependency_injection.dart';
-
 import 'core/localization/locale_cubit.dart';
 import 'core/localization/locale_state.dart';
-
 import 'core/routing/app_router.dart';
 import 'core/theme/app_theme.dart';
 import 'core/theme/theme_cubit.dart';
@@ -32,38 +32,41 @@ class MyApp extends StatelessWidget {
 
     return MultiBlocProvider(
       providers: [
-        /// 🌍 Localization Cubit
         BlocProvider(create: (_) => getIt<LocaleCubit>()),
-
-        /// 🎨 Theme Cubit
         BlocProvider(create: (_) => getIt<ThemeCubit>()),
       ],
-
       child: BlocBuilder<LocaleCubit, LocaleState>(
         builder: (context, localeState) {
           return BlocBuilder<ThemeCubit, ThemeMode>(
             builder: (context, themeMode) {
-              return MaterialApp(
-                debugShowCheckedModeBanner: false,
-                navigatorKey: navigatorKey,
-                onGenerateRoute: appRouter.onGenerateRoute,
-                initialRoute: Routes.initial,
+              return ScreenUtilInit(
+                designSize: const Size(375, 812),
+                minTextAdapt: true,
+                splitScreenMode: true,
 
-                // ================= Localization =================
-                locale: localeState.locale,
-                supportedLocales: AppLocalizations.supportedLocales,
+                builder: (context, child) {
+                  return MaterialApp(
+                    debugShowCheckedModeBanner: false,
 
-                localizationsDelegates: const [
-                  AppLocalizations.delegate,
-                  GlobalMaterialLocalizations.delegate,
-                  GlobalWidgetsLocalizations.delegate,
-                  GlobalCupertinoLocalizations.delegate,
-                ],
+                    onGenerateRoute: appRouter.onGenerateRoute,
+                    initialRoute: Routes.initial,
 
-                // ================= Themes =================
-                theme: AppTheme.lightTheme,
-                darkTheme: AppTheme.darkTheme,
-                themeMode: themeMode,
+                    // ================= Localization =================
+                    locale: localeState.locale,
+                    supportedLocales: AppLocalizations.supportedLocales,
+                    localizationsDelegates: const [
+                      AppLocalizations.delegate,
+                      GlobalMaterialLocalizations.delegate,
+                      GlobalWidgetsLocalizations.delegate,
+                      GlobalCupertinoLocalizations.delegate,
+                    ],
+
+                    // ================= Themes =================
+                    theme: AppTheme.lightTheme,
+                    darkTheme: AppTheme.darkTheme,
+                    themeMode: themeMode,
+                  );
+                },
               );
             },
           );
@@ -86,8 +89,6 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(tr.welcomeToMinya),
         centerTitle: true,
-
-        /// 🌙 Toggle Theme Icon
         actions: [
           IconButton(
             onPressed: () {
@@ -97,17 +98,14 @@ class HomeScreen extends StatelessWidget {
           ),
         ],
       ),
-
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            /// 🌍 Translated Text
             Text(tr.login, style: Theme.of(context).textTheme.headlineMedium),
 
             const SizedBox(height: 24),
 
-            /// 🇬🇧 English
             ElevatedButton(
               onPressed: () {
                 localeCubit.toEnglish();
@@ -117,7 +115,6 @@ class HomeScreen extends StatelessWidget {
 
             const SizedBox(height: 12),
 
-            /// 🇸🇦 Arabic
             ElevatedButton(
               onPressed: () {
                 localeCubit.toArabic();
@@ -126,6 +123,13 @@ class HomeScreen extends StatelessWidget {
             ),
 
             const SizedBox(height: 24),
+
+            ElevatedButton(
+              onPressed: () {
+                context.pushNamed(Routes.login);
+              },
+              child: const Text("Login"),
+            ),
           ],
         ),
       ),

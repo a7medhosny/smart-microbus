@@ -42,7 +42,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get enterPhoneNumber => '01xxxxxxxxx';
 
   @override
+  String get phoneRequired => 'Please enter phone number';
+
+  @override
   String get password => 'Password';
+
+  @override
+  String get passwordRequired => 'Please enter password';
+
+  @override
+  String get rememberMe => 'Remember me';
 
   @override
   String get forgotPassword => 'Forgot Password?';

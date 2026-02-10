@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smart_microbus/core/DI/dependency_injection.dart';
+import 'package:smart_microbus/features/Auth/login/presentation/cubit/cubit/login_cubit.dart';
+import 'package:smart_microbus/features/Auth/login/presentation/screens/login_Screen.dart';
 import 'package:smart_microbus/main.dart';
 
 import 'routes.dart';
@@ -20,7 +24,10 @@ class AppRouter {
       // ================= LOGIN =================
       case Routes.login:
         return _materialRoute(
-          const Placeholder(), // LoginScreen()
+          BlocProvider(
+            create: (context) => getIt<LoginCubit>(),
+            child: const LoginScreen(),
+          ),
         );
 
       // ================= REGISTER =================
