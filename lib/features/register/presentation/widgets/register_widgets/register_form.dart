@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:smart_microbus/l10n/app_localizations.dart';
 
@@ -30,6 +32,7 @@ class _RegisterFormState extends State<RegisterForm> {
                   title: Text(loc.passenger),
                   value: RegisterUserType.passenger,
                   groupValue: widget.controllers.userType,
+                  
                   onChanged: (value) {
                     setState(() {
                       widget.controllers.userType = value!;

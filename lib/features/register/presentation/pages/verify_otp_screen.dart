@@ -7,9 +7,10 @@ import '../widgets/otp_widgets/otp_verify_button.dart';
 import '../widgets/otp_widgets/resend_code_text.dart';
 
 class VerifyOtpScreen extends StatefulWidget {
-  const VerifyOtpScreen({super.key, required this.phoneNumber});
+  const VerifyOtpScreen({super.key, required this.phoneNumber,required this.from});
 
   final String phoneNumber;
+  final String from;
 
   @override
   State<VerifyOtpScreen> createState() => _VerifyOtpScreenState();
@@ -54,6 +55,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
               OtpVerifyButton(
                 controller: controller,
                 phoneNumber: widget.phoneNumber,
+                from: widget.from,
               ),
 
               const SizedBox(height: 16),

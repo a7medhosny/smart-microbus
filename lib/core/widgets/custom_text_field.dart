@@ -26,7 +26,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
 
   @override
   Widget build(BuildContext context) {
-    final isPasswordField = widget.labelText.toLowerCase().contains(AppLocalizations.of(context)!.password);
+    final isPasswordField = widget.labelText.contains(AppLocalizations.of(context)!.password);
 
     return TextFormField(
       controller: widget.controller,

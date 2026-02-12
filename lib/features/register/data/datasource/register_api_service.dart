@@ -1,9 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
+import 'package:smart_microbus/features/register/data/models/verify_otp_response_model.dart';
 
 import '../../../../core/networking/api_constants.dart';
 import '../models/auth_response_model.dart';
 import '../models/confirm_account_request_model.dart';
+import '../models/refresh_token_request_model.dart';
 import '../models/register_driver_request_model.dart';
 import '../models/register_passenger_request_model.dart';
 import '../models/resend_confirmation_request_model.dart';
@@ -35,7 +37,7 @@ abstract class RegisterApiService {
   // -------------------- VERIFY OTP --------------------
 
   @POST(ApiConstants.verifyOtpEndpoint)
-  Future<AuthResponseModel> verifyOtp(
+  Future<VerifyOtpResponseModel> verifyOtp(
     @Body() VerifyOtpRequestModel model,
   );
 
@@ -53,5 +55,7 @@ abstract class RegisterApiService {
     @Body() ResendConfirmationRequestModel model,
   );
   
+    @POST(ApiConstants.refreshTokenEndpoint)
+  Future<AuthResponseModel> refreshToken(@Body() RefreshTokenRequestModel request);
 
 }

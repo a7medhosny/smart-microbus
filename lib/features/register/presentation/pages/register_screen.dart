@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/theme/theme_cubit.dart';
 import '../controllers/register_controllers.dart';
 import '../widgets/register_widgets/register_button.dart';
 import '../widgets/register_widgets/register_footer.dart';

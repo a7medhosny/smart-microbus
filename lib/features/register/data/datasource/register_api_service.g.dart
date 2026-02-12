@@ -82,13 +82,13 @@ class _RegisterApiService implements RegisterApiService {
   }
 
   @override
-  Future<AuthResponseModel> verifyOtp(VerifyOtpRequestModel model) async {
+  Future<VerifyOtpResponseModel> verifyOtp(VerifyOtpRequestModel model) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(model.toJson());
-    final _options = _setStreamType<AuthResponseModel>(
+    final _options = _setStreamType<VerifyOtpResponseModel>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -99,9 +99,9 @@ class _RegisterApiService implements RegisterApiService {
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late AuthResponseModel _value;
+    late VerifyOtpResponseModel _value;
     try {
-      _value = AuthResponseModel.fromJson(_result.data!);
+      _value = VerifyOtpResponseModel.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
@@ -153,6 +153,36 @@ class _RegisterApiService implements RegisterApiService {
           .compose(
             _dio.options,
             '/Account/resend-confirmation',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late AuthResponseModel _value;
+    try {
+      _value = AuthResponseModel.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<AuthResponseModel> refreshToken(
+    RefreshTokenRequestModel request,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(request.toJson());
+    final _options = _setStreamType<AuthResponseModel>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/account/generate-new-jwt-token',
             queryParameters: queryParameters,
             data: _data,
           )

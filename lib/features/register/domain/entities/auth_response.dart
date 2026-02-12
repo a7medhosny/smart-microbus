@@ -3,6 +3,7 @@ class AuthResponse {
   final String message;
   final int statusCode;
   final String? userName;
+  final String? phone;
   final String? token;
   final String? expiration;
   final String? refreshToken;
@@ -13,6 +14,7 @@ class AuthResponse {
     required this.message,
     required this.statusCode,
     this.userName,
+    this.phone,
     this.token,
     this.expiration,
     this.refreshToken,

@@ -10,7 +10,8 @@ class TokenManager {
       CacheHelper.getCacheData(key: CacheKeys.refreshToken);
   static String? get userName =>
       CacheHelper.getCacheData(key: CacheKeys.userName);
-  static String? get email => CacheHelper.getCacheData(key: CacheKeys.email);
+  static String? get phone =>
+      CacheHelper.getCacheData(key: CacheKeys.phone);
   static String? get userId => CacheHelper.getCacheData(key: CacheKeys.userId);
   static String? get guestId =>
       CacheHelper.getCacheData(key: CacheKeys.guestId);
@@ -49,8 +50,9 @@ class TokenManager {
     required String expiration,
     required String refreshTokenExpirationDateTime,
     required String userName,
-    required String email,
+    required String phone,
     required String userId,
+
   }) async {
     await CacheHelper.insertToCache(key: CacheKeys.token, value: token);
     await CacheHelper.insertToCache(
@@ -66,7 +68,7 @@ class TokenManager {
       value: refreshTokenExpirationDateTime,
     );
     await CacheHelper.insertToCache(key: CacheKeys.userName, value: userName);
-    await CacheHelper.insertToCache(key: CacheKeys.email, value: email);
+    await CacheHelper.insertToCache(key: CacheKeys.phone, value: phone);
     await CacheHelper.insertToCache(key: CacheKeys.userId, value: userId);
   }
 
@@ -78,5 +80,6 @@ class TokenManager {
     await CacheHelper.deleteCacheItem(key: CacheKeys.refreshTokenExpiration);
     await CacheHelper.deleteCacheItem(key: CacheKeys.userId);
     await CacheHelper.deleteCacheItem(key: CacheKeys.userName);
+    await CacheHelper.deleteCacheItem(key: CacheKeys.phone);
   }
 }

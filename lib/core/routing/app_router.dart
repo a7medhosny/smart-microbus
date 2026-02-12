@@ -31,9 +31,15 @@ class AppRouter {
 
       // ================= OTP VERIFICATION =================
       case Routes.otpVerification:
-        final String phoneNumber = settings.arguments as String;
-        return _materialRoute( VerifyOtpScreen(phoneNumber: phoneNumber));
+        {
+          final args = settings.arguments as Map<String, dynamic>;
 
+          final String phoneNumber = args["phone"];
+          final String from = args["from"];
+          return _materialRoute(
+            VerifyOtpScreen(phoneNumber: phoneNumber, from: from),
+          );
+        }
       // ================= DEFAULT =================
       default:
         return null;

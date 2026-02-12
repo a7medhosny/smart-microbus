@@ -54,8 +54,7 @@ class RegisterCubit extends Cubit<RegisterState> {
     result.fold(
       (failure) => emit(
         RegisterDriverError(
-          failure.message ??
-              'Something went wrong',
+          failure.message ,
         ),
       ),
       (response) => emit(
@@ -88,8 +87,7 @@ class RegisterCubit extends Cubit<RegisterState> {
     result.fold(
       (failure) => emit(
         RegisterPassengerError(
-          failure.message ??
-              'Something went wrong',
+          failure.message ,
         ),
       ),
       (response) => emit(
@@ -119,8 +117,7 @@ class RegisterCubit extends Cubit<RegisterState> {
     result.fold(
       (failure) => emit(
         VerifyOtpError(
-          failure.message ??
-              'Invalid OTP',
+          failure.message ,
         ),
       ),
       (_) => emit(VerifyOtpSuccess()),
@@ -146,8 +143,7 @@ Future<void> confirmAccount({
   result.fold(
     (failure) => emit(
       ConfirmAccountError(
-        failure.message ??
-            'Confirmation failed',
+        failure.message ,
       ),
     ),
     (response) => emit(
@@ -177,8 +173,7 @@ Future<void> resendConfirmation({
   result.fold(
     (failure) => emit(
       ResendConfirmationError(
-        failure.message ??
-            'Failed to resend code',
+        failure.message ,
       ),
     ),
     (response) => emit(

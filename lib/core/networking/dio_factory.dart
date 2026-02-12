@@ -1,10 +1,15 @@
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:smart_microbus/core/storage/cache_helper.dart';
 import 'package:smart_microbus/core/storage/cache_keys.dart';
+import 'package:smart_microbus/features/register/data/datasource/register_api_service.dart';
 
+import '../../features/register/data/models/auth_response_model.dart';
+import '../../features/register/data/models/refresh_token_request_model.dart';
+import '../auth/token_helper.dart';
 import '../auth/token_manager.dart';
+import '../di/dependency_injection.dart';
+import '../routing/routes.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -15,14 +20,13 @@ class DioFactory {
 
   static Dio getDio() {
     if (_dio == null) {
-      _dio =
-          Dio()
-            ..options.connectTimeout = const Duration(seconds: 30)
-            ..options.receiveTimeout = const Duration(seconds: 30);
+      _dio = Dio()
+        ..options.connectTimeout = const Duration(seconds: 30)
+        ..options.receiveTimeout = const Duration(seconds: 30);
 
+      _dio!.interceptors.add(_addLanguageHeader());
       _dio!.interceptors.add(_loggerInterceptor());
       _dio!.interceptors.add(_addAPIKey());
-      _dio!.interceptors.add(_addLanguageHeader());
       addAuthInterceptor();
     }
     return _dio!;
@@ -45,20 +49,18 @@ class DioFactory {
       },
     );
   }
+
   static Interceptor _addLanguageHeader() {
-  return InterceptorsWrapper(
-    onRequest: (options, handler) {
-      final lang =
-          CacheHelper.getCacheData(key: CacheKeys.localeKey) ??
-          'en';
+    return InterceptorsWrapper(
+      onRequest: (options, handler) {
+        final lang = CacheHelper.getCacheData(key: CacheKeys.localeKey) ?? 'en';
 
-      options.headers['Accept-Language'] = lang;
+        options.headers['Accept-Language'] = lang;
 
-      handler.next(options);
-    },
-  );
-}
-
+        handler.next(options);
+      },
+    );
+  }
 
   static void setTokenIntoHeaderAfterLogin(String token) {
     if (_dio == null) return;
@@ -100,148 +102,148 @@ class AuthInterceptor extends Interceptor {
 
   AuthInterceptor(this.dio);
 
-  // bool _isRefreshing = false;
-  // final List<RequestOptions> _retryQueue = [];
+  bool _isRefreshing = false;
+  final List<RequestOptions> _retryQueue = [];
 
-  // // =========================
-  // // 🔹 Request
-  // // =========================
-  // @override
-  // void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-  //   authLog(
-  //     '➡️ Request: ${options.method} ${options.path} | '
-  //     'HasToken: ${TokenManager.token != null}',
-  //   );
+  // =========================
+  // 🔹 Request
+  // =========================
+  @override
+  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
+    authLog(
+      '➡️ Request: ${options.method} ${options.path} | '
+      'HasToken: ${TokenManager.token != null}',
+    );
 
-  //   if (TokenManager.token != null) {
-  //     options.headers['Authorization'] = 'Bearer ${TokenManager.token}';
-  //   }
+    if (TokenManager.token != null) {
+      options.headers['Authorization'] = 'Bearer ${TokenManager.token}';
+    }
 
-  //   handler.next(options);
-  // }
-
-  // // =========================
-  // // 🔹 Error
-  // // =========================
-  // @override
-  // void onError(DioException err, ErrorInterceptorHandler handler) async {
-  //   authLog(
-  //     '❌ Error: ${err.response?.statusCode} '
-  //     'on ${err.requestOptions.path}',
-  //   );
-
-  //   // =========================
-  //   // ❌ Not 401 → Show SnackBar
-  //   // =========================
-  //   if (err.response?.statusCode != 401 || TokenManager.refreshToken == null) {
-  //     authLog('❌ Non-401 error or no refresh token. Showing error snackbar.');
-  //     // showGlobalSnackBar("Something went wrong. Please try again.");
-
-  //     return handler.reject(err);
-  //   }
-
-  //   final requestOptions = err.requestOptions;
-
-  //   if (_isRefreshing) {
-  //     _retryQueue.add(requestOptions);
-  //     return;
-  //   }
-
-  //   _isRefreshing = true;
-
-  //   authLog('🔄 Starting token refresh...');
-
-  //   try {
-  //     // =========================
-  //     // 1️⃣ REFRESH TOKEN
-  //     // =========================
-  //     final authResponse = await _refreshToken();
-
-  //     final newToken = authResponse.token ?? '';
-
-  //     await TokenManager.saveLoginData(
-  //       token: newToken,
-  //       refreshToken: authResponse.refreshToken ?? '',
-  //       expiration: authResponse.expiration ?? '',
-  //       refreshTokenExpirationDateTime:
-  //           authResponse.refreshTokenExpirationDateTime ?? '',
-  //       userName: authResponse.userName ?? '',
-  //       email: authResponse.email ?? '',
-  //       userId: TokenHelper.extractUserId(authResponse.token ?? '') ?? '',
-  //     );
-
-  //     authLog('✅ Token refreshed successfully');
-
-  //     // =========================
-  //     // 2️⃣ RETRY ORIGINAL REQUEST
-  //     // =========================
-  //     Response<dynamic>? response;
-
-  //     try {
-  //       requestOptions.headers['Authorization'] = 'Bearer $newToken';
-
-  //       response = await dio.fetch(requestOptions);
-  //     } catch (e) {
-  //       authLog('❌ Original request retry failed: $e');
-
-  //       // showGlobalSnackBar("Request failed. Please try again.");
-  //     }
-
-  //     // =========================
-  //     // 3️⃣ RETRY QUEUED REQUESTS
-  //     // =========================
-  //     for (final req in _retryQueue) {
-  //       try {
-  //         req.headers['Authorization'] = 'Bearer $newToken';
-
-  //         await dio.fetch(req);
-  //       } catch (e) {
-  //         authLog('❌ Retry failed: ${req.path} → $e');
-
-  //         // showGlobalSnackBar("Some requests failed. Please try again.");
-  //       }
-  //     }
-
-  //     _retryQueue.clear();
-  //     _isRefreshing = false;
-
-  //     if (response != null) {
-  //       return handler.resolve(response);
-  //     } else {
-  //       return handler.reject(err);
-  //     }
-  //   }
-  //   // =========================
-  //   // ❌ Refresh Failed → Logout ONLY
-  //   // =========================
-  //   catch (e) {
-  //     authLog('❌ Token refresh failed: $e');
-
-  //     _isRefreshing = false;
-
-  //     TokenManager.clearLoginData();
-
-  //     navigatorKey.currentState?.pushNamedAndRemoveUntil(
-  //       Routes.loginRegisterTabSwitcher,
-  //       (route) => false,
-  //     );
-
-  //     handler.reject(err);
-    // }
+    handler.next(options);
   }
 
-  // Future<AuthResponseModel> _refreshToken() async {
-  //   final response = await getIt<EStoreXApiService>().refreshToken(
-  //     RefreshTokenRequest(
-  //       token: TokenManager.token ?? '',
-  //       refreshToken: TokenManager.refreshToken ?? '',
-  //     ),
-  //   );
+  // =========================
+  // 🔹 Error
+  // =========================
+  @override
+  void onError(DioException err, ErrorInterceptorHandler handler) async {
+    authLog(
+      '❌ Error: ${err.response?.statusCode} '
+      'on ${err.requestOptions.path}',
+    );
 
-  //   return response;
-  // }
+    // =========================
+    // ❌ Not 401 → Show SnackBar
+    // =========================
+    if (err.response?.statusCode != 401 || TokenManager.refreshToken == null) {
+      authLog('❌ Non-401 error or no refresh token. Showing error snackbar.');
+      // showGlobalSnackBar("Something went wrong. Please try again.");
 
-  void authLog(String message) {
-    debugPrint('🔐 [AuthInterceptor] $message');
+      return handler.reject(err);
+    }
+
+    final requestOptions = err.requestOptions;
+
+    if (_isRefreshing) {
+      _retryQueue.add(requestOptions);
+      return;
+    }
+
+    _isRefreshing = true;
+
+    authLog('🔄 Starting token refresh...');
+
+    try {
+      // =========================
+      // 1️⃣ REFRESH TOKEN
+      // =========================
+      final authResponse = await _refreshToken();
+
+      final newToken = authResponse.token ?? '';
+
+      await TokenManager.saveLoginData(
+        token: newToken,
+        refreshToken: authResponse.refreshToken ?? '',
+        expiration: authResponse.expiration ?? '',
+        refreshTokenExpirationDateTime:
+            authResponse.refreshTokenExpirationDateTime ?? '',
+        userName: authResponse.userName ?? '',
+        userId: TokenHelper.extractUserId(authResponse.token ?? '') ?? '',
+        phone: authResponse.phone ?? '',
+      );
+
+      authLog('✅ Token refreshed successfully');
+
+      // =========================
+      // 2️⃣ RETRY ORIGINAL REQUEST
+      // =========================
+      Response<dynamic>? response;
+
+      try {
+        requestOptions.headers['Authorization'] = 'Bearer $newToken';
+
+        response = await dio.fetch(requestOptions);
+      } catch (e) {
+        authLog('❌ Original request retry failed: $e');
+
+        // showGlobalSnackBar("Request failed. Please try again.");
+      }
+
+      // =========================
+      // 3️⃣ RETRY QUEUED REQUESTS
+      // =========================
+      for (final req in _retryQueue) {
+        try {
+          req.headers['Authorization'] = 'Bearer $newToken';
+
+          await dio.fetch(req);
+        } catch (e) {
+          authLog('❌ Retry failed: ${req.path} → $e');
+
+          // showGlobalSnackBar("Some requests failed. Please try again.");
+        }
+      }
+
+      _retryQueue.clear();
+      _isRefreshing = false;
+
+      if (response != null) {
+        return handler.resolve(response);
+      } else {
+        return handler.reject(err);
+      }
+    }
+    // =========================
+    // ❌ Refresh Failed → Logout ONLY
+    // =========================
+    catch (e) {
+      authLog('❌ Token refresh failed: $e');
+
+      _isRefreshing = false;
+
+      TokenManager.clearLoginData();
+
+      navigatorKey.currentState?.pushNamedAndRemoveUntil(
+        Routes.login,
+        (route) => false,
+      );
+
+      handler.reject(err);
+    }
   }
+}
 
+Future<AuthResponseModel> _refreshToken() async {
+  final response = await getIt<RegisterApiService>().refreshToken(
+    RefreshTokenRequestModel(
+      token: TokenManager.token ?? '',
+      refreshToken: TokenManager.refreshToken ?? '',
+    ),
+  );
+
+  return response;
+}
+
+void authLog(String message) {
+  debugPrint('🔐 [AuthInterceptor] $message');
+}

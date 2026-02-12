@@ -1,4 +1,5 @@
 import 'package:smart_microbus/features/register/data/datasource/register_remote_data_source.dart';
+import 'package:smart_microbus/features/register/data/models/verify_otp_response_model.dart';
 
 import '../models/auth_response_model.dart';
 import '../models/confirm_account_request_model.dart';
@@ -29,7 +30,7 @@ class RegisterRemoteDataSourceImpl
   }
 
   @override
-  Future<AuthResponseModel> verifyOtp(
+  Future<VerifyOtpResponseModel> verifyOtp(
     VerifyOtpRequestModel model,
   ) {
     return apiService.verifyOtp(model);

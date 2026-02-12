@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:smart_microbus/features/register/domain/entities/confirm_account_request.dart';
 import 'package:smart_microbus/features/register/domain/entities/resend_confirmation_request.dart';
+import 'package:smart_microbus/features/register/domain/entities/verify_otp_response_entity.dart';
 
 import '../../../../core/error/error_handler.dart';
 import '../../../../core/error/failure.dart';
@@ -73,7 +74,7 @@ class RegisterRepositoryImpl implements RegisterRepository {
   // ---------------- VERIFY OTP ----------------
 
   @override
-  Future<Either<Failure, AuthResponse>> verifyOtp(
+  Future<Either<Failure, VerifyOtpResponseEntity>> verifyOtp(
     VerifyOtpRequest request,
   ) async {
     try {

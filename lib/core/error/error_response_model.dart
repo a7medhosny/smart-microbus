@@ -23,10 +23,10 @@ class ErrorResponseModel {
 
   Map<String, dynamic> toJson() => _$ErrorResponseModelToJson(this);
 
-  static List<String>? _errorsFromJson(dynamic errors) {
-    if (errors is List) {
-      return errors.map((e) => e.toString()).toList();
-    }
-    return null;
-  }
+  // static List<String>? _errorsFromJson(dynamic errors) {
+  //   if (errors is List) {
+  //     return errors.map((e) => e.toString()).toList();
+  //   }
+  //   return null;
+  // }
 }

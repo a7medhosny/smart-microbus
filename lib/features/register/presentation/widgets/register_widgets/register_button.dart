@@ -1,7 +1,10 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_microbus/core/routing/routes.dart';
 
+import '../../../../../core/helpers/app_snack_bar.dart';
 import '../../../../../core/storage/cache_helper.dart';
 import '../../../../../core/storage/cache_keys.dart';
 import '../../../../../l10n/app_localizations.dart';
@@ -27,6 +30,14 @@ class RegisterButton extends StatelessWidget {
 
         if (state is RegisterDriverSuccess) {
           _goToOtp(context);
+        }
+
+        if (state is RegisterPassengerError) {
+          showGlobalSnackBar(state.message);
+        }
+
+        if (state is RegisterDriverError) {
+          showGlobalSnackBar(state.message);
         }
       },
       builder: (context, state) {
@@ -72,26 +83,32 @@ class RegisterButton extends StatelessWidget {
 
   // ================= NAVIGATION =================
 
- void _goToOtp(BuildContext context) async {
-  await CacheHelper.insertToCache(
-    key: CacheKeys.otpFlowActive,
-    value: 'true',
-  );
+  void _goToOtp(BuildContext context) async {
+    //todo del or keep
+    /*
+ CacheHelper.deleteCacheItem(
+                  key: CacheKeys.otpFlowActive);
+              CacheHelper.deleteCacheItem(
+                  key: CacheKeys.otpPhone);
 
-  await CacheHelper.insertToCache(
-    key: CacheKeys.otpPhone,
-    value:
-        controllers.phoneController.text,
-  );
+  */
+    await CacheHelper.insertToCache(
+      key: CacheKeys.otpFlowActive,
+      value: 'true',
+    );
 
-  Navigator.pushNamed(
-    context,
-    Routes.otpVerification,
-    arguments: {
-      "phone":
-          controllers.phoneController.text,
-    },
-  );
-}
+    await CacheHelper.insertToCache(
+      key: CacheKeys.otpPhone,
+      value: controllers.phoneController.text,
+    );
 
+    Navigator.pushNamed(
+      context,
+      Routes.otpVerification,
+      arguments: {
+        "phone": controllers.phoneController.text,
+        "from": CacheKeys.confirmAccount,
+      },
+    );
+  }
 }

@@ -12,6 +12,7 @@ import 'core/localization/locale_cubit.dart';
 import 'core/localization/locale_state.dart';
 
 import 'core/routing/app_router.dart';
+import 'core/storage/cache_keys.dart';
 import 'core/theme/app_theme.dart';
 import 'core/theme/theme_cubit.dart';
 
@@ -141,7 +142,10 @@ class HomeScreen extends StatelessWidget {
                 Navigator.pushNamed(
                   context,
                   Routes.otpVerification,
-                  arguments: '01110718472',
+                  arguments: {
+                    "phone": '01110718472',
+                    "from": CacheKeys.confirmAccount,
+                  },
                 );
               },
               child: Text(tr.verify),

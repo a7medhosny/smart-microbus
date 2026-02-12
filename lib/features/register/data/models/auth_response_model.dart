@@ -10,6 +10,7 @@ class AuthResponseModel extends AuthResponse {
     required super.message,
     required super.statusCode,
     super.userName,
+    super.phone,
     super.token,
     super.expiration,
     super.refreshToken,

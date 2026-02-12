@@ -4,6 +4,7 @@ import '../models/register_driver_request_model.dart';
 import '../models/register_passenger_request_model.dart';
 import '../models/resend_confirmation_request_model.dart';
 import '../models/verify_otp_request_model.dart';
+import '../models/verify_otp_response_model.dart';
 
 abstract class RegisterRemoteDataSource {
   Future<AuthResponseModel> registerDriver(
@@ -14,7 +15,7 @@ abstract class RegisterRemoteDataSource {
     RegisterPassengerRequestModel model,
   );
 
-  Future<AuthResponseModel> verifyOtp(
+  Future<VerifyOtpResponseModel> verifyOtp(
     VerifyOtpRequestModel model,
   );
 
