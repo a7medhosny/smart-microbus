@@ -164,6 +164,28 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
 
+              const SizedBox(height: 20),
+
+              /// Register BUTTON
+              SizedBox(
+                width: double.infinity,
+                height: 55,
+                child: ElevatedButton(
+                  onPressed: () {
+                    context.pushNamed(Routes.register);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                  ),
+                  child: Text(
+                    tr.register,
+                    style: const TextStyle(fontSize: 16),
+                  ),
+                ),
+              ),
+
               const SizedBox(height: 30),
 
               /// LANGUAGE SWITCH

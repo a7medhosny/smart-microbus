@@ -18,17 +18,12 @@ class RegisterHeader extends StatelessWidget {
             gradient: LinearGradient(
               colors: [
                 Theme.of(context).colorScheme.primary,
-                Theme.of(context)
-                    .colorScheme
-                    .primaryContainer,
+                Theme.of(context).colorScheme.secondary,
               ],
             ),
           ),
           child: const Center(
-            child: CircleAvatar(
-              radius: 28,
-              child: Icon(Icons.directions_bus),
-            ),
+            child: CircleAvatar(radius: 28, child: Icon(Icons.directions_bus)),
           ),
         ),
 
@@ -36,18 +31,14 @@ class RegisterHeader extends StatelessWidget {
 
         Text(
           loc.createNewAccount,
-          style: Theme.of(context)
-              .textTheme
-              .titleLarge,
+          style: Theme.of(context).textTheme.titleLarge,
         ),
 
         const SizedBox(height: 8),
 
         Text(
           loc.registerToSmartMicrobus,
-          style: Theme.of(context)
-              .textTheme
-              .bodyMedium,
+          style: Theme.of(context).textTheme.bodyMedium,
           textAlign: TextAlign.center,
         ),
       ],

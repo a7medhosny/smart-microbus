@@ -30,7 +30,7 @@ class ForgetpPasswordScreen extends StatelessWidget {
                   ],
                 ),
                 child: ForgetPasswordForm(
-                  controller: passwordController,
+                  phoneController: passwordController,
                   formKey: formKey,
                 ),
               ),

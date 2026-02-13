@@ -68,6 +68,8 @@
   "verifyOtpTitle": "Verify Code",
   "otpSentTo": "Code sent to",
   "verify": "Verify",
-  "resendCode": "Resend Code"
+  "resendCode": "Resend Code",
+  "accountConfirmed" : "Your account has been confirmed successfully. You can now log in."
+
   
 }

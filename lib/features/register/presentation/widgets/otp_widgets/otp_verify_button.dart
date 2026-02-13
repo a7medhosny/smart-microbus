@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/helpers/app_snack_bar.dart';
+import '../../../../../core/helpers/extensions.dart';
+import '../../../../../core/helpers/show_toast_helper.dart';
 import '../../../../../core/routing/routes.dart';
 import '../../../../../core/storage/cache_helper.dart';
 import '../../../../../core/storage/cache_keys.dart';
@@ -34,11 +36,21 @@ class OtpVerifyButton extends StatelessWidget {
 
             if (state is VerifyOtpSuccess) {
               // Todo nav to reset password screen and save token , id
+              final response = state.response;
+              context.pushNamed(
+                Routes.resetPassword,
+                arguments: {
+                  CacheKeys.token: response.data.token,
+                  CacheKeys.userId: response.data.userId,
+                  CacheKeys.phone: phoneNumber,
+                },
+              );
             }
 
             // ---------------- CONFIRM SUCCESS → NAVIGATE ----------------
 
             if (state is ConfirmAccountSuccess) {
+              ShowToastHelper.showToast(context, loc.accountConfirmed);
               Navigator.pushNamedAndRemoveUntil(
                 context,
                 Routes.login,
@@ -49,7 +61,12 @@ class OtpVerifyButton extends StatelessWidget {
                 state is VerifyOtpError ||
                 state is ConfirmAccountError) {
               final errorState = state as dynamic;
-              showGlobalSnackBar(errorState.message);
+              ShowToastHelper.showToast(
+                context,
+                errorState.message,
+                backgroundColor: Colors.redAccent,
+                icon: Icons.close,
+              );
             }
           },
           builder: (context, state) {

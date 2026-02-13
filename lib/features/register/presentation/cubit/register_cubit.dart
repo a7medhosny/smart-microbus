@@ -1,5 +1,7 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:smart_microbus/features/register/domain/entities/verify_otp_response_entity.dart';
 
 import '../../domain/entities/auth_response.dart';
 import '../../domain/entities/confirm_account_request.dart';
@@ -48,18 +50,11 @@ class RegisterCubit extends Cubit<RegisterState> {
       licenseNumber: licenseNumber,
     );
 
-    final result =
-        await registerDriverUseCase(request);
+    final result = await registerDriverUseCase(request);
 
     result.fold(
-      (failure) => emit(
-        RegisterDriverError(
-          failure.message ,
-        ),
-      ),
-      (response) => emit(
-        RegisterDriverSuccess(response),
-      ),
+      (failure) => emit(RegisterDriverError(failure.message)),
+      (response) => emit(RegisterDriverSuccess(response)),
     );
   }
 
@@ -72,29 +67,17 @@ class RegisterCubit extends Cubit<RegisterState> {
   }) async {
     emit(RegisterPassengerLoading());
 
-    final request =
-        RegisterPassengerRequest(
+    final request = RegisterPassengerRequest(
       name: name,
       phoneNumber: phoneNumber,
       password: password,
     );
 
-    final result =
-        await registerPassengerUseCase(
-      request,
-    );
+    final result = await registerPassengerUseCase(request);
 
     result.fold(
-      (failure) => emit(
-        RegisterPassengerError(
-          failure.message ,
-        ),
-      ),
-      (response) => emit(
-        RegisterPassengerSuccess(
-          response,
-        ),
-      ),
+      (failure) => emit(RegisterPassengerError(failure.message)),
+      (response) => emit(RegisterPassengerSuccess(response)),
     );
   }
 
@@ -106,83 +89,46 @@ class RegisterCubit extends Cubit<RegisterState> {
   }) async {
     emit(VerifyOtpLoading());
 
-    final request = VerifyOtpRequest(
-      phoneNumber: phoneNumber,
-      otp: otp,
-    );
+    final request = VerifyOtpRequest(phoneNumber: phoneNumber, otp: otp);
 
-    final result =
-        await verifyOtpUseCase(request);
+    final result = await verifyOtpUseCase(request);
 
     result.fold(
-      (failure) => emit(
-        VerifyOtpError(
-          failure.message ,
-        ),
-      ),
-      (_) => emit(VerifyOtpSuccess()),
+      (failure) => emit(VerifyOtpError(failure.message)),
+      (response) => emit(VerifyOtpSuccess(response)),
     );
   }
 
   // ================= CONFIRM ACCOUNT =================
 
-Future<void> confirmAccount({
-  required String phoneNumber,
-  required String otp,
-}) async {
-  emit(ConfirmAccountLoading());
+  Future<void> confirmAccount({
+    required String phoneNumber,
+    required String otp,
+  }) async {
+    emit(ConfirmAccountLoading());
 
-  final request = ConfirmAccountRequest(
-    phoneNumber: phoneNumber,
-    otp: otp,
-  );
+    final request = ConfirmAccountRequest(phoneNumber: phoneNumber, otp: otp);
 
-  final result =
-      await confirmAccountUseCase(request);
+    final result = await confirmAccountUseCase(request);
 
-  result.fold(
-    (failure) => emit(
-      ConfirmAccountError(
-        failure.message ,
-      ),
-    ),
-    (response) => emit(
-      ConfirmAccountSuccess(response),
-    ),
-  );
-}
+    result.fold(
+      (failure) => emit(ConfirmAccountError(failure.message)),
+      (response) => emit(ConfirmAccountSuccess(response)),
+    );
+  }
 
+  // ================= RESEND CONFIRMATION =================
 
-// ================= RESEND CONFIRMATION =================
+  Future<void> resendConfirmation({required String phoneNumber}) async {
+    emit(ResendConfirmationLoading());
 
-Future<void> resendConfirmation({
-  required String phoneNumber,
-}) async {
-  emit(ResendConfirmationLoading());
+    final request = ResendConfirmationRequest(phoneNumber: phoneNumber);
 
-  final request =
-      ResendConfirmationRequest(
-    phoneNumber: phoneNumber,
-  );
+    final result = await resendConfirmationUseCase(request);
 
-  final result =
-      await resendConfirmationUseCase(
-    request,
-  );
-
-  result.fold(
-    (failure) => emit(
-      ResendConfirmationError(
-        failure.message ,
-      ),
-    ),
-    (response) => emit(
-      ResendConfirmationSuccess(
-        response,
-      ),
-    ),
-  );
-}
-
-
+    result.fold(
+      (failure) => emit(ResendConfirmationError(failure.message)),
+      (response) => emit(ResendConfirmationSuccess(response)),
+    );
+  }
 }

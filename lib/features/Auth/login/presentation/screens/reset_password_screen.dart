@@ -5,7 +5,15 @@ import 'package:smart_microbus/l10n/app_localizations.dart';
 
 class ResetPasswordScreen extends StatelessWidget {
   final String phone;
-  const ResetPasswordScreen({super.key, required this.phone});
+  final String token;
+  final String userId;
+
+  const ResetPasswordScreen({
+    super.key,
+    required this.phone,
+    required this.token,
+    required this.userId,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +53,8 @@ class ResetPasswordScreen extends StatelessWidget {
                   loc: loc,
                   passController: passController,
                   confirmController: confirmController,
+                  token: token,
+                  userId: userId,
                 ),
               ),
             ),

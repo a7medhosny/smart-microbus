@@ -151,4 +151,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get resendCode => 'Resend Code';
+
+  @override
+  String get accountConfirmed => 'Your account has been confirmed successfully. You can now log in.';
 }

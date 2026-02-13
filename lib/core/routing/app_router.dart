@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smart_microbus/core/storage/cache_keys.dart';
 import 'package:smart_microbus/features/register/presentation/pages/register_screen.dart';
 import 'package:smart_microbus/features/register/presentation/pages/verify_otp_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -44,11 +45,14 @@ class AppRouter {
         );
       // ================= reset password =================
       case Routes.resetPassword:
-        final phone = settings.arguments as String;
+        final args = settings.arguments as Map<String, dynamic>;
+        final String phone = args[CacheKeys.phone];
+        final String token = args[CacheKeys.token];
+        final String userId = args[CacheKeys.userId];
         return _materialRoute(
           BlocProvider(
             create: (context) => getIt<LoginCubit>(),
-            child: ResetPasswordScreen(phone: phone),
+            child: ResetPasswordScreen(phone: phone, token: token, userId: userId,),
           ),
           settings: settings,
         );
