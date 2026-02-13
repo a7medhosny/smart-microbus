@@ -7,6 +7,15 @@ import 'package:smart_microbus/features/register/data/datasource/register_remote
 import 'package:smart_microbus/features/register/domain/repositories/register_repository.dart';
 import 'package:smart_microbus/features/register/domain/usecases/confirm_account_use_case.dart';
 import 'package:smart_microbus/features/register/domain/usecases/resend_confirmation_use_case.dart';
+import 'package:smart_microbus/features/Auth/login/data/datasource/login_api_service.dart';
+import 'package:smart_microbus/features/Auth/login/data/datasource/login_remote_data_source.dart';
+import 'package:smart_microbus/features/Auth/login/data/datasource/login_remote_data_source_impl.dart';
+import 'package:smart_microbus/features/Auth/login/data/repos/login_repo._impl.dart';
+import 'package:smart_microbus/features/Auth/login/domain/repos/login_repo.dart';
+import 'package:smart_microbus/features/Auth/login/domain/usecases/forget_password_use_case.dart';
+import 'package:smart_microbus/features/Auth/login/domain/usecases/login_use_case.dart';
+import 'package:smart_microbus/features/Auth/login/domain/usecases/reset_password_use_case.dart';
+import 'package:smart_microbus/features/Auth/login/presentation/cubit/cubit/login_cubit.dart';
 
 import '../../features/register/data/repositoies/register_repository_impl.dart';
 import '../../features/register/domain/usecases/register_driver_use_case.dart';
@@ -23,6 +32,7 @@ import '../theme/theme_cubit.dart';
 final getIt = GetIt.instance;
 
 Future<void> setupDependencyInjection() async {
+  getIt.registerLazySingleton<Dio>(() => DioFactory.getDio());
   // =========================
   // External
   // =========================
@@ -120,8 +130,31 @@ void _registerDependencies() {
       getIt<VerifyOtpUseCase>(),
       getIt<ConfirmAccountUseCase>(),
       getIt<ResendConfirmationUseCase>(),
+    )
+  );
 
-    ),
+  getIt.registerLazySingleton<LoginApiService>(
+    () => LoginApiService(getIt<Dio>()),
+  );
+  getIt.registerLazySingleton<LoginRemoteDataSource>(
+    () => LoginRemoteDataSourceImpl(getIt<LoginApiService>()),
+  );
+  getIt.registerLazySingleton<LoginRepo>(
+    () => LoginRepoImpl(getIt<LoginRemoteDataSource>()),
+  );
+  getIt.registerFactory<LoginUseCase>(() => LoginUseCase(getIt<LoginRepo>()));
+  getIt.registerFactory<ForgetPasswordUseCase>(
+    () => ForgetPasswordUseCase(getIt<LoginRepo>()),
+  );
+  getIt.registerFactory<ResetPasswordUseCase>(
+    () => ResetPasswordUseCase(getIt<LoginRepo>()),
+  );
+  getIt.registerFactory<LoginCubit>(
+    () => LoginCubit(
+      loginUseCase: getIt<LoginUseCase>(),
+      forgetPasswordUseCase: getIt<ForgetPasswordUseCase>(),
+      resetPasswordUseCase: getIt<ResetPasswordUseCase>(),
+    )
   );
 }
 

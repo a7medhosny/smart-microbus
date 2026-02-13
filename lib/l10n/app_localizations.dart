@@ -122,7 +122,7 @@ abstract class AppLocalizations {
   /// No description provided for @passengerDescription.
   ///
   /// In en, this message translates to:
-  /// **'Search for your trip and book your seat بسهولة'**
+  /// **'Search for your trip and book your seat easily'**
   String get passengerDescription;
 
   /// No description provided for @driver.
@@ -161,11 +161,59 @@ abstract class AppLocalizations {
   /// **'01xxxxxxxxx'**
   String get enterPhoneNumber;
 
+  /// No description provided for @phoneRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your phone number'**
+  String get phoneRequired;
+
+  /// No description provided for @phoneNotConfirmed.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone number not confirmed. Please confirm your account before logging in.'**
+  String get phoneNotConfirmed;
+
+  /// No description provided for @otpSent.
+  ///
+  /// In en, this message translates to:
+  /// **'A verification code has been sent to your phone number.'**
+  String get otpSent;
+
   /// No description provided for @password.
   ///
   /// In en, this message translates to:
   /// **'Password'**
   String get password;
+
+  /// No description provided for @passwordRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your password'**
+  String get passwordRequired;
+
+  /// No description provided for @passwordShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Password must be at least 6 characters'**
+  String get passwordShort;
+
+  /// No description provided for @passwordNotMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Passwords do not match'**
+  String get passwordNotMatch;
+
+  /// No description provided for @passwordResetSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Your password has been reset successfully.'**
+  String get passwordResetSuccess;
+
+  /// No description provided for @rememberMe.
+  ///
+  /// In en, this message translates to:
+  /// **'Remember me'**
+  String get rememberMe;
 
   /// No description provided for @forgotPassword.
   ///
@@ -173,11 +221,83 @@ abstract class AppLocalizations {
   /// **'Forgot Password?'**
   String get forgotPassword;
 
+  /// No description provided for @forgetPasswordFormTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Forgot Password'**
+  String get forgetPasswordFormTitle;
+
+  /// No description provided for @forgetPasswordFormDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your phone number to receive a verification code.'**
+  String get forgetPasswordFormDescription;
+
+  /// No description provided for @sendResetCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Send verification code'**
+  String get sendResetCode;
+
+  /// No description provided for @enterNewPasswordDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a new password to secure your account'**
+  String get enterNewPasswordDesc;
+
+  /// No description provided for @sendCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Send code'**
+  String get sendCode;
+
+  /// No description provided for @verifyCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Verify code'**
+  String get verifyCode;
+
+  /// No description provided for @enterOtpSentTo.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the code sent to'**
+  String get enterOtpSentTo;
+
+  /// No description provided for @verify.
+  ///
+  /// In en, this message translates to:
+  /// **'Verify'**
+  String get verify;
+
+  /// No description provided for @resetPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset Password'**
+  String get resetPassword;
+
+  /// No description provided for @newPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'New Password'**
+  String get newPassword;
+
+  /// No description provided for @confirmPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Password'**
+  String get confirmPassword;
+
   /// No description provided for @login.
   ///
   /// In en, this message translates to:
   /// **'Login'**
   String get login;
+
+  /// No description provided for @loginSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Logged in successfully'**
+  String get loginSuccess;
 
   /// No description provided for @dontHaveAccount.
   ///
@@ -200,7 +320,7 @@ abstract class AppLocalizations {
   /// No description provided for @registerToSmartMicrobus.
   ///
   /// In en, this message translates to:
-  /// **'Join the Smart Microbus service in simple steps'**
+  /// **'Join Smart Microbus in simple steps'**
   String get registerToSmartMicrobus;
 
   /// No description provided for @fullName.
@@ -226,12 +346,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Enter license'**
   String get enterLicenseNumber;
-
-  /// No description provided for @confirmPassword.
-  ///
-  /// In en, this message translates to:
-  /// **'Confirm Password'**
-  String get confirmPassword;
 
   /// No description provided for @register.
   ///
@@ -262,12 +376,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Code sent to'**
   String get otpSentTo;
-
-  /// No description provided for @verify.
-  ///
-  /// In en, this message translates to:
-  /// **'Verify'**
-  String get verify;
 
   /// No description provided for @resendCode.
   ///

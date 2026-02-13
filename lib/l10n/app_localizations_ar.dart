@@ -30,7 +30,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get driverDescription => 'ابدأ رحلاتك واستقبل حجوزات الركاب';
 
   @override
-  String get welcomeBack => 'مرحباً بك';
+  String get welcomeBack => 'مرحباً بعودتك';
 
   @override
   String get loginToContinue => 'سجل الدخول للمتابعة إلى حسابك';
@@ -42,13 +42,73 @@ class AppLocalizationsAr extends AppLocalizations {
   String get enterPhoneNumber => '01xxxxxxxxx';
 
   @override
+  String get phoneRequired => 'من فضلك أدخل رقم الهاتف';
+
+  @override
+  String get phoneNotConfirmed => 'رقم الهاتف غير مُفعل. برجاء تأكيد حسابك قبل تسجيل الدخول.';
+
+  @override
+  String get otpSent => 'تم إرسال رمز التحقق إلى رقم هاتفك.';
+
+  @override
   String get password => 'كلمة المرور';
+
+  @override
+  String get passwordRequired => 'من فضلك أدخل كلمة المرور';
+
+  @override
+  String get passwordShort => 'يجب أن تكون كلمة المرور 6 أحرف على الأقل';
+
+  @override
+  String get passwordNotMatch => 'كلمتا المرور غير متطابقتين';
+
+  @override
+  String get passwordResetSuccess => 'تم إعادة تعيين كلمة المرور بنجاح.';
+
+  @override
+  String get rememberMe => 'تذكرني';
 
   @override
   String get forgotPassword => 'نسيت كلمة المرور؟';
 
   @override
+  String get forgetPasswordFormTitle => 'استعادة كلمة المرور';
+
+  @override
+  String get forgetPasswordFormDescription => 'أدخل رقم هاتفك لإرسال رمز التحقق.';
+
+  @override
+  String get sendResetCode => 'إرسال رمز التحقق';
+
+  @override
+  String get enterNewPasswordDesc => 'أدخل كلمة مرور جديدة لتأمين حسابك';
+
+  @override
+  String get sendCode => 'إرسال الكود';
+
+  @override
+  String get verifyCode => 'تأكيد الكود';
+
+  @override
+  String get enterOtpSentTo => 'أدخل الكود المرسل إلى';
+
+  @override
+  String get verify => 'تأكيد';
+
+  @override
+  String get resetPassword => 'إعادة تعيين كلمة المرور';
+
+  @override
+  String get newPassword => 'كلمة المرور الجديدة';
+
+  @override
+  String get confirmPassword => 'تأكيد كلمة المرور';
+
+  @override
   String get login => 'تسجيل الدخول';
+
+  @override
+  String get loginSuccess => 'تم تسجيل الدخول بنجاح';
 
   @override
   String get dontHaveAccount => 'ليس لديك حساب؟';
@@ -60,7 +120,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get createNewAccount => 'إنشاء حساب جديد';
 
   @override
-  String get registerToSmartMicrobus => 'انضم بخطوات بسيطة إلى خدمة الميكروباص الذكي';
+  String get registerToSmartMicrobus => 'انضم إلى خدمة الميكروباص الذكي بخطوات بسيطة';
 
   @override
   String get fullName => 'الاسم بالكامل';
@@ -73,9 +133,6 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get enterLicenseNumber => 'أدخل رقم الرخصة';
-
-  @override
-  String get confirmPassword => 'تأكيد كلمة المرور';
 
   @override
   String get register => 'تسجيل';
@@ -91,9 +148,6 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get otpSentTo => 'تم إرسال الكود إلى';
-
-  @override
-  String get verify => 'تأكيد';
 
   @override
   String get resendCode => 'إعادة إرسال الكود';

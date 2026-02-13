@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:smart_microbus/core/storage/cache_helper.dart';
 import 'package:smart_microbus/core/storage/cache_keys.dart';
 import 'package:smart_microbus/features/register/data/datasource/register_api_service.dart';
@@ -28,6 +29,7 @@ class DioFactory {
       _dio!.interceptors.add(_loggerInterceptor());
       _dio!.interceptors.add(_addAPIKey());
       addAuthInterceptor();
+      addDioInterceptor();
     }
     return _dio!;
   }
@@ -37,6 +39,16 @@ class DioFactory {
       requestBody: true,
       requestHeader: true,
       request: true,
+    );
+  }
+
+  static void addDioInterceptor() {
+    _dio?.interceptors.add(
+      PrettyDioLogger(
+        requestBody: true,
+        requestHeader: true,
+        responseHeader: true,
+      ),
     );
   }
 

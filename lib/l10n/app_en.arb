@@ -1,46 +1,65 @@
 {
   "@@locale": "en",
 
-
   "appName": "SMART MICROBUS",
 
   "welcomeToMinya": "Welcome to Minya",
   "chooseRoleDescription": "Please choose your role to start using the smart transport system",
 
   "passenger": "Passenger",
-  "passengerDescription": "Search for your trip and book your seat بسهولة",
+  "passengerDescription": "Search for your trip and book your seat easily",
 
   "driver": "Driver",
   "driverDescription": "Start your trips and receive passenger bookings",
-
-
 
   "welcomeBack": "Welcome Back",
   "loginToContinue": "Log in to continue to your account",
 
   "phoneNumber": "Phone Number",
   "enterPhoneNumber": "01xxxxxxxxx",
+  "phoneRequired": "Please enter your phone number",
+
+  "phoneNotConfirmed": "Phone number not confirmed. Please confirm your account before logging in.",
+  "otpSent": "A verification code has been sent to your phone number.",
 
   "password": "Password",
+  "passwordRequired": "Please enter your password",
+  "passwordShort": "Password must be at least 6 characters",
+  "passwordNotMatch": "Passwords do not match",
+  "passwordResetSuccess": "Your password has been reset successfully.",
+
+  "rememberMe": "Remember me",
 
   "forgotPassword": "Forgot Password?",
+  "forgetPasswordFormTitle": "Forgot Password",
+  "forgetPasswordFormDescription": "Enter your phone number to receive a verification code.",
+  "sendResetCode": "Send verification code",
+
+  "enterNewPasswordDesc": "Enter a new password to secure your account",
+
+  "sendCode": "Send code",
+  "verifyCode": "Verify code",
+  "enterOtpSentTo": "Enter the code sent to",
+  "verify": "Verify",
+
+  "resetPassword": "Reset Password",
+  "newPassword": "New Password",
+  "confirmPassword": "Confirm Password",
 
   "login": "Login",
+  "loginSuccess": "Logged in successfully",
 
   "dontHaveAccount": "Don’t have an account?",
   "registerNow": "Register Now",
 
-
   "createNewAccount": "Create New Account",
-  "registerToSmartMicrobus": "Join the Smart Microbus service in simple steps",
+  "registerToSmartMicrobus": "Join Smart Microbus in simple steps",
 
   "fullName": "Full Name",
   "enterFullName": "Enter your name here",
   "licenseNumber": "License Number",
   "enterLicenseNumber": "Enter license"
   ,
-
-  "confirmPassword": "Confirm Password",
 
   "register": "Register",
 
