@@ -4,6 +4,7 @@ import 'package:smart_microbus/core/DI/dependency_injection.dart';
 import 'package:smart_microbus/features/Auth/login/presentation/cubit/cubit/login_cubit.dart';
 import 'package:smart_microbus/features/Auth/login/presentation/screens/forgetp_password_screen.dart';
 import 'package:smart_microbus/features/Auth/login/presentation/screens/login_Screen.dart';
+import 'package:smart_microbus/features/Auth/login/presentation/screens/reset_password_screen.dart';
 import 'package:smart_microbus/main.dart';
 
 import 'routes.dart';
@@ -39,6 +40,16 @@ class AppRouter {
             child: ForgetpPasswordScreen(),
           ),
         );
+      // ================= reset password =================
+      case Routes.resetPassword:
+        final phone = settings.arguments as String;
+        return _materialRoute(
+          BlocProvider(
+            create: (context) => getIt<LoginCubit>(),
+            child: ResetPasswordScreen(phone: phone),
+          ),
+          settings: settings,
+        );
       // ================= REGISTER =================
       case Routes.register:
         return _materialRoute(const Placeholder());
@@ -50,7 +61,7 @@ class AppRouter {
   }
 
   // ================= HELPER =================
-  MaterialPageRoute _materialRoute(Widget screen) {
-    return MaterialPageRoute(builder: (_) => screen);
+  MaterialPageRoute _materialRoute(Widget screen, {RouteSettings? settings}) {
+    return MaterialPageRoute(builder: (_) => screen, settings: settings);
   }
 }

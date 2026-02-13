@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smart_microbus/core/auth/token_manager.dart';
 import 'package:smart_microbus/core/helpers/app_snack_bar.dart';
 import 'package:smart_microbus/core/helpers/extensions.dart';
+import 'package:smart_microbus/core/helpers/show_toast_helper.dart';
 import 'package:smart_microbus/core/helpers/spacing.dart';
 import 'package:smart_microbus/core/widgets/custom_text_field.dart';
 import 'package:smart_microbus/features/Auth/login/domain/entites/login_entity.dart';
@@ -56,6 +58,7 @@ class _LoginFormBodyState extends State<LoginFormBody> {
               return null;
             },
             hintText: '********',
+            isPasswordField: true,
           ),
           verticalSpace(20),
           Row(
@@ -81,11 +84,31 @@ class _LoginFormBodyState extends State<LoginFormBody> {
                       const Center(child: CircularProgressIndicator()),
                 );
               } else if (state is LoginFailure) {
-                context.pop(); // Close the loading dialog
-                showGlobalSnackBar(state.message);
-              } else if (state is LoginSuccess) {
                 context.pop();
-                showGlobalSnackBar('Login successful!');
+                if (state.message.contains("not confirmed")) {
+                  ShowToastHelper.showToast(
+                    context,
+                    loc.phoneNotConfirmed,
+                    backgroundColor: Colors.redAccent,
+                    icon: Icons.close,
+                  );
+                } else {
+                  showGlobalSnackBar(state.message);
+                }
+              } else if (state is LoginSuccess) {
+                final user = state.user;
+                context.pop();
+                ShowToastHelper.showToast(context, loc.loginSuccess);
+                widget.phoneController.clear();
+                widget.passwordController.clear();
+                TokenManager.saveLoginData(
+                  token: user.token,
+                  refreshToken: user.refreshToken,
+                  expiration: user.expiration,
+                  refreshTokenExpirationDateTime:
+                      user.refreshTokenExpirationDateTime,
+                  userName: user.userName,
+                );
               }
             },
             builder: (context, state) {

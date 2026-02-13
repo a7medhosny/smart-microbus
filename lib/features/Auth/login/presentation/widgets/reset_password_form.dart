@@ -1,0 +1,156 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smart_microbus/core/helpers/app_snack_bar.dart';
+import 'package:smart_microbus/core/helpers/extensions.dart';
+import 'package:smart_microbus/core/helpers/show_toast_helper.dart';
+import 'package:smart_microbus/core/helpers/spacing.dart';
+import 'package:smart_microbus/core/routing/routes.dart';
+import 'package:smart_microbus/core/widgets/custom_text_field.dart';
+import 'package:smart_microbus/features/Auth/login/domain/entites/reset_password_entity.dart';
+import 'package:smart_microbus/features/Auth/login/presentation/cubit/cubit/login_cubit.dart';
+import 'package:smart_microbus/l10n/app_localizations.dart';
+
+class ResetPasswordForm extends StatelessWidget {
+  const ResetPasswordForm({
+    super.key,
+    required this.formKey,
+    required this.theme,
+    required this.loc,
+    required this.passController,
+    required this.confirmController,
+  });
+
+  final GlobalKey<FormState> formKey;
+  final ThemeData theme;
+  final AppLocalizations loc;
+  final TextEditingController passController;
+  final TextEditingController confirmController;
+
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+      key: formKey,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Container(
+            height: 85,
+            width: 85,
+            decoration: BoxDecoration(
+              color: theme.colorScheme.primary.withOpacity(.1),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(
+              Icons.lock_outline_rounded,
+              size: 45,
+              color: theme.colorScheme.primary,
+            ),
+          ),
+
+          const SizedBox(height: 25),
+
+          /// title
+          Text(
+            loc.resetPassword,
+            textAlign: TextAlign.center,
+            style: theme.textTheme.headlineSmall?.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+
+          const SizedBox(height: 6),
+          Text(
+            loc.enterNewPasswordDesc,
+            textAlign: TextAlign.center,
+            style: theme.textTheme.bodyMedium?.copyWith(
+              color: Colors.grey[600],
+            ),
+          ),
+
+          verticalSpace(35),
+          CustomTextField(
+            labelText: loc.newPassword,
+            hintText: "********",
+            controller: passController,
+            validator: (v) => v!.length < 6 ? loc.passwordShort : null,
+            isPasswordField: true,
+          ),
+
+          verticalSpace(8),
+          CustomTextField(
+            labelText: loc.confirmPassword,
+            hintText: "********",
+            controller: confirmController,
+            validator: (v) {
+              if (v != passController.text) {
+                return loc.passwordNotMatch;
+              }
+              return null;
+            },
+            isPasswordField: true,
+          ),
+
+          const SizedBox(height: 35),
+
+          BlocListener<LoginCubit, LoginState>(
+            listener: (context, state) {
+              if (state is ResetPasswordLoading) {
+                showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (_) =>
+                      const Center(child: CircularProgressIndicator()),
+                );
+              }
+
+              if (state is ResetPasswordFailure) {
+                context.pop();
+                showGlobalSnackBar(state.message);
+              }
+
+              if (state is ResetPasswordSuccess) {
+                context.pop();
+                ShowToastHelper.showToast(context, loc.passwordResetSuccess);
+                confirmController.clear();
+                passController.clear();
+                context.pushReplacementNamed(Routes.login);
+              }
+            },
+
+            /// button
+            child: SizedBox(
+              height: 55,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(14),
+                  ),
+                ),
+                onPressed: () {
+                  if (formKey.currentState!.validate()) {
+                    context.read<LoginCubit>().resetPassword(
+                      entity: ResetPasswordEntity(
+                        userId: 'xxx',
+                        token: 'xxx',
+                        newPassword: passController.text,
+                        confirmPassword: confirmController.text,
+                      ),
+                    );
+                  }
+                },
+                child: Text(
+                  loc.resetPassword,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

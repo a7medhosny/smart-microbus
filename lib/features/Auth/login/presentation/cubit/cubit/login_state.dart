@@ -29,18 +29,23 @@ final class LoginFailure extends LoginState {
 
 final class ForgetPasswordLoading extends LoginState {}
 
-final class ForgetPasswordSuccess extends LoginState {
-  final UserEntity user;
-
-  const ForgetPasswordSuccess({required this.user});
-  @override
-  List<Object> get props => [user];
-}
+final class ForgetPasswordSuccess extends LoginState {}
 
 final class ForgetPasswordFailure extends LoginState {
   final String message;
 
   const ForgetPasswordFailure({required this.message});
+  @override
+  List<Object> get props => [message];
+}
+
+final class ResetPasswordLoading extends LoginState {}
+
+final class ResetPasswordSuccess extends LoginState {}
+
+final class ResetPasswordFailure extends LoginState {
+  final String message;
+  const ResetPasswordFailure({required this.message});
   @override
   List<Object> get props => [message];
 }

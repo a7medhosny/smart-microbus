@@ -7,11 +7,14 @@ part 'login_response_model.g.dart';
 class LoginResponseModel extends UserEntity {
   LoginResponseModel({
     required super.userName,
-    required super.phoneNumber,
+    required super.phone,
     required super.token,
+    required super.expiration,
     required super.refreshToken,
-    required super.tokenExpiration,
-    required super.refreshTokenExpiration,
+    required super.refreshTokenExpirationDateTime,
+    super.success,
+    super.message,
+    super.statusCode,
   });
   factory LoginResponseModel.fromJson(Map<String, dynamic> json) =>
       _$LoginResponseModelFromJson(json);

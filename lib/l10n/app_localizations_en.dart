@@ -21,7 +21,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get passenger => 'Passenger';
 
   @override
-  String get passengerDescription => 'Search for your trip and book your seat بسهولة';
+  String get passengerDescription => 'Search for your trip and book your seat easily';
 
   @override
   String get driver => 'Driver';
@@ -42,13 +42,28 @@ class AppLocalizationsEn extends AppLocalizations {
   String get enterPhoneNumber => '01xxxxxxxxx';
 
   @override
-  String get phoneRequired => 'Please enter phone number';
+  String get phoneRequired => 'Please enter your phone number';
+
+  @override
+  String get phoneNotConfirmed => 'Phone number not confirmed. Please confirm your account before logging in.';
+
+  @override
+  String get otpSent => 'A verification code has been sent to your phone number.';
 
   @override
   String get password => 'Password';
 
   @override
-  String get passwordRequired => 'Please enter password';
+  String get passwordRequired => 'Please enter your password';
+
+  @override
+  String get passwordShort => 'Password must be at least 6 characters';
+
+  @override
+  String get passwordNotMatch => 'Passwords do not match';
+
+  @override
+  String get passwordResetSuccess => 'Your password has been reset successfully.';
 
   @override
   String get rememberMe => 'Remember me';
@@ -57,19 +72,43 @@ class AppLocalizationsEn extends AppLocalizations {
   String get forgotPassword => 'Forgot Password?';
 
   @override
-  String get forgetPasswordFormTitle => 'Forget Password Form';
+  String get forgetPasswordFormTitle => 'Forgot Password';
 
   @override
-  String get forgetPasswordFormDescription => 'This is where the forget password form will be implemented.';
+  String get forgetPasswordFormDescription => 'Enter your phone number to receive a verification code.';
 
   @override
-  String get sendResetLink => 'Send reset link';
+  String get sendResetCode => 'Send verification code';
 
   @override
-  String get passwordResetSent => 'Password reset link sent successfully';
+  String get enterNewPasswordDesc => 'Enter a new password to secure your account';
+
+  @override
+  String get sendCode => 'Send code';
+
+  @override
+  String get verifyCode => 'Verify code';
+
+  @override
+  String get enterOtpSentTo => 'Enter the code sent to';
+
+  @override
+  String get verify => 'Verify';
+
+  @override
+  String get resetPassword => 'Reset Password';
+
+  @override
+  String get newPassword => 'New Password';
+
+  @override
+  String get confirmPassword => 'Confirm Password';
 
   @override
   String get login => 'Login';
+
+  @override
+  String get loginSuccess => 'Logged in successfully';
 
   @override
   String get dontHaveAccount => 'Don’t have an account?';
@@ -81,16 +120,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get createNewAccount => 'Create New Account';
 
   @override
-  String get registerToSmartMicrobus => 'Join the Smart Microbus service in simple steps';
+  String get registerToSmartMicrobus => 'Join Smart Microbus in simple steps';
 
   @override
   String get fullName => 'Full Name';
 
   @override
   String get enterFullName => 'Enter your name here';
-
-  @override
-  String get confirmPassword => 'Confirm Password';
 
   @override
   String get register => 'Register';

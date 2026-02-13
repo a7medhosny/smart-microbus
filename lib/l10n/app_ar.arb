@@ -1,9 +1,7 @@
 {
   "@@locale": "ar",
 
-
   "appName": "SMART MICROBUS",
-
 
   "welcomeToMinya": "أهلاً بك في المنيا",
   "chooseRoleDescription": "يرجى اختيار دورك للبدء في استخدام نظام النقل الذكي",
@@ -14,40 +12,54 @@
   "driver": "سائق",
   "driverDescription": "ابدأ رحلاتك واستقبل حجوزات الركاب",
 
-
-
-  "welcomeBack": "مرحباً بك",
+  "welcomeBack": "مرحباً بعودتك",
   "loginToContinue": "سجل الدخول للمتابعة إلى حسابك",
 
   "phoneNumber": "رقم الهاتف",
   "enterPhoneNumber": "01xxxxxxxxx",
   "phoneRequired": "من فضلك أدخل رقم الهاتف",
 
+  "phoneNotConfirmed": "رقم الهاتف غير مُفعل. برجاء تأكيد حسابك قبل تسجيل الدخول.",
+  "otpSent": "تم إرسال رمز التحقق إلى رقم هاتفك.",
+
   "password": "كلمة المرور",
   "passwordRequired": "من فضلك أدخل كلمة المرور",
-"rememberMe": "تذكرني",
+  "passwordShort": "يجب أن تكون كلمة المرور 6 أحرف على الأقل",
+  "passwordNotMatch": "كلمتا المرور غير متطابقتين",
+  "passwordResetSuccess": "تم إعادة تعيين كلمة المرور بنجاح.",
+
+  "rememberMe": "تذكرني",
 
   "forgotPassword": "نسيت كلمة المرور؟",
-  "forgetPasswordFormTitle": "نموذج استعادة كلمة المرور",
-  "forgetPasswordFormDescription": "سيتم تنفيذ نموذج استعادة كلمة المرور هنا.",
- "sendResetLink": "إرسال رابط الاستعادة",
-  "passwordResetSent": "تم إرسال رابط استعادة كلمة المرور بنجاح",
+  "forgetPasswordFormTitle": "استعادة كلمة المرور",
+  "forgetPasswordFormDescription": "أدخل رقم هاتفك لإرسال رمز التحقق.",
+  "sendResetCode": "إرسال رمز التحقق",
+
+  "enterNewPasswordDesc": "أدخل كلمة مرور جديدة لتأمين حسابك",
+
+  "sendCode": "إرسال الكود",
+  "verifyCode": "تأكيد الكود",
+  "enterOtpSentTo": "أدخل الكود المرسل إلى",
+  "verify": "تأكيد",
+
+  "resetPassword": "إعادة تعيين كلمة المرور",
+  "newPassword": "كلمة المرور الجديدة",
+  "confirmPassword": "تأكيد كلمة المرور",
+
   "login": "تسجيل الدخول",
+  "loginSuccess": "تم تسجيل الدخول بنجاح",
 
   "dontHaveAccount": "ليس لديك حساب؟",
   "registerNow": "سجل الآن",
 
-
   "createNewAccount": "إنشاء حساب جديد",
-  "registerToSmartMicrobus": "انضم بخطوات بسيطة إلى خدمة الميكروباص الذكي",
+  "registerToSmartMicrobus": "انضم إلى خدمة الميكروباص الذكي بخطوات بسيطة",
 
   "fullName": "الاسم بالكامل",
   "enterFullName": "أدخل اسمك هنا",
 
-  "confirmPassword": "تأكيد كلمة المرور",
-
   "register": "تسجيل",
 
   "alreadyHaveAccount": "هل لديك حساب بالفعل؟",
-  "loginNow": "سجل دخول"
+  "loginNow": "سجل الدخول"
 }

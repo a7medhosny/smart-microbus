@@ -1,17 +1,23 @@
 class UserEntity {
   final String userName;
-  final String phoneNumber;
+  final String phone;
   final String token;
+  final String expiration;
   final String refreshToken;
-  final String tokenExpiration;
-  final String refreshTokenExpiration;
+  final String refreshTokenExpirationDateTime;
+  final bool? success;
+  final String? message;
+  final int? statusCode;
 
-  const UserEntity({
+  UserEntity({
     required this.userName,
-    required this.phoneNumber,
+    required this.phone,
     required this.token,
+    required this.expiration,
     required this.refreshToken,
-    required this.tokenExpiration,
-    required this.refreshTokenExpiration,
+    required this.refreshTokenExpirationDateTime,
+    this.success,
+    this.message,
+    this.statusCode,
   });
 }

@@ -1,6 +1,6 @@
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:smart_microbus/core/storage/cache_helper.dart';
 import 'package:smart_microbus/core/storage/cache_keys.dart';
 
@@ -15,15 +15,15 @@ class DioFactory {
 
   static Dio getDio() {
     if (_dio == null) {
-      _dio =
-          Dio()
-            ..options.connectTimeout = const Duration(seconds: 30)
-            ..options.receiveTimeout = const Duration(seconds: 30);
+      _dio = Dio()
+        ..options.connectTimeout = const Duration(seconds: 30)
+        ..options.receiveTimeout = const Duration(seconds: 30);
 
       _dio!.interceptors.add(_loggerInterceptor());
       _dio!.interceptors.add(_addAPIKey());
       _dio!.interceptors.add(_addLanguageHeader());
       addAuthInterceptor();
+      addDioInterceptor();
     }
     return _dio!;
   }
@@ -36,6 +36,16 @@ class DioFactory {
     );
   }
 
+  static void addDioInterceptor() {
+    _dio?.interceptors.add(
+      PrettyDioLogger(
+        requestBody: true,
+        requestHeader: true,
+        responseHeader: true,
+      ),
+    );
+  }
+
   static Interceptor _addAPIKey() {
     return InterceptorsWrapper(
       onRequest: (options, handler) {
@@ -45,20 +55,18 @@ class DioFactory {
       },
     );
   }
+
   static Interceptor _addLanguageHeader() {
-  return InterceptorsWrapper(
-    onRequest: (options, handler) {
-      final lang =
-          CacheHelper.getCacheData(key: CacheKeys.localeKey) ??
-          'en';
+    return InterceptorsWrapper(
+      onRequest: (options, handler) {
+        final lang = CacheHelper.getCacheData(key: CacheKeys.localeKey) ?? 'en';
 
-      options.headers['Accept-Language'] = lang;
+        options.headers['Accept-Language'] = lang;
 
-      handler.next(options);
-    },
-  );
-}
-
+        handler.next(options);
+      },
+    );
+  }
 
   static void setTokenIntoHeaderAfterLogin(String token) {
     if (_dio == null) return;
@@ -227,21 +235,20 @@ class AuthInterceptor extends Interceptor {
   //     );
 
   //     handler.reject(err);
-    // }
-  }
-
-  // Future<AuthResponseModel> _refreshToken() async {
-  //   final response = await getIt<EStoreXApiService>().refreshToken(
-  //     RefreshTokenRequest(
-  //       token: TokenManager.token ?? '',
-  //       refreshToken: TokenManager.refreshToken ?? '',
-  //     ),
-  //   );
-
-  //   return response;
   // }
+}
 
-  void authLog(String message) {
-    debugPrint('🔐 [AuthInterceptor] $message');
-  }
+// Future<AuthResponseModel> _refreshToken() async {
+//   final response = await getIt<EStoreXApiService>().refreshToken(
+//     RefreshTokenRequest(
+//       token: TokenManager.token ?? '',
+//       refreshToken: TokenManager.refreshToken ?? '',
+//     ),
+//   );
 
+//   return response;
+// }
+
+void authLog(String message) {
+  debugPrint('🔐 [AuthInterceptor] $message');
+}

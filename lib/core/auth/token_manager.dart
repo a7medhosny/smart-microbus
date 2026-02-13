@@ -1,5 +1,3 @@
-
-
 import 'package:smart_microbus/core/storage/cache_helper.dart';
 
 import '../storage/cache_keys.dart';
@@ -49,8 +47,8 @@ class TokenManager {
     required String expiration,
     required String refreshTokenExpirationDateTime,
     required String userName,
-    required String email,
-    required String userId,
+    String? email,
+    String? userId,
   }) async {
     await CacheHelper.insertToCache(key: CacheKeys.token, value: token);
     await CacheHelper.insertToCache(
@@ -66,8 +64,8 @@ class TokenManager {
       value: refreshTokenExpirationDateTime,
     );
     await CacheHelper.insertToCache(key: CacheKeys.userName, value: userName);
-    await CacheHelper.insertToCache(key: CacheKeys.email, value: email);
-    await CacheHelper.insertToCache(key: CacheKeys.userId, value: userId);
+    await CacheHelper.insertToCache(key: CacheKeys.email, value: email ?? '');
+    await CacheHelper.insertToCache(key: CacheKeys.userId, value: userId ?? '');
   }
 
   static Future<void> clearLoginData() async {

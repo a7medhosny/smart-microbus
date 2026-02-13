@@ -30,7 +30,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get driverDescription => 'ابدأ رحلاتك واستقبل حجوزات الركاب';
 
   @override
-  String get welcomeBack => 'مرحباً بك';
+  String get welcomeBack => 'مرحباً بعودتك';
 
   @override
   String get loginToContinue => 'سجل الدخول للمتابعة إلى حسابك';
@@ -45,10 +45,25 @@ class AppLocalizationsAr extends AppLocalizations {
   String get phoneRequired => 'من فضلك أدخل رقم الهاتف';
 
   @override
+  String get phoneNotConfirmed => 'رقم الهاتف غير مُفعل. برجاء تأكيد حسابك قبل تسجيل الدخول.';
+
+  @override
+  String get otpSent => 'تم إرسال رمز التحقق إلى رقم هاتفك.';
+
+  @override
   String get password => 'كلمة المرور';
 
   @override
   String get passwordRequired => 'من فضلك أدخل كلمة المرور';
+
+  @override
+  String get passwordShort => 'يجب أن تكون كلمة المرور 6 أحرف على الأقل';
+
+  @override
+  String get passwordNotMatch => 'كلمتا المرور غير متطابقتين';
+
+  @override
+  String get passwordResetSuccess => 'تم إعادة تعيين كلمة المرور بنجاح.';
 
   @override
   String get rememberMe => 'تذكرني';
@@ -57,19 +72,43 @@ class AppLocalizationsAr extends AppLocalizations {
   String get forgotPassword => 'نسيت كلمة المرور؟';
 
   @override
-  String get forgetPasswordFormTitle => 'نموذج استعادة كلمة المرور';
+  String get forgetPasswordFormTitle => 'استعادة كلمة المرور';
 
   @override
-  String get forgetPasswordFormDescription => 'سيتم تنفيذ نموذج استعادة كلمة المرور هنا.';
+  String get forgetPasswordFormDescription => 'أدخل رقم هاتفك لإرسال رمز التحقق.';
 
   @override
-  String get sendResetLink => 'إرسال رابط الاستعادة';
+  String get sendResetCode => 'إرسال رمز التحقق';
 
   @override
-  String get passwordResetSent => 'تم إرسال رابط استعادة كلمة المرور بنجاح';
+  String get enterNewPasswordDesc => 'أدخل كلمة مرور جديدة لتأمين حسابك';
+
+  @override
+  String get sendCode => 'إرسال الكود';
+
+  @override
+  String get verifyCode => 'تأكيد الكود';
+
+  @override
+  String get enterOtpSentTo => 'أدخل الكود المرسل إلى';
+
+  @override
+  String get verify => 'تأكيد';
+
+  @override
+  String get resetPassword => 'إعادة تعيين كلمة المرور';
+
+  @override
+  String get newPassword => 'كلمة المرور الجديدة';
+
+  @override
+  String get confirmPassword => 'تأكيد كلمة المرور';
 
   @override
   String get login => 'تسجيل الدخول';
+
+  @override
+  String get loginSuccess => 'تم تسجيل الدخول بنجاح';
 
   @override
   String get dontHaveAccount => 'ليس لديك حساب؟';
@@ -81,7 +120,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get createNewAccount => 'إنشاء حساب جديد';
 
   @override
-  String get registerToSmartMicrobus => 'انضم بخطوات بسيطة إلى خدمة الميكروباص الذكي';
+  String get registerToSmartMicrobus => 'انضم إلى خدمة الميكروباص الذكي بخطوات بسيطة';
 
   @override
   String get fullName => 'الاسم بالكامل';
@@ -90,14 +129,11 @@ class AppLocalizationsAr extends AppLocalizations {
   String get enterFullName => 'أدخل اسمك هنا';
 
   @override
-  String get confirmPassword => 'تأكيد كلمة المرور';
-
-  @override
   String get register => 'تسجيل';
 
   @override
   String get alreadyHaveAccount => 'هل لديك حساب بالفعل؟';
 
   @override
-  String get loginNow => 'سجل دخول';
+  String get loginNow => 'سجل الدخول';
 }

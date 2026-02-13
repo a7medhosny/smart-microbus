@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_microbus/core/helpers/app_snack_bar.dart';
 import 'package:smart_microbus/core/helpers/extensions.dart';
+import 'package:smart_microbus/core/helpers/show_toast_helper.dart';
 import 'package:smart_microbus/core/helpers/spacing.dart';
+import 'package:smart_microbus/core/routing/routes.dart';
 import 'package:smart_microbus/core/widgets/custom_text_field.dart';
 import 'package:smart_microbus/features/Auth/login/domain/entites/forget_password_entity.dart';
 import 'package:smart_microbus/features/Auth/login/presentation/cubit/cubit/login_cubit.dart';
@@ -40,7 +42,7 @@ class ForgetPasswordForm extends StatelessWidget {
           Text(
             loc.forgetPasswordFormTitle,
             textAlign: TextAlign.center,
-            style: theme.textTheme.headlineMedium?.copyWith(
+            style: theme.textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -96,35 +98,40 @@ class ForgetPasswordForm extends StatelessWidget {
 
               if (state is ForgetPasswordFailure) {
                 context.pop();
+                if (state.message.contains("not confirmed")) {
+                  ShowToastHelper.showToast(context, loc.phoneNotConfirmed);
+                  // context.pushNamed(
+                  //   Routes.confirmAccount,
+                  //   arguments: controller.text,
+                  // );
+                }
                 showGlobalSnackBar(state.message);
               }
 
               if (state is ForgetPasswordSuccess) {
                 context.pop();
-                showGlobalSnackBar(loc.passwordResetSent);
+                ShowToastHelper.showToast(context, loc.otpSent);
+                context.pushNamed(
+                  Routes.resetPassword,
+                  arguments: controller.text,
+                );
               }
             },
             builder: (context, state) {
-              final isLoading = state is ForgetPasswordLoading;
-
               return SizedBox(
                 height: 52,
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: isLoading
-                      ? null
-                      : () {
-                          if (formKey.currentState!.validate()) {
-                            context.read<LoginCubit>().forgetPassword(
-                              entity: ForgetPasswordEntity(
-                                phoneNumber: controller.text,
-                              ),
-                            );
-                          }
-                        },
-                  child: isLoading
-                      ? const CircularProgressIndicator(color: Colors.white)
-                      : Text(loc.sendResetLink),
+                  onPressed: () {
+                    if (formKey.currentState!.validate()) {
+                      context.read<LoginCubit>().forgetPassword(
+                        entity: ForgetPasswordEntity(
+                          phoneNumber: controller.text,
+                        ),
+                      );
+                    }
+                  },
+                  child: Text(loc.sendResetCode),
                 ),
               );
             },

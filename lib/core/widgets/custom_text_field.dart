@@ -8,6 +8,7 @@ class CustomTextField extends StatefulWidget {
     required this.validator,
     required this.hintText,
     this.keyboardType = TextInputType.text,
+    this.isPasswordField = false,
   });
 
   final String labelText;
@@ -15,6 +16,7 @@ class CustomTextField extends StatefulWidget {
   final String? Function(String?)? validator;
   final String hintText;
   final TextInputType keyboardType;
+  final bool isPasswordField;
 
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
@@ -25,32 +27,29 @@ class _CustomTextFieldState extends State<CustomTextField> {
 
   @override
   Widget build(BuildContext context) {
-    final isPasswordField = widget.labelText.toLowerCase().contains('password');
-
     return TextFormField(
       controller: widget.controller,
       validator: widget.validator,
-      obscureText: isPasswordField ? _obscureText : false,
+      obscureText: widget.isPasswordField ? _obscureText : false,
       keyboardType: widget.keyboardType,
       textInputAction: TextInputAction.done,
       decoration: InputDecoration(
         labelText: widget.labelText,
         hintText: widget.hintText,
         border: const UnderlineInputBorder(),
-        suffixIcon:
-            isPasswordField
-                ? IconButton(
-                  icon: Icon(
-                    _obscureText ? Icons.visibility_off : Icons.visibility,
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      _obscureText = !_obscureText;
-                    });
-                  },
-                )
-                : null,
+        suffixIcon: widget.isPasswordField
+            ? IconButton(
+                icon: Icon(
+                  _obscureText ? Icons.visibility_off : Icons.visibility,
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
+                onPressed: () {
+                  setState(() {
+                    _obscureText = !_obscureText;
+                  });
+                },
+              )
+            : null,
       ),
     );
   }
