@@ -8,14 +8,13 @@ extension Navigation on BuildContext {
     return Navigator.of(this).pushNamed<T>(routeName, arguments: arguments);
   }
 
-  Future<T?> pushReplacementNamed<T extends Object?, TO extends Object?>(
+  Future<T?> pushNamedAndRemoveUntil<T extends Object?>(
     String routeName, {
-    TO? result,
     Object? arguments,
   }) {
-    return Navigator.of(this).pushReplacementNamed<T, TO>(
+    return Navigator.of(this).pushNamedAndRemoveUntil<T>(
       routeName,
-      result: result,
+      (route) => false,
       arguments: arguments,
     );
   }

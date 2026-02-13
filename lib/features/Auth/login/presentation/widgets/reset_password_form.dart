@@ -127,11 +127,10 @@ class ResetPasswordForm extends StatelessWidget {
                 ShowToastHelper.showToast(context, loc.passwordResetSuccess);
                 confirmController.clear();
                 passController.clear();
-                context.pushReplacementNamed(Routes.login);
+                context.pushNamedAndRemoveUntil(Routes.login);
               }
             },
 
-            /// button
             child: SizedBox(
               height: 55,
               child: ElevatedButton(

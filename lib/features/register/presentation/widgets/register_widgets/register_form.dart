@@ -32,7 +32,7 @@ class _RegisterFormState extends State<RegisterForm> {
                   title: Text(loc.passenger),
                   value: RegisterUserType.passenger,
                   groupValue: widget.controllers.userType,
-                  
+
                   onChanged: (value) {
                     setState(() {
                       widget.controllers.userType = value!;
@@ -99,6 +99,7 @@ class _RegisterFormState extends State<RegisterForm> {
               }
               return null;
             },
+            isPasswordField: true,
           ),
 
           const SizedBox(height: 16),

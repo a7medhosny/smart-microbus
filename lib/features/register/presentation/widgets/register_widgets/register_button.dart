@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smart_microbus/core/helpers/extensions.dart';
 import 'package:smart_microbus/core/routing/routes.dart';
 
 import '../../../../../core/helpers/app_snack_bar.dart';
@@ -113,8 +114,7 @@ class RegisterButton extends StatelessWidget {
       value: controllers.phoneController.text,
     );
 
-    Navigator.pushNamed(
-      context,
+    context.pushNamed(
       Routes.otpVerification,
       arguments: {
         "phone": controllers.phoneController.text,

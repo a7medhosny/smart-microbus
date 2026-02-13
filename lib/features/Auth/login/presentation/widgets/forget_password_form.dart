@@ -102,27 +102,30 @@ class ForgetPasswordForm extends StatelessWidget {
               }
 
               if (state is ForgetPasswordFailure) {
-if (Navigator.of(context).canPop()) {
-  context.pop();
-}                if (state.message.contains("not confirmed")) {
+                if (Navigator.of(context).canPop()) {
+                  context.pop();
+                }
+                if (state.message.contains("not confirmed")) {
                   ShowToastHelper.showToast(context, loc.phoneNotConfirmed);
                   // getIt<RegisterCubit>().resendConfirmation(
                   //   phoneNumber: phoneController.text,
                   // );
                 }
                 // showGlobalSnackBar(state.message);
-                 ShowToastHelper.showToast(
-                    context,
-                    state.message,
-                    backgroundColor: Colors.redAccent,
-                    icon: Icons.close,
-                  );
+                ShowToastHelper.showToast(
+                  context,
+                  state.message,
+                  backgroundColor: Colors.redAccent,
+                  icon: Icons.close,
+                );
               }
 
               if (state is ForgetPasswordSuccess) {
-if (Navigator.of(context).canPop()) {
-  context.pop();
-}                ShowToastHelper.showToast(context, loc.otpSent);
+                phoneController.clear();
+                if (Navigator.of(context).canPop()) {
+                  context.pop();
+                }
+                ShowToastHelper.showToast(context, loc.otpSent);
                 context.pushNamed(
                   Routes.otpVerification,
                   arguments: {

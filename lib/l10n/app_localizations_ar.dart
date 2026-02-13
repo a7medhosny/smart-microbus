@@ -135,7 +135,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get enterLicenseNumber => 'أدخل رقم الرخصة';
 
   @override
-  String get register => 'تسجيل';
+  String get register => 'إنشاء حساب';
 
   @override
   String get alreadyHaveAccount => 'هل لديك حساب بالفعل؟';

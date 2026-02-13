@@ -32,7 +32,7 @@ import '../theme/theme_cubit.dart';
 final getIt = GetIt.instance;
 
 Future<void> setupDependencyInjection() async {
-  // getIt.registerLazySingleton<Dio>(() => DioFactory.getDio());
+  getIt.registerLazySingleton<Dio>(() => DioFactory.getDio());
   // =========================
   // External
   // =========================

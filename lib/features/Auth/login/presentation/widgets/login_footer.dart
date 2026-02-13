@@ -40,7 +40,7 @@ class LoginFooter extends StatelessWidget {
             ),
             TextButton(
               onPressed: () {
-                context.pushReplacementNamed(Routes.register);
+                context.pushNamed(Routes.register);
               },
               child: Text(
                 loc.registerNow,
