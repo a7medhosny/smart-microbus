@@ -39,7 +39,9 @@ class LoginFooter extends StatelessWidget {
               style: Theme.of(context).textTheme.bodyMedium,
             ),
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                context.pushReplacementNamed(Routes.register);
+              },
               child: Text(
                 loc.registerNow,
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(

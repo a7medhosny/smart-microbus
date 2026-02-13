@@ -53,7 +53,7 @@ Future<void> setupDependencyInjection() async {
     () => LocaleCubit(getIt<LocaleStorage>())..loadSavedLocale(),
   );
 
-  getIt.registerLazySingleton<Dio>(() => DioFactory.getDio());
+  // getIt.registerLazySingleton<Dio>(() => DioFactory.getDio());
 
   getIt.registerFactory<ThemeCubit>(() => ThemeCubit());
 

@@ -6,10 +6,13 @@ import 'package:smart_microbus/core/helpers/app_snack_bar.dart';
 import 'package:smart_microbus/core/helpers/extensions.dart';
 import 'package:smart_microbus/core/helpers/show_toast_helper.dart';
 import 'package:smart_microbus/core/helpers/spacing.dart';
+import 'package:smart_microbus/core/storage/cache_keys.dart';
 import 'package:smart_microbus/core/widgets/custom_text_field.dart';
 import 'package:smart_microbus/features/Auth/login/domain/entites/login_entity.dart';
 import 'package:smart_microbus/features/Auth/login/presentation/cubit/cubit/login_cubit.dart';
 import 'package:smart_microbus/l10n/app_localizations.dart';
+
+import '../../../../../core/routing/routes.dart';
 
 class LoginFormBody extends StatefulWidget {
   const LoginFormBody({
@@ -85,21 +88,40 @@ class _LoginFormBodyState extends State<LoginFormBody> {
                       const Center(child: CircularProgressIndicator()),
                 );
               } else if (state is LoginFailure) {
-                context.pop();
-                if (state.message.contains("not confirmed")) {
+if (Navigator.of(context).canPop()) {
+  context.pop();
+}                if (state.message.contains("not confirmed")) {
                   ShowToastHelper.showToast(
                     context,
                     loc.phoneNotConfirmed,
                     backgroundColor: Colors.redAccent,
                     icon: Icons.close,
                   );
+
+                  context.pushNamed(
+                    Routes.otpVerification,
+                    arguments: {
+                      "phone": widget.phoneController.text,
+                      "from": CacheKeys.confirmAccount,
+                    },
+                  );
                 } else {
-                  showGlobalSnackBar(state.message);
+                  // showGlobalSnackBar(state.message);
+                  ShowToastHelper.showToast(
+                    context,
+                    state.message,
+                    backgroundColor: Colors.redAccent,
+                    icon: Icons.close,
+                  );
                 }
               } else if (state is LoginSuccess) {
                 final user = state.user;
-                context.pop();
-                ShowToastHelper.showToast(context, loc.loginSuccess);
+                final String loginSucess =
+                    "${TokenHelper.extractRoles(user.token) == "Passenger" ? loc.passenger : loc.driver} ${loc.loginSuccess}";
+if (Navigator.of(context).canPop()) {
+  context.pop();
+}
+                ShowToastHelper.showToast(context, loginSucess);
                 widget.phoneController.clear();
                 widget.passwordController.clear();
                 TokenManager.saveLoginData(

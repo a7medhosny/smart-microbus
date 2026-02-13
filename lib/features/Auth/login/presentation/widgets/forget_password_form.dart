@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:smart_microbus/core/helpers/app_snack_bar.dart';
 import 'package:smart_microbus/core/helpers/extensions.dart';
 import 'package:smart_microbus/core/helpers/show_toast_helper.dart';
@@ -8,16 +9,20 @@ import 'package:smart_microbus/core/routing/routes.dart';
 import 'package:smart_microbus/core/widgets/custom_text_field.dart';
 import 'package:smart_microbus/features/Auth/login/domain/entites/forget_password_entity.dart';
 import 'package:smart_microbus/features/Auth/login/presentation/cubit/cubit/login_cubit.dart';
+import 'package:smart_microbus/features/register/presentation/cubit/register_cubit.dart';
 import 'package:smart_microbus/l10n/app_localizations.dart';
+
+import '../../../../../core/DI/dependency_injection.dart';
+import '../../../../../core/storage/cache_keys.dart';
 
 class ForgetPasswordForm extends StatelessWidget {
   const ForgetPasswordForm({
     super.key,
-    required this.controller,
+    required this.phoneController,
     required this.formKey,
   });
 
-  final TextEditingController controller;
+  final TextEditingController phoneController;
   final GlobalKey<FormState> formKey;
 
   @override
@@ -69,7 +74,7 @@ class ForgetPasswordForm extends StatelessWidget {
                   children: [
                     CustomTextField(
                       labelText: loc.phoneNumber,
-                      controller: controller,
+                      controller: phoneController,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return loc.phoneRequired;
@@ -97,23 +102,33 @@ class ForgetPasswordForm extends StatelessWidget {
               }
 
               if (state is ForgetPasswordFailure) {
-                context.pop();
-                if (state.message.contains("not confirmed")) {
+if (Navigator.of(context).canPop()) {
+  context.pop();
+}                if (state.message.contains("not confirmed")) {
                   ShowToastHelper.showToast(context, loc.phoneNotConfirmed);
-                  // context.pushNamed(
-                  //   Routes.confirmAccount,
-                  //   arguments: controller.text,
+                  // getIt<RegisterCubit>().resendConfirmation(
+                  //   phoneNumber: phoneController.text,
                   // );
                 }
-                showGlobalSnackBar(state.message);
+                // showGlobalSnackBar(state.message);
+                 ShowToastHelper.showToast(
+                    context,
+                    state.message,
+                    backgroundColor: Colors.redAccent,
+                    icon: Icons.close,
+                  );
               }
 
               if (state is ForgetPasswordSuccess) {
-                context.pop();
-                ShowToastHelper.showToast(context, loc.otpSent);
+if (Navigator.of(context).canPop()) {
+  context.pop();
+}                ShowToastHelper.showToast(context, loc.otpSent);
                 context.pushNamed(
-                  Routes.resetPassword,
-                  arguments: controller.text,
+                  Routes.otpVerification,
+                  arguments: {
+                    "phone": phoneController.text,
+                    "from": CacheKeys.forgetPassword,
+                  },
                 );
               }
             },
@@ -126,7 +141,7 @@ class ForgetPasswordForm extends StatelessWidget {
                     if (formKey.currentState!.validate()) {
                       context.read<LoginCubit>().forgetPassword(
                         entity: ForgetPasswordEntity(
-                          phoneNumber: controller.text,
+                          phoneNumber: phoneController.text,
                         ),
                       );
                     }

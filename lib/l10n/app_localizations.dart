@@ -382,6 +382,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Resend Code'**
   String get resendCode;
+
+  /// No description provided for @accountConfirmed.
+  ///
+  /// In en, this message translates to:
+  /// **'Your account has been confirmed successfully. You can now log in.'**
+  String get accountConfirmed;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

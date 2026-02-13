@@ -18,6 +18,8 @@ class ResetPasswordForm extends StatelessWidget {
     required this.loc,
     required this.passController,
     required this.confirmController,
+    required this.token,
+    required this.userId,
   });
 
   final GlobalKey<FormState> formKey;
@@ -25,6 +27,8 @@ class ResetPasswordForm extends StatelessWidget {
   final AppLocalizations loc;
   final TextEditingController passController;
   final TextEditingController confirmController;
+  final String token;
+  final String userId;
 
   @override
   Widget build(BuildContext context) {
@@ -104,12 +108,22 @@ class ResetPasswordForm extends StatelessWidget {
               }
 
               if (state is ResetPasswordFailure) {
-                context.pop();
+                if (Navigator.of(context).canPop()) {
+                  context.pop();
+                }
                 showGlobalSnackBar(state.message);
+                ShowToastHelper.showToast(
+                  context,
+                  state.message,
+                  backgroundColor: Colors.redAccent,
+                  icon: Icons.close,
+                );
               }
 
               if (state is ResetPasswordSuccess) {
-                context.pop();
+                if (Navigator.of(context).canPop()) {
+                  context.pop();
+                }
                 ShowToastHelper.showToast(context, loc.passwordResetSuccess);
                 confirmController.clear();
                 passController.clear();
@@ -131,8 +145,8 @@ class ResetPasswordForm extends StatelessWidget {
                   if (formKey.currentState!.validate()) {
                     context.read<LoginCubit>().resetPassword(
                       entity: ResetPasswordEntity(
-                        userId: 'xxx',
-                        token: 'xxx',
+                        userId: userId,
+                        token: token,
                         newPassword: passController.text,
                         confirmPassword: confirmController.text,
                       ),

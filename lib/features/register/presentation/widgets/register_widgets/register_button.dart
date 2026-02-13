@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_microbus/core/routing/routes.dart';
 
 import '../../../../../core/helpers/app_snack_bar.dart';
+import '../../../../../core/helpers/show_toast_helper.dart';
 import '../../../../../core/storage/cache_helper.dart';
 import '../../../../../core/storage/cache_keys.dart';
 import '../../../../../l10n/app_localizations.dart';
@@ -33,11 +34,21 @@ class RegisterButton extends StatelessWidget {
         }
 
         if (state is RegisterPassengerError) {
-          showGlobalSnackBar(state.message);
+          ShowToastHelper.showToast(
+            context,
+            state.message,
+            backgroundColor: Colors.redAccent,
+            icon: Icons.close,
+          );
         }
 
         if (state is RegisterDriverError) {
-          showGlobalSnackBar(state.message);
+          ShowToastHelper.showToast(
+            context,
+            state.message,
+            backgroundColor: Colors.redAccent,
+            icon: Icons.close,
+          );
         }
       },
       builder: (context, state) {

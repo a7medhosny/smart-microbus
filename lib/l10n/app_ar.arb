@@ -67,5 +67,6 @@
    "verifyOtpTitle": "تأكيد الكود",
   "otpSentTo": "تم إرسال الكود إلى",
   "verify": "تأكيد",
-  "resendCode": "إعادة إرسال الكود"
+  "resendCode": "إعادة إرسال الكود",
+  "accountConfirmed" : "تم تأكيد حسابك بنجاح، يمكنك الآن تسجيل الدخول"
 }
