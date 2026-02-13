@@ -32,7 +32,7 @@ import '../theme/theme_cubit.dart';
 final getIt = GetIt.instance;
 
 Future<void> setupDependencyInjection() async {
-  getIt.registerLazySingleton<Dio>(() => DioFactory.getDio());
+  // getIt.registerLazySingleton<Dio>(() => DioFactory.getDio());
   // =========================
   // External
   // =========================
@@ -61,7 +61,6 @@ Future<void> setupDependencyInjection() async {
 }
 
 void _registerDependencies() {
-
   // ================= API =================
 
   getIt.registerLazySingleton<RegisterApiService>(
@@ -70,55 +69,34 @@ void _registerDependencies() {
 
   // ================= DATA SOURCE =================
 
-  getIt.registerLazySingleton<
-      RegisterRemoteDataSource>(
-    () => RegisterRemoteDataSourceImpl(
-      getIt<RegisterApiService>(),
-    ),
+  getIt.registerLazySingleton<RegisterRemoteDataSource>(
+    () => RegisterRemoteDataSourceImpl(getIt<RegisterApiService>()),
   );
 
   // ================= REPOSITORY =================
 
-  getIt.registerLazySingleton<
-      RegisterRepository>(
-    () => RegisterRepositoryImpl(
-      getIt<RegisterRemoteDataSource>(),
-    ),
+  getIt.registerLazySingleton<RegisterRepository>(
+    () => RegisterRepositoryImpl(getIt<RegisterRemoteDataSource>()),
   );
 
   // ================= USE CASES =================
 
-  getIt.registerLazySingleton<
-      RegisterPassengerUseCase>(
-    () => RegisterPassengerUseCase(
-      getIt<RegisterRepository>(),
-    ),
+  getIt.registerLazySingleton<RegisterPassengerUseCase>(
+    () => RegisterPassengerUseCase(getIt<RegisterRepository>()),
   );
 
-  getIt.registerLazySingleton<
-      RegisterDriverUseCase>(
-    () => RegisterDriverUseCase(
-      getIt<RegisterRepository>(),
-    ),
+  getIt.registerLazySingleton<RegisterDriverUseCase>(
+    () => RegisterDriverUseCase(getIt<RegisterRepository>()),
   );
 
-  getIt.registerLazySingleton<
-      VerifyOtpUseCase>(
-    () => VerifyOtpUseCase(
-      getIt<RegisterRepository>(),
-    ),
+  getIt.registerLazySingleton<VerifyOtpUseCase>(
+    () => VerifyOtpUseCase(getIt<RegisterRepository>()),
   );
-  getIt.registerLazySingleton<
-      ConfirmAccountUseCase>(
-    () => ConfirmAccountUseCase(
-      getIt<RegisterRepository>(),
-    ),
+  getIt.registerLazySingleton<ConfirmAccountUseCase>(
+    () => ConfirmAccountUseCase(getIt<RegisterRepository>()),
   );
-  getIt.registerLazySingleton<
-      ResendConfirmationUseCase>(
-    () => ResendConfirmationUseCase(
-      getIt<RegisterRepository>(),
-    ),
+  getIt.registerLazySingleton<ResendConfirmationUseCase>(
+    () => ResendConfirmationUseCase(getIt<RegisterRepository>()),
   );
 
   // ================= CUBIT =================
@@ -130,7 +108,7 @@ void _registerDependencies() {
       getIt<VerifyOtpUseCase>(),
       getIt<ConfirmAccountUseCase>(),
       getIt<ResendConfirmationUseCase>(),
-    )
+    ),
   );
 
   getIt.registerLazySingleton<LoginApiService>(
@@ -154,7 +132,6 @@ void _registerDependencies() {
       loginUseCase: getIt<LoginUseCase>(),
       forgetPasswordUseCase: getIt<ForgetPasswordUseCase>(),
       resetPasswordUseCase: getIt<ResetPasswordUseCase>(),
-    )
+    ),
   );
 }
-
