@@ -13,6 +13,7 @@ import 'package:smart_microbus/features/register/presentation/cubit/register_cub
 import 'package:smart_microbus/l10n/app_localizations.dart';
 
 import '../../../../../core/DI/dependency_injection.dart';
+import '../../../../../core/helpers/app_regex.dart';
 import '../../../../../core/storage/cache_keys.dart';
 
 class ForgetPasswordForm extends StatelessWidget {
@@ -31,7 +32,7 @@ class ForgetPasswordForm extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Padding(
-      padding: const EdgeInsets.all(24),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -66,25 +67,27 @@ class ForgetPasswordForm extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16),
             ),
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: Form(
-                key: formKey,
-                child: Column(
-                  children: [
-                    CustomTextField(
-                      labelText: loc.phoneNumber,
-                      controller: phoneController,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return loc.phoneRequired;
-                        }
-                        return null;
-                      },
-                      hintText: loc.enterPhoneNumber,
-                    ),
-                  ],
-                ),
+            child: Form(
+              key: formKey,
+              child: Column(
+                children: [
+                  CustomTextField(
+                    labelText: loc.phoneNumber,
+                    controller: phoneController,
+                    keyboardType: TextInputType.phone,
+
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return loc.phoneRequired;
+                      }
+                      if (!AppRegex.isPhoneNumberValid(value)) {
+                        return loc.invalidPhone;
+                      }
+                      return null;
+                    },
+                    hintText: loc.enterPhoneNumber,
+                  ),
+                ],
               ),
             ),
           ),
@@ -121,7 +124,6 @@ class ForgetPasswordForm extends StatelessWidget {
               }
 
               if (state is ForgetPasswordSuccess) {
-                phoneController.clear();
                 if (Navigator.of(context).canPop()) {
                   context.pop();
                 }
@@ -133,6 +135,7 @@ class ForgetPasswordForm extends StatelessWidget {
                     "from": CacheKeys.forgetPassword,
                   },
                 );
+                phoneController.clear();
               }
             },
             builder: (context, state) {
@@ -143,9 +146,7 @@ class ForgetPasswordForm extends StatelessWidget {
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
                       context.read<LoginCubit>().forgetPassword(
-                        entity: ForgetPasswordEntity(
-                          phoneNumber: phoneController.text,
-                        ),
+                        phoneNumber: phoneController.text,
                       );
                     }
                   },

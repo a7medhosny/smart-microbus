@@ -154,4 +154,16 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get accountConfirmed => 'تم تأكيد حسابك بنجاح، يمكنك الآن تسجيل الدخول';
+
+  @override
+  String get invalidPhone => 'رقم هاتف غير صالح';
+
+  @override
+  String get invalidPassword => 'كلمة المرور يجب أن تحتوي على 8 أحرف على الأقل وتشمل حرفًا كبيرًا وحرفًا صغيرًا ورقمًا.';
+
+  @override
+  String get licenseRequired => 'من فضلك أدخل رقم رخصة القيادة';
+
+  @override
+  String get invalidLicense => 'رقم رخصة القيادة غير صالح';
 }

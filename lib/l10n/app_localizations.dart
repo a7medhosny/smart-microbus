@@ -388,6 +388,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Your account has been confirmed successfully. You can now log in.'**
   String get accountConfirmed;
+
+  /// No description provided for @invalidPhone.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid phone number'**
+  String get invalidPhone;
+
+  /// No description provided for @invalidPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Password must be at least 8 characters and include an uppercase letter, a lowercase letter, and a number.'**
+  String get invalidPassword;
+
+  /// No description provided for @licenseRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your driving license number'**
+  String get licenseRequired;
+
+  /// No description provided for @invalidLicense.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid driving license number'**
+  String get invalidLicense;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

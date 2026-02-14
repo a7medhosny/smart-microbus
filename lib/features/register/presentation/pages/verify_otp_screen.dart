@@ -7,7 +7,11 @@ import '../widgets/otp_widgets/otp_verify_button.dart';
 import '../widgets/otp_widgets/resend_code_text.dart';
 
 class VerifyOtpScreen extends StatefulWidget {
-  const VerifyOtpScreen({super.key, required this.phoneNumber,required this.from});
+   const VerifyOtpScreen({
+    super.key,
+    required this.phoneNumber,
+    required this.from,
+  });
 
   final String phoneNumber;
   final String from;
@@ -18,10 +22,10 @@ class VerifyOtpScreen extends StatefulWidget {
 
 class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
   final controller = OtpController();
- @override
+  @override
   void initState() {
     super.initState();
-    controller.startResendTimer(); // start timer when open the screen 
+    controller.startResendTimer(seconds: 60); // start timer when open the screen
   }
 
   @override
@@ -60,8 +64,11 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
 
               const SizedBox(height: 16),
 
-               ResendCodeText(phoneNumber: widget.phoneNumber, controller: controller,
-               ),
+              ResendCodeText(
+                phoneNumber: widget.phoneNumber,
+                controller: controller,
+                from: widget.from,
+              ),
             ],
           ),
         ),

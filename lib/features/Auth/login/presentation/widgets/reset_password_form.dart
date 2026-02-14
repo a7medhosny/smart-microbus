@@ -10,6 +10,8 @@ import 'package:smart_microbus/features/Auth/login/domain/entites/reset_password
 import 'package:smart_microbus/features/Auth/login/presentation/cubit/cubit/login_cubit.dart';
 import 'package:smart_microbus/l10n/app_localizations.dart';
 
+import '../../../../../core/helpers/app_regex.dart';
+
 class ResetPasswordForm extends StatelessWidget {
   const ResetPasswordForm({
     super.key,
@@ -76,7 +78,15 @@ class ResetPasswordForm extends StatelessWidget {
             labelText: loc.newPassword,
             hintText: "********",
             controller: passController,
-            validator: (v) => v!.length < 6 ? loc.passwordShort : null,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return loc.passwordRequired;
+              }
+              if (!AppRegex.isPasswordValid(value)) {
+                return loc.invalidPassword;
+              }
+              return null;
+            },
             isPasswordField: true,
           ),
 

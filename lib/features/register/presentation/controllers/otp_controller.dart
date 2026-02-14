@@ -28,8 +28,8 @@ class OtpController extends ChangeNotifier {
   Timer? _timer;
 
   // يبدأ العداد
-  void startResendTimer() {
-    _secondsRemaining = _initialSeconds;
+  void startResendTimer({required int seconds}) {
+    _secondsRemaining = seconds;
     _timer?.cancel();
 
     _timer = Timer.periodic(
@@ -47,8 +47,8 @@ class OtpController extends ChangeNotifier {
   }
 
   // إعادة تشغيل بعد resend
-  void resetResendTimer() {
-    startResendTimer();
+  void resetResendTimer({required int seconds}) {
+    startResendTimer(seconds: seconds);
   }
 
   // فورمات 00:59

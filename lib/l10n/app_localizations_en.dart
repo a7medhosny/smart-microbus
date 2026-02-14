@@ -154,4 +154,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get accountConfirmed => 'Your account has been confirmed successfully. You can now log in.';
+
+  @override
+  String get invalidPhone => 'Invalid phone number';
+
+  @override
+  String get invalidPassword => 'Password must be at least 8 characters and include an uppercase letter, a lowercase letter, and a number.';
+
+  @override
+  String get licenseRequired => 'Please enter your driving license number';
+
+  @override
+  String get invalidLicense => 'Invalid driving license number';
 }

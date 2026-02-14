@@ -28,7 +28,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       appBar: AppBar(),
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
           child: Column(
             children: [
               const RegisterHeader(),
@@ -36,10 +36,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
               const SizedBox(height: 24),
 
               RegisterForm(controllers: controllers),
-
-              const SizedBox(height: 24),
-
-              RegisterButton(controllers: controllers),
 
               const SizedBox(height: 16),
 

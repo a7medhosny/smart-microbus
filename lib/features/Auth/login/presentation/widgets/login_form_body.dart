@@ -12,6 +12,7 @@ import 'package:smart_microbus/features/Auth/login/domain/entites/login_entity.d
 import 'package:smart_microbus/features/Auth/login/presentation/cubit/cubit/login_cubit.dart';
 import 'package:smart_microbus/l10n/app_localizations.dart';
 
+import '../../../../../core/helpers/app_regex.dart';
 import '../../../../../core/routing/routes.dart';
 
 class LoginFormBody extends StatefulWidget {
@@ -43,9 +44,14 @@ class _LoginFormBodyState extends State<LoginFormBody> {
           CustomTextField(
             labelText: loc.phoneNumber,
             controller: widget.phoneController,
+            keyboardType: TextInputType.phone,
+
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return loc.phoneRequired;
+              }
+              if (!AppRegex.isPhoneNumberValid(value)) {
+                return loc.invalidPhone;
               }
               return null;
             },
@@ -58,6 +64,9 @@ class _LoginFormBodyState extends State<LoginFormBody> {
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return loc.passwordRequired;
+              }
+              if (!AppRegex.isPasswordValid(value)) {
+                return loc.invalidPassword;
               }
               return null;
             },
@@ -88,9 +97,10 @@ class _LoginFormBodyState extends State<LoginFormBody> {
                       const Center(child: CircularProgressIndicator()),
                 );
               } else if (state is LoginFailure) {
-if (Navigator.of(context).canPop()) {
-  context.pop();
-}                if (state.message.contains("not confirmed")) {
+                if (Navigator.of(context).canPop()) {
+                  context.pop();
+                }
+                if (state.message.contains("not confirmed")) {
                   ShowToastHelper.showToast(
                     context,
                     loc.phoneNotConfirmed,
@@ -118,9 +128,9 @@ if (Navigator.of(context).canPop()) {
                 final user = state.user;
                 final String loginSucess =
                     "${TokenHelper.extractRoles(user.token) == "Passenger" ? loc.passenger : loc.driver} ${loc.loginSuccess}";
-if (Navigator.of(context).canPop()) {
-  context.pop();
-}
+                if (Navigator.of(context).canPop()) {
+                  context.pop();
+                }
                 ShowToastHelper.showToast(context, loginSucess);
                 widget.phoneController.clear();
                 widget.passwordController.clear();

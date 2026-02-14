@@ -69,7 +69,11 @@
   "otpSentTo": "Code sent to",
   "verify": "Verify",
   "resendCode": "Resend Code",
-  "accountConfirmed" : "Your account has been confirmed successfully. You can now log in."
+  "accountConfirmed" : "Your account has been confirmed successfully. You can now log in.",
+  "invalidPhone":"Invalid phone number",
+  "invalidPassword":"Password must be at least 8 characters and include an uppercase letter, a lowercase letter, and a number.",
+  "licenseRequired": "Please enter your driving license number",
+  "invalidLicense": "Invalid driving license number"
 
-  
+
 }
