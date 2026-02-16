@@ -1,12 +1,12 @@
 import 'queue_item.dart';
 
-class Queue {
+class QueueResponse {
   final String id;
   final String stationId;
   final String routeId;
   final List<QueueItem> items;
 
-  const Queue({
+  const QueueResponse({
     required this.id,
     required this.stationId,
     required this.routeId,

@@ -1,1 +1,1 @@
-class DriverHomeDataSource {}
+abstract class DriverHomeDataSource {}
