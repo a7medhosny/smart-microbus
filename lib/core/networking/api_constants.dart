@@ -38,4 +38,10 @@ class ApiConstants {
   static const String busRoutesEndpoint = '/bus/routes';
 
   static const String busLocationsEndpoint = '/bus/locations';
+
+  //driver end points
+  static const String currentPosition = '/driver/current-position';
+  static const String stationQueue = '/driver/station-queue';
+  static const String tripHistory = '/driver/trip-history';
+  static const String estmstimatedEarnings = '/driver/estimated-earnings';
 }

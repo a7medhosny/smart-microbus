@@ -1,5 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
+import 'package:smart_microbus/features/Driver/driver_home/data/models/earning_model.dart';
+import 'package:smart_microbus/features/Driver/driver_home/data/models/queue_item_model.dart';
+import 'package:smart_microbus/features/Driver/driver_home/data/models/queue_response_model.dart';
+import 'package:smart_microbus/features/Driver/driver_home/data/models/trip_history_response_model.dart';
 
 import '../../../../../core/networking/api_constants.dart';
 
@@ -9,4 +13,15 @@ part 'driver_home_api_service.g.dart';
 abstract class DriverHomeApiService {
   factory DriverHomeApiService(Dio dio, {String baseUrl}) =
       _DriverHomeApiService;
+  @GET(ApiConstants.currentPosition)
+  Future<QueueItemModel> getCurrentPosition();
+  @GET(ApiConstants.stationQueue)
+  Future<QueueResponseModel> getStationQueue({
+    @Path('stationId') required String stationId,
+    @Path('routeId') required String routeId,
+  });
+  @GET(ApiConstants.tripHistory)
+  Future<TripHistoryResponseModel> getTripHistory();
+  @GET(ApiConstants.estmstimatedEarnings)
+  Future<EarningModel> getEstimatedDailyEarnings();
 }

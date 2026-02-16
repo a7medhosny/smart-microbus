@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:smart_microbus/core/networking/dio_factory.dart';
+import 'package:smart_microbus/features/Driver/driver_home/data/repository/driver_home_repository_impl.dart';
 import 'package:smart_microbus/features/register/data/datasource/register_api_service.dart';
 import 'package:smart_microbus/features/register/data/datasource/register_remote_data_source.dart';
 import 'package:smart_microbus/features/register/data/datasource/register_remote_data_source_impl.dart';
@@ -17,6 +18,12 @@ import 'package:smart_microbus/features/Auth/login/domain/usecases/login_use_cas
 import 'package:smart_microbus/features/Auth/login/domain/usecases/reset_password_use_case.dart';
 import 'package:smart_microbus/features/Auth/login/presentation/cubit/cubit/login_cubit.dart';
 
+import '../../features/Driver/driver_home/data/datasources/driver_home_api_service.dart';
+import '../../features/Driver/driver_home/data/datasources/driver_home_data_source.dart';
+import '../../features/Driver/driver_home/data/datasources/driver_home_data_source_impl.dart'
+    show DriverHomeDataSourceImpl;
+import '../../features/Driver/driver_home/domain/repository/driver_home_repository.dart'
+    show DriverHomeRepository;
 import '../../features/register/data/repositoies/register_repository_impl.dart';
 import '../../features/register/domain/usecases/register_driver_use_case.dart';
 import '../../features/register/domain/usecases/register_passenger_use_case.dart';
@@ -133,5 +140,15 @@ void _registerDependencies() {
       forgetPasswordUseCase: getIt<ForgetPasswordUseCase>(),
       resetPasswordUseCase: getIt<ResetPasswordUseCase>(),
     ),
+  );
+  // =========================driver home=========================
+  getIt.registerLazySingleton<DriverHomeApiService>(
+    () => DriverHomeApiService(getIt<Dio>()),
+  );
+  getIt.registerLazySingleton<DriverHomeDataSource>(
+    () => DriverHomeDataSourceImpl(getIt<DriverHomeApiService>()),
+  );
+  getIt.registerLazySingleton<DriverHomeRepository>(
+    () => DriverHomeRepositoryImpl(getIt<DriverHomeDataSource>()),
   );
 }
