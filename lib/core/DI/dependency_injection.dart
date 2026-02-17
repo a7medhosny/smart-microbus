@@ -149,16 +149,7 @@ void _registerDependencies() {
       resetPasswordUseCase: getIt<ResetPasswordUseCase>(),
     ),
   );
-  // =========================driver home=========================
-  getIt.registerLazySingleton<DriverHomeApiService>(
-    () => DriverHomeApiService(getIt<Dio>()),
-  );
-  getIt.registerLazySingleton<DriverHomeDataSource>(
-    () => DriverHomeDataSourceImpl(getIt<DriverHomeApiService>()),
-  );
-  getIt.registerLazySingleton<DriverHomeRepository>(
-    () => DriverHomeRepositoryImpl(getIt<DriverHomeDataSource>()),
-  );
+
 }
 
 void _driverDependencies() {
