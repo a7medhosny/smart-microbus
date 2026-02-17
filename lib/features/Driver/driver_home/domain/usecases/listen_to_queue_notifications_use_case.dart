@@ -4,10 +4,10 @@ import 'package:smart_microbus/features/Driver/driver_home/domain/entities/queue
 import '../../../../../core/error/failure.dart';
 import '../repository/driver_home_repository.dart';
 
-class ListenToQueueNotificationsUsecase {
+class ListenToQueueNotificationsUseCase {
    final DriverHomeRepository driverHomeRepository;
 
-  ListenToQueueNotificationsUsecase(this.driverHomeRepository);
+  ListenToQueueNotificationsUseCase(this.driverHomeRepository);
 
   Future<Either<Failure, QueueEvent>> call() {
     return driverHomeRepository.listenToQueueNotifications();

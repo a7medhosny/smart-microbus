@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:smart_microbus/core/config/app_config.dart';
 
 import 'package:smart_microbus/core/helpers/extensions.dart';
 import 'package:smart_microbus/core/networking/dio_factory.dart';
 import 'package:smart_microbus/core/routing/routes.dart';
+import 'package:smart_microbus/features/Driver/driver_home/presentation/cubit/driver_home_cubit.dart';
 import 'package:smart_microbus/features/register/presentation/cubit/register_cubit.dart';
 import 'package:smart_microbus/l10n/app_localizations.dart';
 
@@ -23,6 +25,8 @@ void main() async {
   /// 🔥 Initialize Dependency Injection
   await setupDependencyInjection();
 
+  // AppConfig.useMockData = false;
+
   runApp(const MyApp());
 }
 
@@ -38,6 +42,8 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => getIt<LocaleCubit>()),
         BlocProvider(create: (_) => getIt<ThemeCubit>()),
         BlocProvider(create: (_) => getIt<RegisterCubit>()),
+        BlocProvider(create: (_) => getIt<DriverHomeCubit>()),
+
       ],
       child: BlocBuilder<LocaleCubit, LocaleState>(
         builder: (context, localeState) {

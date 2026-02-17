@@ -5,9 +5,9 @@ import 'package:smart_microbus/features/Driver/driver_home/domain/entities/trip_
 import '../../../../../core/error/failure.dart';
 import '../repository/driver_home_repository.dart';
 
-class GetTripHistoryUsecase {
+class GetTripHistoryUseCase {
   final DriverHomeRepository driverHomeRepository;
-  GetTripHistoryUsecase(this.driverHomeRepository);
+  GetTripHistoryUseCase(this.driverHomeRepository);
 
   Future<Either<Failure, TripHistoryResponse>> call() {
     return driverHomeRepository.getTripHistory();

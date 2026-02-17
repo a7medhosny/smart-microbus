@@ -4,10 +4,10 @@ import 'package:smart_microbus/features/Driver/driver_home/domain/repository/dri
 import '../../../../../core/error/failure.dart';
 import '../entities/earning.dart';
 
-class GetEstimatedDailyEarningsUsecase {
+class GetEstimatedDailyEarningsUseCase {
   final DriverHomeRepository driverHomeRepository;
 
-  GetEstimatedDailyEarningsUsecase(this.driverHomeRepository);
+  GetEstimatedDailyEarningsUseCase(this.driverHomeRepository);
 
   Future<Either<Failure, Earning>> call() {
     return driverHomeRepository.getEstimatedDailyEarnings();

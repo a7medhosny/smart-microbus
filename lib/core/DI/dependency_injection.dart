@@ -2,6 +2,12 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:smart_microbus/core/networking/dio_factory.dart';
 import 'package:smart_microbus/features/Driver/driver_home/data/repository/driver_home_repository_impl.dart';
+import 'package:smart_microbus/features/Driver/driver_home/domain/usecases/get_current_position_use_case.dart';
+import 'package:smart_microbus/features/Driver/driver_home/domain/usecases/get_estimated_daily_earnings_use_case.dart';
+import 'package:smart_microbus/features/Driver/driver_home/domain/usecases/get_station_queue_use_case.dart';
+import 'package:smart_microbus/features/Driver/driver_home/domain/usecases/get_trip_history_use_case.dart';
+import 'package:smart_microbus/features/Driver/driver_home/domain/usecases/listen_to_queue_notifications_use_case.dart';
+import 'package:smart_microbus/features/Driver/driver_home/presentation/cubit/driver_home_cubit.dart';
 import 'package:smart_microbus/features/register/data/datasource/register_api_service.dart';
 import 'package:smart_microbus/features/register/data/datasource/register_remote_data_source.dart';
 import 'package:smart_microbus/features/register/data/datasource/register_remote_data_source_impl.dart';
@@ -65,6 +71,8 @@ Future<void> setupDependencyInjection() async {
   getIt.registerFactory<ThemeCubit>(() => ThemeCubit());
 
   _registerDependencies();
+
+  _driverDependencies();
 }
 
 void _registerDependencies() {
@@ -150,5 +158,78 @@ void _registerDependencies() {
   );
   getIt.registerLazySingleton<DriverHomeRepository>(
     () => DriverHomeRepositoryImpl(getIt<DriverHomeDataSource>()),
+  );
+}
+
+void _driverDependencies() {
+  getIt.registerLazySingleton<DriverHomeApiService>(
+    () => DriverHomeApiService(getIt()),
+  );
+
+  // ================= DATA SOURCE =================
+
+  getIt.registerLazySingleton<DriverHomeDataSource>(
+    () => DriverHomeDataSourceImpl(getIt<DriverHomeApiService>()),
+  );
+
+  // ================= REPOSITORY =================
+
+  getIt.registerLazySingleton<DriverHomeRepository>(
+    () => DriverHomeRepositoryImpl(getIt<DriverHomeDataSource>()),
+  );
+
+  // ================= USE CASES =================
+
+  getIt.registerLazySingleton<GetCurrentPositionUsecase>(
+    () => GetCurrentPositionUsecase(getIt<DriverHomeRepository>()),
+  );
+
+  getIt.registerLazySingleton<GetTripHistoryUseCase>(
+    () => GetTripHistoryUseCase(getIt<DriverHomeRepository>()),
+  );
+  getIt.registerLazySingleton<ListenToQueueNotificationsUseCase>(
+    () => ListenToQueueNotificationsUseCase(getIt<DriverHomeRepository>()),
+  );
+  getIt.registerLazySingleton<GetStationQueueUseCase>(
+    () => GetStationQueueUseCase(getIt<DriverHomeRepository>()),
+  );
+  getIt.registerLazySingleton<GetEstimatedDailyEarningsUseCase>(
+    () => GetEstimatedDailyEarningsUseCase(getIt<DriverHomeRepository>()),
+  );
+
+  // ================= CUBIT =================
+
+  getIt.registerFactory<DriverHomeCubit>(
+    () => DriverHomeCubit(
+      getIt<GetCurrentPositionUsecase>(),
+      getIt<GetEstimatedDailyEarningsUseCase>(),
+      getIt<GetStationQueueUseCase>(),
+      getIt<GetTripHistoryUseCase>(),
+      getIt<ListenToQueueNotificationsUseCase>(),
+    ),
+  );
+
+  getIt.registerLazySingleton<LoginApiService>(
+    () => LoginApiService(getIt<Dio>()),
+  );
+  getIt.registerLazySingleton<LoginRemoteDataSource>(
+    () => LoginRemoteDataSourceImpl(getIt<LoginApiService>()),
+  );
+  getIt.registerLazySingleton<LoginRepo>(
+    () => LoginRepoImpl(getIt<LoginRemoteDataSource>()),
+  );
+  getIt.registerFactory<LoginUseCase>(() => LoginUseCase(getIt<LoginRepo>()));
+  getIt.registerFactory<ForgetPasswordUseCase>(
+    () => ForgetPasswordUseCase(getIt<LoginRepo>()),
+  );
+  getIt.registerFactory<ResetPasswordUseCase>(
+    () => ResetPasswordUseCase(getIt<LoginRepo>()),
+  );
+  getIt.registerFactory<LoginCubit>(
+    () => LoginCubit(
+      loginUseCase: getIt<LoginUseCase>(),
+      forgetPasswordUseCase: getIt<ForgetPasswordUseCase>(),
+      resetPasswordUseCase: getIt<ResetPasswordUseCase>(),
+    ),
   );
 }
