@@ -1,18 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
-import 'package:smart_microbus/core/helpers/app_snack_bar.dart';
 import 'package:smart_microbus/core/helpers/extensions.dart';
 import 'package:smart_microbus/core/helpers/show_toast_helper.dart';
 import 'package:smart_microbus/core/helpers/spacing.dart';
 import 'package:smart_microbus/core/routing/routes.dart';
 import 'package:smart_microbus/core/widgets/custom_text_field.dart';
-import 'package:smart_microbus/features/Auth/login/domain/entites/forget_password_entity.dart';
 import 'package:smart_microbus/features/Auth/login/presentation/cubit/cubit/login_cubit.dart';
-import 'package:smart_microbus/features/register/presentation/cubit/register_cubit.dart';
 import 'package:smart_microbus/l10n/app_localizations.dart';
 
-import '../../../../../core/DI/dependency_injection.dart';
 import '../../../../../core/helpers/app_regex.dart';
 import '../../../../../core/storage/cache_keys.dart';
 

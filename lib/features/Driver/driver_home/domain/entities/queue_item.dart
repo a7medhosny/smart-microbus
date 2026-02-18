@@ -1,8 +1,6 @@
 class QueueItem {
   final String queueId;
-
   final String driverId;
-
   final int position;
   final String status;
   final DateTime joinedAt;

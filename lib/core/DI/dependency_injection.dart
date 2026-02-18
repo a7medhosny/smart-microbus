@@ -149,7 +149,6 @@ void _registerDependencies() {
       resetPasswordUseCase: getIt<ResetPasswordUseCase>(),
     ),
   );
-
 }
 
 void _driverDependencies() {
@@ -197,30 +196,6 @@ void _driverDependencies() {
       getIt<GetStationQueueUseCase>(),
       getIt<GetTripHistoryUseCase>(),
       getIt<ListenToQueueNotificationsUseCase>(),
-    ),
-  );
-
-  getIt.registerLazySingleton<LoginApiService>(
-    () => LoginApiService(getIt<Dio>()),
-  );
-  getIt.registerLazySingleton<LoginRemoteDataSource>(
-    () => LoginRemoteDataSourceImpl(getIt<LoginApiService>()),
-  );
-  getIt.registerLazySingleton<LoginRepo>(
-    () => LoginRepoImpl(getIt<LoginRemoteDataSource>()),
-  );
-  getIt.registerFactory<LoginUseCase>(() => LoginUseCase(getIt<LoginRepo>()));
-  getIt.registerFactory<ForgetPasswordUseCase>(
-    () => ForgetPasswordUseCase(getIt<LoginRepo>()),
-  );
-  getIt.registerFactory<ResetPasswordUseCase>(
-    () => ResetPasswordUseCase(getIt<LoginRepo>()),
-  );
-  getIt.registerFactory<LoginCubit>(
-    () => LoginCubit(
-      loginUseCase: getIt<LoginUseCase>(),
-      forgetPasswordUseCase: getIt<ForgetPasswordUseCase>(),
-      resetPasswordUseCase: getIt<ResetPasswordUseCase>(),
     ),
   );
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../controllers/register_controllers.dart';
-import '../widgets/register_widgets/register_button.dart';
 import '../widgets/register_widgets/register_footer.dart';
 import '../widgets/register_widgets/register_form.dart';
 import '../widgets/register_widgets/register_header.dart';

@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:dartz/dartz.dart';
 import 'package:smart_microbus/features/Driver/driver_home/domain/entities/earning.dart';
 import 'package:smart_microbus/features/Driver/driver_home/domain/entities/queue.dart';
@@ -10,13 +8,12 @@ import 'package:smart_microbus/features/Driver/driver_home/domain/entities/trip_
 import '../../../../../core/error/failure.dart';
 
 abstract class DriverHomeRepository {
-  Future<Either<Failure, QueueItem>>getCurrentPosition();
-  Future<Either<Failure, QueueResponse>>getStationQueue({
+  Future<Either<Failure, QueueItem>> getCurrentPosition();
+  Future<Either<Failure, QueueResponse>> getStationQueue({
     required String stationId,
-    required String routeId
+    required String routeId,
   });
-  Future<Either<Failure, QueueEvent>>listenToQueueNotifications();
-  Future<Either<Failure, TripHistoryResponse>>getTripHistory();
-  Future<Either<Failure, Earning>>getEstimatedDailyEarnings();
-
+  Future<Either<Failure, QueueEvent>> listenToQueueNotifications();
+  Future<Either<Failure, TripHistoryResponse>> getTripHistory();
+  Future<Either<Failure, Earning>> getEstimatedDailyEarnings();
 }

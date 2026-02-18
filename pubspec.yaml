@@ -1,7 +1,7 @@
 name: smart_microbus
 description: "Smart Microbus Application."
 
-publish_to: 'none'
+publish_to: "none"
 
 version: 1.0.0+1
 
@@ -23,6 +23,7 @@ dependencies:
     sdk: flutter
   flutter_bloc: ^9.0.0
   flutter_launcher_icons: ^0.14.4
+  flutter_local_notifications: ^20.1.0
   flutter_localizations:
     sdk: flutter
   flutter_native_splash: ^2.4.6
@@ -48,24 +49,22 @@ dev_dependencies:
     sdk: flutter
 
 # =========================
+# Flutter Launcher Icons Config
+# =========================
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/image-removebg-preview.png"
+  min_sdk_android: 21
+  remove_alpha_ios: true
+
+# =========================
 # Flutter Section
 # =========================
 flutter:
   uses-material-design: true
 
-  # 🔥 تفعيل توليد ملفات الترجمة
   generate: true
-  # =========================
-  # Assets (لو هتستخدم صور)
-  # =========================
-  # assets:
-  #   - assets/images/
-  #   - assets/icons/
-  # =========================
-  # Fonts (اختياري)
-  # =========================
-  # fonts:
-  #   - family: Cairo
-  #     fonts:
-  #       - asset: assets/fonts/Cairo-Regular.ttf
-  #       - asset: assets/fonts/Cairo-Bold.ttf
+
+  assets:
+    - assets/images/
