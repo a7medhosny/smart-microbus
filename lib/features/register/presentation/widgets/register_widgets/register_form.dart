@@ -1,6 +1,7 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
+import 'package:smart_microbus/core/helpers/spacing.dart';
 import 'package:smart_microbus/l10n/app_localizations.dart';
 
 import '../../../../../../core/widgets/custom_text_field.dart';
@@ -44,10 +45,15 @@ class _RegisterFormState extends State<RegisterForm> {
               children: [
                 Expanded(
                   child: RadioListTile<RegisterUserType>(
+                    contentPadding: EdgeInsets.zero,
+                    dense: true,
+                    visualDensity: const VisualDensity(
+                      horizontal: -4,
+                      vertical: -4,
+                    ),
                     title: Text(loc.passenger),
                     value: RegisterUserType.passenger,
                     groupValue: widget.controllers.userType,
-
                     onChanged: (value) {
                       setState(() {
                         widget.controllers.userType = value!;
@@ -55,9 +61,23 @@ class _RegisterFormState extends State<RegisterForm> {
                     },
                   ),
                 ),
+                horizontalSpace(30),
                 Expanded(
                   child: RadioListTile<RegisterUserType>(
-                    title: Text(loc.driver),
+                    contentPadding: EdgeInsets.zero,
+                    dense: true,
+                    visualDensity: const VisualDensity(
+                      horizontal: -4,
+                      vertical: -4,
+                    ),
+
+                    title: Text(
+                      loc.driver,
+
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+
                     value: RegisterUserType.driver,
                     groupValue: widget.controllers.userType,
                     onChanged: (value) {

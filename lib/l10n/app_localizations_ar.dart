@@ -166,4 +166,70 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get invalidLicense => 'رقم رخصة القيادة غير صالح';
+
+  @override
+  String helloDriver(Object name) {
+    return 'أهلاً $name';
+  }
+
+  @override
+  String driverRoleVehicle(Object vehicle) {
+    return 'السائق - مركبة $vehicle';
+  }
+
+  @override
+  String vehicleNumber(Object number) {
+    return 'مركبة $number';
+  }
+
+  @override
+  String get currentStation => 'المحطة الحالية';
+
+  @override
+  String get online => 'متصل';
+
+  @override
+  String get offline => 'غير متصل';
+
+  @override
+  String get yourQueueTitle => 'ترتيبك في الطابور';
+
+  @override
+  String get waitingTime => 'وقت الانتظار';
+
+  @override
+  String get vehiclesAhead => 'مركبات أمامك';
+
+  @override
+  String get queueTitle => 'ترتيبك في الطابور';
+
+  @override
+  String get nextInQueue => 'القادم في الطابور';
+
+  @override
+  String get loadingPassengers => 'تحميل الركاب';
+
+  @override
+  String get inQueue => 'في انتظار';
+
+  @override
+  String get yourTurnSoon => 'دورك القادم قريباً';
+
+  @override
+  String get you => 'أنت';
+
+  @override
+  String get todayEarnings => 'أرباح اليوم';
+
+  @override
+  String get trips => 'رحلة';
+
+  @override
+  String get viewAllTrips => 'عرض جميع الرحلات';
+
+  @override
+  String get tripHistory => 'سجل الرحلات';
+
+  @override
+  String get noTripsYet => 'لا توجد رحلات حتى الآن';
 }

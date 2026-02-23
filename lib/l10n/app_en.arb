@@ -73,7 +73,33 @@
   "invalidPhone":"Invalid phone number",
   "invalidPassword":"Password must be at least 8 characters and include an uppercase letter, a lowercase letter, and a number.",
   "licenseRequired": "Please enter your driving license number",
-  "invalidLicense": "Invalid driving license number"
+  "invalidLicense": "Invalid driving license number",
+
+"helloDriver": "Hello {name}",
+"driverRoleVehicle": "Driver - Vehicle {vehicle}",
+"vehicleNumber": "Vehicle {number}",
+"currentStation": "Current Station",
+"online": "Online",
+"offline": "Offline",
+"yourQueueTitle": "Your Queue Position",
+"waitingTime": "Waiting Time",
+"vehiclesAhead": "Vehicles Ahead",
+"queueTitle": "Your queue position",
+"nextInQueue": "Next in queue",
+"loadingPassengers": "Loading passengers",
+"inQueue": "Waiting",
+"yourTurnSoon": "Your turn is قريب",
+"you": "You",
+
+
+  "todayEarnings": "Today's Earnings",
+  "trips": "Trips",
+  "viewAllTrips": "View All Trips",
+  "tripHistory": "Trip History",
+  "noTripsYet": "No trips yet"
+
+
+
 
 
 }

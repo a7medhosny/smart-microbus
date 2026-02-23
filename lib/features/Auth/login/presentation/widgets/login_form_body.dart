@@ -143,6 +143,10 @@ class _LoginFormBodyState extends State<LoginFormBody> {
                   phone: user.phone,
                   userId: TokenHelper.extractUserId(user.token) ?? '',
                 );
+                context.pushNamed(
+                  Routes.driverHome,
+                  arguments: {CacheKeys.userName: user.userName},
+                );
               }
             },
             builder: (context, state) {
@@ -156,7 +160,7 @@ class _LoginFormBodyState extends State<LoginFormBody> {
                         entity: LoginEntity(
                           phoneNumber: widget.phoneController.text,
                           password: widget.passwordController.text,
-                          rememberMe: false,
+                          rememberMe: rememberMe,
                         ),
                       );
                     }

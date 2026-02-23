@@ -10,6 +10,9 @@ import 'package:smart_microbus/features/Auth/login/presentation/screens/login_Sc
 import 'package:smart_microbus/features/Auth/login/presentation/screens/reset_password_screen.dart';
 import 'package:smart_microbus/main.dart';
 
+import '../../features/Driver/driver_home/presentation/cubit/driver_home_cubit.dart';
+import '../../features/Driver/driver_home/presentation/screens/driver_home_page.dart';
+import '../../features/Driver/driver_home/presentation/screens/driver_trip_history.dart';
 import 'routes.dart';
 
 // ================= IMPORT SCREENS =================
@@ -52,7 +55,11 @@ class AppRouter {
         return _materialRoute(
           BlocProvider(
             create: (context) => getIt<LoginCubit>(),
-            child: ResetPasswordScreen(phone: phone, token: token, userId: userId,),
+            child: ResetPasswordScreen(
+              phone: phone,
+              token: token,
+              userId: userId,
+            ),
           ),
           settings: settings,
         );
@@ -71,6 +78,23 @@ class AppRouter {
             VerifyOtpScreen(phoneNumber: phoneNumber, from: from),
           );
         }
+      // ================= Driver home =================
+      case Routes.driverHome:
+        final args = settings.arguments as Map<String, dynamic>;
+        final String userName = args[CacheKeys.userName];
+        return _materialRoute(
+          BlocProvider(
+            create: (context) => getIt<DriverHomeCubit>(),
+            child: DriverHomeView(userName: userName),
+          ),
+        );
+      case Routes.driverTripHistory:
+        return _materialRoute(
+          BlocProvider(
+            create: (context) => getIt<DriverHomeCubit>(),
+            child: DriverTripHistoryScreen(),
+          ),
+        );
       // ================= DEFAULT =================
       default:
         return null;

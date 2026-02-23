@@ -166,4 +166,70 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get invalidLicense => 'Invalid driving license number';
+
+  @override
+  String helloDriver(Object name) {
+    return 'Hello $name';
+  }
+
+  @override
+  String driverRoleVehicle(Object vehicle) {
+    return 'Driver - Vehicle $vehicle';
+  }
+
+  @override
+  String vehicleNumber(Object number) {
+    return 'Vehicle $number';
+  }
+
+  @override
+  String get currentStation => 'Current Station';
+
+  @override
+  String get online => 'Online';
+
+  @override
+  String get offline => 'Offline';
+
+  @override
+  String get yourQueueTitle => 'Your Queue Position';
+
+  @override
+  String get waitingTime => 'Waiting Time';
+
+  @override
+  String get vehiclesAhead => 'Vehicles Ahead';
+
+  @override
+  String get queueTitle => 'Your queue position';
+
+  @override
+  String get nextInQueue => 'Next in queue';
+
+  @override
+  String get loadingPassengers => 'Loading passengers';
+
+  @override
+  String get inQueue => 'Waiting';
+
+  @override
+  String get yourTurnSoon => 'Your turn is قريب';
+
+  @override
+  String get you => 'You';
+
+  @override
+  String get todayEarnings => 'Today\'s Earnings';
+
+  @override
+  String get trips => 'Trips';
+
+  @override
+  String get viewAllTrips => 'View All Trips';
+
+  @override
+  String get tripHistory => 'Trip History';
+
+  @override
+  String get noTripsYet => 'No trips yet';
 }

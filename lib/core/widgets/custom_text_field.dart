@@ -28,7 +28,9 @@ class _CustomTextFieldState extends State<CustomTextField> {
 
   @override
   Widget build(BuildContext context) {
-    final isPasswordField = widget.labelText.contains(AppLocalizations.of(context)!.password);
+    final isPasswordField = widget.labelText.contains(
+      AppLocalizations.of(context)!.password,
+    );
 
     return TextFormField(
       controller: widget.controller,
@@ -44,7 +46,9 @@ class _CustomTextFieldState extends State<CustomTextField> {
             ? IconButton(
                 icon: Icon(
                   _obscureText ? Icons.visibility_off : Icons.visibility,
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  color: _obscureText
+                      ? Theme.of(context).colorScheme.onSurfaceVariant
+                      : Theme.of(context).colorScheme.primary,
                 ),
                 onPressed: () {
                   setState(() {

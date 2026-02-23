@@ -31,112 +31,95 @@ class DriverHomeCubit extends Cubit<DriverHomeState> {
     this.getTripHistoryUseCase,
     this.listenToQueueNotificationsUseCase,
   ) : super(DriverHomeInitial());
+  QueueItem? myPosition;
+  QueueResponse? queue;
+  Earning? earning;
 
   // ================= CURRENT POSITION =================
 
- Future<void> getCurrentPosition() async {
-  emit(GetCurrentPositionLoading());
+  Future<void> getCurrentPosition() async {
+    emit(GetCurrentPositionLoading());
 
-  if (AppConfig.useMockData) {
-    await Future.delayed(const Duration(milliseconds: 500));
+    if (AppConfig.useMockData) {
+      await Future.delayed(const Duration(milliseconds: 500));
+      myPosition = DriverHomeMockData.currentPosition;
+      emit(GetCurrentPositionSuccess(DriverHomeMockData.currentPosition));
+      return;
+    }
 
-    emit(
-      GetCurrentPositionSuccess(
-        DriverHomeMockData.currentPosition,
-      ),
+    final result = await getCurrentPositionUseCase();
+
+    result.fold(
+      (failure) => emit(GetCurrentPositionError(failure.message)),
+      (data) => emit(GetCurrentPositionSuccess(data)),
     );
-    return;
   }
-
-  final result = await getCurrentPositionUseCase();
-
-  result.fold(
-    (failure) => emit(GetCurrentPositionError(failure.message)),
-    (data) => emit(GetCurrentPositionSuccess(data)),
-  );
-}
-
 
   // ================= DAILY EARNINGS =================
 
- Future<void> getEstimatedDailyEarnings() async {
-  emit(GetDailyEarningsLoading());
+  Future<void> getEstimatedDailyEarnings() async {
+    emit(GetDailyEarningsLoading());
 
-  if (AppConfig.useMockData) {
-    await Future.delayed(const Duration(milliseconds: 500));
+    if (AppConfig.useMockData) {
+      await Future.delayed(const Duration(milliseconds: 500));
+      earning = DriverHomeMockData.earnings;
+      emit(GetDailyEarningsSuccess(DriverHomeMockData.earnings));
+      return;
+    }
 
-    emit(
-      GetDailyEarningsSuccess(
-        DriverHomeMockData.earnings,
-      ),
+    final result = await getEstimatedDailyEarningsUseCase();
+
+    result.fold(
+      (failure) => emit(GetDailyEarningsError(failure.message)),
+      (data) => emit(GetDailyEarningsSuccess(data)),
     );
-    return;
   }
-
-  final result = await getEstimatedDailyEarningsUseCase();
-
-  result.fold(
-    (failure) => emit(GetDailyEarningsError(failure.message)),
-    (data) => emit(GetDailyEarningsSuccess(data)),
-  );
-}
-
 
   // ================= STATION QUEUE =================
 
-Future<void> getStationQueue({
-  required String stationId,
-  required String routeId,
-}) async {
-  emit(GetStationQueueLoading());
+  Future<void> getStationQueue({
+    required String stationId,
+    required String routeId,
+  }) async {
+    emit(GetStationQueueLoading());
 
-  if (AppConfig.useMockData) {
-    await Future.delayed(const Duration(milliseconds: 500));
+    if (AppConfig.useMockData) {
+      await Future.delayed(const Duration(milliseconds: 500));
+      queue = DriverHomeMockData.stationQueue;
+      emit(GetStationQueueSuccess(DriverHomeMockData.stationQueue));
+      return;
+    }
 
-    emit(
-      GetStationQueueSuccess(
-        DriverHomeMockData.stationQueue,
-      ),
+    final result = await getStationQueueUseCase(
+      stationId: stationId,
+      routeId: routeId,
     );
-    return;
+
+    result.fold(
+      (failure) => emit(GetStationQueueError(failure.message)),
+      (data) => emit(GetStationQueueSuccess(data)),
+    );
   }
-
-  final result = await getStationQueueUseCase(
-    stationId: stationId,
-    routeId: routeId,
-  );
-
-  result.fold(
-    (failure) => emit(GetStationQueueError(failure.message)),
-    (data) => emit(GetStationQueueSuccess(data)),
-  );
-}
-
 
   // ================= TRIP HISTORY =================
 
- Future<void> getTripHistory() async {
-  emit(GetTripHistoryLoading());
+  Future<void> getTripHistory() async {
+    emit(GetTripHistoryLoading());
 
-  if (AppConfig.useMockData) {
-    await Future.delayed(const Duration(milliseconds: 500));
+    if (AppConfig.useMockData) {
+      await Future.delayed(const Duration(milliseconds: 500));
 
-    emit(
-      GetTripHistorySuccess(
-        DriverHomeMockData.tripHistory,
-      ),
+      emit(GetTripHistorySuccess(DriverHomeMockData.tripHistory));
+      return;
+    }
+
+    final result = await getTripHistoryUseCase();
+
+    result.fold(
+      (failure) => emit(GetTripHistoryError(failure.message)),
+      (data) => emit(GetTripHistorySuccess(data)),
     );
-    return;
   }
-
-  final result = await getTripHistoryUseCase();
-
-  result.fold(
-    (failure) => emit(GetTripHistoryError(failure.message)),
-    (data) => emit(GetTripHistorySuccess(data)),
-  );
-}
-
 
   // ================= QUEUE NOTIFICATIONS =================
 

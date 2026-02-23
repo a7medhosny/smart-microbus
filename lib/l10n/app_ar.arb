@@ -72,8 +72,29 @@
   "invalidPhone":"رقم هاتف غير صالح",
   "invalidPassword":"كلمة المرور يجب أن تحتوي على 8 أحرف على الأقل وتشمل حرفًا كبيرًا وحرفًا صغيرًا ورقمًا.",
   "licenseRequired": "من فضلك أدخل رقم رخصة القيادة",
-  "invalidLicense": "رقم رخصة القيادة غير صالح"
+  "invalidLicense": "رقم رخصة القيادة غير صالح",
+
+"helloDriver": "أهلاً {name}",
+"driverRoleVehicle": "السائق - مركبة {vehicle}",
+"vehicleNumber": "مركبة {number}",
+"currentStation": "المحطة الحالية",
+"online": "متصل",
+"offline": "غير متصل",
+"yourQueueTitle": "ترتيبك في الطابور",
+"waitingTime": "وقت الانتظار",
+"vehiclesAhead": "مركبات أمامك",
+"queueTitle": "ترتيبك في الطابور",
+"nextInQueue": "القادم في الطابور",
+"loadingPassengers": "تحميل الركاب",
+"inQueue": "في انتظار",
+"yourTurnSoon": "دورك القادم قريباً",
+"you": "أنت",
 
 
+  "todayEarnings": "أرباح اليوم",
+  "trips": "رحلة",
+  "viewAllTrips": "عرض جميع الرحلات",
+  "tripHistory": "سجل الرحلات",
+  "noTripsYet": "لا توجد رحلات حتى الآن"
 
 }

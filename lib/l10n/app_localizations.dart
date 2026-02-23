@@ -412,6 +412,126 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Invalid driving license number'**
   String get invalidLicense;
+
+  /// No description provided for @helloDriver.
+  ///
+  /// In en, this message translates to:
+  /// **'Hello {name}'**
+  String helloDriver(Object name);
+
+  /// No description provided for @driverRoleVehicle.
+  ///
+  /// In en, this message translates to:
+  /// **'Driver - Vehicle {vehicle}'**
+  String driverRoleVehicle(Object vehicle);
+
+  /// No description provided for @vehicleNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Vehicle {number}'**
+  String vehicleNumber(Object number);
+
+  /// No description provided for @currentStation.
+  ///
+  /// In en, this message translates to:
+  /// **'Current Station'**
+  String get currentStation;
+
+  /// No description provided for @online.
+  ///
+  /// In en, this message translates to:
+  /// **'Online'**
+  String get online;
+
+  /// No description provided for @offline.
+  ///
+  /// In en, this message translates to:
+  /// **'Offline'**
+  String get offline;
+
+  /// No description provided for @yourQueueTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Queue Position'**
+  String get yourQueueTitle;
+
+  /// No description provided for @waitingTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting Time'**
+  String get waitingTime;
+
+  /// No description provided for @vehiclesAhead.
+  ///
+  /// In en, this message translates to:
+  /// **'Vehicles Ahead'**
+  String get vehiclesAhead;
+
+  /// No description provided for @queueTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your queue position'**
+  String get queueTitle;
+
+  /// No description provided for @nextInQueue.
+  ///
+  /// In en, this message translates to:
+  /// **'Next in queue'**
+  String get nextInQueue;
+
+  /// No description provided for @loadingPassengers.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading passengers'**
+  String get loadingPassengers;
+
+  /// No description provided for @inQueue.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting'**
+  String get inQueue;
+
+  /// No description provided for @yourTurnSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Your turn is قريب'**
+  String get yourTurnSoon;
+
+  /// No description provided for @you.
+  ///
+  /// In en, this message translates to:
+  /// **'You'**
+  String get you;
+
+  /// No description provided for @todayEarnings.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s Earnings'**
+  String get todayEarnings;
+
+  /// No description provided for @trips.
+  ///
+  /// In en, this message translates to:
+  /// **'Trips'**
+  String get trips;
+
+  /// No description provided for @viewAllTrips.
+  ///
+  /// In en, this message translates to:
+  /// **'View All Trips'**
+  String get viewAllTrips;
+
+  /// No description provided for @tripHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'Trip History'**
+  String get tripHistory;
+
+  /// No description provided for @noTripsYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No trips yet'**
+  String get noTripsYet;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
