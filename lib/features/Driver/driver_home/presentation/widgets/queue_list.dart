@@ -20,9 +20,11 @@ class QueueListSection extends StatelessWidget {
         final myPos = cubit.myPosition;
 
         if (queue == null || myPos == null) {
+          print("Queue or My Position is null - Queue: ${queue == null}, My Position: ${myPos == null}");
           return const SizedBox();
         }
 
+print("Queue length: ${queue.length}");
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -38,9 +40,9 @@ class QueueListSection extends StatelessWidget {
               child: ListView.builder(
                 shrinkWrap: true,
 
-                itemCount: queue.items.length,
+                itemCount: queue.length,
                 itemBuilder: (context, index) {
-                  final item = queue.items[index];
+                  final item = queue[index];
                   final isMe = item.driverId == myPos.driverId;
 
                   return Column(
@@ -51,7 +53,7 @@ class QueueListSection extends StatelessWidget {
                         status: item.status,
                         isMe: isMe,
                       ),
-                      if (index != queue.items.length - 1)
+                      if (index != queue.length - 1)
                         Divider(height: 1, color: theme.dividerColor),
                     ],
                   );

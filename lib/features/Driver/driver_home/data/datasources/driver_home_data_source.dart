@@ -5,10 +5,17 @@ import '../models/trip_history_response_model.dart';
 
 abstract class DriverHomeDataSource {
   Future<QueueItemModel> getCurrentPosition();
-  Future<QueueResponseModel> getStationQueue({
-    required String stationId,
-    required String routeId,
+   Future<List<QueueItemModel>> getStationQueue({
+    required String driverId,
+    // required String stationId,
+    // required String routeId,
   });
   Future<TripHistoryResponseModel> getTripHistory();
   Future<EarningModel> getEstimatedDailyEarnings();
+  Future<void> startTrip({
+    required String driverId,
+  });
+  Future<void> endTrip({
+    required String driverId,
+  });
 }

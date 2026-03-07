@@ -31,7 +31,7 @@ class _DriverHomeApiService implements DriverHomeApiService {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/driver/current-position',
+            '/driver/get-current-postion',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -49,28 +49,31 @@ class _DriverHomeApiService implements DriverHomeApiService {
   }
 
   @override
-  Future<QueueResponseModel> getStationQueue({
-    required String stationId,
-    required String routeId,
+  Future<List<QueueItemModel>> getStationQueue({
+    required String driverId,
   }) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'driverId': driverId};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<QueueResponseModel>(
+    final _options = _setStreamType<List<QueueItemModel>>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/driver/station-queue',
+            '/driver/get-driver-queue',
             queryParameters: queryParameters,
             data: _data,
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
-    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late QueueResponseModel _value;
+    final _result = await _dio.fetch<List<dynamic>>(_options);
+    late List<QueueItemModel> _value;
     try {
-      _value = QueueResponseModel.fromJson(_result.data!);
+      _value = _result.data!
+          .map(
+            (dynamic i) => QueueItemModel.fromJson(i as Map<String, dynamic>),
+          )
+          .toList();
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
@@ -130,6 +133,44 @@ class _DriverHomeApiService implements DriverHomeApiService {
       rethrow;
     }
     return _value;
+  }
+
+  @override
+  Future<void> startTrip({required String driverId}) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'driverId': driverId};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<void>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/driver/start-trip',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    await _dio.fetch<void>(_options);
+  }
+
+  @override
+  Future<void> endTrip({required String driverId}) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'driverId': driverId};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<void>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/driver/end-trip',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    await _dio.fetch<void>(_options);
   }
 
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {

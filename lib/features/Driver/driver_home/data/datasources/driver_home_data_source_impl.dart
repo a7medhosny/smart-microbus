@@ -21,15 +21,28 @@ class DriverHomeDataSourceImpl implements DriverHomeDataSource {
   }
 
   @override
-  Future<QueueResponseModel> getStationQueue({
-    required String stationId,
-    required String routeId,
+  Future<List<QueueItemModel>> getStationQueue({
+    required String driverId,
+    // required String stationId,
+    // required String routeId,
   }) {
-    return apiService.getStationQueue(stationId: stationId, routeId: routeId);
+    return apiService.getStationQueue(driverId: driverId);
   }
 
   @override
   Future<TripHistoryResponseModel> getTripHistory() {
     return apiService.getTripHistory();
   }
+
+  @override
+  Future<void> startTrip({required String driverId}) {
+    return apiService.startTrip(driverId: driverId);
+  }
+
+  @override
+  Future<void> endTrip({required String driverId}) {
+    return apiService.endTrip(driverId: driverId);
+  }
+
+  
 }

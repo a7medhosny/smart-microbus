@@ -69,7 +69,7 @@ final class GetDailyEarningsError extends DriverHomeState {
 final class GetStationQueueLoading extends DriverHomeState {}
 
 final class GetStationQueueSuccess extends DriverHomeState {
-  final QueueResponse queue;
+  final List<QueueItem> queue;
 
   const GetStationQueueSuccess(this.queue);
 
@@ -118,19 +118,55 @@ final class GetTripHistoryError extends DriverHomeState {
 
 final class ListenQueueNotificationsLoading extends DriverHomeState {}
 
-final class ListenQueueNotificationsSuccess extends DriverHomeState {
-  final QueueEvent event;
-
-  const ListenQueueNotificationsSuccess(this.event);
-
-  @override
-  List<Object?> get props => [event];
-}
-
 final class ListenQueueNotificationsError extends DriverHomeState {
   final String message;
 
   const ListenQueueNotificationsError(this.message);
+
+  @override
+  List<Object?> get props => [message];
+}
+
+class QueueRealtimeUpdated extends DriverHomeState {
+  final List<QueueItem> queue;
+
+  const QueueRealtimeUpdated(this.queue);
+
+  @override
+  List<Object?> get props => [queue];
+}
+
+
+// =====================================================
+// ================= START TRIP =========================
+// =====================================================
+
+final class StartTripLoading extends DriverHomeState {}
+
+final class StartTripSuccess extends DriverHomeState {}
+
+final class StartTripError extends DriverHomeState {
+  final String message;
+
+  const StartTripError(this.message);
+
+  @override
+  List<Object?> get props => [message];
+}
+
+
+// =====================================================
+// ================== END TRIP ==========================
+// =====================================================
+
+final class EndTripLoading extends DriverHomeState {}
+
+final class EndTripSuccess extends DriverHomeState {}
+
+final class EndTripError extends DriverHomeState {
+  final String message;
+
+  const EndTripError(this.message);
 
   @override
   List<Object?> get props => [message];

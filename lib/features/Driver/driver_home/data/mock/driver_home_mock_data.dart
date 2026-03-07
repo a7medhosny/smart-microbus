@@ -25,7 +25,8 @@ class DriverHomeMockData {
     driverId: "driver_3",
     position: 3,
     status: "Waiting",
-    joinedAt: DateTime.now().subtract(const Duration(minutes: 25)),
+    driversBefore: 2,
+    totalDrivers: 5,
   );
 
   // ================= STATION QUEUE =================
@@ -41,7 +42,8 @@ class DriverHomeMockData {
         driverId: "driver_$index",
         position: index + 1,
         status: index == 0 ? "Loading" : "Waiting",
-        joinedAt: DateTime.now().subtract(Duration(minutes: index * 7)),
+        driversBefore: 0,
+        totalDrivers:  1,
       ),
     ),
   );

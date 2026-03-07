@@ -16,12 +16,24 @@ abstract class DriverHomeApiService {
   @GET(ApiConstants.currentPosition)
   Future<QueueItemModel> getCurrentPosition();
   @GET(ApiConstants.stationQueue)
-  Future<QueueResponseModel> getStationQueue({
-    @Path('stationId') required String stationId,
-    @Path('routeId') required String routeId,
+  Future<List<QueueItemModel>> getStationQueue({
+    // @Path('stationId') required String stationId,
+    // @Path('routeId') required String routeId,
+    @Query('driverId') required String driverId,
   });
   @GET(ApiConstants.tripHistory)
   Future<TripHistoryResponseModel> getTripHistory();
   @GET(ApiConstants.estmstimatedEarnings)
   Future<EarningModel> getEstimatedDailyEarnings();
+
+  @POST(ApiConstants.startTrip)
+  Future<void> startTrip({
+    @Query('driverId') required String driverId,
+  });
+
+  @POST(ApiConstants.endTrip)
+  Future<void> endTrip({
+    @Query('driverId') required String driverId,
+  });
+
 }

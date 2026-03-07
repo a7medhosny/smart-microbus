@@ -1,12 +1,16 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:smart_microbus/core/networking/dio_factory.dart';
+import 'package:smart_microbus/features/Driver/driver_home/data/datasources/queue_signalr_datasource.dart';
 import 'package:smart_microbus/features/Driver/driver_home/data/repository/driver_home_repository_impl.dart';
+import 'package:smart_microbus/features/Driver/driver_home/domain/usecases/connect_queue.dart';
+import 'package:smart_microbus/features/Driver/driver_home/domain/usecases/end_trip_use_case.dart';
 import 'package:smart_microbus/features/Driver/driver_home/domain/usecases/get_current_position_use_case.dart';
 import 'package:smart_microbus/features/Driver/driver_home/domain/usecases/get_estimated_daily_earnings_use_case.dart';
 import 'package:smart_microbus/features/Driver/driver_home/domain/usecases/get_station_queue_use_case.dart';
 import 'package:smart_microbus/features/Driver/driver_home/domain/usecases/get_trip_history_use_case.dart';
 import 'package:smart_microbus/features/Driver/driver_home/domain/usecases/listen_to_queue_notifications_use_case.dart';
+import 'package:smart_microbus/features/Driver/driver_home/domain/usecases/start_trip_use_case.dart';
 import 'package:smart_microbus/features/Driver/driver_home/presentation/cubit/driver_home_cubit.dart';
 import 'package:smart_microbus/features/register/data/datasource/register_api_service.dart';
 import 'package:smart_microbus/features/register/data/datasource/register_remote_data_source.dart';
@@ -28,6 +32,7 @@ import '../../features/Driver/driver_home/data/datasources/driver_home_api_servi
 import '../../features/Driver/driver_home/data/datasources/driver_home_data_source.dart';
 import '../../features/Driver/driver_home/data/datasources/driver_home_data_source_impl.dart'
     show DriverHomeDataSourceImpl;
+import '../../features/Driver/driver_home/data/datasources/queue_signalr_datasource_impl.dart';
 import '../../features/Driver/driver_home/domain/repository/driver_home_repository.dart'
     show DriverHomeRepository;
 import '../../features/register/data/repositoies/register_repository_impl.dart';
@@ -161,11 +166,14 @@ void _driverDependencies() {
   getIt.registerLazySingleton<DriverHomeDataSource>(
     () => DriverHomeDataSourceImpl(getIt<DriverHomeApiService>()),
   );
+  getIt.registerLazySingleton<QueueSignalRDataSource>(
+    () => QueueSignalRDataSourceImpl(),
+  );
 
   // ================= REPOSITORY =================
 
   getIt.registerLazySingleton<DriverHomeRepository>(
-    () => DriverHomeRepositoryImpl(getIt<DriverHomeDataSource>()),
+    () => DriverHomeRepositoryImpl(getIt<DriverHomeDataSource>(), getIt<QueueSignalRDataSource>()),
   );
 
   // ================= USE CASES =================
@@ -187,6 +195,17 @@ void _driverDependencies() {
     () => GetEstimatedDailyEarningsUseCase(getIt<DriverHomeRepository>()),
   );
 
+  getIt.registerLazySingleton<ConnectQueue>(
+    () => ConnectQueue(getIt<DriverHomeRepository>()),
+  );
+  getIt.registerLazySingleton<StartTripUseCase>(
+    () => StartTripUseCase(getIt<DriverHomeRepository>()),
+  );
+  getIt.registerLazySingleton<EndTripUseCase>(
+    () => EndTripUseCase(getIt<DriverHomeRepository>()),
+  );
+
+
   // ================= CUBIT =================
 
   getIt.registerFactory<DriverHomeCubit>(
@@ -196,6 +215,11 @@ void _driverDependencies() {
       getIt<GetStationQueueUseCase>(),
       getIt<GetTripHistoryUseCase>(),
       getIt<ListenToQueueNotificationsUseCase>(),
+      getIt<ConnectQueue>(),
+      getIt<StartTripUseCase>(),
+      getIt<EndTripUseCase>(),
     ),
   );
+  
+
 }

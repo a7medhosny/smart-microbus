@@ -22,7 +22,7 @@ class QueueStatusSection extends StatelessWidget {
 
         if (pos != null) {
           vehiclesAhead = pos.position - 1;
-          waitingMinutes = DateTime.now().difference(pos.joinedAt).inMinutes;
+          // waitingMinutes = DateTime.now().difference(pos.joinedAt).inMinutes;
         }
 
         return Column(

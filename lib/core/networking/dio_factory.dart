@@ -26,10 +26,10 @@ class DioFactory {
         ..options.receiveTimeout = const Duration(seconds: 30);
 
       _dio!.interceptors.add(_addLanguageHeader());
-      _dio!.interceptors.add(_loggerInterceptor());
+      // _dio!.interceptors.add(_loggerInterceptor());
       _dio!.interceptors.add(_addAPIKey());
       addAuthInterceptor();
-      addDioInterceptor();
+      // addDioInterceptor();
     }
     return _dio!;
   }

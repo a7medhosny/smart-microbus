@@ -55,9 +55,9 @@ class HeaderCard extends StatelessWidget {
                     if (cubit.queue == null) {
                       return const SizedBox();
                     }
-
+//TODO: Change this to show the actual station name instead of status
                     return Text(
-                      "${l10n.currentStation}: ${cubit.queue!.stationId}",
+                      "${l10n.currentStation}: ${cubit.queue!.first.status}",
                       style: theme.textTheme.bodyMedium?.copyWith(
                         color: Colors.white70,
                       ),

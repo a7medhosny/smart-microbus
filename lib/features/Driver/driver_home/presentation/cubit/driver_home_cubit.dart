@@ -1,19 +1,26 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:smart_microbus/features/Driver/driver_home/domain/usecases/start_trip_use_case.dart';
 
+import '../../../../../core/auth/token_helper.dart';
+import '../../../../../core/auth/token_manager.dart';
 import '../../../../../core/config/app_config.dart';
 import '../../data/mock/driver_home_mock_data.dart';
+
 import '../../domain/entities/earning.dart';
-import '../../domain/entities/queue.dart';
 import '../../domain/entities/queue_event.dart';
 import '../../domain/entities/queue_item.dart';
 import '../../domain/entities/trip_history_response.dart';
 
+import '../../domain/usecases/end_trip_use_case.dart';
 import '../../domain/usecases/get_current_position_use_case.dart';
 import '../../domain/usecases/get_estimated_daily_earnings_use_case.dart';
 import '../../domain/usecases/get_station_queue_use_case.dart';
 import '../../domain/usecases/get_trip_history_use_case.dart';
 import '../../domain/usecases/listen_to_queue_notifications_use_case.dart';
+import '../../domain/usecases/connect_queue.dart';
 
 part 'driver_home_state.dart';
 
@@ -23,6 +30,9 @@ class DriverHomeCubit extends Cubit<DriverHomeState> {
   final GetStationQueueUseCase getStationQueueUseCase;
   final GetTripHistoryUseCase getTripHistoryUseCase;
   final ListenToQueueNotificationsUseCase listenToQueueNotificationsUseCase;
+  final ConnectQueue connectQueue;
+  final StartTripUseCase startTripUseCase;
+  final EndTripUseCase endTripUseCase;
 
   DriverHomeCubit(
     this.getCurrentPositionUseCase,
@@ -30,30 +40,39 @@ class DriverHomeCubit extends Cubit<DriverHomeState> {
     this.getStationQueueUseCase,
     this.getTripHistoryUseCase,
     this.listenToQueueNotificationsUseCase,
+    this.connectQueue,
+    this.startTripUseCase,
+    this.endTripUseCase,
   ) : super(DriverHomeInitial());
+
   QueueItem? myPosition;
-  QueueResponse? queue;
+  List<QueueItem>? queue;
   Earning? earning;
+
+  StreamSubscription? _queueSubscription;
 
   // ================= CURRENT POSITION =================
 
-  Future<void> getCurrentPosition() async {
-    emit(GetCurrentPositionLoading());
+Future<void> getCurrentPosition() async {
+  emit(GetCurrentPositionLoading());
 
-    if (AppConfig.useMockData) {
-      await Future.delayed(const Duration(milliseconds: 500));
-      myPosition = DriverHomeMockData.currentPosition;
-      emit(GetCurrentPositionSuccess(DriverHomeMockData.currentPosition));
-      return;
-    }
+  final result = await getCurrentPositionUseCase();
 
-    final result = await getCurrentPositionUseCase();
+  result.fold(
+    (failure) => emit(GetCurrentPositionError(failure.message)),
+    (data) async {
+      myPosition = data;
 
-    result.fold(
-      (failure) => emit(GetCurrentPositionError(failure.message)),
-      (data) => emit(GetCurrentPositionSuccess(data)),
-    );
-  }
+      emit(GetCurrentPositionSuccess(data));
+
+      /// استدعاء الكيو بعد ما نعرف ال queueId
+      await getStationQueue(
+        driverId: TokenHelper.extractUserId(TokenManager.token ?? '') ?? '',
+        queueId: data.queueId,
+      );
+    },
+  );
+}
 
   // ================= DAILY EARNINGS =================
 
@@ -78,40 +97,77 @@ class DriverHomeCubit extends Cubit<DriverHomeState> {
   // ================= STATION QUEUE =================
 
   Future<void> getStationQueue({
-    required String stationId,
-    required String routeId,
+    required String driverId,
+    required String queueId,
   }) async {
     emit(GetStationQueueLoading());
 
-    if (AppConfig.useMockData) {
-      await Future.delayed(const Duration(milliseconds: 500));
-      queue = DriverHomeMockData.stationQueue;
-      emit(GetStationQueueSuccess(DriverHomeMockData.stationQueue));
-      return;
-    }
-
-    final result = await getStationQueueUseCase(
-      stationId: stationId,
-      routeId: routeId,
-    );
+    final result = await getStationQueueUseCase(driverId: driverId);
 
     result.fold(
       (failure) => emit(GetStationQueueError(failure.message)),
-      (data) => emit(GetStationQueueSuccess(data)),
+      (data) async {
+        queue = data;
+
+        emit(GetStationQueueSuccess(data));
+
+        /// تشغيل realtime
+        await listenToQueueNotifications(queueId);
+      },
     );
+  }
+
+  // ================= REALTIME QUEUE =================
+
+  Future<void> listenToQueueNotifications(String queueId) async {
+    emit(ListenQueueNotificationsLoading());
+
+    /// الاتصال بالـ SignalR
+    final result = await connectQueue(queueId);
+
+    result.fold(
+      (failure) {
+        emit(ListenQueueNotificationsError(failure.message));
+        return;
+      },
+      (_) {},
+    );
+
+    await _queueSubscription?.cancel();
+
+    _queueSubscription = listenToQueueNotificationsUseCase().listen(
+      (event) {
+        _handleQueueEvent(event);
+      },
+      onError: (error) {
+        emit(ListenQueueNotificationsError(error.toString()));
+      },
+    );
+  }
+
+  // ================= HANDLE EVENTS =================
+
+  void _handleQueueEvent(QueueEvent event) {
+    if (queue == null) return;
+
+    if (event is DriverAddedEvent) {
+      queue = [
+        ...queue!.where((d) => d.driverId != event.driver.driverId),
+        event.driver
+      ];
+    }
+
+    if (event is DriverRemovedEvent) {
+      queue = queue!.where((d) => d.driverId != event.driverId).toList();
+    }
+
+    emit(QueueRealtimeUpdated(queue!));
   }
 
   // ================= TRIP HISTORY =================
 
   Future<void> getTripHistory() async {
     emit(GetTripHistoryLoading());
-
-    if (AppConfig.useMockData) {
-      await Future.delayed(const Duration(milliseconds: 500));
-
-      emit(GetTripHistorySuccess(DriverHomeMockData.tripHistory));
-      return;
-    }
 
     final result = await getTripHistoryUseCase();
 
@@ -121,16 +177,37 @@ class DriverHomeCubit extends Cubit<DriverHomeState> {
     );
   }
 
-  // ================= QUEUE NOTIFICATIONS =================
+  // ================= START TRIP =================
 
-  Future<void> listenToQueueNotifications() async {
-    emit(ListenQueueNotificationsLoading());
+  Future<void> startTrip({required String driverId}) async {
+    emit(StartTripLoading());
 
-    final result = await listenToQueueNotificationsUseCase();
+    final result = await startTripUseCase(driverId: driverId);
 
     result.fold(
-      (failure) => emit(ListenQueueNotificationsError(failure.message)),
-      (event) => emit(ListenQueueNotificationsSuccess(event)),
+      (failure) => emit(StartTripError(failure.message)),
+      (_) => emit(StartTripSuccess()),
     );
+  }
+
+  // ================= END TRIP =================
+
+  Future<void> endTrip({required String driverId}) async {
+    emit(EndTripLoading());
+
+    final result = await endTripUseCase(driverId: driverId);
+
+    result.fold(
+      (failure) => emit(EndTripError(failure.message)),
+      (_) => emit(EndTripSuccess()),
+    );
+  }
+
+  // ================= CLOSE =================
+
+  @override
+  Future<void> close() async {
+    await _queueSubscription?.cancel();
+    return super.close();
   }
 }

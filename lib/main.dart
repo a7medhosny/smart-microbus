@@ -10,6 +10,7 @@ import 'package:smart_microbus/core/services/noification_servises.dart';
 import 'package:smart_microbus/features/register/presentation/cubit/register_cubit.dart';
 import 'package:smart_microbus/l10n/app_localizations.dart';
 
+import 'core/auth/token_manager.dart';
 import 'core/di/dependency_injection.dart';
 import 'core/localization/locale_cubit.dart';
 import 'core/localization/locale_state.dart';
@@ -34,7 +35,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appRouter = AppRouter();
-
+final bool isLoggedIn = TokenManager.token != null; // Check if token exists to determine login state
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => getIt<LocaleCubit>()),
@@ -55,7 +56,7 @@ class MyApp extends StatelessWidget {
                     debugShowCheckedModeBanner: false,
                     navigatorKey: navigatorKey,
                     onGenerateRoute: appRouter.onGenerateRoute,
-                    initialRoute: Routes.initial,
+                    initialRoute: isLoggedIn ? Routes.driverHome : Routes.initial, // Set initial route based on login state
 
                     // ================= Localization =================
                     locale: localeState.locale,

@@ -80,14 +80,17 @@ class AppRouter {
         }
       // ================= Driver home =================
       case Routes.driverHome:
-        final args = settings.arguments as Map<String, dynamic>;
-        final String userName = args[CacheKeys.userName];
-        return _materialRoute(
-          BlocProvider(
-            create: (context) => getIt<DriverHomeCubit>(),
-            child: DriverHomeView(userName: userName),
-          ),
-        );
+  final args = settings.arguments as Map<String, dynamic>?;
+
+  final String userName =
+      args?[CacheKeys.userName] ?? "احمد حسني";
+
+  return _materialRoute(
+    BlocProvider(
+      create: (context) => getIt<DriverHomeCubit>(),
+      child: DriverHomeView(userName: userName),
+    ),
+  );
       case Routes.driverTripHistory:
         return _materialRoute(
           BlocProvider(
