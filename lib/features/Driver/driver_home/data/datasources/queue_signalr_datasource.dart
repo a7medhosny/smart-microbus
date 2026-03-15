@@ -1,4 +1,3 @@
-import 'package:smart_microbus/features/Driver/driver_home/data/models/driver_model.dart';
 
 import '../../domain/entities/queue_event.dart';
 

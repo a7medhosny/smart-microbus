@@ -40,7 +40,7 @@ extension QueueItemMapper on QueueItemModel {
       queueId: queueId ?? '',
       driverId: driverId ?? '',
       driverName: driverName,
-      position: position ?? 0,
+      position: position,
       status: status ?? '',
       driversBefore: driversBefore ?? 0,
       totalDrivers: totalDrivers ?? 0,

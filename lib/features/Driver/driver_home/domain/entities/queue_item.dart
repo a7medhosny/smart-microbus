@@ -2,7 +2,7 @@ class QueueItem {
   final String queueId;
   final String driverId;
   final String? driverName;
-  final int position;
+  final int? position;
   final String status;
   final int driversBefore;
   final int totalDrivers;

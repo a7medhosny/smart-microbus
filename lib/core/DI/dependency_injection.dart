@@ -173,7 +173,10 @@ void _driverDependencies() {
   // ================= REPOSITORY =================
 
   getIt.registerLazySingleton<DriverHomeRepository>(
-    () => DriverHomeRepositoryImpl(getIt<DriverHomeDataSource>(), getIt<QueueSignalRDataSource>()),
+    () => DriverHomeRepositoryImpl(
+      getIt<DriverHomeDataSource>(),
+      getIt<QueueSignalRDataSource>(),
+    ),
   );
 
   // ================= USE CASES =================
@@ -205,10 +208,9 @@ void _driverDependencies() {
     () => EndTripUseCase(getIt<DriverHomeRepository>()),
   );
 
-
   // ================= CUBIT =================
 
-  getIt.registerFactory<DriverHomeCubit>(
+  getIt.registerLazySingleton<DriverHomeCubit>(
     () => DriverHomeCubit(
       getIt<GetCurrentPositionUsecase>(),
       getIt<GetEstimatedDailyEarningsUseCase>(),
@@ -220,6 +222,4 @@ void _driverDependencies() {
       getIt<EndTripUseCase>(),
     ),
   );
-  
-
 }

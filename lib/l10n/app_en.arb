@@ -96,10 +96,21 @@
   "trips": "Trips",
   "viewAllTrips": "View All Trips",
   "tripHistory": "Trip History",
-  "noTripsYet": "No trips yet"
-
-
-
-
-
+  "noTripsYet": "No trips yet",
+  "loading": "Loading...",
+  "notInQueue": "Not in queue",
+  "driverNotInQueueTitle": "You are not currently in the queue",
+  "driverNotInQueueDescription": "Please ask the admin to scan your QR code to join the queue and start working.",
+  "tripsHistory": "Trip History",
+  "egp": "EGP",
+   "completed": "Completed",
+   "noTripsTitle": "No trips found",
+  "noTripsDescription": "There are no trips for the selected period. Try changing the date range."
 }
+  
+
+
+
+
+
+

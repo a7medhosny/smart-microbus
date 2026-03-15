@@ -82,16 +82,27 @@ class _DriverHomeApiService implements DriverHomeApiService {
   }
 
   @override
-  Future<TripHistoryResponseModel> getTripHistory() async {
+  Future<TripHistoryResponseModel> getTripHistory({
+    String? fromDate,
+    String? toDate,
+    int? pageSize,
+    int? pageNumber,
+  }) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'FromDate': fromDate,
+      r'ToDate': toDate,
+      r'PageSize': pageSize,
+      r'PageNumber': pageNumber,
+    };
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<TripHistoryResponseModel>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/driver/trip-history',
+            '/driver/history',
             queryParameters: queryParameters,
             data: _data,
           )

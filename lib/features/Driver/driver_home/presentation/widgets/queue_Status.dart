@@ -21,7 +21,7 @@ class QueueStatusSection extends StatelessWidget {
         int waitingMinutes = 0;
 
         if (pos != null) {
-          vehiclesAhead = pos.position - 1;
+          vehiclesAhead = pos.position ?? 0 - 1;
           // waitingMinutes = DateTime.now().difference(pos.joinedAt).inMinutes;
         }
 

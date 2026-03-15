@@ -7,17 +7,23 @@ part of 'trip_model.dart';
 // **************************************************************************
 
 TripModel _$TripModelFromJson(Map<String, dynamic> json) => TripModel(
-  id: json['id'] as String,
-  driverId: json['driverId'] as String,
-  routeId: json['routeId'] as String,
+  amount: (json['amount'] as num).toDouble(),
+  routeFrom: json['routeFrom'] as String,
+  routeTo: json['routeTo'] as String,
   startedAt: DateTime.parse(json['startedAt'] as String),
-  status: json['status'] as String,
+  endedAt: DateTime.parse(json['endedAt'] as String),
+  passengerCount: (json['passengerCount'] as num).toInt(),
+  distance: (json['distance'] as num).toDouble(),
+  status: (json['status'] as num).toInt(),
 );
 
 Map<String, dynamic> _$TripModelToJson(TripModel instance) => <String, dynamic>{
-  'id': instance.id,
-  'driverId': instance.driverId,
-  'routeId': instance.routeId,
+  'amount': instance.amount,
+  'routeFrom': instance.routeFrom,
+  'routeTo': instance.routeTo,
   'startedAt': instance.startedAt.toIso8601String(),
+  'endedAt': instance.endedAt.toIso8601String(),
+  'passengerCount': instance.passengerCount,
+  'distance': instance.distance,
   'status': instance.status,
 };

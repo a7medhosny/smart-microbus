@@ -95,6 +95,17 @@
   "trips": "رحلة",
   "viewAllTrips": "عرض جميع الرحلات",
   "tripHistory": "سجل الرحلات",
-  "noTripsYet": "لا توجد رحلات حتى الآن"
+  "noTripsYet": "لا توجد رحلات حتى الآن",
+   "notInQueue": "غير موجود في الكيو حالياً", 
+   "loading": "جاري التحميل...",
+   
+  "driverNotInQueueTitle": "أنت غير موجود في الطابور حالياً",
+  "driverNotInQueueDescription": "يرجى عمل مسح (QR) عند المسؤول للانضمام إلى الطابور وبدء العمل.",
+  "tripsHistory": "سجل الرحلات",
+  "egp": "ج.م",
+   "completed": "مكتملة",
+    "noTripsTitle": "لا توجد رحلات",
+  "noTripsDescription": "لا توجد رحلات في الفترة المحددة. حاول تغيير نطاق التاريخ."
+
 
 }

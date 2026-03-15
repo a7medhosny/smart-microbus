@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smart_microbus/core/helpers/extensions.dart';
 import 'package:smart_microbus/core/helpers/spacing.dart';
+import 'package:smart_microbus/core/routing/routes.dart';
 import 'package:smart_microbus/features/Driver/driver_home/presentation/cubit/driver_home_cubit.dart';
 import 'package:smart_microbus/l10n/app_localizations.dart';
 
@@ -21,7 +23,7 @@ class EarningsSummarySection extends StatelessWidget {
 
         return GestureDetector(
           onTap: () {
-            // Navigator.pushNamed(context, "/driverHistory");
+            context.pushNamed(Routes.driverTripHistory);
           },
           child: Container(
             margin: const EdgeInsets.symmetric(vertical: 16),

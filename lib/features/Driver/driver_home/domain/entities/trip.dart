@@ -1,20 +1,21 @@
-
-
 class Trip {
-  final String id;
-  final String driverId;
-  final String routeId;
+  final double amount;
+  final String routeFrom;
+  final String routeTo;
   final DateTime startedAt;
-  final DateTime? endedAt;
+  final DateTime endedAt;
+  final int passengerCount;
+  final double distance;
   final String status;
 
-  const Trip({
-    required this.id,
-    required this.driverId,
-    required this.routeId,
+  Trip({
+    required this.amount,
+    required this.routeFrom,
+    required this.routeTo,
     required this.startedAt,
-    this.endedAt,
+    required this.endedAt,
+    required this.passengerCount,
+    required this.distance,
     required this.status,
   });
-
 }

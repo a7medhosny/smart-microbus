@@ -28,8 +28,16 @@ class DioFactory {
       _dio!.interceptors.add(_addLanguageHeader());
       // _dio!.interceptors.add(_loggerInterceptor());
       _dio!.interceptors.add(_addAPIKey());
+
       addAuthInterceptor();
       // addDioInterceptor();
+      _dio!.interceptors.add(
+        PrettyDioLogger(
+          requestBody: true,
+          requestHeader: true,
+          responseHeader: true,
+        ),
+      );
     }
     return _dio!;
   }

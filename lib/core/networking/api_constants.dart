@@ -41,11 +41,11 @@ class ApiConstants {
 
   //driver end points
 
- static const String currentPosition = '/driver/get-current-postion';
+  static const String currentPosition = '/driver/get-current-postion';
   static const String stationQueue = '/driver/get-driver-queue';
-  static const String tripHistory = '/driver/trip-history';
+
+  static const String tripHistory = '/driver/history';
   static const String estmstimatedEarnings = '/driver/estimated-earnings';
   static const String startTrip = '/driver/start-trip';
   static const String endTrip = '/driver/end-trip';
-
 }

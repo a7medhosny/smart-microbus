@@ -532,6 +532,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No trips yet'**
   String get noTripsYet;
+
+  /// No description provided for @loading.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading...'**
+  String get loading;
+
+  /// No description provided for @notInQueue.
+  ///
+  /// In en, this message translates to:
+  /// **'Not in queue'**
+  String get notInQueue;
+
+  /// No description provided for @driverNotInQueueTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You are not currently in the queue'**
+  String get driverNotInQueueTitle;
+
+  /// No description provided for @driverNotInQueueDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Please ask the admin to scan your QR code to join the queue and start working.'**
+  String get driverNotInQueueDescription;
+
+  /// No description provided for @tripsHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'Trip History'**
+  String get tripsHistory;
+
+  /// No description provided for @egp.
+  ///
+  /// In en, this message translates to:
+  /// **'EGP'**
+  String get egp;
+
+  /// No description provided for @completed.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get completed;
+
+  /// No description provided for @noTripsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No trips found'**
+  String get noTripsTitle;
+
+  /// No description provided for @noTripsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'There are no trips for the selected period. Try changing the date range.'**
+  String get noTripsDescription;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

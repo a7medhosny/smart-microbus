@@ -12,9 +12,7 @@ TripHistoryResponseModel _$TripHistoryResponseModelFromJson(
   pageNumber: (json['pageNumber'] as num).toInt(),
   pageSize: (json['pageSize'] as num).toInt(),
   totalCount: (json['totalCount'] as num).toInt(),
-  data: (json['data'] as List<dynamic>)
-      .map((e) => TripModel.fromJson(e as Map<String, dynamic>))
-      .toList(),
+  data: TripHistoryDataModel.fromJson(json['data'] as Map<String, dynamic>),
 );
 
 Map<String, dynamic> _$TripHistoryResponseModelToJson(
@@ -23,5 +21,5 @@ Map<String, dynamic> _$TripHistoryResponseModelToJson(
   'pageNumber': instance.pageNumber,
   'pageSize': instance.pageSize,
   'totalCount': instance.totalCount,
-  'data': instance.data.map((e) => e.toJson()).toList(),
+  'data': instance.data.toJson(),
 };

@@ -232,4 +232,31 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noTripsYet => 'No trips yet';
+
+  @override
+  String get loading => 'Loading...';
+
+  @override
+  String get notInQueue => 'Not in queue';
+
+  @override
+  String get driverNotInQueueTitle => 'You are not currently in the queue';
+
+  @override
+  String get driverNotInQueueDescription => 'Please ask the admin to scan your QR code to join the queue and start working.';
+
+  @override
+  String get tripsHistory => 'Trip History';
+
+  @override
+  String get egp => 'EGP';
+
+  @override
+  String get completed => 'Completed';
+
+  @override
+  String get noTripsTitle => 'No trips found';
+
+  @override
+  String get noTripsDescription => 'There are no trips for the selected period. Try changing the date range.';
 }

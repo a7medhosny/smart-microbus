@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:smart_microbus/features/Driver/driver_home/data/models/earning_model.dart';
 import 'package:smart_microbus/features/Driver/driver_home/data/models/queue_item_model.dart';
-import 'package:smart_microbus/features/Driver/driver_home/data/models/queue_response_model.dart';
 import 'package:smart_microbus/features/Driver/driver_home/data/models/trip_history_response_model.dart';
 
 import '../../../../../core/networking/api_constants.dart';
@@ -22,18 +21,18 @@ abstract class DriverHomeApiService {
     @Query('driverId') required String driverId,
   });
   @GET(ApiConstants.tripHistory)
-  Future<TripHistoryResponseModel> getTripHistory();
+  Future<TripHistoryResponseModel> getTripHistory({
+    @Query('FromDate') String? fromDate,
+    @Query('ToDate') String? toDate,
+    @Query('PageSize') int? pageSize,
+    @Query('PageNumber') int? pageNumber,
+  });
   @GET(ApiConstants.estmstimatedEarnings)
   Future<EarningModel> getEstimatedDailyEarnings();
 
   @POST(ApiConstants.startTrip)
-  Future<void> startTrip({
-    @Query('driverId') required String driverId,
-  });
+  Future<void> startTrip({@Query('driverId') required String driverId});
 
   @POST(ApiConstants.endTrip)
-  Future<void> endTrip({
-    @Query('driverId') required String driverId,
-  });
-
+  Future<void> endTrip({@Query('driverId') required String driverId});
 }

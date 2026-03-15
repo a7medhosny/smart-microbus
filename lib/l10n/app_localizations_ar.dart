@@ -232,4 +232,31 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get noTripsYet => 'لا توجد رحلات حتى الآن';
+
+  @override
+  String get loading => 'جاري التحميل...';
+
+  @override
+  String get notInQueue => 'غير موجود في الكيو حالياً';
+
+  @override
+  String get driverNotInQueueTitle => 'أنت غير موجود في الطابور حالياً';
+
+  @override
+  String get driverNotInQueueDescription => 'يرجى عمل مسح (QR) عند المسؤول للانضمام إلى الطابور وبدء العمل.';
+
+  @override
+  String get tripsHistory => 'سجل الرحلات';
+
+  @override
+  String get egp => 'ج.م';
+
+  @override
+  String get completed => 'مكتملة';
+
+  @override
+  String get noTripsTitle => 'لا توجد رحلات';
+
+  @override
+  String get noTripsDescription => 'لا توجد رحلات في الفترة المحددة. حاول تغيير نطاق التاريخ.';
 }

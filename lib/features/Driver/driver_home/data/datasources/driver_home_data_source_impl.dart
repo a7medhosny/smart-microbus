@@ -1,7 +1,7 @@
+import 'package:intl/intl.dart';
 import 'package:smart_microbus/features/Driver/driver_home/data/datasources/driver_home_data_source.dart';
 import 'package:smart_microbus/features/Driver/driver_home/data/models/earning_model.dart';
 import 'package:smart_microbus/features/Driver/driver_home/data/models/queue_item_model.dart';
-import 'package:smart_microbus/features/Driver/driver_home/data/models/queue_response_model.dart';
 import 'package:smart_microbus/features/Driver/driver_home/data/models/trip_history_response_model.dart';
 
 import 'driver_home_api_service.dart';
@@ -13,6 +13,23 @@ class DriverHomeDataSourceImpl implements DriverHomeDataSource {
   @override
   Future<QueueItemModel> getCurrentPosition() {
     return apiService.getCurrentPosition();
+  }
+
+  @override
+  Future<TripHistoryResponseModel> getTripHistory({
+    DateTime? fromDate,
+    DateTime? toDate,
+    int? pageSize,
+    int? pageNumber,
+  }) {
+    final formatter = DateFormat('yyyy-M-d');
+
+    return apiService.getTripHistory(
+      fromDate: fromDate != null ? formatter.format(fromDate) : null,
+      toDate: toDate != null ? formatter.format(toDate) : null,
+      pageSize: pageSize,
+      pageNumber: pageNumber,
+    );
   }
 
   @override
@@ -30,11 +47,6 @@ class DriverHomeDataSourceImpl implements DriverHomeDataSource {
   }
 
   @override
-  Future<TripHistoryResponseModel> getTripHistory() {
-    return apiService.getTripHistory();
-  }
-
-  @override
   Future<void> startTrip({required String driverId}) {
     return apiService.startTrip(driverId: driverId);
   }
@@ -43,6 +55,4 @@ class DriverHomeDataSourceImpl implements DriverHomeDataSource {
   Future<void> endTrip({required String driverId}) {
     return apiService.endTrip(driverId: driverId);
   }
-
-  
 }

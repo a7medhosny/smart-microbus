@@ -49,9 +49,7 @@ class DriverHomeRepositoryImpl extends DriverHomeRepository {
     try {
       final result = await dataSource.getStationQueue(driverId: driverId);
 
-      return Right(
-        result.map((item) => item.toEntity()).toList(),
-      );
+      return Right(result.map((item) => item.toEntity()).toList());
     } on DioException catch (e) {
       return Left(ErrorHandler.handle(e));
     } catch (e) {
@@ -60,9 +58,20 @@ class DriverHomeRepositoryImpl extends DriverHomeRepository {
   }
 
   @override
-  Future<Either<Failure, TripHistoryResponse>> getTripHistory() async {
+  Future<Either<Failure, TripHistoryResponse>> getTripHistory({
+    DateTime? fromDate,
+    DateTime? toDate,
+    int? pageSize,
+    int? pageNumber,
+  }) async {
     try {
-      final result = await dataSource.getTripHistory();
+      final result = await dataSource.getTripHistory(
+        fromDate: fromDate,
+        toDate: toDate,
+        pageSize: pageSize,
+        pageNumber: pageNumber,
+      );
+
       return Right(result.toEntity());
     } on DioException catch (e) {
       return Left(ErrorHandler.handle(e));
@@ -87,9 +96,7 @@ class DriverHomeRepositoryImpl extends DriverHomeRepository {
   }
 
   @override
-  Future<Either<Failure, Unit>> startTrip({
-    required String driverId,
-  }) async {
+  Future<Either<Failure, Unit>> startTrip({required String driverId}) async {
     try {
       await dataSource.startTrip(driverId: driverId);
       return const Right(unit);
@@ -101,9 +108,7 @@ class DriverHomeRepositoryImpl extends DriverHomeRepository {
   }
 
   @override
-  Future<Either<Failure, Unit>> endTrip({
-    required String driverId,
-  }) async {
+  Future<Either<Failure, Unit>> endTrip({required String driverId}) async {
     try {
       await dataSource.endTrip(driverId: driverId);
       return const Right(unit);

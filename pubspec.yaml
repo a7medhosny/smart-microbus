@@ -30,6 +30,7 @@ dependencies:
   flutter_screenutil: ^5.9.3
   get_it: ^9.2.0
   google_fonts: ^8.0.1
+  implicitly_animated_list: ^2.3.0
   intl: ^0.20.2
   json_annotation: ^4.10.0
   json_serializable: ^6.12.0

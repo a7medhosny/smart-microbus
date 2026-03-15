@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:implicitly_animated_list/implicitly_animated_list.dart';
 import 'package:smart_microbus/core/helpers/spacing.dart';
+import 'package:smart_microbus/features/Driver/driver_home/domain/entities/queue_item.dart';
 import 'package:smart_microbus/features/Driver/driver_home/presentation/cubit/driver_home_cubit.dart';
 import 'package:smart_microbus/l10n/app_localizations.dart';
 
@@ -14,50 +16,136 @@ class QueueListSection extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
 
     return BlocBuilder<DriverHomeCubit, DriverHomeState>(
+      buildWhen: (previous, current) =>
+          current is GetStationQueueSuccess || current is QueueRealtimeUpdated,
       builder: (context, state) {
-        final cubit = context.watch<DriverHomeCubit>();
+        final cubit = context.read<DriverHomeCubit>();
+
         final queue = cubit.queue;
         final myPos = cubit.myPosition;
 
+        /// ================= LOADING =================
         if (queue == null || myPos == null) {
-          print("Queue or My Position is null - Queue: ${queue == null}, My Position: ${myPos == null}");
-          return const SizedBox();
+          return Container(
+            padding: const EdgeInsets.all(20),
+            alignment: Alignment.center,
+            child: const CircularProgressIndicator(),
+          );
         }
 
-print("Queue length: ${queue.length}");
+        /// ================= EMPTY QUEUE =================
+        if (queue.isEmpty) {
+          return Container(
+            padding: const EdgeInsets.all(20),
+            alignment: Alignment.center,
+            child: Text(
+              'No drivers in queue',
+              style: theme.textTheme.bodyMedium,
+            ),
+          );
+        }
+
+        /// ================= HEIGHT =================
+        final itemHeight = 100.0;
+        final maxHeight = 300.h;
+
+        final calculatedHeight = (queue.length * itemHeight).clamp(
+          itemHeight,
+          maxHeight,
+        );
+
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(l10n.nextInQueue, style: theme.textTheme.titleMedium),
+            /// ================= HEADER =================
+            Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(6),
+                  decoration: BoxDecoration(
+                    color: theme.colorScheme.primary.withAlpha(25),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Icon(
+                    Icons.queue,
+                    size: 18,
+                    color: theme.colorScheme.primary,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Text(
+                  l10n.nextInQueue,
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: 0.2,
+                  ),
+                ),
+                const Spacer(),
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 4,
+                  ),
+                  decoration: BoxDecoration(
+                    color: theme.colorScheme.surfaceVariant,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Text(
+                    "${queue.length}",
+                    style: theme.textTheme.labelMedium?.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+
             const SizedBox(height: 12),
 
+            /// ================= LIST =================
             Container(
-              height: 250.h,
+              height: calculatedHeight.h,
               decoration: BoxDecoration(
-                color: theme.cardTheme.color,
-                borderRadius: BorderRadius.circular(18),
+                color: theme.cardTheme.color ?? theme.colorScheme.surface,
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(color: theme.dividerColor.withAlpha(40)),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withAlpha(8),
+                    blurRadius: 12,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
               ),
-              child: ListView.builder(
-                shrinkWrap: true,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: ImplicitlyAnimatedList<QueueItem>(
+                  itemData: queue,
+                  itemEquality: (a, b) => a.driverId == b.driverId,
+                  padding: const EdgeInsets.symmetric(vertical: 6),
 
-                itemCount: queue.length,
-                itemBuilder: (context, index) {
-                  final item = queue[index];
-                  final isMe = item.driverId == myPos.driverId;
+                  /// ================= ITEM =================
+                  itemBuilder: (context, item) {
+                    final isMe = item.driverId == myPos.driverId;
 
-                  return Column(
-                    children: [
-                      _QueueItem(
-                        vehicle: item.driverId,
-                        position: item.position,
-                        status: item.status,
-                        isMe: isMe,
-                      ),
-                      if (index != queue.length - 1)
-                        Divider(height: 1, color: theme.dividerColor),
-                    ],
-                  );
-                },
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        _QueueItem(
+                          vehicle: item.driverId,
+                          position: item.position ?? 0,
+                          status: item.status,
+                          isMe: isMe,
+                        ),
+                        if (queue.last.driverId != item.driverId)
+                          Divider(
+                            height: 1,
+                            color: theme.dividerColor.withAlpha(30),
+                          ),
+                      ],
+                    );
+                  },
+                ),
               ),
             ),
           ],
@@ -86,17 +174,19 @@ class _QueueItem extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
 
     final bg = isMe
-        ? theme.colorScheme.primary.withAlpha(40)
+        ? theme.colorScheme.primary.withAlpha(30)
         : Colors.transparent;
 
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 250),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       decoration: BoxDecoration(
         color: bg,
         borderRadius: isMe ? BorderRadius.circular(16) : BorderRadius.zero,
       ),
       child: Row(
         children: [
+          /// ================= VEHICLE INFO =================
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -109,7 +199,6 @@ class _QueueItem extends StatelessWidget {
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-
                 verticalSpace(2),
                 Text(
                   isMe ? l10n.yourTurnSoon : _statusText(status, l10n),
@@ -123,15 +212,22 @@ class _QueueItem extends StatelessWidget {
             ),
           ),
 
-          /// position circle
-          CircleAvatar(
-            radius: 16,
-            backgroundColor: isMe
-                ? theme.colorScheme.primary
-                : theme.colorScheme.surface,
+          /// ================= POSITION =================
+          Container(
+            width: 34,
+            height: 34,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: isMe
+                  ? theme.colorScheme.primary
+                  : theme.colorScheme.surface,
+              border: Border.all(color: theme.dividerColor.withAlpha(60)),
+            ),
             child: Text(
               "$position",
               style: theme.textTheme.bodySmall?.copyWith(
+                fontWeight: FontWeight.w600,
                 color: isMe ? Colors.white : theme.colorScheme.onSurface,
               ),
             ),
@@ -144,8 +240,7 @@ class _QueueItem extends StatelessWidget {
   String _statusText(String status, AppLocalizations l10n) {
     if (status == "Loading") {
       return l10n.loadingPassengers;
-    } else {
-      return l10n.inQueue;
     }
+    return l10n.inQueue;
   }
 }

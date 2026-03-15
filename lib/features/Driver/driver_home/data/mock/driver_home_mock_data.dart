@@ -43,27 +43,29 @@ class DriverHomeMockData {
         position: index + 1,
         status: index == 0 ? "Loading" : "Waiting",
         driversBefore: 0,
-        totalDrivers:  1,
+        totalDrivers: 1,
       ),
     ),
   );
 
   // ================= TRIPS =================
 
-  static TripHistoryResponse get tripHistory => TripHistoryResponse(
-    pageNumber: 1,
-    pageSize: 10,
-    totalCount: 24,
-    data: List.generate(
-      10,
-      (index) => Trip(
-        id: "trip_$index",
-        driverId: "driver_123",
-        routeId: "route_${index % 3}",
-        startedAt: DateTime.now().subtract(Duration(hours: index + 1)),
-        endedAt: DateTime.now().subtract(Duration(hours: index)),
-        status: "Completed",
-      ),
-    ),
-  );
+  // static TripHistoryResponse get tripHistory => TripHistoryResponse(
+  //   pageNumber: 1,
+  //   pageSize: 10,
+  //   totalCount: 24,
+  //   data: List.generate(
+  //     10,
+  //     (index) => Trip(
+  //       startedAt: DateTime.now().subtract(Duration(hours: index + 1)),
+  //       endedAt: DateTime.now().subtract(Duration(hours: index)),
+  //       status: "Completed",
+  //       amount: 800,
+  //       routeFrom: 'Minia',
+  //       routeTo: 'Bani mazar',
+  //       passengerCount: 40,
+  //       distance: 800,
+  //     ),
+  //   ),
+  // );
 }
