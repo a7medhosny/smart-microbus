@@ -259,4 +259,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get noTripsDescription => 'لا توجد رحلات في الفترة المحددة. حاول تغيير نطاق التاريخ.';
+
+  @override
+  String get yourTurnNotificationTitle => 'دورك الآن';
+
+  @override
+  String get yourTurnNotificationBody => 'حان دورك لتحميل الركاب في المحطة';
 }

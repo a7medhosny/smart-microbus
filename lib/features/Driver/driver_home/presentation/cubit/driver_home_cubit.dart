@@ -49,12 +49,31 @@ class DriverHomeCubit extends Cubit<DriverHomeState> {
   List<QueueItem>? queue;
   Earning? earning;
   bool positionLoaded = false;
+
   int totalAmount = 0;
+
   DateTime? tripFromDate;
   DateTime? tripToDate;
 
   TripHistoryResponse? tripHistory;
+
   StreamSubscription? _queueSubscription;
+
+  bool turnNotified = false;
+
+  /// عدد العناصر في الصفحة
+  final int pageSize = 10;
+
+  /// الصفحة الحالية
+  int currentPage = 1;
+
+  /// حساب عدد الصفحات
+  int get totalPages {
+    if (tripHistory == null) return 1;
+
+    final total = tripHistory!.totalCount;
+    return (total / pageSize).ceil();
+  }
 
   // ================= CURRENT POSITION =================
 
@@ -76,14 +95,32 @@ class DriverHomeCubit extends Cubit<DriverHomeState> {
 
         await listenToQueueNotifications(data.queueId);
 
-        if (data.queueId != '00000000-0000-0000-0000-000000000000') {
-          await getStationQueue(
-            driverId: TokenHelper.extractUserId(TokenManager.token ?? '') ?? '',
-            queueId: data.queueId,
-          );
-        }
+        await getStationQueue(
+          driverId: TokenHelper.extractUserId(TokenManager.token ?? '') ?? '',
+          queueId: data.queueId,
+        );
       },
     );
+  }
+
+  int getMyQueueIndex() {
+    if (queue == null || queue!.isEmpty) return -1;
+
+    final myId = TokenManager.userId;
+
+    if (myId == null) return -1;
+
+    final index = queue!.indexWhere((d) => d.driverId == myId);
+
+    return index; // صفر يعني أول واحد
+  }
+
+  int getVehiclesAhead() {
+    final index = getMyQueueIndex();
+
+    if (index <= 0) return 0;
+
+    return index;
   }
 
   // ================= DAILY EARNINGS =================
@@ -123,7 +160,6 @@ class DriverHomeCubit extends Cubit<DriverHomeState> {
 
       emit(GetStationQueueSuccess(data));
 
-      /// تشغيل realtime
       await listenToQueueNotifications(queueId);
     });
   }
@@ -133,7 +169,6 @@ class DriverHomeCubit extends Cubit<DriverHomeState> {
   Future<void> listenToQueueNotifications(String queueId) async {
     emit(ListenQueueNotificationsLoading());
 
-    /// الاتصال بالـ SignalR
     final result = await connectQueue(queueId);
 
     result.fold((failure) {
@@ -153,45 +188,18 @@ class DriverHomeCubit extends Cubit<DriverHomeState> {
     );
   }
 
-  // ================= HANDLE EVENTS =================
-
-  // void _handleQueueEvent(QueueEvent event) {
-  //   if (queue == null) return;
-
-  //   if (event is DriverAddedEvent) {
-  //     queue = [
-  //       ...queue!.where((d) => d.driverId != event.driver.driverId),
-  //       event.driver,
-  //     ];
-  //   }
-
-  //   if (event is DriverRemovedEvent) {
-  //     queue = queue!.where((d) => d.driverId != event.driverId).toList();
-  //   }
-
-  //   emit(QueueRealtimeUpdated(queue!));
-  // }
-  void _handleQueueEvent(QueueEvent event) async {
-    final myId = TokenHelper.extractUserId(TokenManager.token ?? '');
-
+  void _handleQueueEvent(QueueEvent event) {
     final currentQueue = List<QueueItem>.from(queue ?? []);
 
     if (event is DriverAddedEvent) {
       currentQueue.removeWhere((d) => d.driverId == event.driver.driverId);
       currentQueue.add(event.driver);
-      currentQueue.sort((a, b) => (a.position ?? 0).compareTo(b.position ?? 0));
 
-      if (event.driver.driverId == myId) {
-        await getCurrentPosition();
-      }
+      currentQueue.sort((a, b) => (a.position ?? 0).compareTo(b.position ?? 0));
     }
 
     if (event is DriverRemovedEvent) {
       currentQueue.removeWhere((d) => d.driverId == event.driverId);
-
-      if (event.driverId == myId) {
-        myPosition = null;
-      }
     }
 
     queue = currentQueue;
@@ -199,24 +207,45 @@ class DriverHomeCubit extends Cubit<DriverHomeState> {
     emit(QueueRealtimeUpdated(List.from(currentQueue)));
   }
 
+  bool isMyTurn() {
+    if (queue == null || queue!.isEmpty) return false;
+
+    final myId = TokenManager.userId;
+
+    if (myId == null) return false;
+
+    final firstDriver = queue!.first;
+
+    return firstDriver.driverId == myId;
+  }
+
   // ================= TRIP HISTORY =================
+
   Future<void> getTripHistory({
     DateTime? fromDate,
     DateTime? toDate,
-    int? pageSize,
     int? pageNumber,
   }) async {
-    /// حفظ الفلترة
     tripFromDate = fromDate ?? tripFromDate;
     tripToDate = toDate ?? tripToDate;
 
+    currentPage = pageNumber ?? currentPage;
+
     emit(GetTripHistoryLoading());
+
+    if (AppConfig.useMockData) {
+      await Future.delayed(const Duration(milliseconds: 500));
+      tripHistory = DriverHomeMockData.tripHistory(pageNumber: currentPage);
+      totalAmount = tripHistory!.data.totalAmount.toInt();
+      emit(GetTripHistorySuccess(tripHistory!));
+      return;
+    }
 
     final result = await getTripHistoryUseCase(
       fromDate: tripFromDate,
       toDate: tripToDate,
       pageSize: pageSize,
-      pageNumber: pageNumber,
+      pageNumber: currentPage,
     );
 
     result.fold(
@@ -231,47 +260,23 @@ class DriverHomeCubit extends Cubit<DriverHomeState> {
       },
       (data) {
         tripHistory = data;
+
         totalAmount = data.data.totalAmount.toInt();
 
         emit(GetTripHistorySuccess(data));
       },
     );
   }
-  // ================= START TRIP =================
-
-  Future<void> startTrip({required String driverId}) async {
-    emit(StartTripLoading());
-
-    final result = await startTripUseCase(driverId: driverId);
-
-    result.fold(
-      (failure) => emit(StartTripError(failure.message)),
-      (_) => emit(StartTripSuccess()),
-    );
-  }
-
-  // ================= END TRIP =================
-
-  Future<void> endTrip({required String driverId}) async {
-    emit(EndTripLoading());
-
-    final result = await endTripUseCase(driverId: driverId);
-
-    result.fold(
-      (failure) => emit(EndTripError(failure.message)),
-      (_) => emit(EndTripSuccess()),
-    );
-  }
 
   // ================= CLEAR FILTER =================
+
   void clearTripFilter() {
     tripFromDate = null;
     tripToDate = null;
+    currentPage = 1;
 
     getTripHistory();
   }
-
-  // ================= CLOSE =================
 
   @override
   Future<void> close() async {

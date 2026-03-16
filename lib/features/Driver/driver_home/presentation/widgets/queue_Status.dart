@@ -14,16 +14,22 @@ class QueueStatusSection extends StatelessWidget {
 
     return BlocBuilder<DriverHomeCubit, DriverHomeState>(
       builder: (context, state) {
-        final cubit = context.watch<DriverHomeCubit>();
-        final pos = cubit.myPosition;
+        // final cubit = context.watch<DriverHomeCubit>();
+        // // final pos = cubit.myPosition;
 
-        int vehiclesAhead = 0;
+        // int vehiclesAhead = 0;
         int waitingMinutes = 0;
 
-        if (pos != null) {
-          vehiclesAhead = pos.position ?? 0 - 1;
-          // waitingMinutes = DateTime.now().difference(pos.joinedAt).inMinutes;
-        }
+        // if (pos != null) {
+        //   vehiclesAhead = pos.position ?? 0 - 1;
+        //   print("My position: ${pos.position}, Vehicles ahead: $vehiclesAhead");
+        //   // waitingMinutes = DateTime.now().difference(pos.joinedAt).inMinutes;
+        // }
+
+        final cubit = context.watch<DriverHomeCubit>();
+
+// final myPosition = cubit.getMyQueueIndex();
+final vehiclesAhead = cubit.getVehiclesAhead();
 
         return Column(
           children: [

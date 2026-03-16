@@ -105,7 +105,10 @@
   "egp": "EGP",
    "completed": "Completed",
    "noTripsTitle": "No trips found",
-  "noTripsDescription": "There are no trips for the selected period. Try changing the date range."
+  "noTripsDescription": "There are no trips for the selected period. Try changing the date range.",
+  "yourTurnNotificationTitle": "It's your turn",
+"yourTurnNotificationBody": "You can now start loading passengers at the station"
+
 }
   
 

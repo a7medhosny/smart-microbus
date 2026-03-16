@@ -586,6 +586,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'There are no trips for the selected period. Try changing the date range.'**
   String get noTripsDescription;
+
+  /// No description provided for @yourTurnNotificationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'It\'s your turn'**
+  String get yourTurnNotificationTitle;
+
+  /// No description provided for @yourTurnNotificationBody.
+  ///
+  /// In en, this message translates to:
+  /// **'You can now start loading passengers at the station'**
+  String get yourTurnNotificationBody;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

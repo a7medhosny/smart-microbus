@@ -80,6 +80,8 @@ class HeaderCard extends StatelessWidget {
                 final isInQueue =
                     position.queueId != '00000000-0000-0000-0000-000000000000';
 
+                final isMyTurn = cubit.isMyTurn();
+
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -126,7 +128,11 @@ class HeaderCard extends StatelessWidget {
                     verticalSpace(4),
 
                     Text(
-                      isInQueue ? l10n.inQueue : l10n.notInQueue,
+                      isMyTurn
+                          ? l10n.loadingPassengers
+                          : isInQueue
+                          ? l10n.inQueue
+                          : l10n.notInQueue,
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: Colors.white70,
                       ),

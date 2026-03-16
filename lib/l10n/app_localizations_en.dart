@@ -259,4 +259,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noTripsDescription => 'There are no trips for the selected period. Try changing the date range.';
+
+  @override
+  String get yourTurnNotificationTitle => 'It\'s your turn';
+
+  @override
+  String get yourTurnNotificationBody => 'You can now start loading passengers at the station';
 }

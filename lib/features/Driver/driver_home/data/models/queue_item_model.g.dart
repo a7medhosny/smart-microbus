@@ -17,6 +17,7 @@ QueueItemModel _$QueueItemModelFromJson(Map<String, dynamic> json) =>
       totalDrivers: (json['totalDrivers'] as num?)?.toInt(),
       routeFrom: json['routeFrom'] as String?,
       routeTo: json['routeTo'] as String?,
+      plateNumber: json['plateNumber'] as String?,
     );
 
 Map<String, dynamic> _$QueueItemModelToJson(QueueItemModel instance) =>
@@ -30,4 +31,5 @@ Map<String, dynamic> _$QueueItemModelToJson(QueueItemModel instance) =>
       'totalDrivers': instance.totalDrivers,
       'routeFrom': instance.routeFrom,
       'routeTo': instance.routeTo,
+      'plateNumber': instance.plateNumber,
     };

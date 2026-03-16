@@ -206,23 +206,23 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              ElevatedButton(
-                onPressed: () {
-                  NotificationService.showNotification(
-                    title: 'notification',
-                    body: 'fjifjijr',
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                ),
-                child: Text(
-                  'send notification',
-                  style: const TextStyle(fontSize: 16),
-                ),
-              ),
+              // ElevatedButton(
+              //   onPressed: () {
+              //     NotificationService.showNotification(
+              //       title: 'notification',
+              //       body: 'fjifjijr',
+              //     );
+              //   },
+              //   style: ElevatedButton.styleFrom(
+              //     shape: RoundedRectangleBorder(
+              //       borderRadius: BorderRadius.circular(16),
+              //     ),
+              //   ),
+              //   child: Text(
+              //     'send notification',
+              //     style: const TextStyle(fontSize: 16),
+              //   ),
+              // ),
             ],
           ),
         ),

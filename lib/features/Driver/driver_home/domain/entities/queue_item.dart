@@ -6,6 +6,7 @@ class QueueItem {
   final String status;
   final int driversBefore;
   final int totalDrivers;
+  final String plateNumber;
   final String? routeFrom;
   final String? routeTo;
 
@@ -17,6 +18,7 @@ class QueueItem {
     required this.status,
     required this.driversBefore,
     required this.totalDrivers,
+    required this.plateNumber,
     this.routeFrom,
     this.routeTo,
   });

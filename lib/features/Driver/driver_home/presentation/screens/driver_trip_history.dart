@@ -17,15 +17,32 @@ class DriverTripHistoryScreen extends StatefulWidget {
 }
 
 class _DriverTripHistoryScreenState extends State<DriverTripHistoryScreen> {
+  final ScrollController _scrollController = ScrollController();
+
   @override
   void initState() {
     super.initState();
 
     final cubit = context.read<DriverHomeCubit>();
 
-    /// تحميل الداتا مرة واحدة فقط
     if (cubit.tripHistory == null) {
       cubit.getTripHistory();
+    }
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _scrollToTop() {
+    if (_scrollController.hasClients) {
+      _scrollController.animateTo(
+        0,
+        duration: const Duration(milliseconds: 400),
+        curve: Curves.easeOutCubic,
+      );
     }
   }
 
@@ -63,6 +80,7 @@ class _DriverTripHistoryScreenState extends State<DriverTripHistoryScreen> {
           },
           builder: (context, state) {
             final cubit = context.watch<DriverHomeCubit>();
+
             if (state is GetTripHistoryLoading && cubit.tripHistory == null) {
               return Center(
                 child: CircularProgressIndicator(
@@ -72,6 +90,7 @@ class _DriverTripHistoryScreenState extends State<DriverTripHistoryScreen> {
             }
 
             final trips = cubit.tripHistory;
+
             if (trips == null) {
               return const SizedBox();
             }
@@ -83,21 +102,112 @@ class _DriverTripHistoryScreenState extends State<DriverTripHistoryScreen> {
             return Column(
               children: [
                 DateFilterInfo(cubit: cubit),
+
                 Expanded(
-                  child: ListView.separated(
-                    padding: const EdgeInsets.all(16),
-                    itemCount: trips.data.trips.length,
-                    separatorBuilder: (_, __) => const SizedBox(height: 12),
-                    itemBuilder: (_, index) {
-                      final trip = trips.data.trips[index];
-                      return TripCard(trip: trip);
-                    },
+                  child: AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 350),
+                    switchInCurve: Curves.easeOut,
+                    switchOutCurve: Curves.easeIn,
+                    child: ListView.separated(
+                      key: ValueKey(cubit.currentPage),
+                      controller: _scrollController,
+                      padding: const EdgeInsets.all(16),
+                      itemCount: trips.data.trips.length,
+                      separatorBuilder: (_, __) => const SizedBox(height: 12),
+                      itemBuilder: (_, index) {
+                        final trip = trips.data.trips[index];
+                        return TripCard(trip: trip);
+                      },
+                    ),
                   ),
                 ),
+
+                _buildPagination(cubit),
               ],
             );
           },
         ),
+      ),
+    );
+  }
+
+  Widget _buildPagination(DriverHomeCubit cubit) {
+    final page = cubit.currentPage;
+    final total = cubit.totalPages;
+
+    Widget pageItem(int number) {
+      final isSelected = number == page;
+
+      return GestureDetector(
+        onTap: () {
+          cubit.getTripHistory(pageNumber: number);
+          _scrollToTop();
+        },
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 250),
+          margin: const EdgeInsets.symmetric(horizontal: 4),
+          padding: EdgeInsets.symmetric(
+            horizontal: isSelected ? 16 : 12,
+            vertical: isSelected ? 10 : 8,
+          ),
+          decoration: BoxDecoration(
+            color: isSelected
+                ? Theme.of(context).colorScheme.primary
+                : Colors.grey.shade200,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Text(
+            "$number",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: isSelected ? 16 : 14,
+              color: isSelected ? Colors.white : Colors.black87,
+            ),
+          ),
+        ),
+      );
+    }
+
+    Widget dots() {
+      return const Padding(
+        padding: EdgeInsets.symmetric(horizontal: 6),
+        child: Text("..."),
+      );
+    }
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 16),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          IconButton(
+            icon: const Icon(Icons.chevron_left),
+            onPressed: page > 1
+                ? () {
+                    cubit.getTripHistory(pageNumber: page - 1);
+                    _scrollToTop();
+                  }
+                : null,
+          ),
+
+          pageItem(1),
+
+          if (page != 1 && page != total) pageItem(page),
+
+          if (page < total - 1) dots(),
+
+          if (total > 1) pageItem(total),
+
+          IconButton(
+            icon: const Icon(Icons.chevron_right),
+            onPressed: page < total
+                ? () {
+                    cubit.getTripHistory(pageNumber: page + 1);
+                    _scrollToTop();
+                  }
+                : null,
+          ),
+        ],
       ),
     );
   }
@@ -117,11 +227,10 @@ class _DriverTripHistoryScreenState extends State<DriverTripHistoryScreen> {
       context.read<DriverHomeCubit>().getTripHistory(
         fromDate: picked.start,
         toDate: picked.end,
+        pageNumber: 1,
       );
     }
   }
-
-  /// ================= EMPTY LIST =================
 
   Widget _buildEmptyList(AppLocalizations l10n) {
     return Center(

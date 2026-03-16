@@ -1,3 +1,5 @@
+import 'dart:isolate';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,6 +9,8 @@ import 'package:smart_microbus/features/Driver/driver_home/domain/entities/queue
 import 'package:smart_microbus/features/Driver/driver_home/presentation/cubit/driver_home_cubit.dart';
 import 'package:smart_microbus/l10n/app_localizations.dart';
 
+import '../../../../../core/services/noification_servises.dart';
+
 class QueueListSection extends StatelessWidget {
   const QueueListSection({super.key});
 
@@ -15,13 +19,37 @@ class QueueListSection extends StatelessWidget {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context)!;
 
-    return BlocBuilder<DriverHomeCubit, DriverHomeState>(
+    return BlocConsumer<DriverHomeCubit, DriverHomeState>(
+      listenWhen: (previous, current) =>
+          current is GetStationQueueSuccess || current is QueueRealtimeUpdated,
+
+      listener: (context, state) {
+        final cubit = context.read<DriverHomeCubit>();
+        final l10n = AppLocalizations.of(context)!;
+
+        if (cubit.isMyTurn() && !cubit.turnNotified) {
+          cubit.turnNotified = true;
+
+          NotificationService.showNotification(
+            title: l10n.yourTurnNotificationTitle,
+            body: l10n.yourTurnNotificationBody,
+          );
+        }
+
+        if (!cubit.isMyTurn()) {
+          cubit.turnNotified = false;
+        }
+      },
+
       buildWhen: (previous, current) =>
           current is GetStationQueueSuccess || current is QueueRealtimeUpdated,
+
       builder: (context, state) {
         final cubit = context.read<DriverHomeCubit>();
 
         final queue = cubit.queue;
+        String firstDriver = "";
+        if (queue != null) firstDriver = queue.first.driverId;
         final myPos = cubit.myPosition;
 
         /// ================= LOADING =================
@@ -125,6 +153,7 @@ class QueueListSection extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: 6),
 
                   /// ================= ITEM =================
+                  ///
                   itemBuilder: (context, item) {
                     final isMe = item.driverId == myPos.driverId;
 
@@ -132,10 +161,12 @@ class QueueListSection extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         _QueueItem(
-                          vehicle: item.driverId,
+                          vehicle: item.plateNumber,
                           position: item.position ?? 0,
                           status: item.status,
+                          isloading: firstDriver == item.driverId,
                           isMe: isMe,
+                          // isMyTurn: cubit.isMyTurn() && isMe,
                         ),
                         if (queue.last.driverId != item.driverId)
                           Divider(
@@ -159,12 +190,14 @@ class _QueueItem extends StatelessWidget {
   final String vehicle;
   final int position;
   final bool isMe;
+  final bool isloading;
   final String status;
 
   const _QueueItem({
     required this.vehicle,
     required this.position,
     required this.status,
+    required this.isloading,
     this.isMe = false,
   });
 
@@ -201,7 +234,9 @@ class _QueueItem extends StatelessWidget {
                 ),
                 verticalSpace(2),
                 Text(
-                  isMe ? l10n.yourTurnSoon : _statusText(status, l10n),
+                  isloading
+                      ? l10n.loadingPassengers
+                      : (isMe ? l10n.yourTurnSoon : l10n.inQueue),
                   style: theme.textTheme.bodySmall?.copyWith(
                     color: isMe
                         ? theme.colorScheme.primary

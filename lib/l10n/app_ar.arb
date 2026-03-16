@@ -105,7 +105,9 @@
   "egp": "ج.م",
    "completed": "مكتملة",
     "noTripsTitle": "لا توجد رحلات",
-  "noTripsDescription": "لا توجد رحلات في الفترة المحددة. حاول تغيير نطاق التاريخ."
+  "noTripsDescription": "لا توجد رحلات في الفترة المحددة. حاول تغيير نطاق التاريخ.",
+  "yourTurnNotificationTitle": "دورك الآن",
+"yourTurnNotificationBody": "حان دورك لتحميل الركاب في المحطة"
 
 
 }

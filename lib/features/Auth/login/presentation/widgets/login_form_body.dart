@@ -12,6 +12,7 @@ import 'package:smart_microbus/features/Auth/login/presentation/cubit/cubit/logi
 import 'package:smart_microbus/l10n/app_localizations.dart';
 
 import '../../../../../core/helpers/app_regex.dart';
+import '../../../../../core/networking/dio_factory.dart';
 import '../../../../../core/routing/routes.dart';
 
 class LoginFormBody extends StatefulWidget {
@@ -116,6 +117,7 @@ class _LoginFormBodyState extends State<LoginFormBody> {
                   );
                 } else {
                   // showGlobalSnackBar(state.message);
+
                   ShowToastHelper.showToast(
                     context,
                     state.message,
@@ -143,7 +145,7 @@ class _LoginFormBodyState extends State<LoginFormBody> {
                   phone: user.phone,
                   userId: TokenHelper.extractUserId(user.token) ?? '',
                 );
-                context.pushNamed(
+                context.pushNamedAndRemoveUntil(
                   Routes.driverHome,
                   arguments: {CacheKeys.userName: user.userName},
                 );

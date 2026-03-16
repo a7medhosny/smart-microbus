@@ -27,7 +27,7 @@ class DioFactory {
 
       _dio!.interceptors.add(_addLanguageHeader());
       // _dio!.interceptors.add(_loggerInterceptor());
-      _dio!.interceptors.add(_addAPIKey());
+      // _dio!.interceptors.add(_addAPIKey());
 
       addAuthInterceptor();
       // addDioInterceptor();
@@ -60,15 +60,15 @@ class DioFactory {
     );
   }
 
-  static Interceptor _addAPIKey() {
-    return InterceptorsWrapper(
-      onRequest: (options, handler) {
-        options.headers['X-API-KEY'] =
-            "ovuPaA2bJcgksW6yONrlDYtKweqihHfGnd9pI1FMVRmCTzE7UBx03SXZ8QL5j4";
-        handler.next(options);
-      },
-    );
-  }
+  // static Interceptor _addAPIKey() {
+  //   return InterceptorsWrapper(
+  //     onRequest: (options, handler) {
+  //       options.headers['X-API-KEY'] =
+  //           "ovuPaA2bJcgksW6yONrlDYtKweqihHfGnd9pI1FMVRmCTzE7UBx03SXZ8QL5j4";
+  //       handler.next(options);
+  //     },
+  //   );
+  // }
 
   static Interceptor _addLanguageHeader() {
     return InterceptorsWrapper(
@@ -114,6 +114,14 @@ class DioFactory {
     _dio!.options.headers.remove('Authorization');
 
     TokenManager.clearLoginData();
+  }
+}
+testRefreshToken() async {
+  try {
+    final response = await _refreshToken();
+    print('Token refreshed successfully: ${response.token}');
+  } catch (e) {
+    print('Failed to refresh token: $e');
   }
 }
 
@@ -254,14 +262,24 @@ class AuthInterceptor extends Interceptor {
 }
 
 Future<AuthResponseModel> _refreshToken() async {
-  final response = await getIt<RegisterApiService>().refreshToken(
-    RefreshTokenRequestModel(
-      token: TokenManager.token ?? '',
-      refreshToken: TokenManager.refreshToken ?? '',
-    ),
+  final lang = CacheHelper.getCacheData(key: CacheKeys.localeKey) ?? 'en';
+
+  final refreshDio = Dio();
+
+  refreshDio.options.headers = {
+    'Accept-Language': lang,
+    'Content-Type': 'application/json',
+  };
+
+  final response = await refreshDio.post(
+    "https://smart-microbus.runasp.net/api/v1/account/generate-new-jwt-token",
+    data: {
+      "token": TokenManager.token ?? '',
+      "refreshToken": TokenManager.refreshToken ?? '',
+    },
   );
 
-  return response;
+  return AuthResponseModel.fromJson(response.data);
 }
 
 void authLog(String message) {

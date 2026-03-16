@@ -15,6 +15,7 @@ class QueueItemModel {
   final int? totalDrivers;
   final String? routeFrom;
   final String? routeTo;
+  final String? plateNumber;
 
   const QueueItemModel({
     this.queueId,
@@ -26,6 +27,7 @@ class QueueItemModel {
     this.totalDrivers,
     this.routeFrom,
     this.routeTo,
+    this.plateNumber,
   });
 
   factory QueueItemModel.fromJson(Map<String, dynamic> json) =>
@@ -46,6 +48,7 @@ extension QueueItemMapper on QueueItemModel {
       totalDrivers: totalDrivers ?? 0,
       routeFrom: routeFrom,
       routeTo: routeTo,
+      plateNumber: plateNumber ?? '',
     );
   }
 }

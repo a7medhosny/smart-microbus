@@ -27,6 +27,7 @@ class DriverHomeMockData {
     status: "Waiting",
     driversBefore: 2,
     totalDrivers: 5,
+    plateNumber: '',
   );
 
   // ================= STATION QUEUE =================
@@ -44,28 +45,43 @@ class DriverHomeMockData {
         status: index == 0 ? "Loading" : "Waiting",
         driversBefore: 0,
         totalDrivers: 1,
+        plateNumber: '',
       ),
     ),
   );
 
   // ================= TRIPS =================
 
-  // static TripHistoryResponse get tripHistory => TripHistoryResponse(
-  //   pageNumber: 1,
-  //   pageSize: 10,
-  //   totalCount: 24,
-  //   data: List.generate(
-  //     10,
-  //     (index) => Trip(
-  //       startedAt: DateTime.now().subtract(Duration(hours: index + 1)),
-  //       endedAt: DateTime.now().subtract(Duration(hours: index)),
-  //       status: "Completed",
-  //       amount: 800,
-  //       routeFrom: 'Minia',
-  //       routeTo: 'Bani mazar',
-  //       passengerCount: 40,
-  //       distance: 800,
-  //     ),
-  //   ),
-  // );
+  static TripHistoryResponse tripHistory({int pageNumber = 1}) {
+    const int pageSize = 10;
+    const int totalCount = 104;
+
+    /// حساب البداية والنهاية للـ pagination
+    final startIndex = (pageNumber - 1) * pageSize;
+    final endIndex = (startIndex + pageSize) > totalCount
+        ? totalCount
+        : startIndex + pageSize;
+
+    final trips = List.generate(endIndex - startIndex, (index) {
+      final i = startIndex + index;
+
+      return Trip(
+        startedAt: DateTime.now().subtract(Duration(hours: i + 1)),
+        endedAt: DateTime.now().subtract(Duration(hours: i)),
+        status: "Completed",
+        amount: 800,
+        routeFrom: 'Minia',
+        routeTo: 'Bani mazar',
+        passengerCount: 40,
+        distance: 800,
+      );
+    });
+
+    return TripHistoryResponse(
+      pageNumber: pageNumber,
+      pageSize: pageSize,
+      totalCount: totalCount,
+      data: TripHistoryData(totalAmount: trips.length * 800, trips: trips),
+    );
+  }
 }

@@ -4,6 +4,7 @@ import 'package:smart_microbus/core/helpers/show_toast_helper.dart';
 import 'package:smart_microbus/core/helpers/spacing.dart';
 import 'package:smart_microbus/features/Driver/driver_home/presentation/cubit/driver_home_cubit.dart';
 
+import '../../../../../core/networking/dio_factory.dart';
 import '../../../../../l10n/app_localizations.dart';
 import '../widgets/earnings_summary_section.dart';
 import '../widgets/header_card.dart';
@@ -21,6 +22,9 @@ class _DriverHomeViewState extends State<DriverHomeView> {
   @override
   void initState() {
     super.initState();
+                  //TODO: remove this after testing
+
+              testRefreshToken();
 
     final cubit = context.read<DriverHomeCubit>();
     cubit.getCurrentPosition();
