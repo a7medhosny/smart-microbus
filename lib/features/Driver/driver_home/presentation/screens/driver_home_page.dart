@@ -10,6 +10,7 @@ import '../widgets/earnings_summary_section.dart';
 import '../widgets/header_card.dart';
 import '../widgets/queue_Status.dart';
 import '../widgets/queue_list.dart';
+import '../widgets/started_trip.dart';
 
 class DriverHomeView extends StatefulWidget {
   const DriverHomeView({super.key});
@@ -22,11 +23,11 @@ class _DriverHomeViewState extends State<DriverHomeView> {
   @override
   void initState() {
     super.initState();
-                  //TODO: remove this after testing
 
-              testRefreshToken();
+    testRefreshToken();
 
     final cubit = context.read<DriverHomeCubit>();
+    cubit.connectQueueGlobal();
     cubit.getCurrentPosition();
     cubit.getEstimatedDailyEarnings();
   }
@@ -48,7 +49,7 @@ class _DriverHomeViewState extends State<DriverHomeView> {
             final cubit = context.watch<DriverHomeCubit>();
 
             /// ================= FIRST LOADING =================
-            if (!cubit.positionLoaded) {
+            if (!cubit.positionLoaded || state is GetCurrentPositionLoading) {
               return const Center(child: CircularProgressIndicator());
             }
 
@@ -56,15 +57,23 @@ class _DriverHomeViewState extends State<DriverHomeView> {
 
             /// ================= DRIVER NOT IN QUEUE =================
             if (position == null ||
-                position.queueId == '00000000-0000-0000-0000-000000000000') {
-              return SingleChildScrollView(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  children: [
-                    HeaderCard(),
-                    verticalSpace(20),
-                    Center(child: _notInQueueBody(l10n)),
-                  ],
+                position.queueId == '00000000-0000-0000-0000-000000000000' ||
+                position.status == "Started") {
+              return RefreshIndicator(
+                onRefresh: () async {
+                  await context.read<DriverHomeCubit>().getCurrentPosition();
+                },
+                child: SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    children: [
+                      HeaderCard(),
+                      verticalSpace(20),
+                      // Center(child: _notInQueueBody(l10n)),
+                      const StartedTripSection(),
+                    ],
+                  ),
                 ),
               );
             }

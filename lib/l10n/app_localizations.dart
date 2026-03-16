@@ -542,7 +542,7 @@ abstract class AppLocalizations {
   /// No description provided for @notInQueue.
   ///
   /// In en, this message translates to:
-  /// **'Not in queue'**
+  /// **'You have an ongoing trip'**
   String get notInQueue;
 
   /// No description provided for @driverNotInQueueTitle.
@@ -598,6 +598,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'You can now start loading passengers at the station'**
   String get yourTurnNotificationBody;
+
+  /// No description provided for @currentTripStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Current Trip Status'**
+  String get currentTripStatus;
+
+  /// No description provided for @tripActiveNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Active Now'**
+  String get tripActiveNow;
+
+  /// No description provided for @tripStarted.
+  ///
+  /// In en, this message translates to:
+  /// **'Trip Started'**
+  String get tripStarted;
+
+  /// No description provided for @tripStartedSince.
+  ///
+  /// In en, this message translates to:
+  /// **'Started {minutes} minutes ago'**
+  String tripStartedSince(Object minutes);
+
+  /// No description provided for @tripStartPoint.
+  ///
+  /// In en, this message translates to:
+  /// **'Start Point'**
+  String get tripStartPoint;
+
+  /// No description provided for @tripDestination.
+  ///
+  /// In en, this message translates to:
+  /// **'Destination'**
+  String get tripDestination;
+
+  /// No description provided for @tripDistance.
+  ///
+  /// In en, this message translates to:
+  /// **'Distance'**
+  String get tripDistance;
+
+  /// No description provided for @tripEstimatedTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimated Time'**
+  String get tripEstimatedTime;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

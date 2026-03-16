@@ -96,8 +96,7 @@
   "viewAllTrips": "عرض جميع الرحلات",
   "tripHistory": "سجل الرحلات",
   "noTripsYet": "لا توجد رحلات حتى الآن",
-   "notInQueue": "غير موجود في الكيو حالياً", 
-   "loading": "جاري التحميل...",
+"notInQueue": "لديك رحلة جارية حالياً",   "loading": "جاري التحميل...",
    
   "driverNotInQueueTitle": "أنت غير موجود في الطابور حالياً",
   "driverNotInQueueDescription": "يرجى عمل مسح (QR) عند المسؤول للانضمام إلى الطابور وبدء العمل.",
@@ -107,7 +106,15 @@
     "noTripsTitle": "لا توجد رحلات",
   "noTripsDescription": "لا توجد رحلات في الفترة المحددة. حاول تغيير نطاق التاريخ.",
   "yourTurnNotificationTitle": "دورك الآن",
-"yourTurnNotificationBody": "حان دورك لتحميل الركاب في المحطة"
+"yourTurnNotificationBody": "حان دورك لتحميل الركاب في المحطة",
+ "currentTripStatus": "حالة الرحلة الحالية",
+  "tripActiveNow": "نشط الآن",
+  "tripStarted": "بدأت الرحلة",
+  "tripStartedSince": "بدأت منذ {minutes} دقيقة",
+  "tripStartPoint": "نقطة الانطلاق",
+  "tripDestination": "جهة الوصول",
+  "tripDistance": "المسافة",
+  "tripEstimatedTime": "الوقت المتوقع"
 
 
 }

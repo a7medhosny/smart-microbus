@@ -98,7 +98,7 @@
   "tripHistory": "Trip History",
   "noTripsYet": "No trips yet",
   "loading": "Loading...",
-  "notInQueue": "Not in queue",
+  "notInQueue": "You have an ongoing trip",
   "driverNotInQueueTitle": "You are not currently in the queue",
   "driverNotInQueueDescription": "Please ask the admin to scan your QR code to join the queue and start working.",
   "tripsHistory": "Trip History",
@@ -107,7 +107,15 @@
    "noTripsTitle": "No trips found",
   "noTripsDescription": "There are no trips for the selected period. Try changing the date range.",
   "yourTurnNotificationTitle": "It's your turn",
-"yourTurnNotificationBody": "You can now start loading passengers at the station"
+"yourTurnNotificationBody": "You can now start loading passengers at the station",
+"currentTripStatus": "Current Trip Status",
+  "tripActiveNow": "Active Now",
+  "tripStarted": "Trip Started",
+  "tripStartedSince": "Started {minutes} minutes ago",
+  "tripStartPoint": "Start Point",
+  "tripDestination": "Destination",
+  "tripDistance": "Distance",
+  "tripEstimatedTime": "Estimated Time"
 
 }
   

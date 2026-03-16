@@ -237,7 +237,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get loading => 'Loading...';
 
   @override
-  String get notInQueue => 'Not in queue';
+  String get notInQueue => 'You have an ongoing trip';
 
   @override
   String get driverNotInQueueTitle => 'You are not currently in the queue';
@@ -265,4 +265,30 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get yourTurnNotificationBody => 'You can now start loading passengers at the station';
+
+  @override
+  String get currentTripStatus => 'Current Trip Status';
+
+  @override
+  String get tripActiveNow => 'Active Now';
+
+  @override
+  String get tripStarted => 'Trip Started';
+
+  @override
+  String tripStartedSince(Object minutes) {
+    return 'Started $minutes minutes ago';
+  }
+
+  @override
+  String get tripStartPoint => 'Start Point';
+
+  @override
+  String get tripDestination => 'Destination';
+
+  @override
+  String get tripDistance => 'Distance';
+
+  @override
+  String get tripEstimatedTime => 'Estimated Time';
 }

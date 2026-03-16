@@ -81,12 +81,8 @@ class _DriverTripHistoryScreenState extends State<DriverTripHistoryScreen> {
           builder: (context, state) {
             final cubit = context.watch<DriverHomeCubit>();
 
-            if (state is GetTripHistoryLoading && cubit.tripHistory == null) {
-              return Center(
-                child: CircularProgressIndicator(
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-              );
+            if (state is GetTripHistoryLoading) {
+              return Center(child: CircularProgressIndicator());
             }
 
             final trips = cubit.tripHistory;
@@ -222,7 +218,7 @@ class _DriverTripHistoryScreenState extends State<DriverTripHistoryScreen> {
         end: DateTime.now(),
       ),
     );
-
+    print("DATE PICKED: $picked");
     if (picked != null) {
       context.read<DriverHomeCubit>().getTripHistory(
         fromDate: picked.start,

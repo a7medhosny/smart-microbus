@@ -237,7 +237,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get loading => 'جاري التحميل...';
 
   @override
-  String get notInQueue => 'غير موجود في الكيو حالياً';
+  String get notInQueue => 'لديك رحلة جارية حالياً';
 
   @override
   String get driverNotInQueueTitle => 'أنت غير موجود في الطابور حالياً';
@@ -265,4 +265,30 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get yourTurnNotificationBody => 'حان دورك لتحميل الركاب في المحطة';
+
+  @override
+  String get currentTripStatus => 'حالة الرحلة الحالية';
+
+  @override
+  String get tripActiveNow => 'نشط الآن';
+
+  @override
+  String get tripStarted => 'بدأت الرحلة';
+
+  @override
+  String tripStartedSince(Object minutes) {
+    return 'بدأت منذ $minutes دقيقة';
+  }
+
+  @override
+  String get tripStartPoint => 'نقطة الانطلاق';
+
+  @override
+  String get tripDestination => 'جهة الوصول';
+
+  @override
+  String get tripDistance => 'المسافة';
+
+  @override
+  String get tripEstimatedTime => 'الوقت المتوقع';
 }

@@ -61,6 +61,10 @@ class DriverHomeCubit extends Cubit<DriverHomeState> {
 
   bool turnNotified = false;
 
+  /// منع تكرار الاتصال
+  String? _currentListeningId;
+  bool _isConnecting = false;
+
   /// عدد العناصر في الصفحة
   final int pageSize = 10;
 
@@ -93,12 +97,13 @@ class DriverHomeCubit extends Cubit<DriverHomeState> {
 
         emit(GetCurrentPositionSuccess(data));
 
-        await listenToQueueNotifications(data.queueId);
-
-        await getStationQueue(
-          driverId: TokenHelper.extractUserId(TokenManager.token ?? '') ?? '',
-          queueId: data.queueId,
-        );
+        if (data.queueId != '00000000-0000-0000-0000-000000000000') {
+          await listenToQueueNotifications(data.queueId);
+          await getStationQueue(
+            driverId: TokenHelper.extractUserId(TokenManager.token ?? '') ?? '',
+            queueId: data.queueId,
+          );
+        }
       },
     );
   }
@@ -112,7 +117,7 @@ class DriverHomeCubit extends Cubit<DriverHomeState> {
 
     final index = queue!.indexWhere((d) => d.driverId == myId);
 
-    return index; // صفر يعني أول واحد
+    return index;
   }
 
   int getVehiclesAhead() {
@@ -155,28 +160,15 @@ class DriverHomeCubit extends Cubit<DriverHomeState> {
 
     result.fold((failure) => emit(GetStationQueueError(failure.message)), (
       data,
-    ) async {
+    ) {
       queue = data;
-
       emit(GetStationQueueSuccess(data));
-
-      await listenToQueueNotifications(queueId);
     });
   }
 
-  // ================= REALTIME QUEUE =================
-
-  Future<void> listenToQueueNotifications(String queueId) async {
-    emit(ListenQueueNotificationsLoading());
-
-    final result = await connectQueue(queueId);
-
-    result.fold((failure) {
-      emit(ListenQueueNotificationsError(failure.message));
-      return;
-    }, (_) {});
-
-    await _queueSubscription?.cancel();
+  // ================= connect Queue Global =================
+  Future<void> connectQueueGlobal() async {
+    if (_queueSubscription != null) return;
 
     _queueSubscription = listenToQueueNotificationsUseCase().listen(
       (event) {
@@ -184,6 +176,28 @@ class DriverHomeCubit extends Cubit<DriverHomeState> {
       },
       onError: (error) {
         emit(ListenQueueNotificationsError(error.toString()));
+      },
+    );
+  }
+
+  // ================= REALTIME QUEUE =================
+  Future<void> listenToQueueNotifications(String queueId) async {
+    if (_currentListeningId == queueId) return;
+
+    if (_isConnecting) return;
+
+    _isConnecting = true;
+
+    final result = await connectQueue(queueId);
+
+    result.fold(
+      (failure) {
+        _isConnecting = false;
+        emit(ListenQueueNotificationsError(failure.message));
+      },
+      (_) {
+        _currentListeningId = queueId;
+        _isConnecting = false;
       },
     );
   }
@@ -196,15 +210,25 @@ class DriverHomeCubit extends Cubit<DriverHomeState> {
       currentQueue.add(event.driver);
 
       currentQueue.sort((a, b) => (a.position ?? 0).compareTo(b.position ?? 0));
+
+      if (event.driver.driverId == TokenManager.userId) {
+        getCurrentPosition();
+        // myPosition = event.driver;
+      }
     }
 
     if (event is DriverRemovedEvent) {
       currentQueue.removeWhere((d) => d.driverId == event.driverId);
+
+      if (event.driverId == TokenManager.userId) {
+        myPosition = null;
+        getCurrentPosition();
+      }
     }
 
     queue = currentQueue;
 
-    emit(QueueRealtimeUpdated(List.from(currentQueue)));
+    emit(QueueRealtimeUpdated(List.from(queue ?? [])));
   }
 
   bool isMyTurn() {
@@ -233,13 +257,13 @@ class DriverHomeCubit extends Cubit<DriverHomeState> {
 
     emit(GetTripHistoryLoading());
 
-    if (AppConfig.useMockData) {
-      await Future.delayed(const Duration(milliseconds: 500));
-      tripHistory = DriverHomeMockData.tripHistory(pageNumber: currentPage);
-      totalAmount = tripHistory!.data.totalAmount.toInt();
-      emit(GetTripHistorySuccess(tripHistory!));
-      return;
-    }
+    // if (AppConfig.useMockData) {
+    //   await Future.delayed(const Duration(milliseconds: 500));
+    //   tripHistory = DriverHomeMockData.tripHistory(pageNumber: currentPage);
+    //   totalAmount = tripHistory!.data.totalAmount.toInt();
+    //   emit(GetTripHistorySuccess(tripHistory!));
+    //   return;
+    // }
 
     final result = await getTripHistoryUseCase(
       fromDate: tripFromDate,
@@ -260,9 +284,7 @@ class DriverHomeCubit extends Cubit<DriverHomeState> {
       },
       (data) {
         tripHistory = data;
-
         totalAmount = data.data.totalAmount.toInt();
-
         emit(GetTripHistorySuccess(data));
       },
     );
