@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
@@ -116,14 +118,15 @@ class DioFactory {
     TokenManager.clearLoginData();
   }
 }
-testRefreshToken() async {
-  try {
-    final response = await _refreshToken();
-    print('Token refreshed successfully: ${response.token}');
-  } catch (e) {
-    print('Failed to refresh token: $e');
-  }
-}
+
+// testRefreshToken() async {
+//   try {
+//     final response = await _refreshToken();
+//     print('Token refreshed successfully: ${response.token}');
+//   } catch (e) {
+//     print('Failed to refresh token: $e');
+//   }
+// }
 
 class AuthInterceptor extends Interceptor {
   final Dio dio;
@@ -131,18 +134,13 @@ class AuthInterceptor extends Interceptor {
   AuthInterceptor(this.dio);
 
   bool _isRefreshing = false;
-  final List<RequestOptions> _retryQueue = [];
+  Completer<void>? _refreshCompleter;
 
   // =========================
   // 🔹 Request
   // =========================
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    authLog(
-      '➡️ Request: ${options.method} ${options.path} | '
-      'HasToken: ${TokenManager.token != null}',
-    );
-
     if (TokenManager.token != null) {
       options.headers['Authorization'] = 'Bearer ${TokenManager.token}';
     }
@@ -155,36 +153,41 @@ class AuthInterceptor extends Interceptor {
   // =========================
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) async {
-    authLog(
-      '❌ Error: ${err.response?.statusCode} '
-      'on ${err.requestOptions.path}',
-    );
+    final statusCode = err.response?.statusCode;
 
-    // =========================
-    // ❌ Not 401 → Show SnackBar
-    // =========================
-    if (err.response?.statusCode != 401 || TokenManager.refreshToken == null) {
-      authLog('❌ Non-401 error or no refresh token. Showing error snackbar.');
-      // showGlobalSnackBar("Something went wrong. Please try again.");
+    authLog('❌ Error: $statusCode on ${err.requestOptions.path}');
 
+    // ❌ لو مش 401 → رجعه عادي
+    if (statusCode != 401 || TokenManager.refreshToken == null) {
       return handler.reject(err);
     }
 
     final requestOptions = err.requestOptions;
 
-    if (_isRefreshing) {
-      _retryQueue.add(requestOptions);
-      return;
-    }
-
-    _isRefreshing = true;
-
-    authLog('🔄 Starting token refresh...');
-
     try {
       // =========================
-      // 1️⃣ REFRESH TOKEN
+      // 🔥 لو فيه refresh شغال → استنى
       // =========================
+      if (_isRefreshing) {
+        authLog('⏳ Waiting for token refresh...');
+        await _refreshCompleter?.future;
+
+        // 🔁 retry بعد ما التوكن يتجدد
+        requestOptions.headers['Authorization'] =
+            'Bearer ${TokenManager.token}';
+
+        final response = await dio.fetch(requestOptions);
+        return handler.resolve(response);
+      }
+
+      // =========================
+      // 🔥 ابدأ refresh
+      // =========================
+      _isRefreshing = true;
+      _refreshCompleter = Completer();
+
+      authLog('🔄 Starting token refresh...');
+
       final authResponse = await _refreshToken();
 
       final newToken = authResponse.token ?? '';
@@ -196,58 +199,28 @@ class AuthInterceptor extends Interceptor {
         refreshTokenExpirationDateTime:
             authResponse.refreshTokenExpirationDateTime ?? '',
         userName: authResponse.userName ?? '',
-        userId: TokenHelper.extractUserId(authResponse.token ?? '') ?? '',
+        userId: TokenHelper.extractUserId(newToken) ?? '',
         phone: authResponse.phone ?? '',
       );
 
       authLog('✅ Token refreshed successfully');
 
-      // =========================
-      // 2️⃣ RETRY ORIGINAL REQUEST
-      // =========================
-      Response<dynamic>? response;
-
-      try {
-        requestOptions.headers['Authorization'] = 'Bearer $newToken';
-
-        response = await dio.fetch(requestOptions);
-      } catch (e) {
-        authLog('❌ Original request retry failed: $e');
-
-        // showGlobalSnackBar("Request failed. Please try again.");
-      }
-
-      // =========================
-      // 3️⃣ RETRY QUEUED REQUESTS
-      // =========================
-      for (final req in _retryQueue) {
-        try {
-          req.headers['Authorization'] = 'Bearer $newToken';
-
-          await dio.fetch(req);
-        } catch (e) {
-          authLog('❌ Retry failed: ${req.path} → $e');
-
-          // showGlobalSnackBar("Some requests failed. Please try again.");
-        }
-      }
-
-      _retryQueue.clear();
       _isRefreshing = false;
+      _refreshCompleter?.complete();
 
-      if (response != null) {
-        return handler.resolve(response);
-      } else {
-        return handler.reject(err);
-      }
-    }
-    // =========================
-    // ❌ Refresh Failed → Logout ONLY
-    // =========================
-    catch (e) {
+      // =========================
+      // 🔁 retry original request
+      // =========================
+      requestOptions.headers['Authorization'] = 'Bearer $newToken';
+
+      final response = await dio.fetch(requestOptions);
+
+      return handler.resolve(response);
+    } catch (e) {
       authLog('❌ Token refresh failed: $e');
 
       _isRefreshing = false;
+      _refreshCompleter?.completeError(e);
 
       TokenManager.clearLoginData();
 
@@ -256,7 +229,7 @@ class AuthInterceptor extends Interceptor {
         (route) => false,
       );
 
-      handler.reject(err);
+      return handler.reject(err);
     }
   }
 }
@@ -264,12 +237,16 @@ class AuthInterceptor extends Interceptor {
 Future<AuthResponseModel> _refreshToken() async {
   final lang = CacheHelper.getCacheData(key: CacheKeys.localeKey) ?? 'en';
 
-  final refreshDio = Dio();
+  final refreshDio = Dio()
+    ..options.validateStatus = (status) => true;
 
   refreshDio.options.headers = {
     'Accept-Language': lang,
     'Content-Type': 'application/json',
   };
+
+  print("TOKEN: ${TokenManager.token}");
+  print("REFRESH: ${TokenManager.refreshToken}");
 
   final response = await refreshDio.post(
     "https://smart-microbus.runasp.net/api/v1/account/generate-new-jwt-token",
@@ -278,6 +255,12 @@ Future<AuthResponseModel> _refreshToken() async {
       "refreshToken": TokenManager.refreshToken ?? '',
     },
   );
+
+  print("REFRESH RESPONSE: ${response.data}");
+
+  if (response.statusCode != 200) {
+    throw Exception("Refresh failed: ${response.data}");
+  }
 
   return AuthResponseModel.fromJson(response.data);
 }

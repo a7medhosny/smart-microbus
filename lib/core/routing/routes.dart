@@ -13,4 +13,5 @@ class Routes {
   // ================= DRIVER HOME =================
   static const String driverHome = '/DriverHomeView';
   static const String driverTripHistory = '/DriverTripHistoryScreen';
+  static const String profile = '/profile';
 }

@@ -9,6 +9,7 @@ import 'package:smart_microbus/features/Driver/driver_home/domain/entities/queue
 import 'package:smart_microbus/features/Driver/driver_home/domain/entities/trip_history_response.dart';
 import 'package:smart_microbus/features/Driver/driver_home/domain/repository/driver_home_repository.dart';
 
+import '../../domain/entities/driver_current_status.dart';
 import '../datasources/driver_home_data_source.dart';
 import '../datasources/queue_signalr_datasource.dart';
 
@@ -19,7 +20,7 @@ class DriverHomeRepositoryImpl extends DriverHomeRepository {
   DriverHomeRepositoryImpl(this.dataSource, this.signalRDataSource);
 
   @override
-  Future<Either<Failure, QueueItem>> getCurrentPosition() async {
+  Future<Either<Failure, DriverCurrentStatus>> getCurrentPosition() async {
     try {
       final result = await dataSource.getCurrentPosition();
       return Right(result.toEntity());

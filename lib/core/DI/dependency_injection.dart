@@ -12,6 +12,7 @@ import 'package:smart_microbus/features/Driver/driver_home/domain/usecases/get_t
 import 'package:smart_microbus/features/Driver/driver_home/domain/usecases/listen_to_queue_notifications_use_case.dart';
 import 'package:smart_microbus/features/Driver/driver_home/domain/usecases/start_trip_use_case.dart';
 import 'package:smart_microbus/features/Driver/driver_home/presentation/cubit/driver_home_cubit.dart';
+import 'package:smart_microbus/features/profile/domain/usecases/logout_use_case.dart';
 import 'package:smart_microbus/features/register/data/datasource/register_api_service.dart';
 import 'package:smart_microbus/features/register/data/datasource/register_remote_data_source.dart';
 import 'package:smart_microbus/features/register/data/datasource/register_remote_data_source_impl.dart';
@@ -35,6 +36,14 @@ import '../../features/Driver/driver_home/data/datasources/driver_home_data_sour
 import '../../features/Driver/driver_home/data/datasources/queue_signalr_datasource_impl.dart';
 import '../../features/Driver/driver_home/domain/repository/driver_home_repository.dart'
     show DriverHomeRepository;
+import '../../features/profile/data/datasource/profile_api_service.dart';
+import '../../features/profile/data/datasource/profile_remote_data_source.dart';
+import '../../features/profile/data/datasource/profile_remote_data_source_impl.dart';
+import '../../features/profile/data/repositories/profile_repository_impl.dart';
+import '../../features/profile/domain/repositories/profile_repository.dart';
+import '../../features/profile/domain/usecases/get_profile_usecase.dart';
+import '../../features/profile/domain/usecases/change_password_usecase.dart';
+import '../../features/profile/presentation/cubit/profile_cubit.dart';
 import '../../features/register/data/repositoies/register_repository_impl.dart';
 import '../../features/register/domain/usecases/register_driver_use_case.dart';
 import '../../features/register/domain/usecases/register_passenger_use_case.dart';
@@ -78,6 +87,29 @@ Future<void> setupDependencyInjection() async {
   _registerDependencies();
 
   _driverDependencies();
+
+  /// API
+  getIt.registerLazySingleton<ProfileApiService>(
+    () => ProfileApiService(getIt()),
+  );
+
+  /// DataSource
+  getIt.registerLazySingleton<ProfileRemoteDataSource>(
+    () => ProfileRemoteDataSourceImpl(getIt()),
+  );
+
+  /// Repository
+  getIt.registerLazySingleton<ProfileRepository>(
+    () => ProfileRepositoryImpl(getIt(), getIt()),
+  );
+
+  /// UseCases
+  getIt.registerLazySingleton(() => GetProfileUseCase(getIt()));
+  getIt.registerLazySingleton(() => ChangePasswordUseCase(getIt()));
+  getIt.registerLazySingleton(() => LogoutUseCase(getIt()));
+
+  /// Cubit
+  getIt.registerFactory(() => ProfileCubit(getIt(), getIt(), getIt()));
 }
 
 void _registerDependencies() {

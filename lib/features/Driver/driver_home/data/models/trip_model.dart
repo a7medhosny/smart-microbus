@@ -47,6 +47,7 @@ class TripModel extends Trip {
     required int passengerCount,
     required double distance,
     required int status,
+    required double estimatedArrivalMinutes,
   }) : super(
          amount: amount,
          routeFrom: routeFrom,
@@ -56,20 +57,27 @@ class TripModel extends Trip {
          passengerCount: passengerCount,
          distance: distance,
          status: status.toString(),
+         estimatedArrivalMinutes: estimatedArrivalMinutes,
        );
 
   factory TripModel.fromJson(Map<String, dynamic> json) {
-    final formatter = DateFormat("yyyy MM dd HH:mm");
-
     return TripModel(
-      amount: (json['amount'] as num).toDouble(),
-      routeFrom: json['routeFrom'],
-      routeTo: json['routeTo'],
-      startedAt: formatter.parse(json['startedAt']),
-      endedAt: formatter.parse(json['endedAt']),
-      passengerCount: json['passengerCount'],
-      distance: (json['distance'] as num).toDouble(),
-      status: json['status'],
+      amount: (json['amount'] as num?)?.toDouble() ?? 0.0,
+      routeFrom: json['routeFrom'] ?? '',
+      routeTo: json['routeTo'] ?? '',
+
+      /// 👇 الحل هنا
+      startedAt: DateTime.parse(json['startedAt']),
+
+      endedAt: json['endedAt'] != null
+          ? DateTime.parse(json['endedAt'])
+          : DateTime.now(), // أو خليه null لو هتعدل ال entity
+
+      passengerCount: json['passengerCount'] ?? 0,
+      distance: (json['distance'] as num?)?.toDouble() ?? 0.0,
+      status: json['status'] ?? 0,
+      estimatedArrivalMinutes:
+          (json['estimatedArrivalMinutes'] as num?)?.toDouble() ?? 0.0,
     );
   }
 

@@ -291,4 +291,37 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get tripEstimatedTime => 'Estimated Time';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get confirm => 'Confirm';
+
+  @override
+  String get changePassword => 'Change Password';
+
+  @override
+  String get changePasswordDesc => 'Enter your new password and confirm it';
+
+  @override
+  String get changeTheme => 'Change Theme';
+
+  @override
+  String get changeLanguage => 'Change Language';
+
+  @override
+  String get profile => 'Profile';
+
+  @override
+  String get settings => 'Settings';
+
+  @override
+  String get retry => 'Retry';
+
+  @override
+  String get logout => 'Logout';
+
+  @override
+  String get passwordUpdated => 'Password updated successfully';
 }

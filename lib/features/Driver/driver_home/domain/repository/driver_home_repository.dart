@@ -5,9 +5,10 @@ import 'package:smart_microbus/features/Driver/driver_home/domain/entities/queue
 import 'package:smart_microbus/features/Driver/driver_home/domain/entities/trip_history_response.dart';
 
 import '../../../../../core/error/failure.dart';
+import '../entities/driver_current_status.dart';
 
 abstract class DriverHomeRepository {
-  Future<Either<Failure, QueueItem>> getCurrentPosition();
+  Future<Either<Failure, DriverCurrentStatus>> getCurrentPosition();
 
   Future<Either<Failure, List<QueueItem>>> getStationQueue({
     required String driverId,

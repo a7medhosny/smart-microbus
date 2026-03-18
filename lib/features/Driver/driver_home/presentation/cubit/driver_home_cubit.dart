@@ -2,13 +2,16 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:smart_microbus/features/Driver/driver_home/domain/entities/trip.dart';
 import 'package:smart_microbus/features/Driver/driver_home/domain/usecases/start_trip_use_case.dart';
 
 import '../../../../../core/auth/token_helper.dart';
 import '../../../../../core/auth/token_manager.dart';
 import '../../../../../core/config/app_config.dart';
+import '../../../../../core/error/failure.dart';
 import '../../data/mock/driver_home_mock_data.dart';
 
+import '../../domain/entities/driver_current_status.dart';
 import '../../domain/entities/earning.dart';
 import '../../domain/entities/queue_event.dart';
 import '../../domain/entities/queue_item.dart';
@@ -46,7 +49,9 @@ class DriverHomeCubit extends Cubit<DriverHomeState> {
   ) : super(DriverHomeInitial());
 
   QueueItem? myPosition;
+  Trip? currentTrip;
   List<QueueItem>? queue;
+  DriverCurrentStatus? currentStatus;
   Earning? earning;
   bool positionLoaded = false;
 
@@ -88,20 +93,32 @@ class DriverHomeCubit extends Cubit<DriverHomeState> {
 
     result.fold(
       (failure) {
+       if (failure is UnauthorizedFailure) return;
         positionLoaded = true;
+        print("Error loading current position: ${failure.message}");
         emit(GetCurrentPositionError(failure.message));
       },
       (data) async {
-        myPosition = data;
         positionLoaded = true;
 
+        /// 👇 خزّن الحالة كاملة
+        currentStatus = data;
+
+        /// 👇 لو في Queue خزّنها
+        myPosition = data.queue;
+        currentTrip = data.trip;
+
+        /// 👇 emit الحالة الجديدة
         emit(GetCurrentPositionSuccess(data));
 
-        if (data.queueId != '00000000-0000-0000-0000-000000000000') {
-          await listenToQueueNotifications(data.queueId);
+        /// 👇 لو في Queue بس
+        if (data.queue != null) {
+          await listenToQueueNotifications(data.queue!.queueId);
+          // positionLoaded = true;
+
           await getStationQueue(
             driverId: TokenHelper.extractUserId(TokenManager.token ?? '') ?? '',
-            queueId: data.queueId,
+            queueId: data.queue!.queueId,
           );
         }
       },

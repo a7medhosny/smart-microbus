@@ -33,10 +33,15 @@ class HeaderCard extends StatelessWidget {
       child: Row(
         children: [
           /// Driver Avatar
-          CircleAvatar(
-            radius: 24,
-            backgroundColor: theme.colorScheme.onPrimary.withAlpha(40),
-            child: Icon(Icons.person, color: Colors.white),
+          InkWell(
+            onTap: () {
+              context.pushNamed(Routes.profile);
+            },
+            child: CircleAvatar(
+              radius: 24,
+              backgroundColor: theme.colorScheme.onPrimary.withAlpha(40),
+              child: Icon(Icons.person, color: Colors.white),
+            ),
           ),
 
           horizontalSpace(12),
