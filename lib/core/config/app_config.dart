@@ -1,3 +1,3 @@
 class AppConfig {
-  static  bool useMockData = true;
+  static bool useMockData = true;
 }

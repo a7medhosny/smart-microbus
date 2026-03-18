@@ -20,7 +20,7 @@ class ResendCodeText extends StatelessWidget {
   final String phoneNumber;
   final String from;
   final OtpController controller;
-  int seconds=60;
+  int seconds = 60;
 
   @override
   Widget build(BuildContext context) {

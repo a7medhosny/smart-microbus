@@ -3,7 +3,6 @@ import 'package:dio/dio.dart';
 import 'error_response_model.dart';
 import 'failure.dart';
 
-
 class ErrorHandler {
   static Failure handle(DioException e) {
     try {
@@ -14,8 +13,7 @@ class ErrorHandler {
 
         String message = errorModel.message;
 
-        if (errorModel.errors != null &&
-            errorModel.errors!.isNotEmpty) {
+        if (errorModel.errors != null && errorModel.errors!.isNotEmpty) {
           message = errorModel.errors!.join('\n');
         }
 

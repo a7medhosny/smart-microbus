@@ -6,8 +6,6 @@ part 'refresh_token_request_model.g.dart';
 
 @JsonSerializable()
 class RefreshTokenRequestModel extends RefreshTokenRequest {
- 
-
   RefreshTokenRequestModel({required super.token, required super.refreshToken});
 
   factory RefreshTokenRequestModel.fromJson(Map<String, dynamic> json) =>

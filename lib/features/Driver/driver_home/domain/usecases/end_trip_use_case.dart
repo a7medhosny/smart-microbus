@@ -7,9 +7,7 @@ class EndTripUseCase {
 
   EndTripUseCase(this.repository);
 
-  Future<Either<Failure, Unit>> call({
-    required String driverId,
-  }) {
+  Future<Either<Failure, Unit>> call({required String driverId}) {
     return repository.endTrip(driverId: driverId);
   }
 }

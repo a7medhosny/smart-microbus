@@ -16,8 +16,13 @@ abstract class RegisterRepository {
   Future<Either<Failure, AuthResponse>> registerPassenger(
     RegisterPassengerRequest request,
   );
-  Future<Either<Failure, VerifyOtpResponseEntity>> verifyOtp(VerifyOtpRequest request);
-  Future<Either<Failure, AuthResponse>> confirmAccount(ConfirmAccountRequest request);
-  Future<Either<Failure, AuthResponse>> resendConfirmation(ResendConfirmationRequest request);
-
+  Future<Either<Failure, VerifyOtpResponseEntity>> verifyOtp(
+    VerifyOtpRequest request,
+  );
+  Future<Either<Failure, AuthResponse>> confirmAccount(
+    ConfirmAccountRequest request,
+  );
+  Future<Either<Failure, AuthResponse>> resendConfirmation(
+    ResendConfirmationRequest request,
+  );
 }

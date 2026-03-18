@@ -11,7 +11,6 @@ sealed class DriverHomeState extends Equatable {
 
 final class DriverHomeInitial extends DriverHomeState {}
 
-
 // =====================================================
 // =============== CURRENT POSITION =====================
 // =====================================================
@@ -35,7 +34,6 @@ final class GetCurrentPositionError extends DriverHomeState {
   @override
   List<Object?> get props => [message];
 }
-
 
 // =====================================================
 // =============== DAILY EARNINGS =======================
@@ -61,7 +59,6 @@ final class GetDailyEarningsError extends DriverHomeState {
   List<Object?> get props => [message];
 }
 
-
 // =====================================================
 // ================= STATION QUEUE ======================
 // =====================================================
@@ -85,7 +82,6 @@ final class GetStationQueueError extends DriverHomeState {
   @override
   List<Object?> get props => [message];
 }
-
 
 // =====================================================
 // ================= TRIP HISTORY =======================
@@ -111,7 +107,6 @@ final class GetTripHistoryError extends DriverHomeState {
   List<Object?> get props => [message];
 }
 
-
 // =====================================================
 // ============ QUEUE NOTIFICATIONS =====================
 // =====================================================
@@ -136,7 +131,6 @@ class QueueRealtimeUpdated extends DriverHomeState {
   List<Object?> get props => [queue];
 }
 
-
 // =====================================================
 // ================= START TRIP =========================
 // =====================================================
@@ -153,7 +147,6 @@ final class StartTripError extends DriverHomeState {
   @override
   List<Object?> get props => [message];
 }
-
 
 // =====================================================
 // ================== END TRIP ==========================

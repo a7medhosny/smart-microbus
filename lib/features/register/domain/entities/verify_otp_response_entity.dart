@@ -14,8 +14,5 @@ class VerifyOtpDataEntity {
   final String token;
   final String userId;
 
-  VerifyOtpDataEntity({
-    required this.token,
-    required this.userId,
-  });
+  VerifyOtpDataEntity({required this.token, required this.userId});
 }

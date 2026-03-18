@@ -15,10 +15,7 @@ part 'register_api_service.g.dart';
 
 @RestApi(baseUrl: ApiConstants.baseUrl)
 abstract class RegisterApiService {
-  factory RegisterApiService(
-    Dio dio, {
-    String baseUrl,
-  }) = _RegisterApiService;
+  factory RegisterApiService(Dio dio, {String baseUrl}) = _RegisterApiService;
 
   // -------------------- REGISTER DRIVER --------------------
 
@@ -37,11 +34,9 @@ abstract class RegisterApiService {
   // -------------------- VERIFY OTP --------------------
 
   @POST(ApiConstants.verifyOtpEndpoint)
-  Future<VerifyOtpResponseModel> verifyOtp(
-    @Body() VerifyOtpRequestModel model,
-  );
+  Future<VerifyOtpResponseModel> verifyOtp(@Body() VerifyOtpRequestModel model);
 
-    // -------------------- CONFIRM ACCOUNT --------------------
+  // -------------------- CONFIRM ACCOUNT --------------------
 
   @POST(ApiConstants.confirmAccountEndpoint)
   Future<AuthResponseModel> confirmAccount(
@@ -54,8 +49,9 @@ abstract class RegisterApiService {
   Future<AuthResponseModel> resendConfirmation(
     @Body() ResendConfirmationRequestModel model,
   );
-  
-    @POST(ApiConstants.refreshTokenEndpoint)
-  Future<AuthResponseModel> refreshToken(@Body() RefreshTokenRequestModel request);
 
+  @POST(ApiConstants.refreshTokenEndpoint)
+  Future<AuthResponseModel> refreshToken(
+    @Body() RefreshTokenRequestModel request,
+  );
 }

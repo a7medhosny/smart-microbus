@@ -1,9 +1,6 @@
-class ConfirmAccountRequest{
-   final String phoneNumber;
+class ConfirmAccountRequest {
+  final String phoneNumber;
   final String otp;
 
-  ConfirmAccountRequest({
-    required this.phoneNumber,
-    required this.otp,
-  });
+  ConfirmAccountRequest({required this.phoneNumber, required this.otp});
 }

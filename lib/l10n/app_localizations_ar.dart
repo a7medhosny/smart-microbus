@@ -15,7 +15,8 @@ class AppLocalizationsAr extends AppLocalizations {
   String get welcomeToMinya => 'أهلاً بك في المنيا';
 
   @override
-  String get chooseRoleDescription => 'يرجى اختيار دورك للبدء في استخدام نظام النقل الذكي';
+  String get chooseRoleDescription =>
+      'يرجى اختيار دورك للبدء في استخدام نظام النقل الذكي';
 
   @override
   String get passenger => 'راكب';
@@ -45,7 +46,8 @@ class AppLocalizationsAr extends AppLocalizations {
   String get phoneRequired => 'من فضلك أدخل رقم الهاتف';
 
   @override
-  String get phoneNotConfirmed => 'رقم الهاتف غير مُفعل. برجاء تأكيد حسابك قبل تسجيل الدخول.';
+  String get phoneNotConfirmed =>
+      'رقم الهاتف غير مُفعل. برجاء تأكيد حسابك قبل تسجيل الدخول.';
 
   @override
   String get otpSent => 'تم إرسال رمز التحقق إلى رقم هاتفك.';
@@ -75,7 +77,8 @@ class AppLocalizationsAr extends AppLocalizations {
   String get forgetPasswordFormTitle => 'استعادة كلمة المرور';
 
   @override
-  String get forgetPasswordFormDescription => 'أدخل رقم هاتفك لإرسال رمز التحقق.';
+  String get forgetPasswordFormDescription =>
+      'أدخل رقم هاتفك لإرسال رمز التحقق.';
 
   @override
   String get sendResetCode => 'إرسال رمز التحقق';
@@ -120,7 +123,8 @@ class AppLocalizationsAr extends AppLocalizations {
   String get createNewAccount => 'إنشاء حساب جديد';
 
   @override
-  String get registerToSmartMicrobus => 'انضم إلى خدمة الميكروباص الذكي بخطوات بسيطة';
+  String get registerToSmartMicrobus =>
+      'انضم إلى خدمة الميكروباص الذكي بخطوات بسيطة';
 
   @override
   String get fullName => 'الاسم بالكامل';
@@ -153,13 +157,15 @@ class AppLocalizationsAr extends AppLocalizations {
   String get resendCode => 'إعادة إرسال الكود';
 
   @override
-  String get accountConfirmed => 'تم تأكيد حسابك بنجاح، يمكنك الآن تسجيل الدخول';
+  String get accountConfirmed =>
+      'تم تأكيد حسابك بنجاح، يمكنك الآن تسجيل الدخول';
 
   @override
   String get invalidPhone => 'رقم هاتف غير صالح';
 
   @override
-  String get invalidPassword => 'كلمة المرور يجب أن تحتوي على 8 أحرف على الأقل وتشمل حرفًا كبيرًا وحرفًا صغيرًا ورقمًا.';
+  String get invalidPassword =>
+      'كلمة المرور يجب أن تحتوي على 8 أحرف على الأقل وتشمل حرفًا كبيرًا وحرفًا صغيرًا ورقمًا.';
 
   @override
   String get licenseRequired => 'من فضلك أدخل رقم رخصة القيادة';
@@ -243,7 +249,8 @@ class AppLocalizationsAr extends AppLocalizations {
   String get driverNotInQueueTitle => 'أنت غير موجود في الطابور حالياً';
 
   @override
-  String get driverNotInQueueDescription => 'يرجى عمل مسح (QR) عند المسؤول للانضمام إلى الطابور وبدء العمل.';
+  String get driverNotInQueueDescription =>
+      'يرجى عمل مسح (QR) عند المسؤول للانضمام إلى الطابور وبدء العمل.';
 
   @override
   String get tripsHistory => 'سجل الرحلات';
@@ -258,7 +265,8 @@ class AppLocalizationsAr extends AppLocalizations {
   String get noTripsTitle => 'لا توجد رحلات';
 
   @override
-  String get noTripsDescription => 'لا توجد رحلات في الفترة المحددة. حاول تغيير نطاق التاريخ.';
+  String get noTripsDescription =>
+      'لا توجد رحلات في الفترة المحددة. حاول تغيير نطاق التاريخ.';
 
   @override
   String get yourTurnNotificationTitle => 'دورك الآن';

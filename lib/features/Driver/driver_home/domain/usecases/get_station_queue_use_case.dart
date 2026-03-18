@@ -9,7 +9,7 @@ class GetStationQueueUseCase {
 
   GetStationQueueUseCase(this.driverHomeRepository);
 
-  Future<Either<Failure,  List<QueueItem>>> call({required String driverId}) {
+  Future<Either<Failure, List<QueueItem>>> call({required String driverId}) {
     return driverHomeRepository.getStationQueue(driverId: driverId);
   }
 }

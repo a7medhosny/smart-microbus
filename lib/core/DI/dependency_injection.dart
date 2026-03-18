@@ -12,6 +12,9 @@ import 'package:smart_microbus/features/Driver/driver_home/domain/usecases/get_t
 import 'package:smart_microbus/features/Driver/driver_home/domain/usecases/listen_to_queue_notifications_use_case.dart';
 import 'package:smart_microbus/features/Driver/driver_home/domain/usecases/start_trip_use_case.dart';
 import 'package:smart_microbus/features/Driver/driver_home/presentation/cubit/driver_home_cubit.dart';
+import 'package:smart_microbus/features/passener/data/datasource/passenger_api_service.dart';
+import 'package:smart_microbus/features/passener/data/datasource/passenger_remote_data_source.dart';
+import 'package:smart_microbus/features/passener/domain/repos/passenger_repo.dart';
 import 'package:smart_microbus/features/register/data/datasource/register_api_service.dart';
 import 'package:smart_microbus/features/register/data/datasource/register_remote_data_source.dart';
 import 'package:smart_microbus/features/register/data/datasource/register_remote_data_source_impl.dart';
@@ -35,6 +38,13 @@ import '../../features/Driver/driver_home/data/datasources/driver_home_data_sour
 import '../../features/Driver/driver_home/data/datasources/queue_signalr_datasource_impl.dart';
 import '../../features/Driver/driver_home/domain/repository/driver_home_repository.dart'
     show DriverHomeRepository;
+import '../../features/passener/data/datasource/passenger_remote_data_source_impl.dart';
+import '../../features/passener/data/repos/passenger_repo_impl.dart';
+import '../../features/passener/domain/usecases/get_on_the_way_microbuses_use_case.dart';
+import '../../features/passener/domain/usecases/get_route_destination_use_case.dart';
+import '../../features/passener/domain/usecases/get_route_summary_use_case.dart';
+import '../../features/passener/domain/usecases/get_routes_use_case.dart';
+import '../../features/passener/domain/usecases/get_station_microbuses_use_case.dart';
 import '../../features/register/data/repositoies/register_repository_impl.dart';
 import '../../features/register/domain/usecases/register_driver_use_case.dart';
 import '../../features/register/domain/usecases/register_passenger_use_case.dart';
@@ -221,5 +231,35 @@ void _driverDependencies() {
       getIt<StartTripUseCase>(),
       getIt<EndTripUseCase>(),
     ),
+  );
+  // ================= Passenger Dependencies =================
+  getIt.registerLazySingleton<PassengerApiService>(
+    () => PassengerApiService(getIt<Dio>()),
+  );
+  getIt.registerLazySingleton<PassengerRemoteDataSource>(
+    () => PassengerRemoteDataSourceImpl(getIt<PassengerApiService>()),
+  );
+  getIt.registerLazySingleton<PassengerRepo>(
+    () => PassengerRepoImpl(getIt<PassengerRemoteDataSource>()),
+  );
+
+  getIt.registerLazySingleton<GetRoutesUseCase>(
+    () => GetRoutesUseCase(getIt<PassengerRepo>()),
+  );
+
+  getIt.registerLazySingleton<GetRouteDestinationUseCase>(
+    () => GetRouteDestinationUseCase(getIt<PassengerRepo>()),
+  );
+
+  getIt.registerLazySingleton<GetRouteSummaryUseCase>(
+    () => GetRouteSummaryUseCase(getIt<PassengerRepo>()),
+  );
+
+  getIt.registerLazySingleton<GetStationMicrobusesUseCase>(
+    () => GetStationMicrobusesUseCase(getIt<PassengerRepo>()),
+  );
+
+  getIt.registerLazySingleton<GetOnTheWayMicrobusesUseCase>(
+    () => GetOnTheWayMicrobusesUseCase(getIt<PassengerRepo>()),
   );
 }

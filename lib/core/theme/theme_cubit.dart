@@ -4,19 +4,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../storage/cache_helper.dart';
 import '../storage/cache_keys.dart';
 
-
 class ThemeCubit extends Cubit<ThemeMode> {
   ThemeCubit() : super(ThemeMode.light) {
     _loadTheme();
   }
 
-
   /// 🔄 Toggle Theme
   Future<void> toggleTheme() async {
-    final newMode =
-        state == ThemeMode.light
-            ? ThemeMode.dark
-            : ThemeMode.light;
+    final newMode = state == ThemeMode.light ? ThemeMode.dark : ThemeMode.light;
 
     emit(newMode);
 
@@ -31,8 +26,7 @@ class ThemeCubit extends Cubit<ThemeMode> {
   }
 
   Future<void> _loadTheme() async {
-    final cachedValue =
-        CacheHelper.getCacheData(key: CacheKeys.themeKey);
+    final cachedValue = CacheHelper.getCacheData(key: CacheKeys.themeKey);
 
     if (cachedValue == null) {
       emit(ThemeMode.light);

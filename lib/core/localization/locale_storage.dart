@@ -2,10 +2,12 @@ import '../storage/cache_helper.dart';
 import '../storage/cache_keys.dart';
 
 class LocaleStorage {
-
   /// حفظ اللغة
   Future<void> saveLocale(String languageCode) async {
-    await CacheHelper.insertToCache(key: CacheKeys.localeKey, value: languageCode);
+    await CacheHelper.insertToCache(
+      key: CacheKeys.localeKey,
+      value: languageCode,
+    );
   }
 
   /// جلب اللغة

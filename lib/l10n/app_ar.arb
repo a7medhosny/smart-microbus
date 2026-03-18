@@ -96,7 +96,8 @@
   "viewAllTrips": "عرض جميع الرحلات",
   "tripHistory": "سجل الرحلات",
   "noTripsYet": "لا توجد رحلات حتى الآن",
-"notInQueue": "لديك رحلة جارية حالياً",   "loading": "جاري التحميل...",
+"notInQueue": "لديك رحلة جارية حالياً",
+   "loading": "جاري التحميل...",
    
   "driverNotInQueueTitle": "أنت غير موجود في الطابور حالياً",
   "driverNotInQueueDescription": "يرجى عمل مسح (QR) عند المسؤول للانضمام إلى الطابور وبدء العمل.",

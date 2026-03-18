@@ -10,7 +10,9 @@ class VerifyOtpUseCase {
 
   VerifyOtpUseCase(this.registerRepoistory);
 
-  Future<Either<Failure, VerifyOtpResponseEntity>> call(VerifyOtpRequest request) {
+  Future<Either<Failure, VerifyOtpResponseEntity>> call(
+    VerifyOtpRequest request,
+  ) {
     return registerRepoistory.verifyOtp(request);
   }
 }

@@ -28,8 +28,8 @@ class QueueStatusSection extends StatelessWidget {
 
         final cubit = context.watch<DriverHomeCubit>();
 
-// final myPosition = cubit.getMyQueueIndex();
-final vehiclesAhead = cubit.getVehiclesAhead();
+        // final myPosition = cubit.getMyQueueIndex();
+        final vehiclesAhead = cubit.getVehiclesAhead();
 
         return Column(
           children: [

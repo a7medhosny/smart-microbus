@@ -1,7 +1,5 @@
-class ResendConfirmationRequest{
-     final String phoneNumber;
+class ResendConfirmationRequest {
+  final String phoneNumber;
 
-  ResendConfirmationRequest({
-    required this.phoneNumber,
-  });
+  ResendConfirmationRequest({required this.phoneNumber});
 }

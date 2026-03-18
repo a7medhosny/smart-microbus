@@ -9,16 +9,13 @@ import '../models/resend_confirmation_request_model.dart';
 import '../models/verify_otp_request_model.dart';
 import 'register_api_service.dart';
 
-class RegisterRemoteDataSourceImpl
-    implements RegisterRemoteDataSource {
+class RegisterRemoteDataSourceImpl implements RegisterRemoteDataSource {
   final RegisterApiService apiService;
 
   RegisterRemoteDataSourceImpl(this.apiService);
 
   @override
-  Future<AuthResponseModel> registerDriver(
-    RegisterDriverRequestModel model,
-  ) {
+  Future<AuthResponseModel> registerDriver(RegisterDriverRequestModel model) {
     return apiService.registerDriver(model);
   }
 
@@ -30,16 +27,12 @@ class RegisterRemoteDataSourceImpl
   }
 
   @override
-  Future<VerifyOtpResponseModel> verifyOtp(
-    VerifyOtpRequestModel model,
-  ) {
+  Future<VerifyOtpResponseModel> verifyOtp(VerifyOtpRequestModel model) {
     return apiService.verifyOtp(model);
   }
 
   @override
-  Future<AuthResponseModel> confirmAccount(
-    ConfirmAccountRequestModel model,
-  ) {
+  Future<AuthResponseModel> confirmAccount(ConfirmAccountRequestModel model) {
     return apiService.confirmAccount(model);
   }
 

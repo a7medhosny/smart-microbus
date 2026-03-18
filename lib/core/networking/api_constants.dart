@@ -48,4 +48,9 @@ class ApiConstants {
   static const String estmstimatedEarnings = '/driver/estimated-earnings';
   static const String startTrip = '/driver/start-trip';
   static const String endTrip = '/driver/end-trip';
+  //passenger end points
+
+  static const String routes = '/Routes';
+  //api/v1/Routes/destinations
+  static const String routeDestinations = '/Routes/destinations';
 }

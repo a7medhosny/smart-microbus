@@ -7,7 +7,7 @@ class CacheKeys {
   static const String refreshTokenExpiration = 'refreshTokenExpirationDateTime';
   static const String userName = 'userName';
   static const String phone = 'phone';
-  
+
   static const String email = 'email';
   static const String userId = 'userId';
   static const String guestId = 'guestId';
@@ -16,5 +16,4 @@ class CacheKeys {
   static const otpPhone = "otpPhone";
   static const confirmAccount = "confirmAccount";
   static const forgetPassword = "forgetPassword";
-  
 }

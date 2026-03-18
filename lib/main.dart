@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -17,6 +18,7 @@ import 'core/localization/locale_state.dart';
 import 'core/routing/app_router.dart';
 import 'core/theme/app_theme.dart';
 import 'core/theme/theme_cubit.dart';
+import 'features/passener/data/datasource/passenger_api_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,7 +37,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appRouter = AppRouter();
-final bool isLoggedIn = TokenManager.token != null; // Check if token exists to determine login state
+    final bool isLoggedIn =
+        TokenManager.token !=
+        null; // Check if token exists to determine login state
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => getIt<LocaleCubit>()),
@@ -56,8 +60,10 @@ final bool isLoggedIn = TokenManager.token != null; // Check if token exists to 
                     debugShowCheckedModeBanner: false,
                     navigatorKey: navigatorKey,
                     onGenerateRoute: appRouter.onGenerateRoute,
-                    initialRoute: isLoggedIn ? Routes.driverHome : Routes.initial, // Set initial route based on login state
-
+                    initialRoute: isLoggedIn
+                        ? Routes.driverHome
+                        : Routes
+                              .initial, // Set initial route based on login state
                     // ================= Localization =================
                     locale: localeState.locale,
                     supportedLocales: AppLocalizations.supportedLocales,

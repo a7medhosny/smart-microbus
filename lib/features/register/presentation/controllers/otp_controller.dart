@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 class OtpController extends ChangeNotifier {
   // ================= PIN =================
 
-  final TextEditingController pinController =
-      TextEditingController();
+  final TextEditingController pinController = TextEditingController();
 
   bool isCompleted = false;
 
@@ -32,18 +31,15 @@ class OtpController extends ChangeNotifier {
     _secondsRemaining = seconds;
     _timer?.cancel();
 
-    _timer = Timer.periodic(
-      const Duration(seconds: 1),
-      (timer) {
-        if (_secondsRemaining > 0) {
-          _secondsRemaining--;
-          notifyListeners();
-        } else {
-          timer.cancel();
-          notifyListeners();
-        }
-      },
-    );
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (_secondsRemaining > 0) {
+        _secondsRemaining--;
+        notifyListeners();
+      } else {
+        timer.cancel();
+        notifyListeners();
+      }
+    });
   }
 
   // إعادة تشغيل بعد resend
@@ -53,15 +49,9 @@ class OtpController extends ChangeNotifier {
 
   // فورمات 00:59
   String get formattedTime {
-    final minutes =
-        (_secondsRemaining ~/ 60)
-            .toString()
-            .padLeft(2, '0');
+    final minutes = (_secondsRemaining ~/ 60).toString().padLeft(2, '0');
 
-    final seconds =
-        (_secondsRemaining % 60)
-            .toString()
-            .padLeft(2, '0');
+    final seconds = (_secondsRemaining % 60).toString().padLeft(2, '0');
 
     return "$minutes:$seconds";
   }

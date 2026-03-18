@@ -17,11 +17,8 @@ class AuthResponseModel extends AuthResponse {
     super.refreshTokenExpirationDateTime,
   });
 
-  factory AuthResponseModel.fromJson(
-    Map<String, dynamic> json,
-  ) =>
+  factory AuthResponseModel.fromJson(Map<String, dynamic> json) =>
       _$AuthResponseModelFromJson(json);
 
-  Map<String, dynamic> toJson() =>
-      _$AuthResponseModelToJson(this);
+  Map<String, dynamic> toJson() => _$AuthResponseModelToJson(this);
 }

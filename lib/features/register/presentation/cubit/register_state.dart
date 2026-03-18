@@ -61,7 +61,7 @@ final class VerifyOtpLoading extends RegisterState {}
 
 final class VerifyOtpSuccess extends RegisterState {
   final VerifyOtpResponseEntity response;
- const VerifyOtpSuccess(this.response);
+  const VerifyOtpSuccess(this.response);
 }
 
 final class VerifyOtpError extends RegisterState {

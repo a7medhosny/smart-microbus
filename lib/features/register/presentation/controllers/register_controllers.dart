@@ -1,18 +1,12 @@
 import 'package:flutter/material.dart';
 
-
 class RegisterControllers {
-  final fullNameController =
-      TextEditingController();
-  final phoneController =
-      TextEditingController();
-  final passwordController =
-      TextEditingController();
-  final licenseNumberController =
-      TextEditingController();
+  final fullNameController = TextEditingController();
+  final phoneController = TextEditingController();
+  final passwordController = TextEditingController();
+  final licenseNumberController = TextEditingController();
 
-  RegisterUserType userType =
-      RegisterUserType.passenger;
+  RegisterUserType userType = RegisterUserType.passenger;
 
   final formKey = GlobalKey<FormState>();
 
@@ -24,7 +18,4 @@ class RegisterControllers {
   }
 }
 
-enum RegisterUserType {
-  passenger,
-  driver,
-}
+enum RegisterUserType { passenger, driver }

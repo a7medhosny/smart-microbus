@@ -8,8 +8,7 @@ class TokenManager {
       CacheHelper.getCacheData(key: CacheKeys.refreshToken);
   static String? get userName =>
       CacheHelper.getCacheData(key: CacheKeys.userName);
-  static String? get phone =>
-      CacheHelper.getCacheData(key: CacheKeys.phone);
+  static String? get phone => CacheHelper.getCacheData(key: CacheKeys.phone);
   static String? get userId => CacheHelper.getCacheData(key: CacheKeys.userId);
   static String? get guestId =>
       CacheHelper.getCacheData(key: CacheKeys.guestId);
@@ -67,7 +66,6 @@ class TokenManager {
     await CacheHelper.insertToCache(key: CacheKeys.userName, value: userName);
     await CacheHelper.insertToCache(key: CacheKeys.phone, value: phone);
     await CacheHelper.insertToCache(key: CacheKeys.userId, value: userId);
-
   }
 
   static Future<void> clearLoginData() async {

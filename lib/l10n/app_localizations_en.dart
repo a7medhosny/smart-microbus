@@ -15,19 +15,22 @@ class AppLocalizationsEn extends AppLocalizations {
   String get welcomeToMinya => 'Welcome to Minya';
 
   @override
-  String get chooseRoleDescription => 'Please choose your role to start using the smart transport system';
+  String get chooseRoleDescription =>
+      'Please choose your role to start using the smart transport system';
 
   @override
   String get passenger => 'Passenger';
 
   @override
-  String get passengerDescription => 'Search for your trip and book your seat easily';
+  String get passengerDescription =>
+      'Search for your trip and book your seat easily';
 
   @override
   String get driver => 'Driver';
 
   @override
-  String get driverDescription => 'Start your trips and receive passenger bookings';
+  String get driverDescription =>
+      'Start your trips and receive passenger bookings';
 
   @override
   String get welcomeBack => 'Welcome Back';
@@ -45,10 +48,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get phoneRequired => 'Please enter your phone number';
 
   @override
-  String get phoneNotConfirmed => 'Phone number not confirmed. Please confirm your account before logging in.';
+  String get phoneNotConfirmed =>
+      'Phone number not confirmed. Please confirm your account before logging in.';
 
   @override
-  String get otpSent => 'A verification code has been sent to your phone number.';
+  String get otpSent =>
+      'A verification code has been sent to your phone number.';
 
   @override
   String get password => 'Password';
@@ -63,7 +68,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get passwordNotMatch => 'Passwords do not match';
 
   @override
-  String get passwordResetSuccess => 'Your password has been reset successfully.';
+  String get passwordResetSuccess =>
+      'Your password has been reset successfully.';
 
   @override
   String get rememberMe => 'Remember me';
@@ -75,13 +81,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get forgetPasswordFormTitle => 'Forgot Password';
 
   @override
-  String get forgetPasswordFormDescription => 'Enter your phone number to receive a verification code.';
+  String get forgetPasswordFormDescription =>
+      'Enter your phone number to receive a verification code.';
 
   @override
   String get sendResetCode => 'Send verification code';
 
   @override
-  String get enterNewPasswordDesc => 'Enter a new password to secure your account';
+  String get enterNewPasswordDesc =>
+      'Enter a new password to secure your account';
 
   @override
   String get sendCode => 'Send code';
@@ -153,13 +161,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get resendCode => 'Resend Code';
 
   @override
-  String get accountConfirmed => 'Your account has been confirmed successfully. You can now log in.';
+  String get accountConfirmed =>
+      'Your account has been confirmed successfully. You can now log in.';
 
   @override
   String get invalidPhone => 'Invalid phone number';
 
   @override
-  String get invalidPassword => 'Password must be at least 8 characters and include an uppercase letter, a lowercase letter, and a number.';
+  String get invalidPassword =>
+      'Password must be at least 8 characters and include an uppercase letter, a lowercase letter, and a number.';
 
   @override
   String get licenseRequired => 'Please enter your driving license number';
@@ -243,7 +253,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get driverNotInQueueTitle => 'You are not currently in the queue';
 
   @override
-  String get driverNotInQueueDescription => 'Please ask the admin to scan your QR code to join the queue and start working.';
+  String get driverNotInQueueDescription =>
+      'Please ask the admin to scan your QR code to join the queue and start working.';
 
   @override
   String get tripsHistory => 'Trip History';
@@ -258,13 +269,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noTripsTitle => 'No trips found';
 
   @override
-  String get noTripsDescription => 'There are no trips for the selected period. Try changing the date range.';
+  String get noTripsDescription =>
+      'There are no trips for the selected period. Try changing the date range.';
 
   @override
   String get yourTurnNotificationTitle => 'It\'s your turn';
 
   @override
-  String get yourTurnNotificationBody => 'You can now start loading passengers at the station';
+  String get yourTurnNotificationBody =>
+      'You can now start loading passengers at the station';
 
   @override
   String get currentTripStatus => 'Current Trip Status';

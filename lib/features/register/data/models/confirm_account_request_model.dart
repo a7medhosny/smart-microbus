@@ -5,18 +5,12 @@ part 'confirm_account_request_model.g.dart';
 
 @JsonSerializable()
 class ConfirmAccountRequestModel extends ConfirmAccountRequest {
-  ConfirmAccountRequestModel({
-    required super.phoneNumber,
-    required super.otp,
-  });
+  ConfirmAccountRequestModel({required super.phoneNumber, required super.otp});
 
   /// From Json
-  factory ConfirmAccountRequestModel.fromJson(
-    Map<String, dynamic> json,
-  ) =>
+  factory ConfirmAccountRequestModel.fromJson(Map<String, dynamic> json) =>
       _$ConfirmAccountRequestModelFromJson(json);
 
   /// To Json
-  Map<String, dynamic> toJson() =>
-      _$ConfirmAccountRequestModelToJson(this);
+  Map<String, dynamic> toJson() => _$ConfirmAccountRequestModelToJson(this);
 }

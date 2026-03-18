@@ -7,9 +7,7 @@ class StartTripUseCase {
 
   StartTripUseCase(this.repository);
 
-  Future<Either<Failure, Unit>> call({
-    required String driverId,
-  }) {
+  Future<Either<Failure, Unit>> call({required String driverId}) {
     return repository.startTrip(driverId: driverId);
   }
 }

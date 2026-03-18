@@ -10,7 +10,9 @@ class ResendConfirmationUseCase {
 
   ResendConfirmationUseCase(this.registerRepoistory);
 
-  Future<Either<Failure, AuthResponse>> call(ResendConfirmationRequest request) {
+  Future<Either<Failure, AuthResponse>> call(
+    ResendConfirmationRequest request,
+  ) {
     return registerRepoistory.resendConfirmation(request);
   }
 }

@@ -7,7 +7,7 @@ import '../widgets/otp_widgets/otp_verify_button.dart';
 import '../widgets/otp_widgets/resend_code_text.dart';
 
 class VerifyOtpScreen extends StatefulWidget {
-   const VerifyOtpScreen({
+  const VerifyOtpScreen({
     super.key,
     required this.phoneNumber,
     required this.from,
@@ -25,7 +25,9 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
   @override
   void initState() {
     super.initState();
-    controller.startResendTimer(seconds: 60); // start timer when open the screen
+    controller.startResendTimer(
+      seconds: 60,
+    ); // start timer when open the screen
   }
 
   @override
