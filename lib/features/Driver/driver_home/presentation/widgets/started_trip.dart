@@ -18,7 +18,10 @@ class StartedTripSection extends StatelessWidget {
     // if (position == null) return const SizedBox();
 
     final theme = Theme.of(context);
-
+    if (trip == null) {
+      return const Center(child: CircularProgressIndicator());
+    }
+    
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

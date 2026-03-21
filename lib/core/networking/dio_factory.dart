@@ -154,7 +154,7 @@ class AuthInterceptor extends Interceptor {
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) async {
     final statusCode = err.response?.statusCode;
-
+    _logDioError(err);
     authLog('❌ Error: $statusCode on ${err.requestOptions.path}');
 
     // ❌ لو مش 401 → رجعه عادي
@@ -234,11 +234,54 @@ class AuthInterceptor extends Interceptor {
   }
 }
 
+void _logDioError(DioException err) {
+  final request = err.requestOptions;
+  final response = err.response;
+
+  authLog('''
+================= ❌ DIO ERROR =================
+🔗 URL: ${request.baseUrl}${request.path}
+📌 Method: ${request.method}
+
+📤 Headers:
+${request.headers}
+
+📤 Query:
+${request.queryParameters}
+
+📤 Body:
+${request.data}
+
+-----------------------------------------------
+📥 Status Code: ${response?.statusCode}
+
+📥 Response:
+${response?.data}
+
+-----------------------------------------------
+⚠️ Dio Type: ${err.type}
+⚠️ Message: ${err.message}
+
+===============================================
+''');
+}
+
 Future<AuthResponseModel> _refreshToken() async {
   final lang = CacheHelper.getCacheData(key: CacheKeys.localeKey) ?? 'en';
 
-  final refreshDio = Dio()
-    ..options.validateStatus = (status) => true;
+  final refreshDio = Dio()..options.validateStatus = (status) => true;
+    refreshDio.interceptors.add(
+    PrettyDioLogger(
+      request: true,
+      requestHeader: true,
+      requestBody: true,
+      responseBody: true,
+      responseHeader: true,
+      error: true,
+      compact: false,
+      maxWidth: 90,
+    ),
+  );
 
   refreshDio.options.headers = {
     'Accept-Language': lang,

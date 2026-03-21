@@ -161,6 +161,8 @@ class _DriverHomeViewState extends State<DriverHomeView> {
 
   /// ================= ON TRIP =================
   Widget _onTripUI(DriverCurrentStatus status) {
+              context.read<DriverHomeCubit>().turnNotified = false;
+
     return const Column(
       key: ValueKey('onTrip'),
       children: [StartedTripSection()],

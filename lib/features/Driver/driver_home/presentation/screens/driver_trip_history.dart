@@ -70,6 +70,7 @@ class _DriverTripHistoryScreenState extends State<DriverTripHistoryScreen> {
               current is GetTripHistoryError,
           listener: (context, state) {
             if (state is GetTripHistoryError) {
+              print("Error fetching trip history: ${state.message}");
               ShowToastHelper.showToast(
                 context,
                 state.message,
