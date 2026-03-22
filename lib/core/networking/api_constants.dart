@@ -28,6 +28,7 @@ class ApiConstants {
   static const String deletePhotoEndpoint = '/Account/delete-photo';
 
   static const String deleteAccountEndpoint = '/Account/delete';
+  static const String myProfileEndpoint = '/Account/me';
 
   // =========================
   // Existing Endpoints

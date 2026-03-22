@@ -1,9 +1,10 @@
+import '../models/driver_current_status_model.dart';
 import '../models/earning_model.dart';
 import '../models/queue_item_model.dart';
 import '../models/trip_history_response_model.dart';
 
 abstract class DriverHomeDataSource {
-  Future<QueueItemModel> getCurrentPosition();
+  Future<DriverCurrentStatusModel> getCurrentPosition();
   Future<List<QueueItemModel>> getStationQueue({
     required String driverId,
     // required String stationId,

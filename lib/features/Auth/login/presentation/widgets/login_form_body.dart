@@ -127,12 +127,15 @@ class _LoginFormBodyState extends State<LoginFormBody> {
                 }
               } else if (state is LoginSuccess) {
                 final user = state.user;
-                final String loginSucess =
-                    "${TokenHelper.extractRoles(user.token) == "Passenger" ? loc.passenger : loc.driver} ${loc.loginSuccess}";
+                final bool isDriver =
+                    (TokenHelper.extractRoles(user.token) == 'Driver');
+
+                // final String loginSucess = "${}";
+
                 if (Navigator.of(context).canPop()) {
                   context.pop();
                 }
-                ShowToastHelper.showToast(context, loginSucess);
+                ShowToastHelper.showToast(context, loc.loginSuccess);
                 widget.phoneController.clear();
                 widget.passwordController.clear();
                 TokenManager.saveLoginData(
@@ -145,10 +148,11 @@ class _LoginFormBodyState extends State<LoginFormBody> {
                   phone: user.phone,
                   userId: TokenHelper.extractUserId(user.token) ?? '',
                 );
-                context.pushNamedAndRemoveUntil(
-                  Routes.driverHome,
-                  arguments: {CacheKeys.userName: user.userName},
-                );
+                if (isDriver) {
+                  context.pushNamedAndRemoveUntil(Routes.driverHome);
+                } else {
+                  context.pushNamedAndRemoveUntil(Routes.passengerSearch);
+                }
               }
             },
             builder: (context, state) {

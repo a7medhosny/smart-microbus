@@ -23,7 +23,11 @@ class SearchButton extends StatelessWidget {
           final routeId = cubit.selectedRouteId;
 
           if (routeId == null) {
-            ShowToastHelper.showToast(context, l10n.pleaseSelectARoute);
+            ShowToastHelper.showToast(
+              context,
+              l10n.pleaseSelectARoute,
+              backgroundColor: Colors.red,
+            );
             return;
           }
 

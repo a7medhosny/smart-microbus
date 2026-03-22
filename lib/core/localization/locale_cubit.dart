@@ -30,6 +30,16 @@ class LocaleCubit extends Cubit<LocaleState> {
     emit(LocaleState(locale: Locale(code)));
   }
 
+  Future<void> toggleLocale() async {
+  final currentCode = state.locale.languageCode;
+
+  if (currentCode == 'en') {
+    await changeLocale('ar');
+  } else {
+    await changeLocale('en');
+  }
+}
+
   // =========================
   // Shortcuts
   // =========================

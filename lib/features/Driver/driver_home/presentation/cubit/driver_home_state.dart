@@ -18,12 +18,12 @@ final class DriverHomeInitial extends DriverHomeState {}
 final class GetCurrentPositionLoading extends DriverHomeState {}
 
 final class GetCurrentPositionSuccess extends DriverHomeState {
-  final QueueItem position;
+  final DriverCurrentStatus currentStatus; // 👈 خزّن الحالة كاملة
 
-  const GetCurrentPositionSuccess(this.position);
+  const GetCurrentPositionSuccess(this.currentStatus);
 
   @override
-  List<Object?> get props => [position];
+  List<Object?> get props => [currentStatus];
 }
 
 final class GetCurrentPositionError extends DriverHomeState {

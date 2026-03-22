@@ -47,6 +47,7 @@ class TripModel extends Trip {
     required int passengerCount,
     required double distance,
     required int status,
+    required double estimatedArrivalMinutes,
   }) : super(
          amount: amount,
          routeFrom: routeFrom,
@@ -56,22 +57,38 @@ class TripModel extends Trip {
          passengerCount: passengerCount,
          distance: distance,
          status: status.toString(),
+         estimatedArrivalMinutes: estimatedArrivalMinutes,
        );
 
-  factory TripModel.fromJson(Map<String, dynamic> json) {
-    final formatter = DateFormat("yyyy MM dd HH:mm");
+factory TripModel.fromJson(Map<String, dynamic> json) {
+  return TripModel(
+    amount: (json['amount'] as num?)?.toDouble() ?? 0.0,
+    routeFrom: json['routeFrom'] ?? '',
+    routeTo: json['routeTo'] ?? '',
 
-    return TripModel(
-      amount: (json['amount'] as num).toDouble(),
-      routeFrom: json['routeFrom'],
-      routeTo: json['routeTo'],
-      startedAt: formatter.parse(json['startedAt']),
-      endedAt: formatter.parse(json['endedAt']),
-      passengerCount: json['passengerCount'],
-      distance: (json['distance'] as num).toDouble(),
-      status: json['status'],
-    );
-  }
+    startedAt: _parseDate(json['startedAt']),
+    endedAt: _parseDate(json['endedAt']),
+
+    passengerCount: json['passengerCount'] ?? 0,
+    distance: (json['distance'] as num?)?.toDouble() ?? 0.0,
+    status: json['status'] ?? 0,
+    estimatedArrivalMinutes:
+        (json['estimatedArrivalMinutes'] as num?)?.toDouble() ?? 0.0,
+  );
+}
 
   Map<String, dynamic> toJson() => _$TripModelToJson(this);
+}
+
+DateTime _parseDate(String? value) {
+  if (value == null || value.trim().isEmpty) {
+    return DateTime.now();
+  }
+
+  try {
+    return DateFormat('yyyy MM dd HH:mm').parse(value.trim());
+  } catch (e) {
+    print("DATE PARSE ERROR: $value");
+    return DateTime.now();
+  }
 }

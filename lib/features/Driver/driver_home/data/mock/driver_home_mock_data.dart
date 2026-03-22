@@ -74,6 +74,7 @@ class DriverHomeMockData {
         routeTo: 'Bani mazar',
         passengerCount: 40,
         distance: 800,
+        estimatedArrivalMinutes: 45,
       );
     });
 

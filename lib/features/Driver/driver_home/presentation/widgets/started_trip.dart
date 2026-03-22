@@ -13,12 +13,15 @@ class StartedTripSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final cubit = context.watch<DriverHomeCubit>();
     final l10n = AppLocalizations.of(context)!;
-    final position = cubit.myPosition;
+    final trip = cubit.currentTrip;
 
-    if (position == null) return const SizedBox();
+    // if (position == null) return const SizedBox();
 
     final theme = Theme.of(context);
-
+    if (trip == null) {
+      return const Center(child: CircularProgressIndicator());
+    }
+    
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -167,7 +170,7 @@ class StartedTripSection extends StatelessWidget {
                   icon: Icons.circle,
                   color: theme.colorScheme.primary,
                   title: l10n.tripStartPoint,
-                  value: position.routeFrom ?? "",
+                  value: trip?.routeFrom ?? "",
                 ),
 
                 _routeItem(
@@ -175,7 +178,7 @@ class StartedTripSection extends StatelessWidget {
                   icon: Icons.location_on,
                   color: Colors.green,
                   title: l10n.tripDestination,
-                  value: position.routeTo ?? "",
+                  value: trip?.routeTo ?? "",
                   isLast: true,
                 ),
               ],
@@ -193,7 +196,7 @@ class StartedTripSection extends StatelessWidget {
                 context,
                 icon: Icons.route,
                 title: l10n.tripDistance,
-                value: "45 كم",
+                value: "${trip!.distance} KM",
               ),
             ),
 
@@ -204,7 +207,7 @@ class StartedTripSection extends StatelessWidget {
                 context,
                 icon: Icons.timer,
                 title: l10n.tripEstimatedTime,
-                value: "50 دقيقة",
+                value: "${trip.estimatedArrivalMinutes} mins",
               ),
             ),
           ],

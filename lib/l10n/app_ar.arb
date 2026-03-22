@@ -153,5 +153,23 @@
     "pleaseSelectARoute":"من فضلك اختر محطة القيام و محطة الوصول"
 
 
+  ,
+  "cancel": "إلغاء",
+  "confirm": "تأكيد",
+  "changePassword": "تغيير كلمة المرور",
+  "changePasswordDesc": "أدخل كلمة المرور الجديدة وقم بتأكيدها",
+  "changeTheme":"تغيير السمة"
+  ,
+  "changeLanguage":"تغيير اللغة"
+
+,
+  "profile": "الملف الشخصي",
+  "settings": "الإعدادات",
+  "retry": "إعادة المحاولة",
+  "logout": "تسجيل الخروج",
+  "passwordUpdated": "تم تغيير كلمة المرور بنجاح"
+
+
+
 
 }

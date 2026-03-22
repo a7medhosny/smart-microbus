@@ -1,0 +1,14 @@
+import 'package:dartz/dartz.dart';
+
+import '../../../../core/error/failure.dart';
+import '../repositories/profile_repository.dart';
+
+class LogoutUseCase {
+  final ProfileRepository repository;
+  
+  LogoutUseCase(this.repository);
+  
+  Future<Either<Failure, Unit>> call() {
+    return repository.logout();
+  }
+}

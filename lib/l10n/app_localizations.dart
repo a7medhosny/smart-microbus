@@ -844,6 +844,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Please Select A Route'**
   String get pleaseSelectARoute;
+
+  /// No description provided for @cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// No description provided for @confirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm'**
+  String get confirm;
+
+  /// No description provided for @changePassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Change Password'**
+  String get changePassword;
+
+  /// No description provided for @changePasswordDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your new password and confirm it'**
+  String get changePasswordDesc;
+
+  /// No description provided for @changeTheme.
+  ///
+  /// In en, this message translates to:
+  /// **'Change Theme'**
+  String get changeTheme;
+
+  /// No description provided for @changeLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Change Language'**
+  String get changeLanguage;
+
+  /// No description provided for @profile.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get profile;
+
+  /// No description provided for @settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settings;
+
+  /// No description provided for @logout.
+  ///
+  /// In en, this message translates to:
+  /// **'Logout'**
+  String get logout;
+
+  /// No description provided for @passwordUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Password updated successfully'**
+  String get passwordUpdated;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

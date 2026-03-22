@@ -6,6 +6,11 @@ import 'failure.dart';
 class ErrorHandler {
   static Failure handle(DioException e) {
     try {
+
+     if (e.response?.statusCode == 401) {
+  return const UnauthorizedFailure();
+}
+
       final data = e.response?.data;
 
       if (data != null && data is Map<String, dynamic>) {

@@ -152,6 +152,24 @@
   "retry":"Retry",
   "pleaseSelectARoute":"Please Select A Route"
 
+  ,
+
+  
+  "cancel": "Cancel",
+  "confirm": "Confirm",
+  "changePassword": "Change Password",
+  "changePasswordDesc": "Enter your new password and confirm it",
+    "changeTheme":"Change Theme"
+  ,
+  "changeLanguage":"Change Language",
+
+
+  "profile": "Profile",
+  "settings": "Settings",
+  "retry": "Retry",
+  "logout": "Logout",
+  "passwordUpdated": "Password updated successfully"
+
 }
   
 

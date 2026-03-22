@@ -6,7 +6,9 @@ class Trip {
   final DateTime endedAt;
   final int passengerCount;
   final double distance;
+  final double estimatedArrivalMinutes;
   final String status;
+  
 
   Trip({
     required this.amount,
@@ -17,5 +19,6 @@ class Trip {
     required this.passengerCount,
     required this.distance,
     required this.status,
+    required this.estimatedArrivalMinutes,
   });
 }

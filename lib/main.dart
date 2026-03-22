@@ -40,6 +40,7 @@ class MyApp extends StatelessWidget {
     final appRouter = AppRouter();
     final bool isLoggedIn = TokenManager.token != null;
     final bool isDriver = TokenManager.role == 'Driver';
+    print('Is Logged In: $isLoggedIn, Role: ${TokenManager.role}');
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => getIt<LocaleCubit>()),

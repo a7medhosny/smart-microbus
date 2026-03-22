@@ -19,4 +19,5 @@ class Routes {
   static const String passengerSearchResultScreen = '/PassengerSearchResultScreen';
   static const String stationListScreen = '/StationListScreen';
   static const String onTheWayListScreen = '/OnTheWayListScreen';
+  static const String profile = '/profile';
 }

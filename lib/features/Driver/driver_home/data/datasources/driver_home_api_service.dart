@@ -5,6 +5,7 @@ import 'package:smart_microbus/features/Driver/driver_home/data/models/queue_ite
 import 'package:smart_microbus/features/Driver/driver_home/data/models/trip_history_response_model.dart';
 
 import '../../../../../core/networking/api_constants.dart';
+import '../models/driver_current_status_model.dart';
 
 part 'driver_home_api_service.g.dart';
 
@@ -13,7 +14,7 @@ abstract class DriverHomeApiService {
   factory DriverHomeApiService(Dio dio, {String baseUrl}) =
       _DriverHomeApiService;
   @GET(ApiConstants.currentPosition)
-  Future<QueueItemModel> getCurrentPosition();
+  Future<DriverCurrentStatusModel> getCurrentPosition();
   @GET(ApiConstants.stationQueue)
   Future<List<QueueItemModel>> getStationQueue({
     // @Path('stationId') required String stationId,

@@ -49,11 +49,13 @@ class QueueListSection extends StatelessWidget {
 
         final queue = cubit.queue;
         String firstDriver = "";
-        if (queue != null) firstDriver = queue.first.driverId;
+        if (queue != null&& queue.isNotEmpty) firstDriver = queue.first.driverId;
         final myPos = cubit.myPosition;
+        final driverCurrentStatus = cubit.currentStatus;
 
         /// ================= LOADING =================
         if (queue == null || myPos == null) {
+          print('Queue or position is null. Queue: $queue, My Position: $myPos');
           return Container(
             padding: const EdgeInsets.all(20),
             alignment: Alignment.center,
@@ -155,7 +157,7 @@ class QueueListSection extends StatelessWidget {
                   /// ================= ITEM =================
                   ///
                   itemBuilder: (context, item) {
-                    final isMe = item.driverId == myPos.driverId;
+                    final isMe = item.driverId == driverCurrentStatus?.driverId;
 
                     return Column(
                       mainAxisSize: MainAxisSize.min,

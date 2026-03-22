@@ -4,6 +4,7 @@ import 'package:smart_microbus/features/Driver/driver_home/data/models/earning_m
 import 'package:smart_microbus/features/Driver/driver_home/data/models/queue_item_model.dart';
 import 'package:smart_microbus/features/Driver/driver_home/data/models/trip_history_response_model.dart';
 
+import '../models/driver_current_status_model.dart';
 import 'driver_home_api_service.dart';
 
 class DriverHomeDataSourceImpl implements DriverHomeDataSource {
@@ -11,7 +12,7 @@ class DriverHomeDataSourceImpl implements DriverHomeDataSource {
 
   DriverHomeDataSourceImpl(this.apiService);
   @override
-  Future<QueueItemModel> getCurrentPosition() {
+  Future<DriverCurrentStatusModel> getCurrentPosition() {
     return apiService.getCurrentPosition();
   }
 

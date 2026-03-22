@@ -398,8 +398,38 @@ class AppLocalizationsAr extends AppLocalizations {
   String get arrivalTime => 'موعد الوصول';
 
   @override
-  String get retry => 'اعادة المحاولة';
+  String get retry => 'إعادة المحاولة';
 
   @override
   String get pleaseSelectARoute => 'من فضلك اختر محطة القيام و محطة الوصول';
+
+  @override
+  String get cancel => 'إلغاء';
+
+  @override
+  String get confirm => 'تأكيد';
+
+  @override
+  String get changePassword => 'تغيير كلمة المرور';
+
+  @override
+  String get changePasswordDesc => 'أدخل كلمة المرور الجديدة وقم بتأكيدها';
+
+  @override
+  String get changeTheme => 'تغيير السمة';
+
+  @override
+  String get changeLanguage => 'تغيير اللغة';
+
+  @override
+  String get profile => 'الملف الشخصي';
+
+  @override
+  String get settings => 'الإعدادات';
+
+  @override
+  String get logout => 'تسجيل الخروج';
+
+  @override
+  String get passwordUpdated => 'تم تغيير كلمة المرور بنجاح';
 }

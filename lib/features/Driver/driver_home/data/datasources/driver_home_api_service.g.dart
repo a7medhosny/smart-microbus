@@ -22,12 +22,12 @@ class _DriverHomeApiService implements DriverHomeApiService {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<QueueItemModel> getCurrentPosition() async {
+  Future<DriverCurrentStatusModel> getCurrentPosition() async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<QueueItemModel>(
+    final _options = _setStreamType<DriverCurrentStatusModel>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -38,9 +38,9 @@ class _DriverHomeApiService implements DriverHomeApiService {
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late QueueItemModel _value;
+    late DriverCurrentStatusModel _value;
     try {
-      _value = QueueItemModel.fromJson(_result.data!);
+      _value = DriverCurrentStatusModel.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
