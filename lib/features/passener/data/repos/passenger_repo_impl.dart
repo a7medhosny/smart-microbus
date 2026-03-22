@@ -87,4 +87,18 @@ class PassengerRepoImpl implements PassengerRepo {
       return Left(ServerFailure(errorMessage));
     }
   }
+  
+  @override
+  Future<Either<Failure, List<StationMicrobusEntity>>> getStationMicrobuses(String routeId) async {
+    try {
+      final stationMicrobuses = await remoteDataSource.getStationMicrobuses(
+        routeId,
+      );
+      return Right(stationMicrobuses);
+    } on DioException catch (e) {
+      return Left(ErrorHandler.handle(e));
+    } catch (e) {
+      return Left(ServerFailure(errorMessage));
+    }
+  }
 }

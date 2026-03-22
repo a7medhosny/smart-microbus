@@ -62,8 +62,7 @@ import 'app_localizations_en.dart';
 /// be consistent with the languages listed in the AppLocalizations.supportedLocales
 /// property.
 abstract class AppLocalizations {
-  AppLocalizations(String locale)
-    : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+  AppLocalizations(String locale) : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
@@ -71,8 +70,7 @@ abstract class AppLocalizations {
     return Localizations.of<AppLocalizations>(context, AppLocalizations);
   }
 
-  static const LocalizationsDelegate<AppLocalizations> delegate =
-      _AppLocalizationsDelegate();
+  static const LocalizationsDelegate<AppLocalizations> delegate = _AppLocalizationsDelegate();
 
   /// A list of this localizations delegate along with the default localizations
   /// delegates.
@@ -84,18 +82,17 @@ abstract class AppLocalizations {
   /// Additional delegates can be added by appending to this list in
   /// MaterialApp. This list does not have to be used at all if a custom list
   /// of delegates is preferred or required.
-  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
-      <LocalizationsDelegate<dynamic>>[
-        delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ];
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates = <LocalizationsDelegate<dynamic>>[
+    delegate,
+    GlobalMaterialLocalizations.delegate,
+    GlobalCupertinoLocalizations.delegate,
+    GlobalWidgetsLocalizations.delegate,
+  ];
 
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
     Locale('ar'),
-    Locale('en'),
+    Locale('en')
   ];
 
   /// No description provided for @appName.
@@ -649,10 +646,207 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Estimated Time'**
   String get tripEstimatedTime;
+
+  /// No description provided for @selectCity.
+  ///
+  /// In en, this message translates to:
+  /// **'Select city'**
+  String get selectCity;
+
+  /// No description provided for @currentLocationHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to Smart Microbus\nChoose your starting point to find available trips around you'**
+  String get currentLocationHint;
+
+  /// No description provided for @selectDestination.
+  ///
+  /// In en, this message translates to:
+  /// **'Select destination'**
+  String get selectDestination;
+
+  /// No description provided for @searchTrips.
+  ///
+  /// In en, this message translates to:
+  /// **'Search Trips'**
+  String get searchTrips;
+
+  /// No description provided for @searchResults.
+  ///
+  /// In en, this message translates to:
+  /// **'Search Results'**
+  String get searchResults;
+
+  /// No description provided for @availableAtStation.
+  ///
+  /// In en, this message translates to:
+  /// **'Available at Station'**
+  String get availableAtStation;
+
+  /// No description provided for @onTheWay.
+  ///
+  /// In en, this message translates to:
+  /// **'On The Way'**
+  String get onTheWay;
+
+  /// No description provided for @tapToViewDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to view details'**
+  String get tapToViewDetails;
+
+  /// No description provided for @microbusesAtStation.
+  ///
+  /// In en, this message translates to:
+  /// **'Microbuses at station'**
+  String get microbusesAtStation;
+
+  /// No description provided for @comingToYou.
+  ///
+  /// In en, this message translates to:
+  /// **'Coming to you'**
+  String get comingToYou;
+
+  /// No description provided for @afterMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'After {minutes} minutes'**
+  String afterMinutes(Object minutes);
+
+  /// No description provided for @afterMinutes_one.
+  ///
+  /// In en, this message translates to:
+  /// **'After {minutes} minute'**
+  String afterMinutes_one(Object minutes);
+
+  /// No description provided for @order.
+  ///
+  /// In en, this message translates to:
+  /// **'Order {position}'**
+  String order(Object position);
+
+  /// No description provided for @statusLoading.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading'**
+  String get statusLoading;
+
+  /// No description provided for @statusReady.
+  ///
+  /// In en, this message translates to:
+  /// **'Ready'**
+  String get statusReady;
+
+  /// No description provided for @statusWaiting.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting'**
+  String get statusWaiting;
+
+  /// No description provided for @statusBoarding.
+  ///
+  /// In en, this message translates to:
+  /// **'Ready to board'**
+  String get statusBoarding;
+
+  /// No description provided for @statusNear.
+  ///
+  /// In en, this message translates to:
+  /// **' Nearest'**
+  String get statusNear;
+
+  /// No description provided for @tripSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'Trip Summary'**
+  String get tripSummary;
+
+  /// No description provided for @priceInCurrency.
+  ///
+  /// In en, this message translates to:
+  /// **'{price} EGP'**
+  String priceInCurrency(Object price);
+
+  /// No description provided for @distance.
+  ///
+  /// In en, this message translates to:
+  /// **'Distance'**
+  String get distance;
+
+  /// No description provided for @distanceKm.
+  ///
+  /// In en, this message translates to:
+  /// **'{distance} km'**
+  String distanceKm(Object distance);
+
+  /// No description provided for @atStation.
+  ///
+  /// In en, this message translates to:
+  /// **'At Station'**
+  String get atStation;
+
+  /// No description provided for @nearestArrival.
+  ///
+  /// In en, this message translates to:
+  /// **'Nearest Arrival'**
+  String get nearestArrival;
+
+  /// No description provided for @minutesShort.
+  ///
+  /// In en, this message translates to:
+  /// **'{minutes} min'**
+  String minutesShort(Object minutes);
+
+  /// No description provided for @noMicrobuses.
+  ///
+  /// In en, this message translates to:
+  /// **'No microbuses available'**
+  String get noMicrobuses;
+
+  /// No description provided for @noMicrobusesDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again later or change your destination'**
+  String get noMicrobusesDesc;
+
+  /// No description provided for @plateNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Plate Number'**
+  String get plateNumber;
+
+  /// No description provided for @person.
+  ///
+  /// In en, this message translates to:
+  /// **'Person'**
+  String get person;
+
+  /// No description provided for @passengers.
+  ///
+  /// In en, this message translates to:
+  /// **'Passenger'**
+  String get passengers;
+
+  /// No description provided for @arrivalTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Arrival Time'**
+  String get arrivalTime;
+
+  /// No description provided for @retry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get retry;
+
+  /// No description provided for @pleaseSelectARoute.
+  ///
+  /// In en, this message translates to:
+  /// **'Please Select A Route'**
+  String get pleaseSelectARoute;
 }
 
-class _AppLocalizationsDelegate
-    extends LocalizationsDelegate<AppLocalizations> {
+class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
   const _AppLocalizationsDelegate();
 
   @override
@@ -661,26 +855,25 @@ class _AppLocalizationsDelegate
   }
 
   @override
-  bool isSupported(Locale locale) =>
-      <String>['ar', 'en'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => <String>['ar', 'en'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
 }
 
 AppLocalizations lookupAppLocalizations(Locale locale) {
+
+
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
-    case 'ar':
-      return AppLocalizationsAr();
-    case 'en':
-      return AppLocalizationsEn();
+    case 'ar': return AppLocalizationsAr();
+    case 'en': return AppLocalizationsEn();
   }
 
   throw FlutterError(
     'AppLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
     'an issue with the localizations generation tool. Please file an issue '
     'on GitHub with a reproducible sample app and the gen-l10n configuration '
-    'that was used.',
+    'that was used.'
   );
 }

@@ -15,6 +15,7 @@ import 'package:smart_microbus/features/Driver/driver_home/presentation/cubit/dr
 import 'package:smart_microbus/features/passener/data/datasource/passenger_api_service.dart';
 import 'package:smart_microbus/features/passener/data/datasource/passenger_remote_data_source.dart';
 import 'package:smart_microbus/features/passener/domain/repos/passenger_repo.dart';
+import 'package:smart_microbus/features/passener/presentation/cubit/passenger_cubit.dart';
 import 'package:smart_microbus/features/register/data/datasource/register_api_service.dart';
 import 'package:smart_microbus/features/register/data/datasource/register_remote_data_source.dart';
 import 'package:smart_microbus/features/register/data/datasource/register_remote_data_source_impl.dart';
@@ -261,5 +262,15 @@ void _driverDependencies() {
 
   getIt.registerLazySingleton<GetOnTheWayMicrobusesUseCase>(
     () => GetOnTheWayMicrobusesUseCase(getIt<PassengerRepo>()),
+  );
+
+  getIt.registerFactory<PassengerCubit>(
+    () => PassengerCubit(
+      getIt<GetRoutesUseCase>(),
+      getIt<GetRouteDestinationUseCase>(),
+      getIt<GetRouteSummaryUseCase>(),
+      getIt<GetStationMicrobusesUseCase>(),
+      getIt<GetOnTheWayMicrobusesUseCase>(),
+    ),
   );
 }

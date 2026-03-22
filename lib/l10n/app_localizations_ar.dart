@@ -15,8 +15,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get welcomeToMinya => 'أهلاً بك في المنيا';
 
   @override
-  String get chooseRoleDescription =>
-      'يرجى اختيار دورك للبدء في استخدام نظام النقل الذكي';
+  String get chooseRoleDescription => 'يرجى اختيار دورك للبدء في استخدام نظام النقل الذكي';
 
   @override
   String get passenger => 'راكب';
@@ -46,8 +45,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get phoneRequired => 'من فضلك أدخل رقم الهاتف';
 
   @override
-  String get phoneNotConfirmed =>
-      'رقم الهاتف غير مُفعل. برجاء تأكيد حسابك قبل تسجيل الدخول.';
+  String get phoneNotConfirmed => 'رقم الهاتف غير مُفعل. برجاء تأكيد حسابك قبل تسجيل الدخول.';
 
   @override
   String get otpSent => 'تم إرسال رمز التحقق إلى رقم هاتفك.';
@@ -77,8 +75,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get forgetPasswordFormTitle => 'استعادة كلمة المرور';
 
   @override
-  String get forgetPasswordFormDescription =>
-      'أدخل رقم هاتفك لإرسال رمز التحقق.';
+  String get forgetPasswordFormDescription => 'أدخل رقم هاتفك لإرسال رمز التحقق.';
 
   @override
   String get sendResetCode => 'إرسال رمز التحقق';
@@ -123,8 +120,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get createNewAccount => 'إنشاء حساب جديد';
 
   @override
-  String get registerToSmartMicrobus =>
-      'انضم إلى خدمة الميكروباص الذكي بخطوات بسيطة';
+  String get registerToSmartMicrobus => 'انضم إلى خدمة الميكروباص الذكي بخطوات بسيطة';
 
   @override
   String get fullName => 'الاسم بالكامل';
@@ -157,15 +153,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get resendCode => 'إعادة إرسال الكود';
 
   @override
-  String get accountConfirmed =>
-      'تم تأكيد حسابك بنجاح، يمكنك الآن تسجيل الدخول';
+  String get accountConfirmed => 'تم تأكيد حسابك بنجاح، يمكنك الآن تسجيل الدخول';
 
   @override
   String get invalidPhone => 'رقم هاتف غير صالح';
 
   @override
-  String get invalidPassword =>
-      'كلمة المرور يجب أن تحتوي على 8 أحرف على الأقل وتشمل حرفًا كبيرًا وحرفًا صغيرًا ورقمًا.';
+  String get invalidPassword => 'كلمة المرور يجب أن تحتوي على 8 أحرف على الأقل وتشمل حرفًا كبيرًا وحرفًا صغيرًا ورقمًا.';
 
   @override
   String get licenseRequired => 'من فضلك أدخل رقم رخصة القيادة';
@@ -249,8 +243,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get driverNotInQueueTitle => 'أنت غير موجود في الطابور حالياً';
 
   @override
-  String get driverNotInQueueDescription =>
-      'يرجى عمل مسح (QR) عند المسؤول للانضمام إلى الطابور وبدء العمل.';
+  String get driverNotInQueueDescription => 'يرجى عمل مسح (QR) عند المسؤول للانضمام إلى الطابور وبدء العمل.';
 
   @override
   String get tripsHistory => 'سجل الرحلات';
@@ -265,8 +258,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get noTripsTitle => 'لا توجد رحلات';
 
   @override
-  String get noTripsDescription =>
-      'لا توجد رحلات في الفترة المحددة. حاول تغيير نطاق التاريخ.';
+  String get noTripsDescription => 'لا توجد رحلات في الفترة المحددة. حاول تغيير نطاق التاريخ.';
 
   @override
   String get yourTurnNotificationTitle => 'دورك الآن';
@@ -299,4 +291,115 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get tripEstimatedTime => 'الوقت المتوقع';
+
+  @override
+  String get selectCity => 'اختر المدينة';
+
+  @override
+  String get currentLocationHint => 'مرحبًا بك في سمارت ميكروباص\nاختر نقطة الانطلاق لعرض الرحلات المتاحة حولك';
+
+  @override
+  String get selectDestination => 'اختر الوجهة';
+
+  @override
+  String get searchTrips => 'ابحث عن الرحلات';
+
+  @override
+  String get searchResults => 'نتائج البحث';
+
+  @override
+  String get availableAtStation => 'متوفر في المحطة';
+
+  @override
+  String get onTheWay => 'في الطريق';
+
+  @override
+  String get tapToViewDetails => 'اضغط لعرض التفاصيل';
+
+  @override
+  String get microbusesAtStation => 'ميكروباصات في المحطة';
+
+  @override
+  String get comingToYou => 'في الطريق إليك';
+
+  @override
+  String afterMinutes(Object minutes) {
+    return 'بعد $minutes دقيقة';
+  }
+
+  @override
+  String afterMinutes_one(Object minutes) {
+    return 'بعد $minutes دقيقة';
+  }
+
+  @override
+  String order(Object position) {
+    return 'ترتيب $position';
+  }
+
+  @override
+  String get statusLoading => 'جاري التحميل';
+
+  @override
+  String get statusReady => 'جاهز';
+
+  @override
+  String get statusWaiting => 'في الانتظار';
+
+  @override
+  String get statusBoarding => 'جاهز للركوب';
+
+  @override
+  String get statusNear => 'قريب';
+
+  @override
+  String get tripSummary => 'ملخص الرحلة';
+
+  @override
+  String priceInCurrency(Object price) {
+    return '$price جنيه';
+  }
+
+  @override
+  String get distance => 'المسافة';
+
+  @override
+  String distanceKm(Object distance) {
+    return '$distance كم';
+  }
+
+  @override
+  String get atStation => 'في المحطة';
+
+  @override
+  String get nearestArrival => 'أقرب وصول';
+
+  @override
+  String minutesShort(Object minutes) {
+    return '$minutes د';
+  }
+
+  @override
+  String get noMicrobuses => 'لا يوجد ميكروباصات';
+
+  @override
+  String get noMicrobusesDesc => 'حاول مرة أخرى لاحقًا أو غيّر الوجهة';
+
+  @override
+  String get plateNumber => 'رقم اللوحة';
+
+  @override
+  String get person => 'راكب';
+
+  @override
+  String get passengers => 'عدد الركاب';
+
+  @override
+  String get arrivalTime => 'موعد الوصول';
+
+  @override
+  String get retry => 'اعادة المحاولة';
+
+  @override
+  String get pleaseSelectARoute => 'من فضلك اختر محطة القيام و محطة الوصول';
 }

@@ -1,3 +1,4 @@
+import 'package:smart_microbus/core/auth/token_helper.dart';
 import 'package:smart_microbus/core/storage/cache_helper.dart';
 
 import '../storage/cache_keys.dart';
@@ -14,6 +15,7 @@ class TokenManager {
       CacheHelper.getCacheData(key: CacheKeys.guestId);
   static String? get newUser =>
       CacheHelper.getCacheData(key: CacheKeys.newUser);
+  static String? get role => CacheHelper.getCacheData(key: CacheKeys.role);
 
   static DateTime? get expiration {
     final expirationStr = CacheHelper.getCacheData(key: CacheKeys.expiration);
@@ -49,6 +51,7 @@ class TokenManager {
     required String userName,
     required String phone,
     required String userId,
+
   }) async {
     await CacheHelper.insertToCache(key: CacheKeys.token, value: token);
     await CacheHelper.insertToCache(
@@ -66,6 +69,11 @@ class TokenManager {
     await CacheHelper.insertToCache(key: CacheKeys.userName, value: userName);
     await CacheHelper.insertToCache(key: CacheKeys.phone, value: phone);
     await CacheHelper.insertToCache(key: CacheKeys.userId, value: userId);
+    await CacheHelper.insertToCache(
+      key: CacheKeys.role,
+      value: TokenHelper.extractRoles(token) ,
+    );
+
   }
 
   static Future<void> clearLoginData() async {
@@ -74,6 +82,7 @@ class TokenManager {
     await CacheHelper.deleteCacheItem(key: CacheKeys.expiration);
     await CacheHelper.deleteCacheItem(key: CacheKeys.refreshToken);
     await CacheHelper.deleteCacheItem(key: CacheKeys.refreshTokenExpiration);
+    await CacheHelper.deleteCacheItem(key: CacheKeys.role);
     await CacheHelper.deleteCacheItem(key: CacheKeys.userId);
     await CacheHelper.deleteCacheItem(key: CacheKeys.userName);
     await CacheHelper.deleteCacheItem(key: CacheKeys.phone);

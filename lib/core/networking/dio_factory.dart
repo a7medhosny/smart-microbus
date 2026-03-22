@@ -3,13 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:smart_microbus/core/storage/cache_helper.dart';
 import 'package:smart_microbus/core/storage/cache_keys.dart';
-import 'package:smart_microbus/features/register/data/datasource/register_api_service.dart';
 
 import '../../features/register/data/models/auth_response_model.dart';
-import '../../features/register/data/models/refresh_token_request_model.dart';
 import '../auth/token_helper.dart';
 import '../auth/token_manager.dart';
-import '../di/dependency_injection.dart';
 import '../routing/routes.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();

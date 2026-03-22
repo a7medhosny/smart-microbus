@@ -13,4 +13,10 @@ class Routes {
   // ================= DRIVER HOME =================
   static const String driverHome = '/DriverHomeView';
   static const String driverTripHistory = '/DriverTripHistoryScreen';
+
+  // ================= PASSENGER =================
+  static const String passengerSearch = '/PassengerSearchView';
+  static const String passengerSearchResultScreen = '/PassengerSearchResultScreen';
+  static const String stationListScreen = '/StationListScreen';
+  static const String onTheWayListScreen = '/OnTheWayListScreen';
 }
