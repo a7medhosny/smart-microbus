@@ -45,66 +45,184 @@ class _DriverHomeViewState extends State<DriverHomeView> {
               );
             }
           },
+
+          // builder: (context, state) {
+          //   final cubit = context.watch<DriverHomeCubit>();
+          //   if (state is GetCurrentPositionError) {
+          //     return _errorState(context, state.message);
+          //   }
+
+          //   /// ================= LOADING =================
+          //   if (!cubit.positionLoaded || state is GetCurrentPositionLoading) {
+          //     return const Center(child: CircularProgressIndicator());
+          //   }
+
+          //   final status = cubit.currentStatus;
+
+          //   /// ================= NO DATA =================
+          //   if (status == null) {
+          //     return _emptyState(context);
+          //   }
+
+          //   return RefreshIndicator(
+          //     onRefresh: () async {
+          //       await context.read<DriverHomeCubit>().getCurrentPosition();
+          //     },
+          //     child: SingleChildScrollView(
+          //       physics: const AlwaysScrollableScrollPhysics(),
+          //       padding: const EdgeInsets.all(16),
+          //       child: Column(
+          //         children: [
+          //           const HeaderCard(),
+          //           verticalSpace(20),
+
+          //           /// 👇 dynamic UI based on status
+          //           // AnimatedSwitcher(
+          //           //   duration: const Duration(milliseconds: 300),
+          //           //   child: _buildBodyByStatus(status),
+          //           // ),
+          //           AnimatedSwitcher(
+          //             duration: const Duration(milliseconds: 500),
+          //             switchInCurve: Curves.easeOut,
+          //             switchOutCurve: Curves.easeIn,
+          //             transitionBuilder: (child, animation) {
+          //               final slideAnimation = Tween<Offset>(
+          //                 begin: const Offset(0, 0.1),
+          //                 end: Offset.zero,
+          //               ).animate(animation);
+
+          //               return FadeTransition(
+          //                 opacity: animation,
+          //                 child: SlideTransition(
+          //                   position: slideAnimation,
+          //                   child: child,
+          //                 ),
+          //               );
+          //             },
+          //             child: _buildBodyByStatus(status),
+          //           ),
+          //         ],
+          //       ),
+          //     ),
+          //   );
+          // },
           builder: (context, state) {
             final cubit = context.watch<DriverHomeCubit>();
+
+            /// ================= LOADING =================
+            if (state is GetCurrentPositionLoading) {
+              return const Center(child: CircularProgressIndicator());
+            }
+
+            /// ================= ERROR =================
             if (state is GetCurrentPositionError) {
               return _errorState(context, state.message);
             }
 
-            /// ================= LOADING =================
-            if (!cubit.positionLoaded || state is GetCurrentPositionLoading) {
-              return const Center(child: CircularProgressIndicator());
-            }
+            /// ================= SUCCESS =================
+            if (state is GetCurrentPositionSuccess) {
+              final status = state.currentStatus;
 
-            final status = cubit.currentStatus;
+              /// NO DATA
+              if (status == null) {
+                return _emptyState(context);
+              }
 
-            /// ================= NO DATA =================
-            if (status == null) {
-              return const Center(child: Text("No Data"));
-            }
+              return RefreshIndicator(
+                onRefresh: () async {
+                  await context.read<DriverHomeCubit>().getCurrentPosition();
+                },
+                child: SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    children: [
+                      const HeaderCard(),
+                      verticalSpace(20),
 
-            return RefreshIndicator(
-              onRefresh: () async {
-                await context.read<DriverHomeCubit>().getCurrentPosition();
-              },
-              child: SingleChildScrollView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  children: [
-                    const HeaderCard(),
-                    verticalSpace(20),
+                      AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 500),
+                        switchInCurve: Curves.easeOut,
+                        switchOutCurve: Curves.easeIn,
+                        transitionBuilder: (child, animation) {
+                          final slideAnimation = Tween<Offset>(
+                            begin: const Offset(0, 0.1),
+                            end: Offset.zero,
+                          ).animate(animation);
 
-                    /// 👇 dynamic UI based on status
-                    // AnimatedSwitcher(
-                    //   duration: const Duration(milliseconds: 300),
-                    //   child: _buildBodyByStatus(status),
-                    // ),
-                    AnimatedSwitcher(
-                      duration: const Duration(milliseconds: 500),
-                      switchInCurve: Curves.easeOut,
-                      switchOutCurve: Curves.easeIn,
-                      transitionBuilder: (child, animation) {
-                        final slideAnimation = Tween<Offset>(
-                          begin: const Offset(0, 0.1),
-                          end: Offset.zero,
-                        ).animate(animation);
-
-                        return FadeTransition(
-                          opacity: animation,
-                          child: SlideTransition(
-                            position: slideAnimation,
-                            child: child,
-                          ),
-                        );
-                      },
-                      child: _buildBodyByStatus(status),
-                    ),
-                  ],
+                          return FadeTransition(
+                            opacity: animation,
+                            child: SlideTransition(
+                              position: slideAnimation,
+                              child: child,
+                            ),
+                          );
+                        },
+                        child: _buildBodyByStatus(status),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            );
+              );
+            }
+
+            /// ================= INITIAL =================
+            return const SizedBox();
           },
+        ),
+      ),
+    );
+  }
+
+  Widget _emptyState(BuildContext context) {
+    final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
+
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            /// Icon
+            Icon(
+              Icons.inbox_outlined,
+              size: 80,
+              color: theme.colorScheme.primary.withOpacity(.6),
+            ),
+
+            const SizedBox(height: 20),
+
+            /// Title
+            Text(
+              l10n.noDataTitle, 
+              style: theme.textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+
+            const SizedBox(height: 10),
+
+            /// Description
+            Text(
+              l10n.noDataDescription,
+              textAlign: TextAlign.center,
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
+            ),
+
+            const SizedBox(height: 24),
+
+            /// Retry Button
+            ElevatedButton.icon(
+              onPressed: () {
+                context.read<DriverHomeCubit>().getCurrentPosition();
+              },
+              icon: const Icon(Icons.refresh),
+              label: Text(l10n.retry),
+            ),
+          ],
         ),
       ),
     );
@@ -161,7 +279,7 @@ class _DriverHomeViewState extends State<DriverHomeView> {
 
   /// ================= ON TRIP =================
   Widget _onTripUI(DriverCurrentStatus status) {
-              context.read<DriverHomeCubit>().turnNotified = false;
+    context.read<DriverHomeCubit>().turnNotified = false;
 
     return const Column(
       key: ValueKey('onTrip'),

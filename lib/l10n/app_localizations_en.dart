@@ -441,4 +441,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get inactive => 'Inactive';
+
+  @override
+  String get noDataTitle => 'No Data Available';
+
+  @override
+  String get noDataDescription => 'We couldn’t find any data right now. Please try again.';
 }

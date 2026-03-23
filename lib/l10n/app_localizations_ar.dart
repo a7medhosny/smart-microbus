@@ -441,4 +441,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get inactive => 'غير نشط';
+
+  @override
+  String get noDataTitle => 'لا توجد بيانات';
+
+  @override
+  String get noDataDescription => 'لا يوجد بيانات حالياً، حاول مرة أخرى';
 }

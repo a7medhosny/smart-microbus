@@ -922,6 +922,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Inactive'**
   String get inactive;
+
+  /// No description provided for @noDataTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No Data Available'**
+  String get noDataTitle;
+
+  /// No description provided for @noDataDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'We couldn’t find any data right now. Please try again.'**
+  String get noDataDescription;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

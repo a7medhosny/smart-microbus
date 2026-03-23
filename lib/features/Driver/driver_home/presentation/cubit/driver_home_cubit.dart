@@ -53,7 +53,7 @@ class DriverHomeCubit extends Cubit<DriverHomeState> {
   List<QueueItem>? queue;
   DriverCurrentStatus? currentStatus;
   Earning? earning;
-  bool positionLoaded = false;
+  // bool positionLoaded = false;
 
   int totalAmount = 0;
 
@@ -86,44 +86,73 @@ class DriverHomeCubit extends Cubit<DriverHomeState> {
 
   // ================= CURRENT POSITION =================
 
+  // Future<void> getCurrentPosition() async {
+  //   emit(GetCurrentPositionLoading());
+
+  //   final result = await getCurrentPositionUseCase();
+
+  //   result.fold(
+  //     (failure) {
+  //      if (failure is UnauthorizedFailure) return;
+  //       positionLoaded = true;
+  //       print("Error loading current position: ${failure.message}");
+  //       emit(GetCurrentPositionError(failure.message));
+  //     },
+  //     (data) async {
+  //       positionLoaded = true;
+
+  //       /// 👇 خزّن الحالة كاملة
+  //       currentStatus = data;
+
+  //       /// 👇 لو في Queue خزّنها
+  //       myPosition = data.queue;
+  //       currentTrip = data.trip;
+
+  //       /// 👇 emit الحالة الجديدة
+  //       emit(GetCurrentPositionSuccess(data));
+
+  //       /// 👇 لو في Queue بس
+  //       if (data.queue != null) {
+  //         await listenToQueueNotifications(data.queue!.queueId);
+  //         // positionLoaded = true;
+
+  //         await getStationQueue(
+  //           driverId: TokenHelper.extractUserId(TokenManager.token ?? '') ?? '',
+  //           queueId: data.queue!.queueId,
+  //         );
+  //       }
+  //     },
+  //   );
+  // }
   Future<void> getCurrentPosition() async {
-    emit(GetCurrentPositionLoading());
+  emit(GetCurrentPositionLoading());
 
-    final result = await getCurrentPositionUseCase();
+  final result = await getCurrentPositionUseCase();
 
-    result.fold(
-      (failure) {
-       if (failure is UnauthorizedFailure) return;
-        positionLoaded = true;
-        print("Error loading current position: ${failure.message}");
-        emit(GetCurrentPositionError(failure.message));
-      },
-      (data) async {
-        positionLoaded = true;
+  result.fold(
+    (failure) {
+      if (failure is UnauthorizedFailure) return;
 
-        /// 👇 خزّن الحالة كاملة
-        currentStatus = data;
+      emit(GetCurrentPositionError(failure.message));
+    },
+    (data) async {
+      currentStatus = data;
+      myPosition = data.queue;
+      currentTrip = data.trip;
 
-        /// 👇 لو في Queue خزّنها
-        myPosition = data.queue;
-        currentTrip = data.trip;
+      emit(GetCurrentPositionSuccess(data));
 
-        /// 👇 emit الحالة الجديدة
-        emit(GetCurrentPositionSuccess(data));
+      if (data.queue != null) {
+        await listenToQueueNotifications(data.queue!.queueId);
 
-        /// 👇 لو في Queue بس
-        if (data.queue != null) {
-          await listenToQueueNotifications(data.queue!.queueId);
-          // positionLoaded = true;
-
-          await getStationQueue(
-            driverId: TokenHelper.extractUserId(TokenManager.token ?? '') ?? '',
-            queueId: data.queue!.queueId,
-          );
-        }
-      },
-    );
-  }
+        await getStationQueue(
+          driverId: TokenHelper.extractUserId(TokenManager.token ?? '') ?? '',
+          queueId: data.queue!.queueId,
+        );
+      }
+    },
+  );
+}
 
   int getMyQueueIndex() {
     if (queue == null || queue!.isEmpty) return -1;
