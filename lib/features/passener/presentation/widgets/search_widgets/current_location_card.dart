@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smart_microbus/core/helpers/extensions.dart';
 import 'package:smart_microbus/l10n/app_localizations.dart';
-
 import '../../../../../core/routing/routes.dart';
 
 class CurrentLocationCard extends StatelessWidget {
@@ -19,7 +18,7 @@ class CurrentLocationCard extends StatelessWidget {
         gradient: LinearGradient(
           colors: [
             theme.colorScheme.primary,
-            theme.colorScheme.primary.withAlpha(180),
+            theme.colorScheme.primary.withOpacity(.85),
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
@@ -35,55 +34,49 @@ class CurrentLocationCard extends StatelessWidget {
             },
             child: CircleAvatar(
               radius: 24,
-              backgroundColor: Colors.white.withOpacity(.2),
-              child: const Icon(Icons.person, color: Colors.white),
+              backgroundColor: Colors.white.withOpacity(.15),
+              child: const Icon(Icons.person, color: Colors.white, size: 20),
             ),
           ),
 
-          const SizedBox(width: 12),
+          const SizedBox(width: 14),
 
-          const SizedBox(width: 12),
-
-          /// 📝 Text
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                /// Title
+                /// Title + Icon
                 Row(
                   children: [
-                    /// 📍 Location Icon
-                    Container(
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(.2),
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Icon(
-                        Icons.location_on_rounded,
-                        color: Colors.white,
-                        size: 10,
-                      ),
+                    Icon(
+                      Icons.location_on_rounded,
+                      color: Colors.white.withAlpha(180),
+                      size: 16,
                     ),
                     const SizedBox(width: 8),
-                    Text(
-                      l10n.welcomeToMinya,
-                      style: theme.textTheme.titleSmall?.copyWith(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
+
+                    Expanded(
+                      child: Text(
+                        l10n.welcomeToMinya,
+                        style: theme.textTheme.titleSmall?.copyWith(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                        ),
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                   ],
                 ),
 
-                const SizedBox(height: 4),
+                const SizedBox(height: 6),
 
                 /// Description
                 Text(
                   l10n.currentLocationHint,
                   style: theme.textTheme.bodySmall?.copyWith(
                     color: Colors.white70,
+                    height: 1.3, // spacing بين السطور أحسن
                   ),
                 ),
               ],

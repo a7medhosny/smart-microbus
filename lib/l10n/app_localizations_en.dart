@@ -213,7 +213,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get inQueue => 'Waiting';
 
   @override
-  String get yourTurnSoon => 'Your turn is قريب';
+  String get yourTurnSoon => 'Your turn is soon';
 
   @override
   String get you => 'You';
@@ -432,4 +432,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get passwordUpdated => 'Password updated successfully';
+
+  @override
+  String get logoutConfirmation => 'Are you sure you want to logout?';
+
+  @override
+  String get active => 'Active';
+
+  @override
+  String get inactive => 'Inactive';
 }

@@ -432,4 +432,13 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get passwordUpdated => 'تم تغيير كلمة المرور بنجاح';
+
+  @override
+  String get logoutConfirmation => 'هل أنت متأكد أنك تريد تسجيل الخروج؟';
+
+  @override
+  String get active => 'نشط';
+
+  @override
+  String get inactive => 'غير نشط';
 }

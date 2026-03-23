@@ -494,7 +494,7 @@ abstract class AppLocalizations {
   /// No description provided for @yourTurnSoon.
   ///
   /// In en, this message translates to:
-  /// **'Your turn is قريب'**
+  /// **'Your turn is soon'**
   String get yourTurnSoon;
 
   /// No description provided for @you.
@@ -904,6 +904,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Password updated successfully'**
   String get passwordUpdated;
+
+  /// No description provided for @logoutConfirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to logout?'**
+  String get logoutConfirmation;
+
+  /// No description provided for @active.
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get active;
+
+  /// No description provided for @inactive.
+  ///
+  /// In en, this message translates to:
+  /// **'Inactive'**
+  String get inactive;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

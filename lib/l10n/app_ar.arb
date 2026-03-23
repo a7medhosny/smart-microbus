@@ -167,7 +167,10 @@
   "settings": "الإعدادات",
   "retry": "إعادة المحاولة",
   "logout": "تسجيل الخروج",
-  "passwordUpdated": "تم تغيير كلمة المرور بنجاح"
+  "passwordUpdated": "تم تغيير كلمة المرور بنجاح",
+  "logoutConfirmation": "هل أنت متأكد أنك تريد تسجيل الخروج؟",
+  "active": "نشط",
+"inactive": "غير نشط"
 
 
 

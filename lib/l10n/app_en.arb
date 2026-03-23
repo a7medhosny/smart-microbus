@@ -88,7 +88,7 @@
 "nextInQueue": "Next in queue",
 "loadingPassengers": "Loading passengers",
 "inQueue": "Waiting",
-"yourTurnSoon": "Your turn is قريب",
+"yourTurnSoon": "Your turn is soon",
 "you": "You",
 
 
@@ -168,7 +168,10 @@
   "settings": "Settings",
   "retry": "Retry",
   "logout": "Logout",
-  "passwordUpdated": "Password updated successfully"
+  "passwordUpdated": "Password updated successfully",
+  "logoutConfirmation": "Are you sure you want to logout?",
+  "active": "Active",
+"inactive": "Inactive"
 
 }
   

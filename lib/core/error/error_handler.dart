@@ -1,4 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:smart_microbus/core/auth/token_helper.dart';
+import 'package:smart_microbus/core/auth/token_manager.dart';
 
 import 'error_response_model.dart';
 import 'failure.dart';
@@ -6,10 +8,9 @@ import 'failure.dart';
 class ErrorHandler {
   static Failure handle(DioException e) {
     try {
-
-     if (e.response?.statusCode == 401) {
-  return const UnauthorizedFailure();
-}
+      if (e.response?.statusCode == 401 && TokenManager.token != null) {
+        return const UnauthorizedFailure();
+      }
 
       final data = e.response?.data;
 

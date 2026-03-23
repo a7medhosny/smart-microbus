@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../domain/entities/profile.dart';
 
 class ProfileHeader extends StatelessWidget {
@@ -9,41 +10,38 @@ class ProfileHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final isActive = profile.isActive;
+
+    final statusColor = isActive ? Colors.green : theme.colorScheme.error;
+    final tr = AppLocalizations.of(context)!;
 
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(28),
         gradient: LinearGradient(
           colors: [
             theme.colorScheme.primary,
-            theme.colorScheme.primary.withOpacity(0.7),
+            theme.colorScheme.primary.withOpacity(.7),
           ],
         ),
-        borderRadius: BorderRadius.circular(24),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(.1),
-            blurRadius: 10,
-            offset: const Offset(0, 5),
-          ),
-        ],
       ),
       child: Row(
         children: [
           /// Avatar
           CircleAvatar(
-            radius: 35,
-            backgroundColor: theme.colorScheme.onPrimary.withAlpha(40),
+            radius: 34,
+            backgroundColor: theme.colorScheme.surface,
             backgroundImage: profile.photoUrl.isNotEmpty
                 ? NetworkImage(profile.photoUrl)
                 : null,
-
             child: profile.photoUrl.isEmpty
                 ? Text(
                     profile.name[0].toUpperCase(),
-                    style: const TextStyle(
-                      fontSize: 24,
+                    style: TextStyle(
+                      fontSize: 22,
                       fontWeight: FontWeight.bold,
+                      color: theme.colorScheme.primary,
                     ),
                   )
                 : null,
@@ -51,40 +49,62 @@ class ProfileHeader extends StatelessWidget {
 
           const SizedBox(width: 16),
 
-          /// Info
+          /// 🔥 Info + Status in same row
           Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  profile.name,
-                  style: theme.textTheme.titleLarge?.copyWith(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
+                /// Name + Phone
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      profile.name,
+                      style: theme.textTheme.titleLarge?.copyWith(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      profile.phone,
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: Colors.white.withOpacity(.85),
+                      ),
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 4),
-                Text(
-                  profile.phone,
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    color: Colors.white70,
-                  ),
-                ),
-                const SizedBox(height: 8),
 
-                /// Status Badge
+                /// 🔥 Status on the right
                 Container(
                   padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 4,
+                    horizontal: 12,
+                    vertical: 6,
                   ),
                   decoration: BoxDecoration(
-                    color: profile.isActive ? Colors.green : Colors.red,
-                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.white.withOpacity(.15),
+                    borderRadius: BorderRadius.circular(50),
                   ),
-                  child: Text(
-                    profile.isActive ? "Active" : "Inactive",
-                    style: const TextStyle(color: Colors.white, fontSize: 12),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 8,
+                        height: 8,
+                        decoration: BoxDecoration(
+                          color: statusColor,
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                      const SizedBox(width: 6),
+                      Text(
+                        isActive ? tr.active : tr.inactive,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
