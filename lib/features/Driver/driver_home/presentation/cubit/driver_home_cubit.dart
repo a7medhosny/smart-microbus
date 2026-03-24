@@ -254,6 +254,9 @@ class DriverHomeCubit extends Cubit<DriverHomeState> {
     if (event is DriverAddedEvent) {
       currentQueue.removeWhere((d) => d.driverId == event.driver.driverId);
       currentQueue.add(event.driver);
+        print(
+          "🚗 DriverAdded event received: Name: ${event.driver.driverName}, Queue ID: ${event.driver.queueId}, Plate Number: ${event.driver.plateNumber}",
+        );
 
       currentQueue.sort((a, b) => (a.position ?? 0).compareTo(b.position ?? 0));
 

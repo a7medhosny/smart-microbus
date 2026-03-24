@@ -1,9 +1,14 @@
+import 'dart:async';
 import 'package:smart_microbus/core/auth/token_helper.dart';
 import 'package:smart_microbus/core/storage/cache_helper.dart';
-
 import '../storage/cache_keys.dart';
 
 class TokenManager {
+  // عشان السيجنال ار يوصله ان التوكين اتجدد ويعمل رفريش للكونكشن
+  static final _tokenRefreshController = StreamController<void>.broadcast();
+
+  static Stream<void> get onTokenRefreshed => _tokenRefreshController.stream;
+
   static String? get token => CacheHelper.getCacheData(key: CacheKeys.token);
   static String? get refreshToken =>
       CacheHelper.getCacheData(key: CacheKeys.refreshToken);
@@ -11,10 +16,6 @@ class TokenManager {
       CacheHelper.getCacheData(key: CacheKeys.userName);
   static String? get phone => CacheHelper.getCacheData(key: CacheKeys.phone);
   static String? get userId => CacheHelper.getCacheData(key: CacheKeys.userId);
-  static String? get guestId =>
-      CacheHelper.getCacheData(key: CacheKeys.guestId);
-  static String? get newUser =>
-      CacheHelper.getCacheData(key: CacheKeys.newUser);
   static String? get role => CacheHelper.getCacheData(key: CacheKeys.role);
 
   static DateTime? get expiration {
@@ -23,22 +24,8 @@ class TokenManager {
     return DateTime.tryParse(expirationStr);
   }
 
-  static DateTime? get refreshTokenExpiration {
-    final refreshExpStr = CacheHelper.getCacheData(
-      key: CacheKeys.refreshTokenExpiration,
-    );
-    if (refreshExpStr == null) return null;
-    return DateTime.tryParse(refreshExpStr);
-  }
-
   static bool isTokenExpired() {
     final exp = expiration;
-    if (exp == null) return true;
-    return exp.isBefore(DateTime.now());
-  }
-
-  static bool isRefreshTokenExpired() {
-    final exp = refreshTokenExpiration;
     if (exp == null) return true;
     return exp.isBefore(DateTime.now());
   }
@@ -51,7 +38,7 @@ class TokenManager {
     required String userName,
     required String phone,
     required String userId,
-
+    bool isRefresh = false,
   }) async {
     await CacheHelper.insertToCache(key: CacheKeys.token, value: token);
     await CacheHelper.insertToCache(
@@ -71,18 +58,18 @@ class TokenManager {
     await CacheHelper.insertToCache(key: CacheKeys.userId, value: userId);
     await CacheHelper.insertToCache(
       key: CacheKeys.role,
-      value: TokenHelper.extractRoles(token) ,
+      value: TokenHelper.extractRoles(token),
     );
 
+    if (isRefresh) {
+      _tokenRefreshController.add(null);
+    }
   }
 
   static Future<void> clearLoginData() async {
     await CacheHelper.deleteCacheItem(key: CacheKeys.token);
-    await CacheHelper.deleteCacheItem(key: CacheKeys.email);
-    await CacheHelper.deleteCacheItem(key: CacheKeys.expiration);
     await CacheHelper.deleteCacheItem(key: CacheKeys.refreshToken);
-    await CacheHelper.deleteCacheItem(key: CacheKeys.refreshTokenExpiration);
-    await CacheHelper.deleteCacheItem(key: CacheKeys.role);
+    await CacheHelper.deleteCacheItem(key: CacheKeys.expiration);
     await CacheHelper.deleteCacheItem(key: CacheKeys.userId);
     await CacheHelper.deleteCacheItem(key: CacheKeys.userName);
     await CacheHelper.deleteCacheItem(key: CacheKeys.phone);

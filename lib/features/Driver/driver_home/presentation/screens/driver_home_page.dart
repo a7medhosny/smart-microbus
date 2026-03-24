@@ -106,8 +106,16 @@ class _DriverHomeViewState extends State<DriverHomeView> {
           //     ),
           //   );
           // },
+          
+              buildWhen: (previous, current) =>
+              current is GetCurrentPositionLoading ||
+              current is GetCurrentPositionSuccess ||
+              current is GetCurrentPositionError,
+              
           builder: (context, state) {
+
             final cubit = context.watch<DriverHomeCubit>();
+
 
             /// ================= LOADING =================
             if (state is GetCurrentPositionLoading) {

@@ -198,6 +198,7 @@ class AuthInterceptor extends Interceptor {
         userName: authResponse.userName ?? '',
         userId: TokenHelper.extractUserId(newToken) ?? '',
         phone: authResponse.phone ?? '',
+        isRefresh: true,
       );
 
       authLog('✅ Token refreshed successfully');
