@@ -53,6 +53,8 @@ class ApiConstants {
 
   static const String routes = '/Routes';
   static const String favoriteRoutes = '/FavoriteRoutes';
-  //api/v1/Routes/destinations
   static const String routeDestinations = '/Routes/destinations';
+
+  static const String reportReasons = '/Report/reasons';
+  static const String submitReport = '/Report';
 }

@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -7,7 +8,7 @@ import 'package:smart_microbus/core/helpers/extensions.dart';
 import 'package:smart_microbus/core/networking/dio_factory.dart';
 import 'package:smart_microbus/core/routing/routes.dart';
 import 'package:smart_microbus/core/services/noification_servises.dart';
-import 'package:smart_microbus/features/passener/data/datasource/passenger_api_service.dart';
+import 'package:smart_microbus/features/passener/presentation/cubit/passenger_cubit.dart';
 import 'package:smart_microbus/features/register/presentation/cubit/register_cubit.dart';
 import 'package:smart_microbus/l10n/app_localizations.dart';
 
@@ -36,14 +37,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appRouter = AppRouter();
-    final bool isLoggedIn =
-        TokenManager.token !=
-        null; // Check if token exists to determine login state
+    final bool isLoggedIn = TokenManager.token != null;
+    final bool isDriver = TokenManager.role == 'Driver';
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => getIt<LocaleCubit>()),
         BlocProvider(create: (_) => getIt<ThemeCubit>()),
         BlocProvider(create: (_) => getIt<RegisterCubit>()),
+        BlocProvider(create: (_) => getIt<PassengerCubit>()),
       ],
       child: BlocBuilder<LocaleCubit, LocaleState>(
         builder: (context, localeState) {
@@ -60,9 +61,11 @@ class MyApp extends StatelessWidget {
                     navigatorKey: navigatorKey,
                     onGenerateRoute: appRouter.onGenerateRoute,
                     initialRoute: isLoggedIn
-                        ? Routes.driverHome
-                        : Routes
-                              .initial, // Set initial route based on login state
+                        ? isDriver
+                              ? Routes.driverHome
+                              : Routes.passengerSearch
+                        : Routes.initial,
+                    // Set initial route based on login state
                     // ================= Localization =================
                     locale: localeState.locale,
                     supportedLocales: AppLocalizations.supportedLocales,

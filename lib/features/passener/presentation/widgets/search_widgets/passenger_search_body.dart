@@ -8,14 +8,14 @@ class PassengerSearchBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
       child: Column(
-        children: [
-          const CurrentLocationCard(),
-          const SizedBox(height: 20),
+        children: const [
+          CurrentLocationCard(),
+          SizedBox(height: 20),
           RouteSelectionCard(),
-          SizedBox(height: 40),
+          SizedBox(height: 20),
           SearchButton(),
         ],
       ),

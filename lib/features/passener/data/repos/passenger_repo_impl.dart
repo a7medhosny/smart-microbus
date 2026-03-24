@@ -4,6 +4,8 @@ import 'package:smart_microbus/core/error/failure.dart';
 import 'package:smart_microbus/features/passener/domain/entities/destination_entity.dart';
 import 'package:smart_microbus/features/passener/domain/entities/favourite_route_entity.dart';
 import 'package:smart_microbus/features/passener/domain/entities/on_the_way_microbus_entity.dart';
+import 'package:smart_microbus/features/passener/domain/entities/report_entity.dart';
+import 'package:smart_microbus/features/passener/domain/entities/report_reason_entity.dart';
 import 'package:smart_microbus/features/passener/domain/entities/route_entity.dart';
 import 'package:smart_microbus/features/passener/domain/entities/route_summary_entity.dart';
 import 'package:smart_microbus/features/passener/domain/entities/station_microbus_entity.dart';
@@ -11,6 +13,7 @@ import 'package:smart_microbus/features/passener/domain/repos/passenger_repo.dar
 
 import '../../../../core/error/error_handler.dart';
 import '../datasource/passenger_remote_data_source.dart';
+import '../models/report_request_body_model.dart';
 
 class PassengerRepoImpl implements PassengerRepo {
   final PassengerRemoteDataSource remoteDataSource;
@@ -131,6 +134,32 @@ class PassengerRepoImpl implements PassengerRepo {
     try {
       final isFavorite = await remoteDataSource.isRouteFavorite(routeId);
       return Right(isFavorite);
+    } on DioException catch (e) {
+      return Left(ErrorHandler.handle(e));
+    } catch (e) {
+      return Left(ServerFailure(errorMessage));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<ReportReasonEntity>>> getReportReasons() async {
+    try {
+      final reportReasons = await remoteDataSource.getReportReasons();
+      return Right(reportReasons);
+    } on DioException catch (e) {
+      return Left(ErrorHandler.handle(e));
+    } catch (e) {
+      return Left(ServerFailure(errorMessage));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> submitReport(ReportEntity report) async {
+    try {
+      final result = await remoteDataSource.submitReport(
+        ReportRequestBodyModel.fromEntity(report),
+      );
+      return Right(result);
     } on DioException catch (e) {
       return Left(ErrorHandler.handle(e));
     } catch (e) {

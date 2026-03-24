@@ -1,6 +1,8 @@
 import 'package:smart_microbus/features/passener/data/datasource/passenger_remote_data_source.dart';
 import 'package:smart_microbus/features/passener/data/models/favourite_route_model.dart';
 import 'package:smart_microbus/features/passener/data/models/on_the_way_microbus_model.dart';
+import 'package:smart_microbus/features/passener/data/models/report_reason_model.dart';
+import 'package:smart_microbus/features/passener/data/models/report_request_body_model.dart';
 import 'package:smart_microbus/features/passener/data/models/route_model.dart';
 import 'package:smart_microbus/features/passener/data/models/route_summary_model.dart';
 import 'package:smart_microbus/features/passener/data/models/station_microbus_model.dart';
@@ -55,5 +57,15 @@ class PassengerRemoteDataSourceImpl implements PassengerRemoteDataSource {
   @override
   Future<bool> isRouteFavorite(String routeId) {
     return apiService.isRouteFavorite(routeId);
+  }
+
+  @override
+  Future<List<ReportReasonModel>> getReportReasons() {
+    return apiService.getReportReasons();
+  }
+
+  @override
+  Future<void> submitReport(ReportRequestBodyModel report) {
+    return apiService.submitReport(report);
   }
 }

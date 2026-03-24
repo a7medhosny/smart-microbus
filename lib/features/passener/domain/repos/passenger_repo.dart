@@ -3,7 +3,10 @@ import 'package:smart_microbus/features/passener/domain/entities/station_microbu
 
 import '../../../../core/error/failure.dart';
 import '../entities/destination_entity.dart';
+import '../entities/favourite_route_entity.dart';
 import '../entities/on_the_way_microbus_entity.dart';
+import '../entities/report_entity.dart';
+import '../entities/report_reason_entity.dart';
 import '../entities/route_entity.dart';
 import '../entities/route_summary_entity.dart';
 
@@ -20,4 +23,9 @@ abstract class PassengerRepo {
     String routeId,
   );
   Future<Either<Failure, void>> addRouteToFavorites(String routeId);
+  Future<Either<Failure, void>> removeRouteFromFavorites(String routeId);
+  Future<Either<Failure, List<FavouriteRouteEntity>>> getFavoriteRoutes();
+  Future<Either<Failure, bool>> isRouteFavorite(String routeId);
+  Future<Either<Failure, List<ReportReasonEntity>>> getReportReasons();
+  Future<Either<Failure, void>> submitReport(ReportEntity report);
 }

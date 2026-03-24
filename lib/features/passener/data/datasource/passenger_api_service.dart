@@ -6,6 +6,8 @@ import 'package:smart_microbus/features/passener/data/models/route_model.dart';
 import '../../../../core/networking/api_constants.dart';
 import '../models/favourite_route_model.dart';
 import '../models/on_the_way_microbus_model.dart';
+import '../models/report_reason_model.dart';
+import '../models/report_request_body_model.dart';
 import '../models/route_summary_model.dart';
 import '../models/station_microbus_model.dart';
 
@@ -39,7 +41,10 @@ abstract class PassengerApiService {
   Future<void> removeRouteFromFavorites(@Path('routeId') String routeId);
   @GET(ApiConstants.favoriteRoutes)
   Future<List<FavouriteRouteModel>> getFavoriteRoutes();
-  //api/v1/FavoriteRoutes/{routeId}/is-favorite
   @GET('${ApiConstants.favoriteRoutes}/{routeId}/is-favorite')
   Future<bool> isRouteFavorite(@Path('routeId') String routeId);
+  @GET(ApiConstants.reportReasons)
+  Future<List<ReportReasonModel>> getReportReasons();
+  @POST(ApiConstants.submitReport)
+  Future<void> submitReport(@Body() ReportRequestBodyModel report);
 }
