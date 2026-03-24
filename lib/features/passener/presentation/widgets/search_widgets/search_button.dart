@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_microbus/core/routing/routes.dart';
 import 'package:smart_microbus/features/passener/presentation/cubit/passenger_cubit.dart';
-import 'package:smart_microbus/features/passener/presentation/screens/search_result_screen.dart';
 import 'package:smart_microbus/l10n/app_localizations.dart';
 
 import '../../../../../core/helpers/show_toast_helper.dart';

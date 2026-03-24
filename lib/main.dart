@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -8,7 +7,7 @@ import 'package:smart_microbus/core/helpers/extensions.dart';
 import 'package:smart_microbus/core/networking/dio_factory.dart';
 import 'package:smart_microbus/core/routing/routes.dart';
 import 'package:smart_microbus/core/services/noification_servises.dart';
-import 'package:smart_microbus/features/passener/presentation/cubit/passenger_cubit.dart';
+import 'package:smart_microbus/features/passener/data/datasource/passenger_api_service.dart';
 import 'package:smart_microbus/features/register/presentation/cubit/register_cubit.dart';
 import 'package:smart_microbus/l10n/app_localizations.dart';
 
@@ -19,7 +18,6 @@ import 'core/localization/locale_state.dart';
 import 'core/routing/app_router.dart';
 import 'core/theme/app_theme.dart';
 import 'core/theme/theme_cubit.dart';
-import 'features/passener/data/datasource/passenger_api_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,15 +36,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appRouter = AppRouter();
-    final bool isLoggedIn = TokenManager.token != null;
-    final bool isDriver = TokenManager.role == 'Driver';
-    print('Is Logged In: $isLoggedIn, Role: ${TokenManager.role}');
+    final bool isLoggedIn =
+        TokenManager.token !=
+        null; // Check if token exists to determine login state
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => getIt<LocaleCubit>()),
         BlocProvider(create: (_) => getIt<ThemeCubit>()),
         BlocProvider(create: (_) => getIt<RegisterCubit>()),
-        BlocProvider(create: (_) => getIt<PassengerCubit>()),
       ],
       child: BlocBuilder<LocaleCubit, LocaleState>(
         builder: (context, localeState) {
@@ -63,11 +60,9 @@ class MyApp extends StatelessWidget {
                     navigatorKey: navigatorKey,
                     onGenerateRoute: appRouter.onGenerateRoute,
                     initialRoute: isLoggedIn
-                        ? isDriver
-                              ? Routes.driverHome
-                              : Routes.passengerSearch
-                        : Routes.initial,
-                    // Set initial route based on login state
+                        ? Routes.driverHome
+                        : Routes
+                              .initial, // Set initial route based on login state
                     // ================= Localization =================
                     locale: localeState.locale,
                     supportedLocales: AppLocalizations.supportedLocales,

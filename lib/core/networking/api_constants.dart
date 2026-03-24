@@ -52,6 +52,7 @@ class ApiConstants {
   //passenger end points
 
   static const String routes = '/Routes';
+  static const String favoriteRoutes = '/FavoriteRoutes';
   //api/v1/Routes/destinations
   static const String routeDestinations = '/Routes/destinations';
 }

@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_microbus/features/passener/presentation/cubit/passenger_cubit.dart';
 import 'package:smart_microbus/features/passener/presentation/widgets/route_summary_card.dart';
-import 'package:smart_microbus/features/passener/presentation/widgets/search_result_widgets/on_the_way_list_screen.dart';
 import 'package:smart_microbus/features/passener/presentation/widgets/search_result_widgets/section_card.dart';
-import 'package:smart_microbus/features/passener/presentation/widgets/search_result_widgets/station_list_screen.dart';
 import 'package:smart_microbus/l10n/app_localizations.dart';
 
 import '../../../../core/helpers/extensions.dart';

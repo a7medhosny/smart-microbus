@@ -170,7 +170,7 @@ class StartedTripSection extends StatelessWidget {
                   icon: Icons.circle,
                   color: theme.colorScheme.primary,
                   title: l10n.tripStartPoint,
-                  value: trip?.routeFrom ?? "",
+                  value: trip.routeFrom ?? "",
                 ),
 
                 _routeItem(
@@ -178,7 +178,7 @@ class StartedTripSection extends StatelessWidget {
                   icon: Icons.location_on,
                   color: Colors.green,
                   title: l10n.tripDestination,
-                  value: trip?.routeTo ?? "",
+                  value: trip.routeTo ?? "",
                   isLast: true,
                 ),
               ],
@@ -196,7 +196,7 @@ class StartedTripSection extends StatelessWidget {
                 context,
                 icon: Icons.route,
                 title: l10n.tripDistance,
-                value: "${trip!.distance} KM",
+                value: "${trip.distance} KM",
               ),
             ),
 

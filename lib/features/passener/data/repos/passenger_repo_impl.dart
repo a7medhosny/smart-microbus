@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:smart_microbus/core/error/failure.dart';
 import 'package:smart_microbus/features/passener/domain/entities/destination_entity.dart';
+import 'package:smart_microbus/features/passener/domain/entities/favourite_route_entity.dart';
 import 'package:smart_microbus/features/passener/domain/entities/on_the_way_microbus_entity.dart';
 import 'package:smart_microbus/features/passener/domain/entities/route_entity.dart';
 import 'package:smart_microbus/features/passener/domain/entities/route_summary_entity.dart';
@@ -57,7 +58,7 @@ class PassengerRepoImpl implements PassengerRepo {
   }
 
   @override
-  Future<Either<Failure, List<StationMicrobusEntity>>> getStationMicrobus(
+  Future<Either<Failure, List<StationMicrobusEntity>>> getStationMicrobuses(
     String routeId,
   ) async {
     try {
@@ -87,14 +88,49 @@ class PassengerRepoImpl implements PassengerRepo {
       return Left(ServerFailure(errorMessage));
     }
   }
-  
+
   @override
-  Future<Either<Failure, List<StationMicrobusEntity>>> getStationMicrobuses(String routeId) async {
+  Future<Either<Failure, void>> addRouteToFavorites(String routeId) async {
     try {
-      final stationMicrobuses = await remoteDataSource.getStationMicrobuses(
-        routeId,
-      );
-      return Right(stationMicrobuses);
+      final result = await remoteDataSource.addRouteToFavorites(routeId);
+      return Right(result);
+    } on DioException catch (e) {
+      return Left(ErrorHandler.handle(e));
+    } catch (e) {
+      return Left(ServerFailure(errorMessage));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<FavouriteRouteEntity>>>
+  getFavoriteRoutes() async {
+    try {
+      final favoriteRoutes = await remoteDataSource.getFavoriteRoutes();
+      return Right(favoriteRoutes);
+    } on DioException catch (e) {
+      return Left(ErrorHandler.handle(e));
+    } catch (e) {
+      return Left(ServerFailure(errorMessage));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> removeRouteFromFavorites(String routeId) async {
+    try {
+      final result = await remoteDataSource.removeRouteFromFavorites(routeId);
+      return Right(result);
+    } on DioException catch (e) {
+      return Left(ErrorHandler.handle(e));
+    } catch (e) {
+      return Left(ServerFailure(errorMessage));
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> isRouteFavorite(String routeId) async {
+    try {
+      final isFavorite = await remoteDataSource.isRouteFavorite(routeId);
+      return Right(isFavorite);
     } on DioException catch (e) {
       return Left(ErrorHandler.handle(e));
     } catch (e) {

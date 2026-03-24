@@ -39,25 +39,17 @@ part 'trip_model.g.dart';
 @JsonSerializable()
 class TripModel extends Trip {
   TripModel({
-    required double amount,
-    required String routeFrom,
-    required String routeTo,
-    required DateTime startedAt,
-    required DateTime endedAt,
-    required int passengerCount,
-    required double distance,
+    required super.amount,
+    required super.routeFrom,
+    required super.routeTo,
+    required super.startedAt,
+    required super.endedAt,
+    required super.passengerCount,
+    required super.distance,
     required int status,
-    required double estimatedArrivalMinutes,
+    required super.estimatedArrivalMinutes,
   }) : super(
-         amount: amount,
-         routeFrom: routeFrom,
-         routeTo: routeTo,
-         startedAt: startedAt,
-         endedAt: endedAt,
-         passengerCount: passengerCount,
-         distance: distance,
          status: status.toString(),
-         estimatedArrivalMinutes: estimatedArrivalMinutes,
        );
 
 factory TripModel.fromJson(Map<String, dynamic> json) {

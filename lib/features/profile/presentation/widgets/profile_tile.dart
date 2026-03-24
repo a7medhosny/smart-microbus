@@ -23,7 +23,7 @@ class ProfileTile extends StatelessWidget {
       /// 🔥 أهم تعديل: لون مختلف حسب المود
       decoration: BoxDecoration(
         color: isDark
-            ? theme.colorScheme.surfaceVariant.withOpacity(.4)
+            ? theme.colorScheme.surfaceContainerHighest.withOpacity(.4)
             : Colors.white,
 
         borderRadius: BorderRadius.circular(18),

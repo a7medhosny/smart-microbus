@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:smart_microbus/core/storage/cache_keys.dart';
-import 'package:smart_microbus/features/passener/presentation/cubit/passenger_cubit.dart';
 import 'package:smart_microbus/features/passener/presentation/screens/passenger_search_view.dart';
 import 'package:smart_microbus/features/passener/presentation/screens/search_result_screen.dart';
 import 'package:smart_microbus/features/profile/presentation/cubit/profile_cubit.dart';
@@ -62,7 +61,6 @@ class AppRouter {
           ),
         );
 
-
       // ================= reset password =================
       case Routes.resetPassword:
         final args = settings.arguments as Map<String, dynamic>;
@@ -113,29 +111,22 @@ class AppRouter {
 
       // ================= Passenger  =================
       case Routes.passengerSearch:
-        return _materialRoute(
-          PassengerSearchView(),
-        );
+        return _materialRoute(PassengerSearchView());
       case Routes.passengerSearchResultScreen:
-        return _materialRoute(
-          const SearchResultScreen(),
-        );
-        case Routes.stationListScreen:
+        return _materialRoute(const SearchResultScreen());
+      case Routes.stationListScreen:
         final stationMicrobuses = settings.arguments as List;
         return _materialRoute(
           StationListScreen(stationMicrobuses: stationMicrobuses),
         );
-        case Routes.onTheWayListScreen:
+      case Routes.onTheWayListScreen:
         final onTheWayMicrobuses = settings.arguments as List;
-        return _materialRoute(
-          OnTheWayListScreen(onTheWay: onTheWayMicrobuses),
-        );
+        return _materialRoute(OnTheWayListScreen(onTheWay: onTheWayMicrobuses));
 
       // ================= DEFAULT =================
       default:
         return null;
     }
-
   }
 
   // ================= HELPER =================

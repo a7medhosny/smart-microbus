@@ -1,4 +1,5 @@
 import 'package:smart_microbus/features/passener/data/datasource/passenger_remote_data_source.dart';
+import 'package:smart_microbus/features/passener/data/models/favourite_route_model.dart';
 import 'package:smart_microbus/features/passener/data/models/on_the_way_microbus_model.dart';
 import 'package:smart_microbus/features/passener/data/models/route_model.dart';
 import 'package:smart_microbus/features/passener/data/models/route_summary_model.dart';
@@ -34,5 +35,25 @@ class PassengerRemoteDataSourceImpl implements PassengerRemoteDataSource {
   @override
   Future<List<OnTheWayMicrobusModel>> getOnTheWayMicrobuses(String routeId) {
     return apiService.getOnTheWayMicrobuses(routeId);
+  }
+
+  @override
+  Future<void> addRouteToFavorites(String routeId) {
+    return apiService.addRouteToFavorites(routeId);
+  }
+
+  @override
+  Future<List<FavouriteRouteModel>> getFavoriteRoutes() {
+    return apiService.getFavoriteRoutes();
+  }
+
+  @override
+  Future<void> removeRouteFromFavorites(String routeId) {
+    return apiService.removeRouteFromFavorites(routeId);
+  }
+
+  @override
+  Future<bool> isRouteFavorite(String routeId) {
+    return apiService.isRouteFavorite(routeId);
   }
 }

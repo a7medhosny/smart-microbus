@@ -48,43 +48,30 @@ class ProfileHeader extends StatelessWidget {
           ),
 
           const SizedBox(width: 16),
-
-          /// 🔥 Info + Status in same row
           Expanded(
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                /// Name + Phone
-                Expanded(
-                  // 🔥 أهم تعديل
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        profile.name,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis, // 🔥 يمنع overflow
-                        style: theme.textTheme.titleLarge?.copyWith(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      profile.name,
+                      style: theme.textTheme.titleLarge?.copyWith(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
                       ),
-                      const SizedBox(height: 4),
-                      Text(
-                        profile.phone,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis, // 🔥 مهم
-                        style: theme.textTheme.bodyMedium?.copyWith(
-                          color: Colors.white.withOpacity(.85),
-                        ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      profile.phone,
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: Colors.white.withOpacity(.85),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
 
-                const SizedBox(width: 8),
-
-                /// Status
                 Container(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 12,
@@ -95,7 +82,6 @@ class ProfileHeader extends StatelessWidget {
                     borderRadius: BorderRadius.circular(50),
                   ),
                   child: Row(
-                    mainAxisSize: MainAxisSize.min, // 🔥 مهم جدًا
                     children: [
                       Container(
                         width: 8,

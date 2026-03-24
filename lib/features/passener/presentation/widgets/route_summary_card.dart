@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 import 'package:smart_microbus/features/passener/domain/entities/route_summary_entity.dart';
 import 'package:smart_microbus/l10n/app_localizations.dart';
@@ -31,10 +30,7 @@ class RouteSummaryCard extends StatelessWidget {
           /// 🔵 Header
           Row(
             children: [
-              Icon(
-                Icons.alt_route,
-                color: theme.colorScheme.onPrimary,
-              ),
+              Icon(Icons.alt_route, color: theme.colorScheme.onPrimary),
               const SizedBox(width: 8),
               Text(
                 l10n.tripSummary,
@@ -50,8 +46,7 @@ class RouteSummaryCard extends StatelessWidget {
 
           /// 💰 السعر
           Container(
-            padding:
-                const EdgeInsets.symmetric(vertical: 10, horizontal: 14),
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 14),
             decoration: BoxDecoration(
               color: theme.colorScheme.onPrimary.withOpacity(0.15),
               borderRadius: BorderRadius.circular(12),
@@ -133,11 +128,7 @@ class RouteSummaryCard extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Icon(
-            icon,
-            color: theme.colorScheme.onPrimary,
-            size: 20,
-          ),
+          Icon(icon, color: theme.colorScheme.onPrimary, size: 20),
           const SizedBox(height: 6),
           Text(
             label,

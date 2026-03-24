@@ -42,6 +42,7 @@ class _DriverHomeViewState extends State<DriverHomeView> {
                 context,
                 state.message,
                 backgroundColor: Colors.red,
+                icon: Icons.error_outline,
               );
             }
           },
@@ -106,16 +107,13 @@ class _DriverHomeViewState extends State<DriverHomeView> {
           //     ),
           //   );
           // },
-          
-              buildWhen: (previous, current) =>
+          buildWhen: (previous, current) =>
               current is GetCurrentPositionLoading ||
               current is GetCurrentPositionSuccess ||
               current is GetCurrentPositionError,
-              
+
           builder: (context, state) {
-
             final cubit = context.watch<DriverHomeCubit>();
-
 
             /// ================= LOADING =================
             if (state is GetCurrentPositionLoading) {
@@ -130,11 +128,6 @@ class _DriverHomeViewState extends State<DriverHomeView> {
             /// ================= SUCCESS =================
             if (state is GetCurrentPositionSuccess) {
               final status = state.currentStatus;
-
-              /// NO DATA
-              if (status == null) {
-                return _emptyState(context);
-              }
 
               return RefreshIndicator(
                 onRefresh: () async {
@@ -203,7 +196,7 @@ class _DriverHomeViewState extends State<DriverHomeView> {
 
             /// Title
             Text(
-              l10n.noDataTitle, 
+              l10n.noDataTitle,
               style: theme.textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.bold,
               ),

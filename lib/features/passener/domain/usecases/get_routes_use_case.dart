@@ -9,7 +9,7 @@ class GetRoutesUseCase {
   final PassengerRepo passengerRepo;
 
   GetRoutesUseCase(this.passengerRepo);
-  Future<Either<Failure, List<PassengerRouteEntity>>> call() async {
+  Future<Either<Failure, List<PassengerRouteEntity>>> call()   {
     return passengerRepo.getRoutes();
   }
 }

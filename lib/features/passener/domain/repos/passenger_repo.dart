@@ -19,4 +19,5 @@ abstract class PassengerRepo {
   Future<Either<Failure, List<OnTheWayMicrobusEntity>>> getOnTheWayMicrobuses(
     String routeId,
   );
+  Future<Either<Failure, void>> addRouteToFavorites(String routeId);
 }
