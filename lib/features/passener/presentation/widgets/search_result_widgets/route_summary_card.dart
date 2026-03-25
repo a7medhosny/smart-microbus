@@ -1,13 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:smart_microbus/features/passener/domain/entities/route_summary_entity.dart';
+import 'package:smart_microbus/features/passener/presentation/cubit/passenger_cubit.dart';
 import 'package:smart_microbus/l10n/app_localizations.dart';
 
-class RouteSummaryCard extends StatelessWidget {
+class RouteSummaryCard extends StatefulWidget {
   final RouteSummaryEntity summary;
 
   const RouteSummaryCard({super.key, required this.summary});
 
+  @override
+  State<RouteSummaryCard> createState() => _RouteSummaryCardState();
+}
+
+class _RouteSummaryCardState extends State<RouteSummaryCard> {
+  @override
+  void initState() {
+    super.initState();
+    //  context.read<PassengerCubit>().getFavorites(); 
+
+  }
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -27,24 +40,64 @@ class RouteSummaryCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          /// 🔵 Header
+          ///  Header
           Row(
             children: [
               Icon(Icons.alt_route, color: theme.colorScheme.onPrimary),
               const SizedBox(width: 8),
-              Text(
-                l10n.tripSummary,
-                style: theme.textTheme.titleMedium?.copyWith(
-                  color: theme.colorScheme.onPrimary,
-                  fontWeight: FontWeight.bold,
+
+              Expanded(
+                child: Text(
+                  l10n.tripSummary,
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    color: theme.colorScheme.onPrimary,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
+              ),
+
+              ///  Favorite Button
+              BlocBuilder<PassengerCubit, PassengerState>(
+                buildWhen: (prev, curr) =>
+                    curr is GetFavoritesSuccess ||
+                    curr is AddFavoriteSuccess ||
+                    curr is RemoveFavoriteSuccess,
+                builder: (context, state) {
+                  final cubit = context.read<PassengerCubit>();
+
+                  final isFav = cubit.favouriteRoutes.any(
+                    (e) => e.routeId == cubit.selectedRouteId,
+                  );
+
+                  return IconButton(
+                    onPressed: () {
+                      if (isFav) {
+                        cubit.removeFromFavorites(cubit.selectedRouteId!);
+                      } else {
+                        cubit.addToFavorites(cubit.selectedRouteId!);
+                      }
+                    },
+                    icon: AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 300),
+                      child: Icon(
+                        isFav
+                            ? Icons.favorite
+                            : Icons.favorite_border,
+                        key: ValueKey(isFav),
+                        color: isFav
+                            ? theme.colorScheme.secondary
+                            : theme.colorScheme.onPrimary,
+                      ),
+                    ),
+                  );
+                },
               ),
             ],
           ),
 
           const SizedBox(height: 16),
 
-          /// 💰 السعر
+          ///  السعر
           Container(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 14),
             decoration: BoxDecoration(
@@ -52,7 +105,7 @@ class RouteSummaryCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
             ),
             child: Text(
-              l10n.priceInCurrency(summary.price),
+              l10n.priceInCurrency(widget.summary.price),
               style: theme.textTheme.headlineSmall?.copyWith(
                 fontWeight: FontWeight.bold,
                 color: theme.colorScheme.onPrimary,
@@ -62,7 +115,7 @@ class RouteSummaryCard extends StatelessWidget {
 
           const SizedBox(height: 16),
 
-          /// 📊 التفاصيل
+          ///  التفاصيل
           Row(
             children: [
               Expanded(
@@ -70,7 +123,7 @@ class RouteSummaryCard extends StatelessWidget {
                   context: context,
                   icon: Icons.route,
                   label: l10n.distance,
-                  value: l10n.distanceKm(summary.distanceKm),
+                  value: l10n.distanceKm(widget.summary.distanceKm),
                 ),
               ),
               Expanded(
@@ -78,7 +131,7 @@ class RouteSummaryCard extends StatelessWidget {
                   context: context,
                   icon: Icons.directions_bus,
                   label: l10n.atStation,
-                  value: "${summary.numberOfMicrobusesInQueue}",
+                  value: "${widget.summary.numberOfMicrobusesInQueue}",
                 ),
               ),
             ],
@@ -93,7 +146,7 @@ class RouteSummaryCard extends StatelessWidget {
                   context: context,
                   icon: Icons.access_time,
                   label: l10n.onTheWay,
-                  value: "${summary.numberOfMicrobusesOnTheWay}",
+                  value: "${widget.summary.numberOfMicrobusesOnTheWay}",
                 ),
               ),
               Expanded(
@@ -101,7 +154,7 @@ class RouteSummaryCard extends StatelessWidget {
                   context: context,
                   icon: Icons.timer,
                   label: l10n.nearestArrival,
-                  value: l10n.minutesShort(summary.nearestArrivalMinutes),
+                  value: l10n.minutesShort(widget.summary.nearestArrivalMinutes),
                 ),
               ),
             ],

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:smart_microbus/core/helpers/extensions.dart';
 import 'package:smart_microbus/l10n/app_localizations.dart';
 import '../../../../../core/routing/routes.dart';
+import '../../screens/favourite_screen.dart';
 
 class CurrentLocationCard extends StatelessWidget {
   const CurrentLocationCard({super.key});
@@ -27,6 +28,21 @@ class CurrentLocationCard extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          // InkWell(
+          //   onTap: () {
+          //     //TODO
+          //     Navigator.push(
+          //       context,
+          //       MaterialPageRoute(builder: (_) => FavoritesScreen()),
+          //     );
+          //   },
+          //   child: CircleAvatar(
+          //     radius: 24,
+          //     backgroundColor: Colors.white.withOpacity(.15),
+          //     child: const Icon(Icons.favorite, color: Colors.white, size: 20),
+          //   ),
+          // ),
+          
           /// 👤 Avatar
           InkWell(
             onTap: () {

@@ -184,7 +184,18 @@
   "extra_details": "تفاصيل إضافية",
   "submit": "إرسال البلاغ",
   "required": "من فضلك أكمل البيانات",
-  "other": "اخري"
+  "other": "اخري",
+    "favoritesTitle": "المفضلة",
+  "noFavorites": "لا توجد طرق مفضلة حتى الآن",
+   "routeLabel": "الخط",
+  "priceLabel": "السعر",
+    "reportTitle": "الإبلاغ عن سائق",
+  "plateNumberLabel": "رقم اللوحة",
+  "additionalDetailsHint": "تفاصيل إضافية...",
+  "submitReport": "إرسال البلاغ",
+  "selectReasonError": "من فضلك اختر سبب البلاغ",
+  "seeAll": "عرض الكل",
+  "home": "الصفحة الرئيسية"
 
 
 

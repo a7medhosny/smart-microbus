@@ -42,12 +42,16 @@ import '../../features/Driver/driver_home/domain/repository/driver_home_reposito
     show DriverHomeRepository;
 import '../../features/passener/data/datasource/passenger_remote_data_source_impl.dart';
 import '../../features/passener/data/repos/passenger_repo_impl.dart';
+import '../../features/passener/domain/usecases/add_route_to_favourite_use_case.dart';
+import '../../features/passener/domain/usecases/get_favourite_routes.dart';
 import '../../features/passener/domain/usecases/get_on_the_way_microbuses_use_case.dart';
 import '../../features/passener/domain/usecases/get_report_reasons_use_case.dart';
 import '../../features/passener/domain/usecases/get_route_destination_use_case.dart';
 import '../../features/passener/domain/usecases/get_route_summary_use_case.dart';
 import '../../features/passener/domain/usecases/get_routes_use_case.dart';
 import '../../features/passener/domain/usecases/get_station_microbuses_use_case.dart';
+import '../../features/passener/domain/usecases/is_route_favourite_use_case.dart';
+import '../../features/passener/domain/usecases/remove_route_from_fav_use_case.dart';
 import '../../features/passener/domain/usecases/submit_report_use_case.dart';
 import '../../features/profile/data/datasource/profile_api_service.dart';
 import '../../features/profile/data/datasource/profile_remote_data_source.dart';
@@ -297,12 +301,29 @@ void _driverDependencies() {
   getIt.registerLazySingleton<GetOnTheWayMicrobusesUseCase>(
     () => GetOnTheWayMicrobusesUseCase(getIt<PassengerRepo>()),
   );
-  getIt.registerLazySingleton<GetReportReasonsUseCase>(
-    () => GetReportReasonsUseCase(getIt<PassengerRepo>()),
+  // getIt.registerLazySingleton<GetReportReasonsUseCase>(
+  //   () => GetReportReasonsUseCase(getIt<PassengerRepo>()),
+  // )
+  ;
+  getIt.registerLazySingleton<AddRouteToFavouriteUseCase>(
+    () => AddRouteToFavouriteUseCase(getIt<PassengerRepo>()),
+  );
+  getIt.registerLazySingleton<RemoveRouteFromFavUseCase>(
+    () => RemoveRouteFromFavUseCase(getIt<PassengerRepo>()),
+  );
+  getIt.registerLazySingleton<IsRouteFavouriteUseCase>(
+    () => IsRouteFavouriteUseCase(getIt<PassengerRepo>()),
+  );
+  getIt.registerLazySingleton<GetFavouriteRoutes>(
+    () => GetFavouriteRoutes(getIt<PassengerRepo>()),
   );
   getIt.registerLazySingleton<SubmitReportUseCase>(
     () => SubmitReportUseCase(getIt<PassengerRepo>()),
   );
+  getIt.registerLazySingleton<GetReportReasonsUseCase>(
+    () => GetReportReasonsUseCase(getIt<PassengerRepo>()),
+  );
+
   getIt.registerFactory<PassengerCubit>(
     () => PassengerCubit(
       getIt<GetRoutesUseCase>(),
@@ -312,6 +333,10 @@ void _driverDependencies() {
       getIt<GetOnTheWayMicrobusesUseCase>(),
       getIt<GetReportReasonsUseCase>(),
       getIt<SubmitReportUseCase>(),
+      getIt<AddRouteToFavouriteUseCase>(),
+      getIt<RemoveRouteFromFavUseCase>(),
+      getIt<IsRouteFavouriteUseCase>(),
+      getIt<GetFavouriteRoutes>(),
     ),
   );
 }

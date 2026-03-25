@@ -976,6 +976,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Other'**
   String get other;
+
+  /// No description provided for @favoritesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Favorites'**
+  String get favoritesTitle;
+
+  /// No description provided for @noFavorites.
+  ///
+  /// In en, this message translates to:
+  /// **'No favorite routes yet'**
+  String get noFavorites;
+
+  /// No description provided for @routeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Route'**
+  String get routeLabel;
+
+  /// No description provided for @priceLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Price'**
+  String get priceLabel;
+
+  /// No description provided for @reportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Report Driver'**
+  String get reportTitle;
+
+  /// No description provided for @plateNumberLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Plate Number'**
+  String get plateNumberLabel;
+
+  /// No description provided for @additionalDetailsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Additional details...'**
+  String get additionalDetailsHint;
+
+  /// No description provided for @submitReport.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit Report'**
+  String get submitReport;
+
+  /// No description provided for @selectReasonError.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select a reason'**
+  String get selectReasonError;
+
+  /// No description provided for @seeAll.
+  ///
+  /// In en, this message translates to:
+  /// **'See all'**
+  String get seeAll;
+
+  /// No description provided for @home.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get home;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

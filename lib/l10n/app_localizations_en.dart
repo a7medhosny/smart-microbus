@@ -468,4 +468,37 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get other => 'Other';
+
+  @override
+  String get favoritesTitle => 'Favorites';
+
+  @override
+  String get noFavorites => 'No favorite routes yet';
+
+  @override
+  String get routeLabel => 'Route';
+
+  @override
+  String get priceLabel => 'Price';
+
+  @override
+  String get reportTitle => 'Report Driver';
+
+  @override
+  String get plateNumberLabel => 'Plate Number';
+
+  @override
+  String get additionalDetailsHint => 'Additional details...';
+
+  @override
+  String get submitReport => 'Submit Report';
+
+  @override
+  String get selectReasonError => 'Please select a reason';
+
+  @override
+  String get seeAll => 'See all';
+
+  @override
+  String get home => 'Home';
 }

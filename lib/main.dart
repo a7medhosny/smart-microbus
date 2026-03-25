@@ -19,6 +19,8 @@ import 'core/localization/locale_state.dart';
 import 'core/routing/app_router.dart';
 import 'core/theme/app_theme.dart';
 import 'core/theme/theme_cubit.dart';
+import 'features/Driver/driver_home/presentation/cubit/driver_home_cubit.dart';
+import 'features/profile/presentation/cubit/profile_cubit.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -45,6 +47,8 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => getIt<ThemeCubit>()),
         BlocProvider(create: (_) => getIt<RegisterCubit>()),
         BlocProvider(create: (_) => getIt<PassengerCubit>()),
+        BlocProvider(create: (_) => getIt<ProfileCubit>()),
+        BlocProvider(create: (_) => getIt<DriverHomeCubit>()),
       ],
       child: BlocBuilder<LocaleCubit, LocaleState>(
         builder: (context, localeState) {
@@ -61,11 +65,8 @@ class MyApp extends StatelessWidget {
                     navigatorKey: navigatorKey,
                     onGenerateRoute: appRouter.onGenerateRoute,
                     initialRoute: isLoggedIn
-                        ? isDriver
-                              ? Routes.driverHome
-                              : Routes.passengerSearch
+                        ? Routes.navigationWrapper
                         : Routes.initial,
-                    // Set initial route based on login state
                     // ================= Localization =================
                     locale: localeState.locale,
                     supportedLocales: AppLocalizations.supportedLocales,

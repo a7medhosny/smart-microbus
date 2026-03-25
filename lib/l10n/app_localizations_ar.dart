@@ -468,4 +468,37 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get other => 'اخري';
+
+  @override
+  String get favoritesTitle => 'المفضلة';
+
+  @override
+  String get noFavorites => 'لا توجد طرق مفضلة حتى الآن';
+
+  @override
+  String get routeLabel => 'الخط';
+
+  @override
+  String get priceLabel => 'السعر';
+
+  @override
+  String get reportTitle => 'الإبلاغ عن سائق';
+
+  @override
+  String get plateNumberLabel => 'رقم اللوحة';
+
+  @override
+  String get additionalDetailsHint => 'تفاصيل إضافية...';
+
+  @override
+  String get submitReport => 'إرسال البلاغ';
+
+  @override
+  String get selectReasonError => 'من فضلك اختر سبب البلاغ';
+
+  @override
+  String get seeAll => 'عرض الكل';
+
+  @override
+  String get home => 'الصفحة الرئيسية';
 }

@@ -28,6 +28,7 @@ class SearchButton extends StatelessWidget {
             );
             return;
           }
+    //  cubit.getFavorites(); 
 
           cubit.getAllRouteData(routeId);
           Navigator.pushNamed(context, Routes.passengerSearchResultScreen);

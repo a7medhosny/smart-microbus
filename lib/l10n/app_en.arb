@@ -184,7 +184,19 @@
   "extra_details": "Additional Details",
   "submit": "Submit Report",
   "required": "Please fill all required fields",
-  "other": "Other"
+  "other": "Other",
+  "favoritesTitle": "Favorites",
+  "noFavorites": "No favorite routes yet",
+  "routeLabel": "Route",
+  "priceLabel": "Price",
+  "reportTitle": "Report Driver",
+  "plateNumberLabel": "Plate Number",
+  "additionalDetailsHint": "Additional details...",
+  "submitReport": "Submit Report",
+  "selectReasonError": "Please select a reason",
+  "seeAll": "See all",
+  "home": "Home"
+
 
 
 }

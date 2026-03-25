@@ -11,9 +11,8 @@ sealed class PassengerState extends Equatable {
 
 final class PassengerInitial extends PassengerState {}
 
-// =====================================================
-// ===================== ROUTES =========================
-// =====================================================
+
+// ================= ROUTES =================
 
 final class GetRoutesLoading extends PassengerState {}
 
@@ -38,6 +37,7 @@ final class GetRoutesError extends PassengerState {
 // =====================================================
 // ================= DESTINATIONS =======================
 // =====================================================
+
 
 final class GetDestinationsLoading extends PassengerState {}
 
@@ -131,6 +131,8 @@ final class GetOnTheWayMicrobusesError extends PassengerState {
   List<Object?> get props => [message];
 }
 
+// ================= COMBINED DATA =================
+
 class PassengerDataState extends PassengerState {
   final RouteSummaryEntity? summary;
   final List<StationMicrobusEntity>? station;
@@ -179,6 +181,19 @@ final class GetReportReasonsError extends PassengerState {
   final String message;
 
   const GetReportReasonsError(this.message);
+}
+
+// ================= FAVORITES =================
+
+class AddFavoriteLoading extends PassengerState {}
+
+class AddFavoriteSuccess extends PassengerState {
+  
+}
+
+class AddFavoriteError extends PassengerState {
+  final String message;
+  const AddFavoriteError(this.message);
 
   @override
   List<Object?> get props => [message];
@@ -196,9 +211,102 @@ final class SubmitReportSuccess extends PassengerState {
 
 final class SubmitReportError extends PassengerState {
   final String message;
+    const SubmitReportError(this.message);
 
-  const SubmitReportError(this.message);
+  
+}
+
+class RemoveFavoriteLoading extends PassengerState {}
+
+class RemoveFavoriteSuccess extends PassengerState {}
+
+class RemoveFavoriteError extends PassengerState {
+  final String message;
+  const RemoveFavoriteError(this.message);
 
   @override
   List<Object?> get props => [message];
 }
+
+// ----------------------------
+
+class CheckFavoriteLoading extends PassengerState {}
+
+class CheckFavoriteSuccess extends PassengerState {
+  final bool isFavorite;
+  const CheckFavoriteSuccess(this.isFavorite);
+
+  @override
+  List<Object?> get props => [isFavorite];
+}
+
+class CheckFavoriteError extends PassengerState {
+  final String message;
+  const CheckFavoriteError(this.message);
+
+  @override
+  List<Object?> get props => [message];
+}
+
+// ----------------------------
+
+class GetFavoritesLoading extends PassengerState {}
+
+class GetFavoritesSuccess extends PassengerState {
+  final List<FavouriteRouteEntity> routes;
+  const GetFavoritesSuccess(this.routes);
+
+  @override
+  List<Object?> get props => [routes];
+}
+
+class GetFavoritesError extends PassengerState {
+  final String message;
+  const GetFavoritesError(this.message);
+
+  @override
+  List<Object?> get props => [message];
+}
+
+// class ChangeBottomNavState extends PassengerState {
+//   final int index;
+
+//   const ChangeBottomNavState(this.index);
+
+//   @override
+//   List<Object> get props => [index];
+// }
+
+// ================= REPORT =================
+
+// class SubmitReportLoading extends PassengerState {}
+
+// class SubmitReportSuccess extends PassengerState {}
+
+// class SubmitReportError extends PassengerState {
+//   final String message;
+//   const SubmitReportError(this.message);
+
+//   @override
+//   List<Object?> get props => [message];
+// }
+
+// ----------------------------
+
+// class GetReportReasonsLoading extends PassengerState {}
+
+// class GetReportReasonsSuccess extends PassengerState {
+//   final List<ReportReasonEntity> reasons;
+//   const GetReportReasonsSuccess(this.reasons);
+
+//   @override
+//   List<Object?> get props => [reasons];
+// }
+
+// class GetReportReasonsError extends PassengerState {
+//   final String message;
+//   const GetReportReasonsError(this.message);
+
+//   @override
+//   List<Object?> get props => [message];
+// }

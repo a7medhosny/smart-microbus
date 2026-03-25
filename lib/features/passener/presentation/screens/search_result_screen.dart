@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_microbus/features/passener/presentation/cubit/passenger_cubit.dart';
-import 'package:smart_microbus/features/passener/presentation/widgets/route_summary_card.dart';
+import 'package:smart_microbus/features/passener/presentation/widgets/search_result_widgets/route_summary_card.dart';
 import 'package:smart_microbus/features/passener/presentation/widgets/search_result_widgets/section_card.dart';
 import 'package:smart_microbus/l10n/app_localizations.dart';
 
@@ -18,6 +18,7 @@ class SearchResultScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text(l10n.searchResults)),
       body: BlocBuilder<PassengerCubit, PassengerState>(
+buildWhen: (previous, current) => current is PassengerDataState || current is PassengerDataError,
         builder: (context, state) {
           /// ================= LOADING =================
           if (state is PassengerDataState && state.isLoading) {

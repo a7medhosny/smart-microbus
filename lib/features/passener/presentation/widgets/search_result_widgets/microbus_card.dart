@@ -3,6 +3,8 @@ import 'package:smart_microbus/features/passener/domain/entities/on_the_way_micr
 import 'package:smart_microbus/features/passener/domain/entities/station_microbus_entity.dart';
 import 'package:smart_microbus/l10n/app_localizations.dart';
 
+import '../../screens/report_screen.dart';
+
 class MicrobusCard extends StatelessWidget {
   final String driverName;
   final String model;
@@ -76,13 +78,12 @@ class MicrobusCard extends StatelessWidget {
           /// ================= TOP ROW =================
           Row(
             children: [
-              /// الوقت
+              /// الوقت (لو On The Way)
               if (isOnTheWay)
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      // "${estimatedArrivalMinutes} ${l10n.minutes}",
                       l10n.afterMinutes(estimatedArrivalMinutes!),
                       style: theme.textTheme.titleMedium?.copyWith(
                         color: theme.colorScheme.primary,
@@ -117,9 +118,10 @@ class MicrobusCard extends StatelessWidget {
                 ),
               ),
 
+              /// ================= ICONS =================
               Row(
                 children: [
-                  /// أيكونة الميكروباص
+                  /// أيقونة الميكروباص
                   Container(
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
@@ -134,15 +136,17 @@ class MicrobusCard extends StatelessWidget {
 
                   const SizedBox(width: 8),
 
+                  /// زرار Report (الجديد)
                   InkWell(
                     borderRadius: BorderRadius.circular(12),
                     onTap: () {
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //     // builder: (_) => ReportPage(plateNumber: plateNumber),
-                      //   ),
-                      // );
+                      //TODO
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => ReportPage(plateNumber: plateNumber),
+                        ),
+                      );
                     },
                     child: Container(
                       padding: const EdgeInsets.all(10),
@@ -150,7 +154,7 @@ class MicrobusCard extends StatelessWidget {
                         color: Colors.red.withOpacity(0.1),
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      child: Icon(
+                      child: const Icon(
                         Icons.report_problem_outlined,
                         color: Colors.red,
                         size: 22,
@@ -164,7 +168,7 @@ class MicrobusCard extends StatelessWidget {
 
           const SizedBox(height: 16),
 
-          /// ================= BOTTOM CARDS =================
+          /// ================= BOTTOM =================
           Row(
             children: [
               /// عدد الركاب

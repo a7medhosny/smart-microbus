@@ -8,6 +8,9 @@ import '../../domain/entities/report_reason_entity.dart';
 import '../../domain/entities/route_entity.dart';
 import '../../domain/entities/route_summary_entity.dart';
 import '../../domain/entities/station_microbus_entity.dart';
+import '../../domain/entities/favourite_route_entity.dart';
+import '../../domain/entities/report_entity.dart';
+import '../../domain/entities/report_reason_entity.dart';
 
 import '../../domain/usecases/get_report_reasons_use_case.dart';
 import '../../domain/usecases/get_routes_use_case.dart';
@@ -16,6 +19,13 @@ import '../../domain/usecases/get_route_summary_use_case.dart';
 import '../../domain/usecases/get_station_microbuses_use_case.dart';
 import '../../domain/usecases/get_on_the_way_microbuses_use_case.dart';
 import '../../domain/usecases/submit_report_use_case.dart';
+
+import '../../domain/usecases/add_route_to_favourite_use_case.dart';
+import '../../domain/usecases/is_route_favourite_use_case.dart';
+import '../../domain/usecases/get_favourite_routes.dart';
+import '../../domain/usecases/remove_route_from_fav_use_case.dart';
+import '../../domain/usecases/submit_report_use_case.dart';
+import '../../domain/usecases/get_report_reasons_use_case.dart';
 
 part 'passenger_state.dart';
 
@@ -27,14 +37,24 @@ class PassengerCubit extends Cubit<PassengerState> {
   final GetOnTheWayMicrobusesUseCase getOnTheWayMicrobusesUseCase;
   final GetReportReasonsUseCase getReportReasonsUseCase;
   final SubmitReportUseCase submitReportUseCase;
+  final AddRouteToFavouriteUseCase addRouteToFavouriteUseCase;
+  final RemoveRouteFromFavUseCase removeRouteFromFavoritesUceCase;
+  final IsRouteFavouriteUseCase isRouteFavouriteUseCase;
+  final GetFavouriteRoutes getFavouriteRoutes;
+
+
   String? selectedRouteId;
   String? selectedCity;
   DestinationEntity? selectedDestination;
   List<DestinationEntity> destinations = [];
-  String plateNumber = "أ ب ج 1234"; // مؤقت (يتبعت من الشاشة بعدين)
+  // String plateNumber = "أ ب ج 1234"; // مؤقت (يتبعت من الشاشة بعدين)
   int? selectedReasonId;
-  String description = '';
-  bool get isOtherSelected => selectedReasonId == -1;
+  // String description = '';
+  // bool get isOtherSelected => selectedReasonId == -1;
+  List<FavouriteRouteEntity> favouriteRoutes = [];
+  int currentNavIndex = 0;
+
+
   PassengerCubit(
     this.getRoutesUseCase,
     this.getRouteDestinationUseCase,
@@ -43,7 +63,18 @@ class PassengerCubit extends Cubit<PassengerState> {
     this.getOnTheWayMicrobusesUseCase,
     this.getReportReasonsUseCase,
     this.submitReportUseCase,
+    this.addRouteToFavouriteUseCase,
+    this.removeRouteFromFavoritesUceCase,
+    this.isRouteFavouriteUseCase,
+    this.getFavouriteRoutes,
+
   ) : super(PassengerInitial());
+
+
+// void changeBottomNavIndex(int index) {
+//   currentNavIndex = index;
+//   emit(ChangeBottomNavState(index));
+// }
 
   // ================= ROUTES =================
 
@@ -70,6 +101,8 @@ class PassengerCubit extends Cubit<PassengerState> {
       (data) => emit(GetDestinationsSuccess(data)),
     );
   }
+
+  // ================= ALL DATA =================
 
   Future<void> getAllRouteData(String routeId) async {
     emit(const PassengerDataState(isLoading: true));
@@ -105,7 +138,6 @@ class PassengerCubit extends Cubit<PassengerState> {
       (data) => onTheWay = data,
     );
 
-    /// لو في error
     if (error != null) {
       emit(PassengerDataError(error!));
       return;
@@ -122,6 +154,79 @@ class PassengerCubit extends Cubit<PassengerState> {
   }
   // ================= REPORT =================
 
+  // =====================================================
+  // ================= FAVORITES ==========================
+  // =====================================================
+
+  Future<void> addToFavorites(String routeId) async {
+    emit(AddFavoriteLoading());
+
+    final result = await addRouteToFavouriteUseCase(routeId);
+
+    result.fold((failure) => emit(AddFavoriteError(failure.message)), (
+      _,
+    ) async {
+      await getFavorites();
+      emit(AddFavoriteSuccess());
+    });
+  }
+
+  Future<void> removeFromFavorites(String routeId) async {
+    emit(RemoveFavoriteLoading());
+
+    final result = await removeRouteFromFavoritesUceCase(routeId);
+
+    result.fold((failure) => emit(RemoveFavoriteError(failure.message)), (
+      _,
+    ) async {
+      await getFavorites();
+      emit(RemoveFavoriteSuccess());
+    });
+  }
+
+  Future<void> checkIfFavorite(String routeId) async {
+    emit(CheckFavoriteLoading());
+    if (favouriteRoutes.any((route) => route.routeId == routeId)) {
+      emit(CheckFavoriteSuccess(true));
+      return;
+    } else {
+      emit(CheckFavoriteSuccess(false));
+      return;
+    }
+    final result = await isRouteFavouriteUseCase(routeId);
+
+    result.fold(
+      (failure) => emit(CheckFavoriteError(failure.message)),
+      (isFav) => emit(CheckFavoriteSuccess(isFav)),
+    );
+  }
+
+  Future<void> getFavorites() async {
+    emit(GetFavoritesLoading());
+
+    final result = await getFavouriteRoutes();
+
+    result.fold((failure) => emit(GetFavoritesError(failure.message)), (data) {
+      favouriteRoutes = data;
+      emit(GetFavoritesSuccess(data));
+    });
+  }
+
+  // =====================================================
+  // ================= REPORT =============================
+  // =====================================================
+
+  Future<void> submitReport(ReportEntity report) async {
+    emit(SubmitReportLoading());
+
+    final result = await submitReportUseCase(report);
+
+    result.fold(
+      (failure) => emit(SubmitReportError(failure.message)),
+      (data) => emit(SubmitReportSuccess(data.message)),
+    );
+  }
+
   Future<void> getReportReasons() async {
     emit(GetReportReasonsLoading());
 
@@ -133,16 +238,17 @@ class PassengerCubit extends Cubit<PassengerState> {
     );
   }
 
-  // ================= SUBMIT REPORT =================
+  // // ================= SUBMIT REPORT =================
 
-  Future<void> submitReport({required ReportEntity report}) async {
-    emit(SubmitReportLoading());
+  // Future<void> submitReport({required ReportEntity report}) async {
+  //   emit(SubmitReportLoading());
 
-    final result = await submitReportUseCase(report);
+  //   final result = await submitReportUseCase(report);
 
-    result.fold(
-      (failure) => emit(SubmitReportError(failure.message)),
-      (reasons) => emit(SubmitReportSuccess(reasons.message)),
-    );
-  }
+  //   result.fold(
+  //     (failure) => emit(SubmitReportError(failure.message)),
+  //     (reasons) => emit(SubmitReportSuccess(reasons.message)),
+  //     (data) => emit(GetReportReasonsSuccess(data)),
+  //   );
+  // }
 }
