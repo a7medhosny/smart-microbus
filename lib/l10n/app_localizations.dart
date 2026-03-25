@@ -934,6 +934,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'We couldn’t find any data right now. Please try again.'**
   String get noDataDescription;
+
+  /// No description provided for @report_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Report Driver'**
+  String get report_title;
+
+  /// No description provided for @plate_number.
+  ///
+  /// In en, this message translates to:
+  /// **'Plate Number'**
+  String get plate_number;
+
+  /// No description provided for @report_reason.
+  ///
+  /// In en, this message translates to:
+  /// **'Report Reason'**
+  String get report_reason;
+
+  /// No description provided for @extra_details.
+  ///
+  /// In en, this message translates to:
+  /// **'Additional Details'**
+  String get extra_details;
+
+  /// No description provided for @submit.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit Report'**
+  String get submit;
+
+  /// No description provided for @required.
+  ///
+  /// In en, this message translates to:
+  /// **'Please fill all required fields'**
+  String get required;
+
+  /// No description provided for @other.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get other;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

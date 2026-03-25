@@ -178,12 +178,12 @@ class _PassengerApiService implements PassengerApiService {
   }
 
   @override
-  Future<void> addRouteToFavorites(String routeId) async {
+  Future<BaseResponseModel> addRouteToFavorites(String routeId) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<void>(
+    final _options = _setStreamType<BaseResponseModel>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -193,16 +193,24 @@ class _PassengerApiService implements PassengerApiService {
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
-    await _dio.fetch<void>(_options);
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late BaseResponseModel _value;
+    try {
+      _value = BaseResponseModel.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
   }
 
   @override
-  Future<void> removeRouteFromFavorites(String routeId) async {
+  Future<BaseResponseModel> removeRouteFromFavorites(String routeId) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<void>(
+    final _options = _setStreamType<BaseResponseModel>(
       Options(method: 'DELETE', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -212,7 +220,15 @@ class _PassengerApiService implements PassengerApiService {
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
-    await _dio.fetch<void>(_options);
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late BaseResponseModel _value;
+    try {
+      _value = BaseResponseModel.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
   }
 
   @override
@@ -307,13 +323,13 @@ class _PassengerApiService implements PassengerApiService {
   }
 
   @override
-  Future<void> submitReport(ReportRequestBodyModel report) async {
+  Future<BaseResponseModel> submitReport(ReportRequestBodyModel report) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(report.toJson());
-    final _options = _setStreamType<void>(
+    final _options = _setStreamType<BaseResponseModel>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -323,7 +339,15 @@ class _PassengerApiService implements PassengerApiService {
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
-    await _dio.fetch<void>(_options);
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late BaseResponseModel _value;
+    try {
+      _value = BaseResponseModel.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
   }
 
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {

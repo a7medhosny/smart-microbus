@@ -174,7 +174,18 @@
 "inactive": "Inactive",
  "noDataTitle": "No Data Available",
   "noDataDescription": "We couldn’t find any data right now. Please try again.",
-  "retry": "Retry"
+  "retry": "Retry",
+
+
+  
+  "report_title": "Report Driver",
+  "plate_number": "Plate Number",
+  "report_reason": "Report Reason",
+  "extra_details": "Additional Details",
+  "submit": "Submit Report",
+  "required": "Please fill all required fields",
+  "other": "Other"
+
 
 }
   

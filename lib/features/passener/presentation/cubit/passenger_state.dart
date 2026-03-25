@@ -1,7 +1,5 @@
 part of 'passenger_cubit.dart';
 
-
-
 sealed class PassengerState extends Equatable {
   const PassengerState();
 
@@ -12,7 +10,6 @@ sealed class PassengerState extends Equatable {
 // ================= INITIAL =================
 
 final class PassengerInitial extends PassengerState {}
-
 
 // =====================================================
 // ===================== ROUTES =========================
@@ -38,7 +35,6 @@ final class GetRoutesError extends PassengerState {
   List<Object?> get props => [message];
 }
 
-
 // =====================================================
 // ================= DESTINATIONS =======================
 // =====================================================
@@ -62,7 +58,6 @@ final class GetDestinationsError extends PassengerState {
   @override
   List<Object?> get props => [message];
 }
-
 
 // =====================================================
 // ================= ROUTE SUMMARY ======================
@@ -88,7 +83,6 @@ final class GetRouteSummaryError extends PassengerState {
   List<Object?> get props => [message];
 }
 
-
 // =====================================================
 // ============== STATION MICROBuses ====================
 // =====================================================
@@ -112,7 +106,6 @@ final class GetStationMicrobusesError extends PassengerState {
   @override
   List<Object?> get props => [message];
 }
-
 
 // =====================================================
 // ============ ON THE WAY MICROBuses ===================
@@ -152,18 +145,59 @@ class PassengerDataState extends PassengerState {
   });
 
   @override
-  List<Object?> get props => [
-        summary,
-        station,
-        onTheWay,
-        isLoading,
-      ];
+  List<Object?> get props => [summary, station, onTheWay, isLoading];
 }
 
 final class PassengerDataError extends PassengerState {
   final String message;
 
   const PassengerDataError(this.message);
+
+  @override
+  List<Object?> get props => [message];
+}
+// ================= REPORT =================
+
+final class GetReportReasonsLoading extends PassengerState {}
+
+final class GetReportReasonsSuccess extends PassengerState {
+  final List<ReportReasonEntity> reasons;
+  final int? selectedReasonId;
+  final String description;
+
+  const GetReportReasonsSuccess(
+    this.reasons,
+    this.selectedReasonId, {
+    this.description = '',
+  });
+
+  @override
+  List<Object?> get props => [reasons, selectedReasonId, description];
+}
+
+final class GetReportReasonsError extends PassengerState {
+  final String message;
+
+  const GetReportReasonsError(this.message);
+
+  @override
+  List<Object?> get props => [message];
+}
+
+// ---------------- SUBMIT ----------------
+
+final class SubmitReportLoading extends PassengerState {}
+
+final class SubmitReportSuccess extends PassengerState {
+  final String message;
+
+  const SubmitReportSuccess(this.message);
+}
+
+final class SubmitReportError extends PassengerState {
+  final String message;
+
+  const SubmitReportError(this.message);
 
   @override
   List<Object?> get props => [message];

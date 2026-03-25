@@ -4,6 +4,8 @@ import 'package:smart_microbus/features/passener/data/models/destination_model.d
 import 'package:smart_microbus/features/passener/data/models/route_model.dart';
 
 import '../../../../core/networking/api_constants.dart';
+import '../../domain/entities/base_response.dart';
+import '../models/base_response_model.dart';
 import '../models/favourite_route_model.dart';
 import '../models/on_the_way_microbus_model.dart';
 import '../models/report_reason_model.dart';
@@ -36,15 +38,22 @@ abstract class PassengerApiService {
     @Path('routeId') String routeId,
   );
   @POST('${ApiConstants.favoriteRoutes}/{routeId}')
-  Future<void> addRouteToFavorites(@Path('routeId') String routeId);
+  Future<BaseResponseModel> addRouteToFavorites(
+    @Path('routeId') String routeId,
+  );
   @DELETE('${ApiConstants.favoriteRoutes}/{routeId}')
-  Future<void> removeRouteFromFavorites(@Path('routeId') String routeId);
+  Future<BaseResponseModel> removeRouteFromFavorites(
+    @Path('routeId') String routeId,
+  );
   @GET(ApiConstants.favoriteRoutes)
   Future<List<FavouriteRouteModel>> getFavoriteRoutes();
+
   @GET('${ApiConstants.favoriteRoutes}/{routeId}/is-favorite')
   Future<bool> isRouteFavorite(@Path('routeId') String routeId);
+
   @GET(ApiConstants.reportReasons)
   Future<List<ReportReasonModel>> getReportReasons();
+
   @POST(ApiConstants.submitReport)
-  Future<void> submitReport(@Body() ReportRequestBodyModel report);
+  Future<BaseResponseModel> submitReport(@Body() ReportRequestBodyModel report);
 }

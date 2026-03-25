@@ -447,4 +447,25 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noDataDescription => 'We couldn’t find any data right now. Please try again.';
+
+  @override
+  String get report_title => 'Report Driver';
+
+  @override
+  String get plate_number => 'Plate Number';
+
+  @override
+  String get report_reason => 'Report Reason';
+
+  @override
+  String get extra_details => 'Additional Details';
+
+  @override
+  String get submit => 'Submit Report';
+
+  @override
+  String get required => 'Please fill all required fields';
+
+  @override
+  String get other => 'Other';
 }

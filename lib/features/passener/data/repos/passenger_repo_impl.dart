@@ -13,6 +13,7 @@ import 'package:smart_microbus/features/passener/domain/repos/passenger_repo.dar
 
 import '../../../../core/error/error_handler.dart';
 import '../datasource/passenger_remote_data_source.dart';
+import '../models/base_response_model.dart';
 import '../models/report_request_body_model.dart';
 
 class PassengerRepoImpl implements PassengerRepo {
@@ -93,7 +94,9 @@ class PassengerRepoImpl implements PassengerRepo {
   }
 
   @override
-  Future<Either<Failure, void>> addRouteToFavorites(String routeId) async {
+  Future<Either<Failure, BaseResponseModel>> addRouteToFavorites(
+    String routeId,
+  ) async {
     try {
       final result = await remoteDataSource.addRouteToFavorites(routeId);
       return Right(result);
@@ -118,7 +121,9 @@ class PassengerRepoImpl implements PassengerRepo {
   }
 
   @override
-  Future<Either<Failure, void>> removeRouteFromFavorites(String routeId) async {
+  Future<Either<Failure, BaseResponseModel>> removeRouteFromFavorites(
+    String routeId,
+  ) async {
     try {
       final result = await remoteDataSource.removeRouteFromFavorites(routeId);
       return Right(result);
@@ -154,7 +159,9 @@ class PassengerRepoImpl implements PassengerRepo {
   }
 
   @override
-  Future<Either<Failure, void>> submitReport(ReportEntity report) async {
+  Future<Either<Failure, BaseResponseModel>> submitReport(
+    ReportEntity report,
+  ) async {
     try {
       final result = await remoteDataSource.submitReport(
         ReportRequestBodyModel.fromEntity(report),

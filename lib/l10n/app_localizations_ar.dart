@@ -447,4 +447,25 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get noDataDescription => 'لا يوجد بيانات حالياً، حاول مرة أخرى';
+
+  @override
+  String get report_title => 'إبلاغ عن سائق';
+
+  @override
+  String get plate_number => 'رقم اللوحة';
+
+  @override
+  String get report_reason => 'سبب الإبلاغ';
+
+  @override
+  String get extra_details => 'تفاصيل إضافية';
+
+  @override
+  String get submit => 'إرسال البلاغ';
+
+  @override
+  String get required => 'من فضلك أكمل البيانات';
+
+  @override
+  String get other => 'اخري';
 }

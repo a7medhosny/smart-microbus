@@ -173,7 +173,18 @@
 "inactive": "غير نشط",
 "noDataTitle": "لا توجد بيانات",
   "noDataDescription": "لا يوجد بيانات حالياً، حاول مرة أخرى",
-  "retry": "إعادة المحاولة"
+  "retry": "إعادة المحاولة",
+
+
+
+
+  "report_title": "إبلاغ عن سائق",
+  "plate_number": "رقم اللوحة",
+  "report_reason": "سبب الإبلاغ",
+  "extra_details": "تفاصيل إضافية",
+  "submit": "إرسال البلاغ",
+  "required": "من فضلك أكمل البيانات",
+  "other": "اخري"
 
 
 

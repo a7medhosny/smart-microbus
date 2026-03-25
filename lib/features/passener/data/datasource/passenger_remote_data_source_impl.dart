@@ -7,6 +7,7 @@ import 'package:smart_microbus/features/passener/data/models/route_model.dart';
 import 'package:smart_microbus/features/passener/data/models/route_summary_model.dart';
 import 'package:smart_microbus/features/passener/data/models/station_microbus_model.dart';
 
+import '../models/base_response_model.dart';
 import '../models/destination_model.dart';
 import 'passenger_api_service.dart';
 
@@ -40,7 +41,7 @@ class PassengerRemoteDataSourceImpl implements PassengerRemoteDataSource {
   }
 
   @override
-  Future<void> addRouteToFavorites(String routeId) {
+  Future<BaseResponseModel> addRouteToFavorites(String routeId) {
     return apiService.addRouteToFavorites(routeId);
   }
 
@@ -50,7 +51,7 @@ class PassengerRemoteDataSourceImpl implements PassengerRemoteDataSource {
   }
 
   @override
-  Future<void> removeRouteFromFavorites(String routeId) {
+  Future<BaseResponseModel> removeRouteFromFavorites(String routeId) {
     return apiService.removeRouteFromFavorites(routeId);
   }
 
@@ -65,7 +66,7 @@ class PassengerRemoteDataSourceImpl implements PassengerRemoteDataSource {
   }
 
   @override
-  Future<void> submitReport(ReportRequestBodyModel report) {
+  Future<BaseResponseModel> submitReport(ReportRequestBodyModel report) {
     return apiService.submitReport(report);
   }
 }

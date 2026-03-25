@@ -50,155 +50,177 @@ class MicrobusCard extends StatelessWidget {
     );
   }
 
-@override
-Widget build(BuildContext context) {
-  final theme = Theme.of(context);
-  final l10n = AppLocalizations.of(context)!;
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
-  final bool isOnTheWay = estimatedArrivalMinutes != null;
+    final bool isOnTheWay = estimatedArrivalMinutes != null;
 
-  return Container(
-    margin: const EdgeInsets.only(bottom: 12),
-    padding: const EdgeInsets.all(16),
-    decoration: BoxDecoration(
-      color: theme.colorScheme.surface,
-      borderRadius: BorderRadius.circular(20),
-      boxShadow: [
-        BoxShadow(
-          color: Colors.black.withOpacity(0.05),
-          blurRadius: 10,
-          offset: const Offset(0, 4),
-        ),
-      ],
-    ),
-    child: Column(
-      children: [
-        /// ================= TOP ROW =================
-        Row(
-          children: [
-            /// الوقت
-            if (isOnTheWay)
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+    return Container(
+      margin: const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.surface,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          /// ================= TOP ROW =================
+          Row(
+            children: [
+              /// الوقت
+              if (isOnTheWay)
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      // "${estimatedArrivalMinutes} ${l10n.minutes}",
+                      l10n.afterMinutes(estimatedArrivalMinutes!),
+                      style: theme.textTheme.titleMedium?.copyWith(
+                        color: theme.colorScheme.primary,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(l10n.arrivalTime, style: theme.textTheme.bodySmall),
+                  ],
+                ),
+
+              const SizedBox(width: 12),
+
+              /// اسم السواق + التفاصيل
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      driverName,
+                      style: theme.textTheme.bodyLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      "$model - $color",
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              Row(
                 children: [
-                  Text(
-                    // "${estimatedArrivalMinutes} ${l10n.minutes}",
-                    l10n.afterMinutes(estimatedArrivalMinutes!),
-                    style: theme.textTheme.titleMedium?.copyWith(
+                  /// أيكونة الميكروباص
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: theme.colorScheme.primary.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Icon(
+                      Icons.directions_bus,
                       color: theme.colorScheme.primary,
-                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Text(
-                    l10n.arrivalTime,
-                    style: theme.textTheme.bodySmall,
+
+                  const SizedBox(width: 8),
+
+                  InkWell(
+                    borderRadius: BorderRadius.circular(12),
+                    onTap: () {
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //     // builder: (_) => ReportPage(plateNumber: plateNumber),
+                      //   ),
+                      // );
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: Colors.red.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Icon(
+                        Icons.report_problem_outlined,
+                        color: Colors.red,
+                        size: 22,
+                      ),
+                    ),
                   ),
                 ],
               ),
+            ],
+          ),
 
-            const SizedBox(width: 12),
+          const SizedBox(height: 16),
 
-            /// اسم السواق + التفاصيل
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    driverName,
-                    style: theme.textTheme.bodyLarge?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
+          /// ================= BOTTOM CARDS =================
+          Row(
+            children: [
+              /// عدد الركاب
+              Expanded(
+                child: Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: Colors.grey.withOpacity(0.05),
+                    borderRadius: BorderRadius.circular(12),
                   ),
-                  const SizedBox(height: 4),
-                  Text(
-                    "$model - $color",
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: Colors.grey,
-                    ),
+                  child: Column(
+                    children: [
+                      Text(l10n.passengers, style: theme.textTheme.bodySmall),
+                      const SizedBox(height: 4),
+                      Text(
+                        "$passengerCount ${l10n.person}",
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            ),
-
-            /// أيكونة الميكروباص
-            Container(
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: theme.colorScheme.primary.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Icon(
-                Icons.directions_bus,
-                color: theme.colorScheme.primary,
-              ),
-            ),
-          ],
-        ),
-
-        const SizedBox(height: 16),
-
-        /// ================= BOTTOM CARDS =================
-        Row(
-          children: [
-            /// عدد الركاب
-            Expanded(
-              child: Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: Colors.grey.withOpacity(0.05),
-                  borderRadius: BorderRadius.circular(12),
                 ),
-                child: Column(
-                  children: [
-                    Text(
-                      l10n.passengers,
-                      style: theme.textTheme.bodySmall,
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      "$passengerCount ${l10n.person}",
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
+              ),
+
+              const SizedBox(width: 10),
+
+              /// رقم اللوحة
+              Expanded(
+                child: Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: Colors.grey.withOpacity(0.05),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Column(
+                    children: [
+                      Text(l10n.plateNumber, style: theme.textTheme.bodySmall),
+                      const SizedBox(height: 4),
+                      Text(
+                        plateNumber,
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
 
-            const SizedBox(width: 10),
-
-            /// رقم اللوحة
-            Expanded(
-              child: Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: Colors.grey.withOpacity(0.05),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Column(
-                  children: [
-                    Text(
-                      l10n.plateNumber,
-                      style: theme.textTheme.bodySmall,
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      plateNumber,
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ],
-    ),
-  );
-}
   String _statusText(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
 

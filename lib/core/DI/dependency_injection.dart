@@ -43,10 +43,12 @@ import '../../features/Driver/driver_home/domain/repository/driver_home_reposito
 import '../../features/passener/data/datasource/passenger_remote_data_source_impl.dart';
 import '../../features/passener/data/repos/passenger_repo_impl.dart';
 import '../../features/passener/domain/usecases/get_on_the_way_microbuses_use_case.dart';
+import '../../features/passener/domain/usecases/get_report_reasons_use_case.dart';
 import '../../features/passener/domain/usecases/get_route_destination_use_case.dart';
 import '../../features/passener/domain/usecases/get_route_summary_use_case.dart';
 import '../../features/passener/domain/usecases/get_routes_use_case.dart';
 import '../../features/passener/domain/usecases/get_station_microbuses_use_case.dart';
+import '../../features/passener/domain/usecases/submit_report_use_case.dart';
 import '../../features/profile/data/datasource/profile_api_service.dart';
 import '../../features/profile/data/datasource/profile_remote_data_source.dart';
 import '../../features/profile/data/datasource/profile_remote_data_source_impl.dart';
@@ -295,7 +297,12 @@ void _driverDependencies() {
   getIt.registerLazySingleton<GetOnTheWayMicrobusesUseCase>(
     () => GetOnTheWayMicrobusesUseCase(getIt<PassengerRepo>()),
   );
-
+  getIt.registerLazySingleton<GetReportReasonsUseCase>(
+    () => GetReportReasonsUseCase(getIt<PassengerRepo>()),
+  );
+  getIt.registerLazySingleton<SubmitReportUseCase>(
+    () => SubmitReportUseCase(getIt<PassengerRepo>()),
+  );
   getIt.registerFactory<PassengerCubit>(
     () => PassengerCubit(
       getIt<GetRoutesUseCase>(),
@@ -303,6 +310,8 @@ void _driverDependencies() {
       getIt<GetRouteSummaryUseCase>(),
       getIt<GetStationMicrobusesUseCase>(),
       getIt<GetOnTheWayMicrobusesUseCase>(),
+      getIt<GetReportReasonsUseCase>(),
+      getIt<SubmitReportUseCase>(),
     ),
   );
 }

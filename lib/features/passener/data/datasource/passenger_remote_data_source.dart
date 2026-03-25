@@ -1,3 +1,4 @@
+import '../models/base_response_model.dart';
 import '../models/destination_model.dart';
 import '../models/favourite_route_model.dart';
 import '../models/on_the_way_microbus_model.dart';
@@ -13,10 +14,10 @@ abstract class PassengerRemoteDataSource {
   Future<RouteSummaryModel> getRouteSummary(String routeId);
   Future<List<StationMicrobusModel>> getStationMicrobuses(String routeId);
   Future<List<OnTheWayMicrobusModel>> getOnTheWayMicrobuses(String routeId);
-  Future<void> addRouteToFavorites(String routeId);
-  Future<void> removeRouteFromFavorites(String routeId);
+  Future<BaseResponseModel> addRouteToFavorites(String routeId);
+  Future<BaseResponseModel> removeRouteFromFavorites(String routeId);
   Future<List<FavouriteRouteModel>> getFavoriteRoutes();
   Future<bool> isRouteFavorite(String routeId);
   Future<List<ReportReasonModel>> getReportReasons();
-  Future<void> submitReport(ReportRequestBodyModel report);
+  Future<BaseResponseModel> submitReport(ReportRequestBodyModel report);
 }
