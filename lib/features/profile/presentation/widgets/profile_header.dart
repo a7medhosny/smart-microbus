@@ -11,14 +11,12 @@ class ProfileHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isActive = profile.isActive;
-
-    final statusColor = isActive ? Colors.green : theme.colorScheme.error;
     final tr = AppLocalizations.of(context)!;
 
     return Container(
-      padding: const EdgeInsets.all(18),
+      padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(28),
+        borderRadius: BorderRadius.circular(24),
         gradient: LinearGradient(
           colors: [
             theme.colorScheme.primary,
@@ -28,9 +26,8 @@ class ProfileHeader extends StatelessWidget {
       ),
       child: Row(
         children: [
-          /// Avatar
           CircleAvatar(
-            radius: 34,
+            radius: 26,
             backgroundColor: theme.colorScheme.surface,
             backgroundImage: profile.photoUrl.isNotEmpty
                 ? NetworkImage(profile.photoUrl)
@@ -39,7 +36,7 @@ class ProfileHeader extends StatelessWidget {
                 ? Text(
                     profile.name[0].toUpperCase(),
                     style: TextStyle(
-                      fontSize: 22,
+                      fontSize: 18,
                       fontWeight: FontWeight.bold,
                       color: theme.colorScheme.primary,
                     ),
@@ -47,56 +44,71 @@ class ProfileHeader extends StatelessWidget {
                 : null,
           ),
 
-          const SizedBox(width: 16),
+          const SizedBox(width: 12),
+
+          /// Info + Status
           Expanded(
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      profile.name,
-                      style: theme.textTheme.titleLarge?.copyWith(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        profile.name,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: theme.textTheme.titleMedium?.copyWith(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 17,
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      profile.phone,
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        color: Colors.white.withOpacity(.85),
+                      const SizedBox(height: 2),
+                      Text(
+                        profile.phone,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: Colors.white70,
+                          fontSize: 14,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
 
+                const SizedBox(width: 6),
+
+                /// Status (compact)
                 Container(
                   padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 6,
+                    horizontal: 8,
+                    vertical: 4,
                   ),
                   decoration: BoxDecoration(
                     color: Colors.white.withOpacity(.15),
-                    borderRadius: BorderRadius.circular(50),
+                    borderRadius: BorderRadius.circular(20),
                   ),
                   child: Row(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       Container(
-                        width: 8,
-                        height: 8,
+                        width: 6,
+                        height: 6,
                         decoration: BoxDecoration(
-                          color: statusColor,
+                          color: isActive
+                              ? Colors.green
+                              : theme.colorScheme.error,
                           shape: BoxShape.circle,
                         ),
                       ),
-                      const SizedBox(width: 6),
+                      const SizedBox(width: 4),
                       Text(
                         isActive ? tr.active : tr.inactive,
                         style: const TextStyle(
                           color: Colors.white,
-                          fontSize: 12,
+                          fontSize: 11,
                           fontWeight: FontWeight.w600,
                         ),
                       ),

@@ -7,6 +7,7 @@ import 'package:smart_microbus/features/passener/presentation/cubit/passenger_cu
 import 'package:smart_microbus/features/passener/presentation/widgets/search_widgets/passenger_search_body.dart';
 import 'package:smart_microbus/l10n/app_localizations.dart';
 
+import '../../../../core/helpers/app_error_helper.dart';
 import '../../../../core/routing/routes.dart';
 
 class PassengerSearchView extends StatefulWidget {
@@ -57,11 +58,15 @@ class _RoutesSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<PassengerCubit, PassengerState>(
-      listenWhen: (prev, curr) =>
-          curr is GetRoutesError ,
+      listenWhen: (prev, curr) => curr is GetRoutesError,
       listener: (context, state) {
         if (state is GetRoutesError) {
-          ShowToastHelper.showToast(context, state.message);
+          ShowToastHelper.showToast(
+            context,
+            state.message,
+            backgroundColor: Colors.red,
+            icon: Icons.error,
+          );
         } else if (state is GetFavoritesError) {
           ShowToastHelper.showToast(context, state.message);
         }
@@ -78,7 +83,7 @@ class _RoutesSection extends StatelessWidget {
 
         /// ===== ERROR =====
         if (state is GetRoutesError) {
-          return _ErrorWidget(
+          return AppErrorWidget(
             message: state.message,
             onRetry: () {
               context.read<PassengerCubit>().getRoutes();
@@ -164,7 +169,10 @@ class _FavouriteSection extends StatelessWidget {
 
                     cubit.getAllRouteData(fav.routeId);
 
-                    context.pushNamed(Routes.passengerSearchResultScreen,arguments: fav.routeId );
+                    context.pushNamed(
+                      Routes.passengerSearchResultScreen,
+                      arguments: fav.routeId,
+                    );
                   },
                   child: Container(
                     margin: const EdgeInsets.only(bottom: 10),
@@ -199,28 +207,3 @@ class _FavouriteSection extends StatelessWidget {
 ////////////////////////////////////////////////////////////
 ///  ERROR WIDGET
 ////////////////////////////////////////////////////////////
-
-class _ErrorWidget extends StatelessWidget {
-  final String message;
-  final VoidCallback onRetry;
-
-  const _ErrorWidget({required this.message, required this.onRetry});
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Icon(Icons.error_outline, size: 60, color: Colors.red),
-          const SizedBox(height: 16),
-          Text(message, textAlign: TextAlign.center),
-          const SizedBox(height: 20),
-          ElevatedButton(onPressed: onRetry, child: Text(l10n.retry)),
-        ],
-      ),
-    );
-  }
-}

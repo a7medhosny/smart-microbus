@@ -501,4 +501,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get home => 'Home';
+
+  @override
+  String get noFavoritesMessage => 'Start adding your favorite routes to see them here';
+
+  @override
+  String get errorHint => 'Oops!';
 }

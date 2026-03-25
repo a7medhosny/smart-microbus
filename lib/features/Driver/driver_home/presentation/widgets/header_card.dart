@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_microbus/core/auth/token_manager.dart';
-import 'package:smart_microbus/core/helpers/extensions.dart';
 import 'package:smart_microbus/core/helpers/spacing.dart';
 import 'package:smart_microbus/features/Driver/driver_home/presentation/cubit/driver_home_cubit.dart';
 import 'package:smart_microbus/l10n/app_localizations.dart';
-
-import '../../../../../core/routing/routes.dart';
 
 class HeaderCard extends StatelessWidget {
   const HeaderCard({super.key});
@@ -35,7 +32,7 @@ class HeaderCard extends StatelessWidget {
           /// Driver Avatar
           InkWell(
             onTap: () {
-              context.pushNamed(Routes.profile);
+              context.read<DriverHomeCubit>().changeBottomNavIndex(2);
             },
             child: CircleAvatar(
               radius: 24,
@@ -155,7 +152,7 @@ class HeaderCard extends StatelessWidget {
             child: IconButton(
               icon: const Icon(Icons.history, size: 20, color: Colors.white),
               onPressed: () {
-                context.pushNamed(Routes.driverTripHistory);
+                context.read<DriverHomeCubit>().changeBottomNavIndex(1);
               },
             ),
           ),

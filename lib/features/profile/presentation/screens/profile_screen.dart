@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_microbus/core/auth/token_manager.dart';
 
+import '../../../../core/helpers/app_error_helper.dart';
 import '../../../../core/localization/locale_cubit.dart';
 import '../../../../core/routing/routes.dart';
 import '../../../../core/theme/theme_cubit.dart';
@@ -110,7 +111,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final tr = AppLocalizations.of(context)!;
 
     if (state is ProfileError) {
-      return Center(child: Text(state.message));
+      return AppErrorWidget(
+        message: state.message,
+        onRetry: () {
+          context.read<ProfileCubit>().loadProfile();
+        },
+      );
     }
 
     if (state is ProfileLoaded) {
@@ -129,14 +135,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
               ),
-            ),
-          ),
-
-          /// 🔙 Back button
-          SafeArea(
-            child: IconButton(
-              icon: const Icon(Icons.arrow_back, color: Colors.white),
-              onPressed: () => Navigator.pop(context),
             ),
           ),
 

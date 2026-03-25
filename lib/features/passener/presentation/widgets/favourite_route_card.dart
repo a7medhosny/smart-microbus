@@ -74,7 +74,7 @@ class FavouriteRouteCard extends StatelessWidget {
                   onPressed: onRemove,
                   icon: Icon(
                     Icons.favorite,
-                    color: theme.colorScheme.secondary,
+                    color: theme.colorScheme.primary.withOpacity(0.8),
                   ),
                 ),
               ],

@@ -195,7 +195,9 @@
   "submitReport": "Submit Report",
   "selectReasonError": "Please select a reason",
   "seeAll": "See all",
-  "home": "Home"
+  "home": "Home",
+  "noFavoritesMessage": "Start adding your favorite routes to see them here",
+   "errorHint": "Oops!"
 
 
 

@@ -35,6 +35,16 @@ class DioFactory {
           responseHeader: true,
         ),
       );
+      _dio!.interceptors.add(
+        InterceptorsWrapper(
+          onResponse: (response, handler) {
+            if (response.statusCode == 204) {
+              response.data = [];
+            }
+            handler.next(response);
+          },
+        ),
+      );
     }
     return _dio!;
   }

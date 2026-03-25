@@ -501,4 +501,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get home => 'الصفحة الرئيسية';
+
+  @override
+  String get noFavoritesMessage => 'ابدأ بإضافة طرقك المفضلة لتظهر هنا';
+
+  @override
+  String get errorHint => 'عذرًا!';
 }

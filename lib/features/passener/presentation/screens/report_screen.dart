@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../l10n/app_localizations.dart';
 import '../../domain/entities/report_entity.dart';
+import '../../domain/entities/report_reason_entity.dart';
 import '../cubit/passenger_cubit.dart';
 
 class ReportPage extends StatefulWidget {
@@ -16,6 +17,7 @@ class ReportPage extends StatefulWidget {
 
 class _ReportPageState extends State<ReportPage> {
   List<int> selectedReasonIds = [];
+  List<ReportReasonEntity> reasons = [];
   final TextEditingController descriptionController = TextEditingController();
 
   @override
@@ -57,7 +59,7 @@ class _ReportPageState extends State<ReportPage> {
                   }
 
                   if (state is GetReportReasonsSuccess) {
-                    final reasons = state.reasons;
+                    reasons = state.reasons;
 
                     return ListView.separated(
                       itemCount: reasons.length,
@@ -88,16 +90,21 @@ class _ReportPageState extends State<ReportPage> {
             ),
 
             /// ================= Description =================
-            TextField(
-              controller: descriptionController,
-              maxLines: 3,
-              decoration: InputDecoration(
-                hintText: l10n.additionalDetailsHint,
-                border: const OutlineInputBorder(),
+            if (reasons.isNotEmpty &&
+                selectedReasonIds.contains(reasons.last.id)) ...[
+              TextField(
+                controller: descriptionController,
+                maxLines: 3,
+                decoration: InputDecoration(
+                  hintText: l10n.additionalDetailsHint,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  contentPadding: const EdgeInsets.all(12),
+                ),
               ),
-            ),
-
-            const SizedBox(height: 16),
+              const SizedBox(height: 16),
+            ],
 
             /// ================= Submit =================
             BlocConsumer<PassengerCubit, PassengerState>(

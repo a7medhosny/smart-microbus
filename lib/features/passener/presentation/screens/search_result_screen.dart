@@ -5,12 +5,13 @@ import 'package:smart_microbus/features/passener/presentation/widgets/search_res
 import 'package:smart_microbus/features/passener/presentation/widgets/search_result_widgets/section_card.dart';
 import 'package:smart_microbus/l10n/app_localizations.dart';
 
+import '../../../../core/helpers/app_error_helper.dart';
 import '../../../../core/helpers/extensions.dart';
 import '../../../../core/routing/routes.dart';
 
 class SearchResultScreen extends StatelessWidget {
   final String routeId;
-  const SearchResultScreen({super.key , required this.routeId});
+  const SearchResultScreen({super.key, required this.routeId});
 
   @override
   Widget build(BuildContext context) {
@@ -29,31 +30,16 @@ class SearchResultScreen extends StatelessWidget {
 
           /// ================= ERROR =================
           if (state is PassengerDataError) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(Icons.error_outline, size: 60, color: Colors.red),
-                  const SizedBox(height: 16),
-                  Text(
-                    state.message,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(fontSize: 16),
-                  ),
-                  const SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: () {
-                      final cubit = context.read<PassengerCubit>();
-                      final routeId = cubit.selectedRouteId;
+            return AppErrorWidget(
+              message: state.message,
+              onRetry: () {
+                final cubit = context.read<PassengerCubit>();
+                final routeId = cubit.selectedRouteId;
 
-                      if (routeId != null) {
-                        cubit.getAllRouteData(routeId);
-                      }
-                    },
-                    child: Text(l10n.retry),
-                  ),
-                ],
-              ),
+                if (routeId != null) {
+                  cubit.getAllRouteData(routeId);
+                }
+              },
             );
           }
 
@@ -66,7 +52,8 @@ class SearchResultScreen extends StatelessWidget {
             return ListView(
               padding: const EdgeInsets.all(16),
               children: [
-                if (summary != null) RouteSummaryCard(summary: summary, routeId: routeId,),
+                if (summary != null)
+                  RouteSummaryCard(summary: summary, routeId: routeId),
 
                 const SizedBox(height: 20),
 

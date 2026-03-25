@@ -122,7 +122,7 @@ class AppRouter {
         return _materialRoute(PassengerSearchView());
       case Routes.passengerSearchResultScreen:
         final String routeId = settings.arguments as String;
-        return _materialRoute( SearchResultScreen(routeId: routeId,));
+        return _materialRoute(SearchResultScreen(routeId: routeId));
       case Routes.stationListScreen:
         final stationMicrobuses = settings.arguments as List;
         return _materialRoute(

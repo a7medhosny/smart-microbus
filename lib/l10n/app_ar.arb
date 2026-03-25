@@ -195,7 +195,9 @@
   "submitReport": "إرسال البلاغ",
   "selectReasonError": "من فضلك اختر سبب البلاغ",
   "seeAll": "عرض الكل",
-  "home": "الصفحة الرئيسية"
+  "home": "الصفحة الرئيسية",
+   "noFavoritesMessage": "ابدأ بإضافة طرقك المفضلة لتظهر هنا",
+    "errorHint": "عذرًا!"
 
 
 

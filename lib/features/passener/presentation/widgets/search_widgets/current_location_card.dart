@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_microbus/core/helpers/extensions.dart';
 import 'package:smart_microbus/l10n/app_localizations.dart';
 import '../../../../../core/routing/routes.dart';
+import '../../cubit/passenger_cubit.dart';
 import '../../screens/favourite_screen.dart';
 
 class CurrentLocationCard extends StatelessWidget {
@@ -42,11 +44,11 @@ class CurrentLocationCard extends StatelessWidget {
           //     child: const Icon(Icons.favorite, color: Colors.white, size: 20),
           //   ),
           // ),
-          
+
           /// 👤 Avatar
           InkWell(
             onTap: () {
-              context.pushNamed(Routes.profile);
+              context.read<PassengerCubit>().changeBottomNavIndex(2);
             },
             child: CircleAvatar(
               radius: 24,

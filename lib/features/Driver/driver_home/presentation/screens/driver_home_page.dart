@@ -4,6 +4,7 @@ import 'package:smart_microbus/core/helpers/show_toast_helper.dart';
 import 'package:smart_microbus/core/helpers/spacing.dart';
 import 'package:smart_microbus/features/Driver/driver_home/presentation/cubit/driver_home_cubit.dart';
 
+import '../../../../../core/helpers/app_error_helper.dart';
 import '../../../../../l10n/app_localizations.dart';
 import '../../domain/entities/driver_current_status.dart';
 import '../widgets/earnings_summary_section.dart';
@@ -122,7 +123,12 @@ class _DriverHomeViewState extends State<DriverHomeView> {
 
             /// ================= ERROR =================
             if (state is GetCurrentPositionError) {
-              return _errorState(context, state.message);
+              return AppErrorWidget(
+                message: state.message,
+                onRetry: () {
+                  context.read<DriverHomeCubit>().getCurrentPosition();
+                },
+              );
             }
 
             /// ================= SUCCESS =================
@@ -222,44 +228,6 @@ class _DriverHomeViewState extends State<DriverHomeView> {
               },
               icon: const Icon(Icons.refresh),
               label: Text(l10n.retry),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _errorState(BuildContext context, String message) {
-    final theme = Theme.of(context);
-
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.error_outline, size: 80, color: theme.colorScheme.error),
-
-            const SizedBox(height: 20),
-
-            Text("Something went wrong", style: theme.textTheme.titleMedium),
-
-            const SizedBox(height: 10),
-
-            Text(
-              message,
-              textAlign: TextAlign.center,
-              style: theme.textTheme.bodyMedium,
-            ),
-
-            const SizedBox(height: 24),
-
-            ElevatedButton.icon(
-              onPressed: () {
-                context.read<DriverHomeCubit>().getCurrentPosition();
-              },
-              icon: const Icon(Icons.refresh),
-              label: const Text("Try Again"),
             ),
           ],
         ),

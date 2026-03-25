@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_microbus/core/helpers/show_toast_helper.dart';
 import 'package:smart_microbus/features/Driver/driver_home/presentation/cubit/driver_home_cubit.dart';
 
+import '../../../../../core/helpers/app_error_helper.dart';
 import '../../../../../l10n/app_localizations.dart';
 import '../widgets/tripHistory/date_filter_info.dart';
 import '../widgets/tripHistory/trip_card.dart';
@@ -85,7 +86,12 @@ class _DriverTripHistoryScreenState extends State<DriverTripHistoryScreen> {
             if (state is GetTripHistoryLoading) {
               return Center(child: CircularProgressIndicator());
             }
-
+            if (state is GetTripHistoryError) {
+              return AppErrorWidget(
+                message: state.message,
+                onRetry: () => cubit.getTripHistory(),
+              );
+            }
             final trips = cubit.tripHistory;
 
             if (trips == null) {

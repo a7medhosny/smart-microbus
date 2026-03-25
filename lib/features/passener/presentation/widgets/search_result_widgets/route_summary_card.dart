@@ -9,7 +9,11 @@ class RouteSummaryCard extends StatefulWidget {
   final RouteSummaryEntity summary;
   final String routeId;
 
-  const RouteSummaryCard({super.key, required this.summary,required this.routeId});
+  const RouteSummaryCard({
+    super.key,
+    required this.summary,
+    required this.routeId,
+  });
 
   @override
   State<RouteSummaryCard> createState() => _RouteSummaryCardState();
@@ -86,7 +90,7 @@ class _RouteSummaryCardState extends State<RouteSummaryCard> {
                         isFav ? Icons.favorite : Icons.favorite_border,
                         key: ValueKey(isFav),
                         color: isFav
-                            ? theme.colorScheme.secondary
+                            ? Colors.white
                             : theme.colorScheme.onPrimary,
                       ),
                     ),

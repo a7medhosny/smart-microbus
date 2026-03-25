@@ -1042,6 +1042,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Home'**
   String get home;
+
+  /// No description provided for @noFavoritesMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Start adding your favorite routes to see them here'**
+  String get noFavoritesMessage;
+
+  /// No description provided for @errorHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Oops!'**
+  String get errorHint;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
