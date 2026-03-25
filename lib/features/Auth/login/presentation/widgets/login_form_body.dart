@@ -148,7 +148,15 @@ class _LoginFormBodyState extends State<LoginFormBody> {
                   phone: user.phone,
                   userId: TokenHelper.extractUserId(user.token) ?? '',
                 );
-                context.pushNamedAndRemoveUntil(Routes.navigationWrapper);
+                if (isDriver) {
+                  context.pushNamedAndRemoveUntil(
+                    Routes.driverNavigationScreen,
+                  );
+                } else {
+                  context.pushNamedAndRemoveUntil(
+                    Routes.passengerNavigationScreen,
+                  );
+                }
               }
             },
             builder: (context, state) {

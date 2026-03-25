@@ -9,7 +9,8 @@ import '../../../../core/helpers/extensions.dart';
 import '../../../../core/routing/routes.dart';
 
 class SearchResultScreen extends StatelessWidget {
-  const SearchResultScreen({super.key});
+  final String routeId;
+  const SearchResultScreen({super.key , required this.routeId});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +19,8 @@ class SearchResultScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text(l10n.searchResults)),
       body: BlocBuilder<PassengerCubit, PassengerState>(
-buildWhen: (previous, current) => current is PassengerDataState || current is PassengerDataError,
+        buildWhen: (previous, current) =>
+            current is PassengerDataState || current is PassengerDataError,
         builder: (context, state) {
           /// ================= LOADING =================
           if (state is PassengerDataState && state.isLoading) {
@@ -64,7 +66,7 @@ buildWhen: (previous, current) => current is PassengerDataState || current is Pa
             return ListView(
               padding: const EdgeInsets.all(16),
               children: [
-                if (summary != null) RouteSummaryCard(summary: summary),
+                if (summary != null) RouteSummaryCard(summary: summary, routeId: routeId,),
 
                 const SizedBox(height: 20),
 

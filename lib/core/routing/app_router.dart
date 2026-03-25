@@ -17,8 +17,10 @@ import 'package:smart_microbus/main.dart';
 
 import '../../features/Driver/driver_home/presentation/cubit/driver_home_cubit.dart';
 import '../../features/Driver/driver_home/presentation/screens/driver_home_page.dart';
+import '../../features/Driver/driver_home/presentation/screens/driver_nav_screen.dart';
 import '../../features/Driver/driver_home/presentation/screens/driver_trip_history.dart';
 import '../../features/passener/presentation/cubit/nav_cubit.dart';
+import '../../features/passener/presentation/screens/passenger_nav_screen.dart';
 import '../../features/passener/presentation/widgets/search_result_widgets/on_the_way_list_screen.dart';
 import '../../features/passener/presentation/widgets/search_result_widgets/station_list_screen.dart';
 import '../auth/token_manager.dart';
@@ -119,7 +121,8 @@ class AppRouter {
       case Routes.passengerSearch:
         return _materialRoute(PassengerSearchView());
       case Routes.passengerSearchResultScreen:
-        return _materialRoute(const SearchResultScreen());
+        final String routeId = settings.arguments as String;
+        return _materialRoute( SearchResultScreen(routeId: routeId,));
       case Routes.stationListScreen:
         final stationMicrobuses = settings.arguments as List;
         return _materialRoute(
@@ -129,16 +132,23 @@ class AppRouter {
         final onTheWayMicrobuses = settings.arguments as List;
         return _materialRoute(OnTheWayListScreen(onTheWay: onTheWayMicrobuses));
 
-      case Routes.navigationWrapper:
-        return _materialRoute(
-          BlocProvider(
-            create: (context) => NavCubit(),
-            child: const MainNavigationScreen(),
-          ),
-        );
-      // ================= DEFAULT =================
-      default:
-        return null;
+      case Routes.passengerNavigationScreen:
+        return _materialRoute(PassengerNavigationScreen());
+
+      case Routes.driverNavigationScreen:
+        return _materialRoute(DriverNavigationScreen());
+
+      //   case Routes.navigationWrapper:
+      //     return _materialRoute(
+      //       BlocProvider(
+      //         create: (context) => NavCubit(),
+      //         child: const MainNavigationScreen(),
+      //       ),
+      //     );
+      //   // ================= DEFAULT =================
+      //   default:
+      //     return null;
+      // }
     }
   }
 

@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:smart_microbus/features/Driver/driver_home/domain/entities/route.dart';
 
 import '../../domain/entities/destination_entity.dart';
 import '../../domain/entities/on_the_way_microbus_entity.dart';
@@ -42,18 +43,18 @@ class PassengerCubit extends Cubit<PassengerState> {
   final IsRouteFavouriteUseCase isRouteFavouriteUseCase;
   final GetFavouriteRoutes getFavouriteRoutes;
 
-
   String? selectedRouteId;
   String? selectedCity;
   DestinationEntity? selectedDestination;
   List<DestinationEntity> destinations = [];
+  List<PassengerRouteEntity> routes = [];
+
   // String plateNumber = "أ ب ج 1234"; // مؤقت (يتبعت من الشاشة بعدين)
   int? selectedReasonId;
   // String description = '';
   // bool get isOtherSelected => selectedReasonId == -1;
   List<FavouriteRouteEntity> favouriteRoutes = [];
   int currentNavIndex = 0;
-
 
   PassengerCubit(
     this.getRoutesUseCase,
@@ -67,14 +68,12 @@ class PassengerCubit extends Cubit<PassengerState> {
     this.removeRouteFromFavoritesUceCase,
     this.isRouteFavouriteUseCase,
     this.getFavouriteRoutes,
-
   ) : super(PassengerInitial());
 
-
-// void changeBottomNavIndex(int index) {
-//   currentNavIndex = index;
-//   emit(ChangeBottomNavState(index));
-// }
+  void changeBottomNavIndex(int index) {
+    currentNavIndex = index;
+    emit(ChangePassengerBottomNavState(index));
+  }
 
   // ================= ROUTES =================
 
@@ -83,10 +82,10 @@ class PassengerCubit extends Cubit<PassengerState> {
 
     final result = await getRoutesUseCase();
 
-    result.fold(
-      (failure) => emit(GetRoutesError(failure.message)),
-      (data) => emit(GetRoutesSuccess(data)),
-    );
+    result.fold((failure) => emit(GetRoutesError(failure.message)), (data) {
+      routes = data;
+      emit(GetRoutesSuccess(data));
+    });
   }
 
   // ================= DESTINATIONS =================

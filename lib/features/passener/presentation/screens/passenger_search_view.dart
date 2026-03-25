@@ -58,7 +58,7 @@ class _RoutesSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<PassengerCubit, PassengerState>(
       listenWhen: (prev, curr) =>
-          curr is GetRoutesError || curr is GetFavoritesError,
+          curr is GetRoutesError ,
       listener: (context, state) {
         if (state is GetRoutesError) {
           ShowToastHelper.showToast(context, state.message);
@@ -103,7 +103,6 @@ class _FavouriteSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<PassengerCubit>();
-    final navCubit = context.read<NavCubit>();
 
     final l10n = AppLocalizations.of(context)!;
 
@@ -149,7 +148,7 @@ class _FavouriteSection extends StatelessWidget {
                   ),
                   TextButton(
                     onPressed: () {
-                      navCubit.changeIndex(1);
+                      cubit.changeBottomNavIndex(1);
                     },
                     child: Text(l10n.seeAll),
                   ),
@@ -165,7 +164,7 @@ class _FavouriteSection extends StatelessWidget {
 
                     cubit.getAllRouteData(fav.routeId);
 
-                    context.pushNamed(Routes.passengerSearchResultScreen);
+                    context.pushNamed(Routes.passengerSearchResultScreen,arguments: fav.routeId );
                   },
                   child: Container(
                     margin: const EdgeInsets.only(bottom: 10),

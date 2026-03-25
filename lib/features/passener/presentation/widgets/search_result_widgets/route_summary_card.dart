@@ -7,8 +7,9 @@ import 'package:smart_microbus/l10n/app_localizations.dart';
 
 class RouteSummaryCard extends StatefulWidget {
   final RouteSummaryEntity summary;
+  final String routeId;
 
-  const RouteSummaryCard({super.key, required this.summary});
+  const RouteSummaryCard({super.key, required this.summary,required this.routeId});
 
   @override
   State<RouteSummaryCard> createState() => _RouteSummaryCardState();
@@ -18,9 +19,9 @@ class _RouteSummaryCardState extends State<RouteSummaryCard> {
   @override
   void initState() {
     super.initState();
-    //  context.read<PassengerCubit>().getFavorites(); 
-
+    //  context.read<PassengerCubit>().getFavorites();
   }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -64,25 +65,25 @@ class _RouteSummaryCardState extends State<RouteSummaryCard> {
                     curr is RemoveFavoriteSuccess,
                 builder: (context, state) {
                   final cubit = context.read<PassengerCubit>();
-
                   final isFav = cubit.favouriteRoutes.any(
-                    (e) => e.routeId == cubit.selectedRouteId,
+                    (e) => e.routeId == widget.routeId,
+                  );
+                  print(
+                    "Fav Length : ${cubit.favouriteRoutes.length} , IsFav : ${isFav} , route ${cubit.selectedRouteId}",
                   );
 
                   return IconButton(
                     onPressed: () {
                       if (isFav) {
-                        cubit.removeFromFavorites(cubit.selectedRouteId!);
+                        cubit.removeFromFavorites(widget.routeId);
                       } else {
-                        cubit.addToFavorites(cubit.selectedRouteId!);
+                        cubit.addToFavorites(widget.routeId);
                       }
                     },
                     icon: AnimatedSwitcher(
                       duration: const Duration(milliseconds: 300),
                       child: Icon(
-                        isFav
-                            ? Icons.favorite
-                            : Icons.favorite_border,
+                        isFav ? Icons.favorite : Icons.favorite_border,
                         key: ValueKey(isFav),
                         color: isFav
                             ? theme.colorScheme.secondary
@@ -154,7 +155,9 @@ class _RouteSummaryCardState extends State<RouteSummaryCard> {
                   context: context,
                   icon: Icons.timer,
                   label: l10n.nearestArrival,
-                  value: l10n.minutesShort(widget.summary.nearestArrivalMinutes),
+                  value: l10n.minutesShort(
+                    widget.summary.nearestArrivalMinutes,
+                  ),
                 ),
               ),
             ],

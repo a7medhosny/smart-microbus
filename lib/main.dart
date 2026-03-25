@@ -65,7 +65,9 @@ class MyApp extends StatelessWidget {
                     navigatorKey: navigatorKey,
                     onGenerateRoute: appRouter.onGenerateRoute,
                     initialRoute: isLoggedIn
-                        ? Routes.navigationWrapper
+                        ? isDriver
+                              ? Routes.driverNavigationScreen
+                              : Routes.passengerNavigationScreen
                         : Routes.initial,
                     // ================= Localization =================
                     locale: localeState.locale,

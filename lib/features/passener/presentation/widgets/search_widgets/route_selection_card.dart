@@ -62,47 +62,44 @@ class _RouteSelectionCardState extends State<RouteSelectionCard> {
           ),
           const SizedBox(height: 6),
 
-          BlocBuilder<PassengerCubit, PassengerState>(
-            buildWhen: (p, c) =>
-                c is GetRoutesSuccess ||
-                c is GetRoutesLoading ||
-                c is GetRoutesError,
-            builder: (context, state) {
-              if (state is GetRoutesLoading) {
-                return const Center(
-                  child: Padding(
-                    padding: EdgeInsets.all(12),
-                    child: CircularProgressIndicator(),
-                  ),
-                );
-              }
+          // BlocBuilder<PassengerCubit, PassengerState>(
+           
+          //   builder: (context, state) {
+          //     if (state is GetRoutesLoading) {
+          //       return const Center(
+          //         child: Padding(
+          //           padding: EdgeInsets.all(12),
+          //           child: CircularProgressIndicator(),
+          //         ),
+          //       );
+          //     }
 
-              if (state is GetRoutesError) {
-                return Column(
-                  children: [
-                    const Icon(
-                      Icons.error_outline,
-                      color: Colors.red,
-                      size: 40,
-                    ),
-                    const SizedBox(height: 8),
-                    Text(state.message, textAlign: TextAlign.center),
-                    const SizedBox(height: 10),
-                    ElevatedButton(
-                      onPressed: () =>
-                          context.read<PassengerCubit>().getRoutes(),
-                      child: Text(l10n.retry),
-                    ),
-                  ],
-                );
-              }
+          //     if (state is GetRoutesError) {
+          //       return Column(
+          //         children: [
+          //           const Icon(
+          //             Icons.error_outline,
+          //             color: Colors.red,
+          //             size: 40,
+          //           ),
+          //           const SizedBox(height: 8),
+          //           Text(state.message, textAlign: TextAlign.center),
+          //           const SizedBox(height: 10),
+          //           ElevatedButton(
+          //             onPressed: () =>
+          //                 context.read<PassengerCubit>().getRoutes(),
+          //             child: Text(l10n.retry),
+          //           ),
+          //         ],
+          //       );
+          //     }
 
-              if (state is GetRoutesSuccess) {
-                return DropdownButtonFormField<String>(
+          //     if (state is GetRoutesSuccess) {
+                 DropdownButtonFormField<String>(
                   initialValue: selectedCity,
                   hint: Text(l10n.selectCity),
                   decoration: buildDecoration(),
-                  items: state.routes
+                  items: cubit.routes
                       .map(
                         (e) => DropdownMenuItem(
                           value: e.cityName,
@@ -125,12 +122,12 @@ class _RouteSelectionCardState extends State<RouteSelectionCard> {
 
                     cubit.getRouteDestination(value!);
                   },
-                );
-              }
+                ),
+              // }
 
-              return const SizedBox();
-            },
-          ),
+              // return const SizedBox();
+            // },
+          // );
 
           const SizedBox(height: 16),
 
@@ -192,4 +189,5 @@ class _RouteSelectionCardState extends State<RouteSelectionCard> {
       ),
     );
   }
+
 }

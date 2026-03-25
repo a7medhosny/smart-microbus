@@ -18,7 +18,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<PassengerCubit>().getFavorites(); // 🔥 أول ما الصفحة تفتح
+    context.read<PassengerCubit>().getFavorites(); 
   }
 
   @override

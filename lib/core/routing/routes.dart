@@ -21,6 +21,9 @@ class Routes {
   static const String onTheWayListScreen = '/OnTheWayListScreen';
   static const String profile = '/profile';
   // static const String navigationScreen = '/navigationScreen';
-  static const navigationWrapper = '/navigationWrapper';
+  // static const navigationWrapper = '/navigationWrapper';
+     static const String driverNavigationScreen = '/driverNavigationScreen';
+     static const String passengerNavigationScreen = '/passengerNavigationScreen';
+
 
 }

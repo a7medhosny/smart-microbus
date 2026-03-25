@@ -11,6 +11,15 @@ sealed class DriverHomeState extends Equatable {
 
 final class DriverHomeInitial extends DriverHomeState {}
 
+class ChangeDriverBottomNavState extends DriverHomeState {
+  final int index;
+
+  const ChangeDriverBottomNavState(this.index);
+
+  @override
+  List<Object> get props => [index];
+}
+
 // =====================================================
 // =============== CURRENT POSITION =====================
 // =====================================================

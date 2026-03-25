@@ -75,6 +75,7 @@ class DriverHomeCubit extends Cubit<DriverHomeState> {
 
   /// الصفحة الحالية
   int currentPage = 1;
+  int currentNavIndex = 0;
 
   /// حساب عدد الصفحات
   int get totalPages {
@@ -124,35 +125,40 @@ class DriverHomeCubit extends Cubit<DriverHomeState> {
   //     },
   //   );
   // }
+  void changeBottomNavIndex(int index) {
+    currentNavIndex = index;
+    emit(ChangeDriverBottomNavState(index));
+  }
+
   Future<void> getCurrentPosition() async {
-  emit(GetCurrentPositionLoading());
+    emit(GetCurrentPositionLoading());
 
-  final result = await getCurrentPositionUseCase();
+    final result = await getCurrentPositionUseCase();
 
-  result.fold(
-    (failure) {
-      if (failure is UnauthorizedFailure) return;
+    result.fold(
+      (failure) {
+        if (failure is UnauthorizedFailure) return;
 
-      emit(GetCurrentPositionError(failure.message));
-    },
-    (data) async {
-      currentStatus = data;
-      myPosition = data.queue;
-      currentTrip = data.trip;
+        emit(GetCurrentPositionError(failure.message));
+      },
+      (data) async {
+        currentStatus = data;
+        myPosition = data.queue;
+        currentTrip = data.trip;
 
-      emit(GetCurrentPositionSuccess(data));
+        emit(GetCurrentPositionSuccess(data));
 
-      if (data.queue != null) {
-        await listenToQueueNotifications(data.queue!.queueId);
+        if (data.queue != null) {
+          await listenToQueueNotifications(data.queue!.queueId);
 
-        await getStationQueue(
-          driverId: TokenHelper.extractUserId(TokenManager.token ?? '') ?? '',
-          queueId: data.queue!.queueId,
-        );
-      }
-    },
-  );
-}
+          await getStationQueue(
+            driverId: TokenHelper.extractUserId(TokenManager.token ?? '') ?? '',
+            queueId: data.queue!.queueId,
+          );
+        }
+      },
+    );
+  }
 
   int getMyQueueIndex() {
     if (queue == null || queue!.isEmpty) return -1;
@@ -254,9 +260,9 @@ class DriverHomeCubit extends Cubit<DriverHomeState> {
     if (event is DriverAddedEvent) {
       currentQueue.removeWhere((d) => d.driverId == event.driver.driverId);
       currentQueue.add(event.driver);
-        print(
-          "🚗 DriverAdded event received: Name: ${event.driver.driverName}, Queue ID: ${event.driver.queueId}, Plate Number: ${event.driver.plateNumber}",
-        );
+      print(
+        "🚗 DriverAdded event received: Name: ${event.driver.driverName}, Queue ID: ${event.driver.queueId}, Plate Number: ${event.driver.plateNumber}",
+      );
 
       currentQueue.sort((a, b) => (a.position ?? 0).compareTo(b.position ?? 0));
 

@@ -268,14 +268,14 @@ class GetFavoritesError extends PassengerState {
   List<Object?> get props => [message];
 }
 
-// class ChangeBottomNavState extends PassengerState {
-//   final int index;
+class ChangePassengerBottomNavState extends PassengerState {
+  final int index;
 
-//   const ChangeBottomNavState(this.index);
+  const ChangePassengerBottomNavState(this.index);
 
-//   @override
-//   List<Object> get props => [index];
-// }
+  @override
+  List<Object> get props => [index];
+}
 
 // ================= REPORT =================
 
