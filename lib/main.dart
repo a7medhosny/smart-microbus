@@ -68,7 +68,7 @@ class MyApp extends StatelessWidget {
                         ? isDriver
                               ? Routes.driverNavigationScreen
                               : Routes.passengerNavigationScreen
-                        : Routes.initial,
+                        : Routes.homeScreen,
                     // ================= Localization =================
                     locale: localeState.locale,
                     supportedLocales: AppLocalizations.supportedLocales,

@@ -1,6 +1,8 @@
 class Routes {
   static const String initial = '/';
 
+  static const String homeScreen = '/homeScreen';
+
   // ================= AUTH =================
   static const String login = '/LoginScreen';
   static const String register = '/register';

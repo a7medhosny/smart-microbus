@@ -75,6 +75,16 @@ class PassengerCubit extends Cubit<PassengerState> {
     emit(ChangePassengerBottomNavState(index));
   }
 
+  void resetRouteSelection() {
+    print('resetRouteSelection');
+    selectedCity = null;
+    selectedRouteId = null;
+    selectedDestination = null;
+    destinations = [];
+
+    emit(PassengerInitial());
+  }
+
   // ================= ROUTES =================
 
   Future<void> getRoutes() async {

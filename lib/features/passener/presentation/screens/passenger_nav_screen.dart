@@ -13,25 +13,30 @@ class PassengerNavigationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<PassengerCubit>();
-        final l10n = AppLocalizations.of(context)!;
-
-
-    final screens = const [
-      PassengerSearchView(),
-      FavoritesScreen(),
-      ProfileScreen(),
-    ];
+    final l10n = AppLocalizations.of(context)!;
 
     return BlocBuilder<PassengerCubit, PassengerState>(
       buildWhen: (prev, curr) => curr is ChangePassengerBottomNavState,
       builder: (context, state) {
         final currentIndex = cubit.currentNavIndex;
 
+        Widget currentScreen;
+        switch (currentIndex) {
+          case 0:
+            currentScreen = const PassengerSearchView();
+            break;
+          case 1:
+            currentScreen = const FavoritesScreen();
+            break;
+          case 2:
+            currentScreen = const ProfileScreen();
+            break;
+          default:
+            currentScreen = const PassengerSearchView();
+        }
+
         return Scaffold(
-          body: IndexedStack(
-            index: currentIndex,
-            children: screens,
-          ),
+          body: currentScreen, // 👈 هنا بدل IndexedStack
 
           bottomNavigationBar: BottomNavigationBar(
             currentIndex: currentIndex,
@@ -40,17 +45,17 @@ class PassengerNavigationScreen extends StatelessWidget {
             },
             type: BottomNavigationBarType.fixed,
             selectedItemColor: Theme.of(context).colorScheme.primary,
-            items:  [
+            items: [
               BottomNavigationBarItem(
-                icon: Icon(Icons.route),
+                icon: const Icon(Icons.route),
                 label: l10n.home,
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.favorite),
+                icon: const Icon(Icons.favorite),
                 label: l10n.favoritesTitle,
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.person),
+                icon: const Icon(Icons.person),
                 label: l10n.profile,
               ),
             ],

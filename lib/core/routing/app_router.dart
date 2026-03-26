@@ -38,7 +38,7 @@ class AppRouter {
   Route<dynamic>? onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
       // ================= INITIAL =================
-      case Routes.initial:
+      case Routes.homeScreen:
         return _materialRoute(const HomeScreen());
 
       // ================= LOGIN =================

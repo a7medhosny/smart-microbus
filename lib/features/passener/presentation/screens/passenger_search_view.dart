@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_microbus/core/helpers/extensions.dart';
 import 'package:smart_microbus/core/helpers/show_toast_helper.dart';
+import 'package:smart_microbus/core/localization/locale_cubit.dart';
 import 'package:smart_microbus/features/passener/presentation/cubit/nav_cubit.dart';
 import 'package:smart_microbus/features/passener/presentation/cubit/passenger_cubit.dart';
 import 'package:smart_microbus/features/passener/presentation/widgets/search_widgets/passenger_search_body.dart';
@@ -9,6 +10,8 @@ import 'package:smart_microbus/l10n/app_localizations.dart';
 
 import '../../../../core/helpers/app_error_helper.dart';
 import '../../../../core/routing/routes.dart';
+import '../../../../core/storage/cache_helper.dart';
+import '../../../../core/storage/cache_keys.dart';
 
 class PassengerSearchView extends StatefulWidget {
   const PassengerSearchView({super.key});
@@ -26,6 +29,8 @@ class _PassengerSearchViewState extends State<PassengerSearchView> {
     cubit.getRoutes();
     cubit.getFavorites();
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -108,7 +113,8 @@ class _FavouriteSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<PassengerCubit>();
-
+    final lang = CacheHelper.getCacheData(key: CacheKeys.localeKey) ?? 'en';
+    final isArabic = lang == 'ar';
     final l10n = AppLocalizations.of(context)!;
 
     return BlocBuilder<PassengerCubit, PassengerState>(
@@ -185,10 +191,16 @@ class _FavouriteSection extends StatelessWidget {
                       children: [
                         const Icon(Icons.history),
                         const SizedBox(width: 10),
+
                         Expanded(
                           child: Text(
-                            "${fav.from} → ${fav.to}",
+                            isArabic
+                                ? "${fav.from} ← ${fav.to}" //  عكس الاتجاه
+                                : "${fav.from} → ${fav.to}", //  الطبيعي
                             style: const TextStyle(fontSize: 14),
+                            textAlign: isArabic
+                                ? TextAlign.right
+                                : TextAlign.left,
                           ),
                         ),
                       ],

@@ -13,6 +13,20 @@ class RouteSelectionCard extends StatefulWidget {
 class _RouteSelectionCardState extends State<RouteSelectionCard> {
   String? selectedCity;
   String? selectedRouteId;
+  late PassengerCubit cubit;
+
+@override
+void initState() {
+  super.initState();
+  cubit = context.read<PassengerCubit>();
+}
+
+  @override
+  void dispose() {
+    print('disposeed');
+    cubit.resetRouteSelection();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

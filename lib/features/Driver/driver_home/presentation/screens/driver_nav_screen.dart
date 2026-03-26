@@ -16,19 +16,28 @@ class DriverNavigationScreen extends StatelessWidget {
     final cubit = context.read<DriverHomeCubit>();
     final l10n = AppLocalizations.of(context)!;
 
-    final screens = const [
-      DriverHomeView(),
-      DriverTripHistoryScreen(),
-      ProfileScreen(),
-    ];
-
     return BlocBuilder<DriverHomeCubit, DriverHomeState>(
       buildWhen: (prev, curr) => curr is ChangeDriverBottomNavState,
       builder: (context, state) {
         final currentIndex = cubit.currentNavIndex;
 
+        Widget currentScreen;
+        switch (currentIndex) {
+          case 0:
+            currentScreen = const DriverHomeView();
+            break;
+          case 1:
+            currentScreen = const DriverTripHistoryScreen();
+            break;
+          case 2:
+            currentScreen = const ProfileScreen();
+            break;
+          default:
+            currentScreen = const DriverHomeView();
+        }
+
         return Scaffold(
-          body: IndexedStack(index: currentIndex, children: screens),
+          body: currentScreen, // 👈 بدل IndexedStack
 
           bottomNavigationBar: BottomNavigationBar(
             currentIndex: currentIndex,
@@ -39,15 +48,15 @@ class DriverNavigationScreen extends StatelessWidget {
             selectedItemColor: Theme.of(context).colorScheme.primary,
             items: [
               BottomNavigationBarItem(
-                icon: Icon(Icons.directions_bus),
+                icon: const Icon(Icons.directions_bus),
                 label: l10n.home,
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.history),
+                icon: const Icon(Icons.history),
                 label: l10n.tripHistory,
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.person),
+                icon: const Icon(Icons.person),
                 label: l10n.profile,
               ),
             ],
