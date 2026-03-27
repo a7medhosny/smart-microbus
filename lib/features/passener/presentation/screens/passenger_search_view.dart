@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_microbus/core/helpers/extensions.dart';
 import 'package:smart_microbus/core/helpers/show_toast_helper.dart';
 import 'package:smart_microbus/core/localization/locale_cubit.dart';
-import 'package:smart_microbus/features/passener/presentation/cubit/nav_cubit.dart';
 import 'package:smart_microbus/features/passener/presentation/cubit/passenger_cubit.dart';
 import 'package:smart_microbus/features/passener/presentation/widgets/search_widgets/passenger_search_body.dart';
 import 'package:smart_microbus/l10n/app_localizations.dart';
@@ -175,7 +174,7 @@ class _FavouriteSection extends StatelessWidget {
 
                     cubit.getAllRouteData(fav.routeId);
 
-                    context.pushNamed(
+                    cubit.currentNavigatorKey.currentState?.pushNamed(
                       Routes.passengerSearchResultScreen,
                       arguments: fav.routeId,
                     );

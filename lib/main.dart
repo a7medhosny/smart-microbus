@@ -167,7 +167,7 @@ class HomeScreen extends StatelessWidget {
                 height: 55,
                 child: ElevatedButton(
                   onPressed: () {
-                    context.pushNamed(Routes.login);
+                    context.pushNamedRoot(Routes.login);
                   },
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
@@ -186,7 +186,7 @@ class HomeScreen extends StatelessWidget {
                 height: 55,
                 child: ElevatedButton(
                   onPressed: () {
-                    context.pushNamed(Routes.register);
+                    context.pushNamedRoot(Routes.register);
                   },
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(

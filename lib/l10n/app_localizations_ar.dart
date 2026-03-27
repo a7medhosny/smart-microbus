@@ -507,4 +507,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get errorHint => 'عذرًا!';
+
+  @override
+  String get roleNotSupportedMessage => 'هذا الدور غير مدعوم داخل التطبيق. يُرجى زيارة لوحة التحكم أو تجربة حساب آخر.';
 }

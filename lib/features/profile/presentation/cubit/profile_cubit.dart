@@ -58,9 +58,8 @@ class ProfileCubit extends Cubit<ProfileState> {
 
     final result = await logoutUseCase();
 
-    result.fold(
-      (failure) => emit(LogoutError(failure.message)),
-      (_) => emit(LogoutSuccess()),
-    );
+    result.fold((failure) => emit(LogoutError(failure.message)), (_) {
+      emit(LogoutSuccess());
+    });
   }
 }

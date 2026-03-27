@@ -770,7 +770,7 @@ abstract class AppLocalizations {
   /// No description provided for @distance.
   ///
   /// In en, this message translates to:
-  /// **'Distance'**
+  /// **'Dis tance'**
   String get distance;
 
   /// No description provided for @distanceKm.
@@ -1054,6 +1054,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Oops!'**
   String get errorHint;
+
+  /// No description provided for @roleNotSupportedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'This role is not supported in the application. Please visit the dashboard or try another account.'**
+  String get roleNotSupportedMessage;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

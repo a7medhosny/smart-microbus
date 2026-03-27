@@ -361,7 +361,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get distance => 'Distance';
+  String get distance => 'Dis tance';
 
   @override
   String distanceKm(Object distance) {
@@ -507,4 +507,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get errorHint => 'Oops!';
+
+  @override
+  String get roleNotSupportedMessage => 'This role is not supported in the application. Please visit the dashboard or try another account.';
 }

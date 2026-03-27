@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_microbus/core/auth/token_manager.dart';
+import 'package:smart_microbus/core/helpers/extensions.dart';
+import 'package:smart_microbus/features/Driver/driver_home/presentation/cubit/driver_home_cubit.dart';
+import 'package:smart_microbus/features/passener/presentation/cubit/passenger_cubit.dart';
 
 import '../../../../core/helpers/app_error_helper.dart';
 import '../../../../core/localization/locale_cubit.dart';
@@ -71,11 +74,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
         listener: (context, state) {
           if (state is LogoutSuccess) {
             TokenManager.clearLoginData();
-            Navigator.pushNamedAndRemoveUntil(
-              context,
-              Routes.login,
-              (route) => false,
-            );
+            context.read<PassengerCubit>().currentNavIndex = 0;
+            context.read<DriverHomeCubit>().currentNavIndex = 0;
+            context.pushNamedAndRemoveUntilRoot(Routes.login);
           }
 
           if (state is LogoutError) {

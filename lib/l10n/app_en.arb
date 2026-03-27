@@ -137,8 +137,8 @@
   "statusNear": " Nearest",
     "tripSummary": "Trip Summary",
   "priceInCurrency": "{price} EGP",
-  "distance": "Distance",
-  "distanceKm": "{distance} km",
+  "distance": "Dis tance", 
+  "distanceKm":   "{distance} km",
   "atStation": "At Station",
   "onTheWay": "On The Way",
   "nearestArrival": "Nearest Arrival",
@@ -197,7 +197,8 @@
   "seeAll": "See all",
   "home": "Home",
   "noFavoritesMessage": "Start adding your favorite routes to see them here",
-   "errorHint": "Oops!"
+   "errorHint": "Oops!",
+   "roleNotSupportedMessage":"This role is not supported in the application. Please visit the dashboard or try another account."
 
 
 

@@ -48,6 +48,7 @@ class SearchResultScreen extends StatelessWidget {
             final summary = state.summary;
             final station = state.station ?? [];
             final onTheWay = state.onTheWay ?? [];
+            final cubit = context.read<PassengerCubit>();
 
             return ListView(
               padding: const EdgeInsets.all(16),
@@ -62,7 +63,7 @@ class SearchResultScreen extends StatelessWidget {
                   count: station.length,
                   icon: Icons.directions_bus,
                   onTap: () {
-                    context.pushNamed(
+                    cubit.currentNavigatorKey.currentState?.pushNamed(
                       Routes.stationListScreen,
                       arguments: station,
                     );

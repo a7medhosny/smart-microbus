@@ -123,7 +123,7 @@ class ForgetPasswordForm extends StatelessWidget {
                   context.pop();
                 }
                 ShowToastHelper.showToast(context, loc.otpSent);
-                context.pushNamed(
+                context.pushNamedRoot(
                   Routes.otpVerification,
                   arguments: {
                     "phone": phoneController.text,

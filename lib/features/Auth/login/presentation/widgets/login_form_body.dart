@@ -108,7 +108,7 @@ class _LoginFormBodyState extends State<LoginFormBody> {
                     icon: Icons.close,
                   );
 
-                  context.pushNamed(
+                  context.pushNamedRoot(
                     Routes.otpVerification,
                     arguments: {
                       "phone": widget.phoneController.text,
@@ -127,6 +127,7 @@ class _LoginFormBodyState extends State<LoginFormBody> {
                 }
               } else if (state is LoginSuccess) {
                 final user = state.user;
+                final String role = TokenHelper.extractRoles(user.token);
                 final bool isDriver =
                     (TokenHelper.extractRoles(user.token) == 'Driver');
 
@@ -135,6 +136,16 @@ class _LoginFormBodyState extends State<LoginFormBody> {
                 if (Navigator.of(context).canPop()) {
                   context.pop();
                 }
+
+                if (role != 'Driver' && role != 'Passenger') {
+                  ShowToastHelper.showToast(
+                    context,
+                    loc.roleNotSupportedMessage,
+                    backgroundColor: Colors.red,
+                  );
+                  return;
+                }
+                
                 ShowToastHelper.showToast(context, loc.loginSuccess);
                 widget.phoneController.clear();
                 widget.passwordController.clear();
@@ -149,11 +160,11 @@ class _LoginFormBodyState extends State<LoginFormBody> {
                   userId: TokenHelper.extractUserId(user.token) ?? '',
                 );
                 if (isDriver) {
-                  context.pushNamedAndRemoveUntil(
+                  context.pushNamedAndRemoveUntilRoot(
                     Routes.driverNavigationScreen,
                   );
                 } else {
-                  context.pushNamedAndRemoveUntil(
+                  context.pushNamedAndRemoveUntilRoot(
                     Routes.passengerNavigationScreen,
                   );
                 }

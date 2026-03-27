@@ -1,36 +1,34 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:smart_microbus/features/Driver/driver_home/domain/entities/route.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/storage/cache_helper.dart';
+import '../../../../core/storage/cache_keys.dart';
 import '../../domain/entities/destination_entity.dart';
+import '../../domain/entities/favourite_route_entity.dart';
 import '../../domain/entities/on_the_way_microbus_entity.dart';
 import '../../domain/entities/report_entity.dart';
 import '../../domain/entities/report_reason_entity.dart';
 import '../../domain/entities/route_entity.dart';
 import '../../domain/entities/route_summary_entity.dart';
 import '../../domain/entities/station_microbus_entity.dart';
-import '../../domain/entities/favourite_route_entity.dart';
-import '../../domain/entities/report_entity.dart';
-import '../../domain/entities/report_reason_entity.dart';
-
-import '../../domain/usecases/get_report_reasons_use_case.dart';
-import '../../domain/usecases/get_routes_use_case.dart';
-import '../../domain/usecases/get_route_destination_use_case.dart';
-import '../../domain/usecases/get_route_summary_use_case.dart';
-import '../../domain/usecases/get_station_microbuses_use_case.dart';
-import '../../domain/usecases/get_on_the_way_microbuses_use_case.dart';
-import '../../domain/usecases/submit_report_use_case.dart';
 
 import '../../domain/usecases/add_route_to_favourite_use_case.dart';
-import '../../domain/usecases/is_route_favourite_use_case.dart';
 import '../../domain/usecases/get_favourite_routes.dart';
+import '../../domain/usecases/get_on_the_way_microbuses_use_case.dart';
+import '../../domain/usecases/get_report_reasons_use_case.dart';
+import '../../domain/usecases/get_route_destination_use_case.dart';
+import '../../domain/usecases/get_route_summary_use_case.dart';
+import '../../domain/usecases/get_routes_use_case.dart';
+import '../../domain/usecases/get_station_microbuses_use_case.dart';
+import '../../domain/usecases/is_route_favourite_use_case.dart';
 import '../../domain/usecases/remove_route_from_fav_use_case.dart';
 import '../../domain/usecases/submit_report_use_case.dart';
-import '../../domain/usecases/get_report_reasons_use_case.dart';
 
 part 'passenger_state.dart';
 
 class PassengerCubit extends Cubit<PassengerState> {
+  // ================= USE CASES =================
   final GetRoutesUseCase getRoutesUseCase;
   final GetRouteDestinationUseCase getRouteDestinationUseCase;
   final GetRouteSummaryUseCase getRouteSummaryUseCase;
@@ -42,19 +40,6 @@ class PassengerCubit extends Cubit<PassengerState> {
   final RemoveRouteFromFavUseCase removeRouteFromFavoritesUceCase;
   final IsRouteFavouriteUseCase isRouteFavouriteUseCase;
   final GetFavouriteRoutes getFavouriteRoutes;
-
-  String? selectedRouteId;
-  String? selectedCity;
-  DestinationEntity? selectedDestination;
-  List<DestinationEntity> destinations = [];
-  List<PassengerRouteEntity> routes = [];
-
-  // String plateNumber = "أ ب ج 1234"; // مؤقت (يتبعت من الشاشة بعدين)
-  int? selectedReasonId;
-  // String description = '';
-  // bool get isOtherSelected => selectedReasonId == -1;
-  List<FavouriteRouteEntity> favouriteRoutes = [];
-  int currentNavIndex = 0;
 
   PassengerCubit(
     this.getRoutesUseCase,
@@ -70,23 +55,54 @@ class PassengerCubit extends Cubit<PassengerState> {
     this.getFavouriteRoutes,
   ) : super(PassengerInitial());
 
+  // ================= STATE DATA =================
+  String? selectedRouteId;
+  String? selectedCity;
+  DestinationEntity? selectedDestination;
+
+  List<DestinationEntity> destinations = [];
+  List<PassengerRouteEntity> routes = [];
+  List<FavouriteRouteEntity> favouriteRoutes = [];
+
+  int? selectedReasonId;
+
+  // ================= NAVIGATION =================
+  int currentNavIndex = 0;
+  String? lang = CacheHelper.getCacheData(key: CacheKeys.localeKey);
+
+  final List<GlobalKey<NavigatorState>> navigatorKeys = List.generate(
+    3,
+    (_) => GlobalKey<NavigatorState>(),
+  );
+
+  GlobalKey<NavigatorState> get currentNavigatorKey =>
+      navigatorKeys[currentNavIndex];
+
   void changeBottomNavIndex(int index) {
     currentNavIndex = index;
+    if (lang != CacheHelper.getCacheData(key: CacheKeys.localeKey)) {
+      lang = CacheHelper.getCacheData(key: CacheKeys.localeKey);
+      getRoutes();
+      getFavorites();
+    }
+    // print('lang : ${lang}');
+    // print(
+    //   'System lang : ${CacheHelper.getCacheData(key: CacheKeys.localeKey)}',
+    // );
+
     emit(ChangePassengerBottomNavState(index));
   }
 
   void resetRouteSelection() {
-    print('resetRouteSelection');
     selectedCity = null;
     selectedRouteId = null;
     selectedDestination = null;
-    destinations = [];
+    destinations.clear();
 
     emit(PassengerInitial());
   }
 
   // ================= ROUTES =================
-
   Future<void> getRoutes() async {
     emit(GetRoutesLoading());
 
@@ -99,7 +115,6 @@ class PassengerCubit extends Cubit<PassengerState> {
   }
 
   // ================= DESTINATIONS =================
-
   Future<void> getRouteDestination(String from) async {
     emit(GetDestinationsLoading());
 
@@ -112,7 +127,6 @@ class PassengerCubit extends Cubit<PassengerState> {
   }
 
   // ================= ALL DATA =================
-
   Future<void> getAllRouteData(String routeId) async {
     emit(const PassengerDataState(isLoading: true));
 
@@ -161,12 +175,8 @@ class PassengerCubit extends Cubit<PassengerState> {
       ),
     );
   }
-  // ================= REPORT =================
 
-  // =====================================================
-  // ================= FAVORITES ==========================
-  // =====================================================
-
+  // ================= FAVORITES =================
   Future<void> addToFavorites(String routeId) async {
     emit(AddFavoriteLoading());
 
@@ -195,19 +205,17 @@ class PassengerCubit extends Cubit<PassengerState> {
 
   Future<void> checkIfFavorite(String routeId) async {
     emit(CheckFavoriteLoading());
-    if (favouriteRoutes.any((route) => route.routeId == routeId)) {
-      emit(CheckFavoriteSuccess(true));
-      return;
-    } else {
-      emit(CheckFavoriteSuccess(false));
-      return;
-    }
-    final result = await isRouteFavouriteUseCase(routeId);
 
-    result.fold(
-      (failure) => emit(CheckFavoriteError(failure.message)),
-      (isFav) => emit(CheckFavoriteSuccess(isFav)),
-    );
+    final isFav = favouriteRoutes.any((route) => route.routeId == routeId);
+
+    emit(CheckFavoriteSuccess(isFav));
+
+    //  final result = await isRouteFavouriteUseCase(routeId);
+
+    // result.fold(
+    //   (failure) => emit(CheckFavoriteError(failure.message)),
+    //   (isFav) => emit(CheckFavoriteSuccess(isFav)),
+    // );
   }
 
   Future<void> getFavorites() async {
@@ -221,10 +229,7 @@ class PassengerCubit extends Cubit<PassengerState> {
     });
   }
 
-  // =====================================================
-  // ================= REPORT =============================
-  // =====================================================
-
+  // ================= REPORT =================
   Future<void> submitReport(ReportEntity report) async {
     emit(SubmitReportLoading());
 
@@ -246,18 +251,4 @@ class PassengerCubit extends Cubit<PassengerState> {
       (reasons) => emit(GetReportReasonsSuccess(reasons, null)),
     );
   }
-
-  // // ================= SUBMIT REPORT =================
-
-  // Future<void> submitReport({required ReportEntity report}) async {
-  //   emit(SubmitReportLoading());
-
-  //   final result = await submitReportUseCase(report);
-
-  //   result.fold(
-  //     (failure) => emit(SubmitReportError(failure.message)),
-  //     (reasons) => emit(SubmitReportSuccess(reasons.message)),
-  //     (data) => emit(GetReportReasonsSuccess(data)),
-  //   );
-  // }
 }

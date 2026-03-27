@@ -49,10 +49,8 @@ class OtpVerifyButton extends StatelessWidget {
 
             if (state is ConfirmAccountSuccess) {
               ShowToastHelper.showToast(context, loc.accountConfirmed);
-              Navigator.pushNamedAndRemoveUntil(
-                context,
+              context.pushNamedAndRemoveUntilRoot(
                 Routes.login,
-                (_) => false,
               );
             }
             if (state is ResendConfirmationError ||

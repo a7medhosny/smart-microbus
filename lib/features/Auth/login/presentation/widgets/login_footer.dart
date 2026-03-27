@@ -17,7 +17,7 @@ class LoginFooter extends StatelessWidget {
           alignment: Alignment.centerRight,
           child: TextButton(
             onPressed: () {
-              context.pushNamed(Routes.forgotPassword);
+              context.pushNamedRoot(Routes.forgotPassword);
             },
             child: Text(
               loc.forgotPassword,
@@ -40,7 +40,7 @@ class LoginFooter extends StatelessWidget {
             ),
             TextButton(
               onPressed: () {
-                context.pushNamed(Routes.register);
+                context.pushNamedRoot(Routes.register);
               },
               child: Text(
                 loc.registerNow,

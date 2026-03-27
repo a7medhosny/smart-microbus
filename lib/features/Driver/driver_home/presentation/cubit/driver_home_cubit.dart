@@ -1,33 +1,36 @@
 import 'dart:async';
-
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:smart_microbus/features/Driver/driver_home/domain/entities/trip.dart';
-import 'package:smart_microbus/features/Driver/driver_home/domain/usecases/start_trip_use_case.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/auth/token_helper.dart';
 import '../../../../../core/auth/token_manager.dart';
 import '../../../../../core/config/app_config.dart';
-import '../../../../../core/error/failure.dart';
+
+import '../../../../../core/storage/cache_helper.dart';
+import '../../../../../core/storage/cache_keys.dart';
 import '../../data/mock/driver_home_mock_data.dart';
 
 import '../../domain/entities/driver_current_status.dart';
 import '../../domain/entities/earning.dart';
 import '../../domain/entities/queue_event.dart';
 import '../../domain/entities/queue_item.dart';
+import '../../domain/entities/trip.dart';
 import '../../domain/entities/trip_history_response.dart';
 
+import '../../domain/usecases/connect_queue.dart';
 import '../../domain/usecases/end_trip_use_case.dart';
 import '../../domain/usecases/get_current_position_use_case.dart';
 import '../../domain/usecases/get_estimated_daily_earnings_use_case.dart';
 import '../../domain/usecases/get_station_queue_use_case.dart';
 import '../../domain/usecases/get_trip_history_use_case.dart';
 import '../../domain/usecases/listen_to_queue_notifications_use_case.dart';
-import '../../domain/usecases/connect_queue.dart';
+import '../../domain/usecases/start_trip_use_case.dart';
 
 part 'driver_home_state.dart';
 
 class DriverHomeCubit extends Cubit<DriverHomeState> {
+  // ================= USE CASES =================
   final GetCurrentPositionUsecase getCurrentPositionUseCase;
   final GetEstimatedDailyEarningsUseCase getEstimatedDailyEarningsUseCase;
   final GetStationQueueUseCase getStationQueueUseCase;
@@ -48,88 +51,57 @@ class DriverHomeCubit extends Cubit<DriverHomeState> {
     this.endTripUseCase,
   ) : super(DriverHomeInitial());
 
+  // ================= STATE DATA =================
   QueueItem? myPosition;
   Trip? currentTrip;
   List<QueueItem>? queue;
   DriverCurrentStatus? currentStatus;
   Earning? earning;
-  // bool positionLoaded = false;
-
-  int totalAmount = 0;
-
-  DateTime? tripFromDate;
-  DateTime? tripToDate;
 
   TripHistoryResponse? tripHistory;
 
-  StreamSubscription? _queueSubscription;
+  int totalAmount = 0;
 
+  DateTime? tripToDate=DateTime.now() ;
+  DateTime? tripFromDate=DateTime.now() .subtract(const Duration(days: 7));
+
+  // ================= PAGINATION =================
+  final int pageSize = 10;
+  int currentPage = 1;
   bool turnNotified = false;
 
-  /// منع تكرار الاتصال
-  String? _currentListeningId;
-  bool _isConnecting = false;
+  String? lang = CacheHelper.getCacheData(key: CacheKeys.localeKey);
 
-  /// عدد العناصر في الصفحة
-  final int pageSize = 10;
-
-  /// الصفحة الحالية
-  int currentPage = 1;
-  int currentNavIndex = 0;
-
-  /// حساب عدد الصفحات
   int get totalPages {
     if (tripHistory == null) return 1;
-
-    final total = tripHistory!.totalCount;
-    return (total / pageSize).ceil();
+    return (tripHistory!.totalCount / pageSize).ceil();
   }
 
-  // ================= CURRENT POSITION =================
+  // ================= NAVIGATION =================
+  int currentNavIndex = 0;
 
-  // Future<void> getCurrentPosition() async {
-  //   emit(GetCurrentPositionLoading());
+  final List<GlobalKey<NavigatorState>> navKeys = List.generate(
+    3,
+    (_) => GlobalKey<NavigatorState>(),
+  );
 
-  //   final result = await getCurrentPositionUseCase();
-
-  //   result.fold(
-  //     (failure) {
-  //      if (failure is UnauthorizedFailure) return;
-  //       positionLoaded = true;
-  //       print("Error loading current position: ${failure.message}");
-  //       emit(GetCurrentPositionError(failure.message));
-  //     },
-  //     (data) async {
-  //       positionLoaded = true;
-
-  //       /// 👇 خزّن الحالة كاملة
-  //       currentStatus = data;
-
-  //       /// 👇 لو في Queue خزّنها
-  //       myPosition = data.queue;
-  //       currentTrip = data.trip;
-
-  //       /// 👇 emit الحالة الجديدة
-  //       emit(GetCurrentPositionSuccess(data));
-
-  //       /// 👇 لو في Queue بس
-  //       if (data.queue != null) {
-  //         await listenToQueueNotifications(data.queue!.queueId);
-  //         // positionLoaded = true;
-
-  //         await getStationQueue(
-  //           driverId: TokenHelper.extractUserId(TokenManager.token ?? '') ?? '',
-  //           queueId: data.queue!.queueId,
-  //         );
-  //       }
-  //     },
-  //   );
-  // }
   void changeBottomNavIndex(int index) {
     currentNavIndex = index;
+    if (lang != CacheHelper.getCacheData(key: CacheKeys.localeKey)) {
+      lang = CacheHelper.getCacheData(key: CacheKeys.localeKey);
+      getCurrentPosition();
+      getTripHistory();
+    }
     emit(ChangeDriverBottomNavState(index));
   }
 
+  // ================= STREAM =================
+  StreamSubscription? _queueSubscription;
+
+  String? _currentListeningId;
+  bool _isConnecting = false;
+
+  // ================= CURRENT POSITION =================
   Future<void> getCurrentPosition() async {
     emit(GetCurrentPositionLoading());
 
@@ -137,8 +109,7 @@ class DriverHomeCubit extends Cubit<DriverHomeState> {
 
     result.fold(
       (failure) {
-        if (failure is UnauthorizedFailure) return;
-
+        if (failure.runtimeType.toString() == "UnauthorizedFailure") return;
         emit(GetCurrentPositionError(failure.message));
       },
       (data) async {
@@ -164,31 +135,33 @@ class DriverHomeCubit extends Cubit<DriverHomeState> {
     if (queue == null || queue!.isEmpty) return -1;
 
     final myId = TokenManager.userId;
-
     if (myId == null) return -1;
 
-    final index = queue!.indexWhere((d) => d.driverId == myId);
-
-    return index;
+    return queue!.indexWhere((d) => d.driverId == myId);
   }
 
   int getVehiclesAhead() {
     final index = getMyQueueIndex();
+    return index <= 0 ? 0 : index;
+  }
 
-    if (index <= 0) return 0;
+  bool isMyTurn() {
+    if (queue == null || queue!.isEmpty) return false;
 
-    return index;
+    final myId = TokenManager.userId;
+    if (myId == null) return false;
+
+    return queue!.first.driverId == myId;
   }
 
   // ================= DAILY EARNINGS =================
-
   Future<void> getEstimatedDailyEarnings() async {
     emit(GetDailyEarningsLoading());
 
     if (AppConfig.useMockData) {
       await Future.delayed(const Duration(milliseconds: 500));
       earning = DriverHomeMockData.earnings;
-      emit(GetDailyEarningsSuccess(DriverHomeMockData.earnings));
+      emit(GetDailyEarningsSuccess(earning!));
       return;
     }
 
@@ -201,7 +174,6 @@ class DriverHomeCubit extends Cubit<DriverHomeState> {
   }
 
   // ================= STATION QUEUE =================
-
   Future<void> getStationQueue({
     required String driverId,
     required String queueId,
@@ -218,25 +190,18 @@ class DriverHomeCubit extends Cubit<DriverHomeState> {
     });
   }
 
-  // ================= connect Queue Global =================
+  // ================= REALTIME QUEUE =================
   Future<void> connectQueueGlobal() async {
     if (_queueSubscription != null) return;
 
     _queueSubscription = listenToQueueNotificationsUseCase().listen(
-      (event) {
-        _handleQueueEvent(event);
-      },
-      onError: (error) {
-        emit(ListenQueueNotificationsError(error.toString()));
-      },
+      _handleQueueEvent,
+      onError: (error) => emit(ListenQueueNotificationsError(error.toString())),
     );
   }
 
-  // ================= REALTIME QUEUE =================
   Future<void> listenToQueueNotifications(String queueId) async {
-    if (_currentListeningId == queueId) return;
-
-    if (_isConnecting) return;
+    if (_currentListeningId == queueId || _isConnecting) return;
 
     _isConnecting = true;
 
@@ -260,15 +225,11 @@ class DriverHomeCubit extends Cubit<DriverHomeState> {
     if (event is DriverAddedEvent) {
       currentQueue.removeWhere((d) => d.driverId == event.driver.driverId);
       currentQueue.add(event.driver);
-      print(
-        "🚗 DriverAdded event received: Name: ${event.driver.driverName}, Queue ID: ${event.driver.queueId}, Plate Number: ${event.driver.plateNumber}",
-      );
 
       currentQueue.sort((a, b) => (a.position ?? 0).compareTo(b.position ?? 0));
 
       if (event.driver.driverId == TokenManager.userId) {
         getCurrentPosition();
-        // myPosition = event.driver;
       }
     }
 
@@ -282,24 +243,10 @@ class DriverHomeCubit extends Cubit<DriverHomeState> {
     }
 
     queue = currentQueue;
-
-    emit(QueueRealtimeUpdated(List.from(queue ?? [])));
-  }
-
-  bool isMyTurn() {
-    if (queue == null || queue!.isEmpty) return false;
-
-    final myId = TokenManager.userId;
-
-    if (myId == null) return false;
-
-    final firstDriver = queue!.first;
-
-    return firstDriver.driverId == myId;
+    emit(QueueRealtimeUpdated(List.from(queue!)));
   }
 
   // ================= TRIP HISTORY =================
-
   Future<void> getTripHistory({
     DateTime? fromDate,
     DateTime? toDate,
@@ -307,18 +254,9 @@ class DriverHomeCubit extends Cubit<DriverHomeState> {
   }) async {
     tripFromDate = fromDate ?? tripFromDate;
     tripToDate = toDate ?? tripToDate;
-
     currentPage = pageNumber ?? currentPage;
 
     emit(GetTripHistoryLoading());
-
-    // if (AppConfig.useMockData) {
-    //   await Future.delayed(const Duration(milliseconds: 500));
-    //   tripHistory = DriverHomeMockData.tripHistory(pageNumber: currentPage);
-    //   totalAmount = tripHistory!.data.totalAmount.toInt();
-    //   emit(GetTripHistorySuccess(tripHistory!));
-    //   return;
-    // }
 
     final result = await getTripHistoryUseCase(
       fromDate: tripFromDate,
@@ -344,8 +282,6 @@ class DriverHomeCubit extends Cubit<DriverHomeState> {
       },
     );
   }
-
-  // ================= CLEAR FILTER =================
 
   void clearTripFilter() {
     tripFromDate = null;

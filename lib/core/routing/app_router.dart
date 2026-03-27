@@ -19,7 +19,6 @@ import '../../features/Driver/driver_home/presentation/cubit/driver_home_cubit.d
 import '../../features/Driver/driver_home/presentation/screens/driver_home_page.dart';
 import '../../features/Driver/driver_home/presentation/screens/driver_nav_screen.dart';
 import '../../features/Driver/driver_home/presentation/screens/driver_trip_history.dart';
-import '../../features/passener/presentation/cubit/nav_cubit.dart';
 import '../../features/passener/presentation/screens/passenger_nav_screen.dart';
 import '../../features/passener/presentation/widgets/search_result_widgets/on_the_way_list_screen.dart';
 import '../../features/passener/presentation/widgets/search_result_widgets/station_list_screen.dart';
@@ -150,6 +149,7 @@ class AppRouter {
       //     return null;
       // }
     }
+    return null;
   }
 
   // ================= HELPER =================
