@@ -1,6 +1,9 @@
 import 'package:smart_microbus/features/passener/data/datasource/passenger_remote_data_source.dart';
+import 'package:smart_microbus/features/passener/data/models/all_report_request_model.dart';
+import 'package:smart_microbus/features/passener/data/models/all_report_response_model.dart';
 import 'package:smart_microbus/features/passener/data/models/favourite_route_model.dart';
 import 'package:smart_microbus/features/passener/data/models/on_the_way_microbus_model.dart';
+import 'package:smart_microbus/features/passener/data/models/report_model.dart';
 import 'package:smart_microbus/features/passener/data/models/report_reason_model.dart';
 import 'package:smart_microbus/features/passener/data/models/report_request_body_model.dart';
 import 'package:smart_microbus/features/passener/data/models/route_model.dart';
@@ -68,5 +71,28 @@ class PassengerRemoteDataSourceImpl implements PassengerRemoteDataSource {
   @override
   Future<BaseResponseModel> submitReport(ReportRequestBodyModel report) {
     return apiService.submitReport(report);
+  }
+
+  @override
+  Future<BaseResponseModel> deleteReportById(String id) {
+    return apiService.deleteReportById(id);
+  }
+
+  @override
+  Future<ReportModel> getReportById(String id) {
+    return apiService.getReportById(id);
+  }
+
+  @override
+  Future<BaseResponseModel> updateReport(
+    String id,
+    ReportRequestBodyModel report,
+  ) {
+    return apiService.updateReport(id, report);
+  }
+
+  @override
+  Future<AllReportResponseModel> getAllReports(AllReportRequestModel request) {
+    return apiService.getAllReports(request.toQuery());
   }
 }

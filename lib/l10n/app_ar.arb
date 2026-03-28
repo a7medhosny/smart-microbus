@@ -198,7 +198,16 @@
   "home": "الصفحة الرئيسية",
    "noFavoritesMessage": "ابدأ بإضافة طرقك المفضلة لتظهر هنا",
     "errorHint": "عذرًا!",
-    "roleNotSupportedMessage":"هذا الدور غير مدعوم داخل التطبيق. يُرجى زيارة لوحة التحكم أو تجربة حساب آخر."
+    "roleNotSupportedMessage":"هذا الدور غير مدعوم داخل التطبيق. يُرجى زيارة لوحة التحكم أو تجربة حساب آخر.",
+    "accountInformation": "معلومات الحساب",
+  "actions": "الإجراءات",
+  "more": "المزيد",
+   "deleteAccount": "حذف الحساب",
+   "deleteAccountTitle": "حذف الحساب؟",
+  "deleteAccountMessage": "لا يمكن التراجع عن هذا الإجراء.\nهل أنت متأكد أنك تريد المتابعة؟",
+  "cancel": "إلغاء",
+  "changePhoto": "تغيير الصورة",
+  "deletePhoto": "حذف الصورة"
 
 
 

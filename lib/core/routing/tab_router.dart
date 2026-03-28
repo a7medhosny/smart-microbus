@@ -26,9 +26,6 @@ import 'package:smart_microbus/features/Driver/driver_home/presentation/screens/
 // Shared
 import 'package:smart_microbus/features/profile/presentation/screens/profile_screen.dart';
 
-import '../../features/Driver/driver_home/presentation/screens/driver_nav_screen.dart';
-import '../../features/passener/presentation/screens/passenger_nav_screen.dart';
-
 enum AppTabType { passenger, driver }
 
 class TabRouter {

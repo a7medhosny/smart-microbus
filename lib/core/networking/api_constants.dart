@@ -56,5 +56,5 @@ class ApiConstants {
   static const String routeDestinations = '/Routes/destinations';
 
   static const String reportReasons = '/Report/reasons';
-  static const String submitReport = '/Report';
+  static const String report = '/Report';
 }

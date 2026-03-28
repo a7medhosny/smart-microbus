@@ -225,6 +225,7 @@ class PassengerCubit extends Cubit<PassengerState> {
 
     result.fold((failure) => emit(GetFavoritesError(failure.message)), (data) {
       favouriteRoutes = data;
+      print("🔥 FAVORITE LOADED: ${data.length}");
       emit(GetFavoritesSuccess(data));
     });
   }

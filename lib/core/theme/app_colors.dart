@@ -122,9 +122,12 @@ class AppColorsLight {
   /// 🎨 Smart Microbus Palette
   static const Color primary = Color(0xff2563EB); // main blue
   static const Color secondary = Color(0xff00C2A8); // teal transport
-  static const Color accent = Color(0xff22C55E); // tracking green
+  static const Color accent = Color(0xff22C55E);
+  // static const primary = Color(0xff1E3A8A); // Navy هادي
+  // static const secondary = Color(0xff0EA5E9);
+  // static const accent = Color(0xff22C55E); // tracking green
   static const Color warning = Color(0xffF59E0B);
-  static const Color danger = Color(0xffEF4444);
+  static const Color danger = Colors.red;
 
   // Backgrounds
   static const Color background = Color(0xffF5F7FA);
@@ -169,8 +172,11 @@ class AppColorsDark {
   static const Color primary = Color(0xff3B82F6);
   static const Color secondary = Color(0xff00C2A8);
   static const Color accent = Color(0xff22C55E);
+  // static const primary = Color(0xff1E3A8A); // Navy هادي
+  // static const secondary = Color(0xff0EA5E9);
+  // static const accent = Color(0xff22C55E);
   static const Color warning = Color(0xffF59E0B);
-  static const Color danger = Color(0xffEF4444);
+  static const Color danger = Colors.red;
 
   // Backgrounds
   static const Color background = Color.fromARGB(255, 22, 31, 43);

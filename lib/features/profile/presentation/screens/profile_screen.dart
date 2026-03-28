@@ -1,19 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:smart_microbus/core/auth/token_manager.dart';
-import 'package:smart_microbus/core/helpers/extensions.dart';
-import 'package:smart_microbus/features/Driver/driver_home/presentation/cubit/driver_home_cubit.dart';
-import 'package:smart_microbus/features/passener/presentation/cubit/passenger_cubit.dart';
 
-import '../../../../core/helpers/app_error_helper.dart';
+import 'package:smart_microbus/core/helpers/app_error_helper.dart';
+
+import 'package:smart_microbus/features/profile/presentation/widgets/profile_listener.dart';
+import 'package:smart_microbus/features/profile/presentation/widgets/section_card.dart';
+import 'package:smart_microbus/l10n/app_localizations.dart';
+
+import '../../../../core/auth/token_manager.dart';
+import '../../../../core/helpers/spacing.dart';
 import '../../../../core/localization/locale_cubit.dart';
-import '../../../../core/routing/routes.dart';
+
 import '../../../../core/theme/theme_cubit.dart';
-import '../../../../l10n/app_localizations.dart';
 import '../cubit/profile_cubit.dart';
+
 import '../cubit/profile_state.dart';
+import '../widgets/confirm_dialog.dart';
+import '../widgets/menu_tile.dart';
 import '../widgets/profile_header.dart';
-import '../widgets/profile_tile.dart';
+import '../widgets/section_title.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -26,230 +31,143 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
+
     context.read<ProfileCubit>().loadProfile();
-  }
-
-  void _showLogoutDialog(BuildContext context) {
-    final theme = Theme.of(context);
-    final tr = AppLocalizations.of(context)!;
-
-    showDialog(
-      context: context,
-      builder: (dialogContext) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          title: Text(tr.logout),
-          content: Text(tr.logoutConfirmation),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(dialogContext),
-              child: Text(tr.cancel),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.pop(dialogContext);
-                context.read<ProfileCubit>().logout();
-              },
-              child: Text(
-                tr.logout,
-                style: TextStyle(color: theme.colorScheme.error),
-              ),
-            ),
-          ],
-        );
-      },
-    );
   }
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
+    final primary = Theme.of(context).colorScheme.primary;
+    final tr = AppLocalizations.of(context)!;
     return Scaffold(
-      backgroundColor: theme.colorScheme.surface,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      body: ProfileListener(
+        child: Column(
+          children: [
+            Expanded(
+              child: BlocBuilder<ProfileCubit, ProfileState>(
+                buildWhen: (previous, current) {
+                  if (current is ProfilePhotoUploading) return false;
+                  return true;
+                },
+                builder: (context, state) {
+                  if (state is ProfileLoading ||
+                      state is LogoutLoading ||
+                      state is ProfileDeleteAccountLoading ||
+                      state is ProfilePhotoDeletLoading) {
+                    return Center(child: CircularProgressIndicator());
+                  }
 
-      body: BlocListener<ProfileCubit, ProfileState>(
-        listener: (context, state) {
-          if (state is LogoutSuccess) {
-            TokenManager.clearLoginData();
-            context.read<PassengerCubit>().currentNavIndex = 0;
-            context.read<DriverHomeCubit>().currentNavIndex = 0;
-            context.pushNamedAndRemoveUntilRoot(Routes.login);
-          }
+                  if (state is ProfileError) {
+                    return AppErrorWidget(
+                      message: state.message,
+                      onRetry: () => context.read<ProfileCubit>().loadProfile(),
+                    );
+                  }
 
-          if (state is LogoutError) {
-            ScaffoldMessenger.of(
-              context,
-            ).showSnackBar(SnackBar(content: Text(state.message)));
-          }
-        },
+                  if (state is LogoutError) {
+                    return AppErrorWidget(
+                      message: state.message,
+                      onRetry: () => context.read<ProfileCubit>().logout(),
+                    );
+                  }
+                  if (state is ProfileDeleteAccountError) {
+                    return AppErrorWidget(
+                      message: state.message,
+                      onRetry: () =>
+                          context.read<ProfileCubit>().deleteAccount(),
+                    );
+                  }
+                  if (state is ProfileLoaded) {
+                    final user = state.profile;
 
-        child: BlocBuilder<ProfileCubit, ProfileState>(
-          builder: (context, state) {
-            return Stack(
-              children: [
-                _buildContent(context, state),
+                    return SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          ProfileHeader(profile: user),
+                          SectionTitle(tr.accountInformation),
+                          SectionCard(
+                            children: [
+                              _infoTile(Icons.phone, user.phone, primary),
+                              _infoTile(
+                                Icons.verified_user_outlined,
+                                user.isActive == true ? tr.active : tr.inactive,
+                                primary,
+                              ),
+                            ],
+                          ),
 
-                if (state is ProfileLoading || state is LogoutLoading)
-                  Container(
-                    color: theme.colorScheme.surface.withOpacity(.6),
-                    child: const Center(
-                      child: CircularProgressIndicator.adaptive(),
-                    ),
-                  ),
-              ],
-            );
-          },
+                          verticalSpace(15),
+                          SectionTitle(tr.actions),
+
+                          SectionCard(
+                            children: [
+                              MenuTile(Icons.language, () {
+                                context.read<LocaleCubit>().toggleLocale();
+                              }, tr.changeLanguage),
+                              MenuTile(Icons.dark_mode_outlined, () {
+                                context.read<ThemeCubit>().toggleTheme();
+                              }, tr.changeTheme),
+                              // MenuTile(Icons.lock_outline, () {
+                              //   // context.pushNamed(Routes.changePass);
+                              // }, tr.changePassword),
+                            ],
+                          ),
+
+                          verticalSpace(15),
+                          SectionTitle(tr.more),
+
+                          SectionCard(
+                            children: [
+                              _logoutButton(tr, context),
+                              _deleteAccountButton(tr, context),
+                            ],
+                          ),
+
+                          verticalSpace(30),
+                        ],
+                      ),
+                    );
+                  }
+
+                  return const SizedBox();
+                },
+              ),
+            ),
+          ],
         ),
       ),
     );
   }
 
-  Widget _buildContent(BuildContext context, ProfileState state) {
-    final theme = Theme.of(context);
-    final tr = AppLocalizations.of(context)!;
+  Widget _logoutButton(AppLocalizations tr, BuildContext context) {
+    return MenuTile(Icons.logout, () {
+      context.read<ProfileCubit>().logout();
+    }, tr.logout);
+  }
 
-    if (state is ProfileError) {
-      return AppErrorWidget(
-        message: state.message,
-        onRetry: () {
-          context.read<ProfileCubit>().loadProfile();
-        },
-      );
-    }
-
-    if (state is ProfileLoaded) {
-      return Stack(
-        children: [
-          ///  Header background
-          Container(
-            height: 220,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  theme.colorScheme.primary,
-                  theme.colorScheme.primary.withOpacity(.85),
-                ],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-              ),
-            ),
+  Widget _deleteAccountButton(AppLocalizations tr, BuildContext context) {
+    return MenuTile(
+      Icons.delete_outline,
+      () {
+        showDialog(
+          context: context,
+          builder: (_) => ConfirmDeleteDialog(
+            onConfirm: () {
+              context.read<ProfileCubit>().deleteAccount();
+            },
           ),
+        );
+      },
+      tr.deleteAccount,
+      isDanger: true,
+    );
+  }
 
-          ///  Profile header
-          Positioned(
-            top: 60,
-            left: 16,
-            right: 16,
-            child: ProfileHeader(profile: state.profile),
-          ),
-
-          ///  Body
-          Container(
-            margin: const EdgeInsets.only(top: 180),
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: theme.colorScheme.surface,
-              borderRadius: const BorderRadius.vertical(
-                top: Radius.circular(32),
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(.05),
-                  blurRadius: 20,
-                  offset: const Offset(0, -5),
-                ),
-              ],
-            ),
-            child: ListView(
-              children: [
-                const SizedBox(height: 10),
-
-                /// Settings title
-                Text(
-                  tr.settings,
-                  style: theme.textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-
-                const SizedBox(height: 12),
-
-                /// Settings card
-                Container(
-                  decoration: BoxDecoration(
-                    color: theme.cardColor,
-                    borderRadius: BorderRadius.circular(20),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(.04),
-                        blurRadius: 10,
-                        offset: const Offset(0, 4),
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    children: [
-                      ProfileTile(
-                        icon: Icons.language,
-                        title: tr.changeLanguage,
-                        onTap: context.read<LocaleCubit>().toggleLocale,
-                      ),
-
-                      ProfileTile(
-                        icon: Icons.dark_mode,
-                        title: tr.changeTheme,
-                        onTap: context.read<ThemeCubit>().toggleTheme,
-                      ),
-                    ],
-                  ),
-                ),
-
-                const SizedBox(height: 24),
-
-                InkWell(
-                  borderRadius: BorderRadius.circular(16),
-                  onTap: () => _showLogoutDialog(context),
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
-                      border: Border.all(
-                        color: theme.colorScheme.error.withOpacity(.3),
-                      ),
-                      color: theme.colorScheme.error.withOpacity(.05),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.logout_rounded,
-                          color: theme.colorScheme.error.withOpacity(.8),
-                        ),
-                        const SizedBox(width: 8),
-                        Text(
-                          tr.logout,
-                          style: TextStyle(
-                            color: theme.colorScheme.error.withOpacity(.8),
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-
-                const SizedBox(height: 40),
-              ],
-            ),
-          ),
-        ],
-      );
-    }
-
-    return const SizedBox();
+  Widget _infoTile(IconData icon, String title, Color? primary) {
+    return ListTile(
+      leading: Icon(icon, color: primary),
+      title: Text(title, maxLines: 1, overflow: TextOverflow.ellipsis),
+    );
   }
 }

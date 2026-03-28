@@ -37,6 +37,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
               current is GetFavoritesError;
         },
         builder: (context, state) {
+          print("UI STATE: $state");
           final cubit = context.read<PassengerCubit>();
 
           /// ⏳ Loading

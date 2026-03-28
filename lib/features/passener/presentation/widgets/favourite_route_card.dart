@@ -21,7 +21,7 @@ class FavouriteRouteCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context)!;
-
+    final isArabic = Directionality.of(context) == TextDirection.rtl;
     return InkWell(
       onTap: () {
         final cubit = context.read<PassengerCubit>();
@@ -58,7 +58,9 @@ class FavouriteRouteCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "${route.from} → ${route.to}",
+                        isArabic
+                            ? "${route.to} ← ${route.from}"
+                            : "${route.from} → ${route.to}",
                         style: theme.textTheme.bodyLarge?.copyWith(
                           fontWeight: FontWeight.bold,
                         ),

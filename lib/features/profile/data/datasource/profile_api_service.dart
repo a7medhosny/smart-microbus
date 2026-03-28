@@ -1,5 +1,8 @@
-import 'package:dio/dio.dart' ;
+import 'dart:io';
+
+import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
+import 'package:smart_microbus/features/passener/data/models/base_response_model.dart';
 
 import '../../../../core/networking/api_constants.dart';
 import '../models/profile_model.dart';
@@ -16,6 +19,15 @@ abstract class ProfileApiService {
   @POST(ApiConstants.logoutEndpoint)
   Future<void> logout();
 
+  @MultiPart()
+  @PATCH(ApiConstants.uploadPhotoEndpoint)
+  Future<BaseResponseModel> uploadUserPhoto(@Part(name: 'file') File file);
+
+  @DELETE(ApiConstants.deleteAccountEndpoint)
+  Future<BaseResponseModel> deleteAccount();
+
+  @DELETE(ApiConstants.deletePhotoEndpoint)
+  Future<BaseResponseModel> deleteProfilePhoto();
   // @POST(ApiConstants.resetPasswordEndpoint)
   // Future<void> resetPassword(@Body() ResetPasswordModel model);
 }

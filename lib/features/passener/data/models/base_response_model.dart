@@ -13,4 +13,7 @@ class BaseResponseModel extends BaseResponse {
       _$BaseResponseModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$BaseResponseModelToJson(this);
+  BaseResponse toEntity() {
+    return BaseResponse(message: message, statusCode: statusCode);
+  }
 }

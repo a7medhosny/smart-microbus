@@ -29,7 +29,8 @@ void main() async {
   await setupDependencyInjection();
   await NotificationService.init();
   await NotificationService.requestPermission();
-
+  print("🟢Token: ${TokenManager.token}");
+  print("🟢User ID: ${TokenManager.userId}");
   runApp(const MyApp());
 }
 

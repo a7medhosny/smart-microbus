@@ -13,7 +13,7 @@ ReportRequestBodyModel _$ReportRequestBodyModelFromJson(
   reasonIds: (json['reasonIds'] as List<dynamic>)
       .map((e) => (e as num).toInt())
       .toList(),
-  description: json['description'] as String,
+  description: json['description'] as String?,
 );
 
 Map<String, dynamic> _$ReportRequestBodyModelToJson(

@@ -4,7 +4,7 @@ class Profile {
   final String phone;
   final String role;
   final bool isActive;
-  final String photoUrl;
+  final String? photoUrl;
 
   Profile({
     required this.id,
@@ -12,6 +12,24 @@ class Profile {
     required this.phone,
     required this.role,
     required this.isActive,
-   required this.photoUrl,
+    this.photoUrl,
   });
+
+  Profile copyWith({
+    String? id,
+    String? name,
+    String? phone,
+    String? role,
+    bool? isActive,
+    String? photoUrl,
+  }) {
+    return Profile(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      phone: phone ?? this.phone,
+      role: role ?? this.role,
+      isActive: isActive ?? this.isActive,
+      photoUrl: photoUrl, // 🔥 مهم
+    );
+  }
 }

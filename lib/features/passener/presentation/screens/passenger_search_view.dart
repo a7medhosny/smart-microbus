@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:smart_microbus/core/helpers/extensions.dart';
 import 'package:smart_microbus/core/helpers/show_toast_helper.dart';
-import 'package:smart_microbus/core/localization/locale_cubit.dart';
 import 'package:smart_microbus/features/passener/presentation/cubit/passenger_cubit.dart';
 import 'package:smart_microbus/features/passener/presentation/widgets/search_widgets/passenger_search_body.dart';
 import 'package:smart_microbus/l10n/app_localizations.dart';
@@ -28,8 +26,6 @@ class _PassengerSearchViewState extends State<PassengerSearchView> {
     cubit.getRoutes();
     cubit.getFavorites();
   }
-
-
 
   @override
   Widget build(BuildContext context) {

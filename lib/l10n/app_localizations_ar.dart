@@ -510,4 +510,28 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get roleNotSupportedMessage => 'هذا الدور غير مدعوم داخل التطبيق. يُرجى زيارة لوحة التحكم أو تجربة حساب آخر.';
+
+  @override
+  String get accountInformation => 'معلومات الحساب';
+
+  @override
+  String get actions => 'الإجراءات';
+
+  @override
+  String get more => 'المزيد';
+
+  @override
+  String get deleteAccount => 'حذف الحساب';
+
+  @override
+  String get deleteAccountTitle => 'حذف الحساب؟';
+
+  @override
+  String get deleteAccountMessage => 'لا يمكن التراجع عن هذا الإجراء.\nهل أنت متأكد أنك تريد المتابعة؟';
+
+  @override
+  String get changePhoto => 'تغيير الصورة';
+
+  @override
+  String get deletePhoto => 'حذف الصورة';
 }

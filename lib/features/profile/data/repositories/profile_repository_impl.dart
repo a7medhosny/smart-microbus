@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:smart_microbus/core/auth/token_manager.dart';
 import 'package:smart_microbus/features/Auth/login/data/datasource/login_remote_data_source.dart';
 import 'package:smart_microbus/features/Auth/login/data/models/reset_password_model.dart';
+import 'package:smart_microbus/features/passener/domain/entities/base_response.dart';
 
 import '../../../../core/error/error_handler.dart';
 import '../../../../core/error/failure.dart';
@@ -35,7 +38,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
     required String confirmPassword,
   }) async {
     try {
-       await loginRemoteDataSource.resetPassword(
+      await loginRemoteDataSource.resetPassword(
         ResetPasswordModel(
           userId: TokenManager.userId ?? '',
           token: TokenManager.token ?? '',
@@ -43,8 +46,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
           confirmPassword: confirmPassword,
         ),
       );
-            return Right(unit);
-
+      return Right(unit);
     } on DioException catch (e) {
       return Left(ErrorHandler.handle(e));
     } catch (e) {
@@ -55,8 +57,44 @@ class ProfileRepositoryImpl implements ProfileRepository {
   @override
   Future<Either<Failure, Unit>> logout() async {
     try {
-       await remote.logout();
+      await remote.logout();
       return Right(unit);
+    } on DioException catch (e) {
+      return Left(ErrorHandler.handle(e));
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, BaseResponse>> deleteAccount() async {
+    try {
+      final result = await remote.deleteAccount();
+      return Right(result);
+    } on DioException catch (e) {
+      return Left(ErrorHandler.handle(e));
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, BaseResponse>> deleteProfilePhoto() async {
+    try {
+      final result = await remote.deleteProfilePhoto();
+      return Right(result);
+    } on DioException catch (e) {
+      return Left(ErrorHandler.handle(e));
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, BaseResponse>> uploadProfilePhoto(File file) async {
+    try {
+      final result = await remote.uploadUserPhoto(file);
+      return Right(result);
     } on DioException catch (e) {
       return Left(ErrorHandler.handle(e));
     } catch (e) {

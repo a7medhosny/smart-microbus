@@ -4,10 +4,11 @@ import 'package:smart_microbus/features/passener/data/models/destination_model.d
 import 'package:smart_microbus/features/passener/data/models/route_model.dart';
 
 import '../../../../core/networking/api_constants.dart';
-import '../../domain/entities/base_response.dart';
+import '../models/all_report_response_model.dart';
 import '../models/base_response_model.dart';
 import '../models/favourite_route_model.dart';
 import '../models/on_the_way_microbus_model.dart';
+import '../models/report_model.dart';
 import '../models/report_reason_model.dart';
 import '../models/report_request_body_model.dart';
 import '../models/route_summary_model.dart';
@@ -54,6 +55,22 @@ abstract class PassengerApiService {
   @GET(ApiConstants.reportReasons)
   Future<List<ReportReasonModel>> getReportReasons();
 
-  @POST(ApiConstants.submitReport)
+  @POST(ApiConstants.report)
   Future<BaseResponseModel> submitReport(@Body() ReportRequestBodyModel report);
+
+  @GET(ApiConstants.report)
+  Future<AllReportResponseModel> getAllReports(
+    @Queries() Map<String, dynamic> query,
+  );
+  @GET('${ApiConstants.report}/{id}')
+  Future<ReportModel> getReportById(@Path('id') String id);
+
+  @DELETE('${ApiConstants.report}/{id}')
+  Future<BaseResponseModel> deleteReportById(@Path('id') String id);
+
+  @PUT('${ApiConstants.report}/{id}')
+  Future<BaseResponseModel> updateReport(
+    @Path('id') String id,
+    @Body() ReportRequestBodyModel report,
+  );
 }

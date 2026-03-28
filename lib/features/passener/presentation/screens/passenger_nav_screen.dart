@@ -37,8 +37,7 @@ class PassengerNavigationScreen extends StatelessWidget {
           onPopInvokedWithResult: (didPop, result) async {
             if (didPop) return;
 
-            final navigator =
-                cubit.navigatorKeys[currentIndex].currentState!;
+            final navigator = cubit.navigatorKeys[currentIndex].currentState!;
 
             if (navigator.canPop()) {
               navigator.pop();
@@ -63,9 +62,9 @@ class PassengerNavigationScreen extends StatelessWidget {
               currentIndex: currentIndex,
               onTap: (index) {
                 if (index == currentIndex) {
-                  cubit.navigatorKeys[index]
-                      .currentState!
-                      .popUntil((route) => route.isFirst);
+                  cubit.navigatorKeys[index].currentState!.popUntil(
+                    (route) => route.isFirst,
+                  );
                 } else {
                   cubit.changeBottomNavIndex(index);
                 }

@@ -510,4 +510,28 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get roleNotSupportedMessage => 'This role is not supported in the application. Please visit the dashboard or try another account.';
+
+  @override
+  String get accountInformation => 'Account Information';
+
+  @override
+  String get actions => 'Actions';
+
+  @override
+  String get more => 'More';
+
+  @override
+  String get deleteAccount => 'Delete Account';
+
+  @override
+  String get deleteAccountTitle => 'Delete Account?';
+
+  @override
+  String get deleteAccountMessage => 'This action cannot be undone.\nAre you sure you want to continue?';
+
+  @override
+  String get changePhoto => 'Change Photo';
+
+  @override
+  String get deletePhoto => 'Delete Photo';
 }

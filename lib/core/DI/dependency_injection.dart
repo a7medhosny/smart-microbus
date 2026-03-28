@@ -58,8 +58,11 @@ import '../../features/profile/data/datasource/profile_remote_data_source.dart';
 import '../../features/profile/data/datasource/profile_remote_data_source_impl.dart';
 import '../../features/profile/data/repositories/profile_repository_impl.dart';
 import '../../features/profile/domain/repositories/profile_repository.dart';
+import '../../features/profile/domain/usecases/delete_account_use_case.dart';
+import '../../features/profile/domain/usecases/delete_profile_photo_use_case.dart';
 import '../../features/profile/domain/usecases/get_profile_usecase.dart';
 import '../../features/profile/domain/usecases/change_password_usecase.dart';
+import '../../features/profile/domain/usecases/upload_profile_photo_use_case.dart';
 import '../../features/profile/presentation/cubit/profile_cubit.dart';
 import '../../features/register/data/repositoies/register_repository_impl.dart';
 import '../../features/register/domain/usecases/register_driver_use_case.dart';
@@ -124,9 +127,21 @@ Future<void> setupDependencyInjection() async {
   getIt.registerLazySingleton(() => GetProfileUseCase(getIt()));
   getIt.registerLazySingleton(() => ChangePasswordUseCase(getIt()));
   getIt.registerLazySingleton(() => LogoutUseCase(getIt()));
+  getIt.registerLazySingleton(() => DeleteAccountUseCase(getIt()));
+  getIt.registerLazySingleton(() => UploadProfilePhotoUseCase(getIt()));
+  getIt.registerLazySingleton(() => DeleteProfilePhotoUseCase(getIt()));
 
   /// Cubit
-  getIt.registerFactory(() => ProfileCubit(getIt(), getIt(), getIt()));
+  getIt.registerFactory(
+    () => ProfileCubit(
+      getIt(),
+      getIt(),
+      getIt(),
+      deleteAccountUseCase: getIt(),
+      uploadProfilePhotoUseCase: getIt(),
+      deleteProfilePhotoUseCase: getIt(),
+    ),
+  );
 }
 
 void _registerDependencies() {

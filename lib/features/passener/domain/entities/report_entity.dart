@@ -1,7 +1,7 @@
 class ReportEntity {
   final String plateNumber;
   final List<int> reasonIds;
-  final String description;
+  final String? description;
 
   ReportEntity({
     required this.plateNumber,

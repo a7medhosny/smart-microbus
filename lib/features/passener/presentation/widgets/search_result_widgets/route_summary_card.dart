@@ -48,14 +48,14 @@ class _RouteSummaryCardState extends State<RouteSummaryCard> {
           ///  Header
           Row(
             children: [
-              Icon(Icons.alt_route, color: theme.colorScheme.onPrimary),
+              Icon(Icons.alt_route, color: Colors.white, size: 24),
               const SizedBox(width: 8),
 
               Expanded(
                 child: Text(
                   l10n.tripSummary,
                   style: theme.textTheme.titleMedium?.copyWith(
-                    color: theme.colorScheme.onPrimary,
+                    color: Colors.white,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -113,7 +113,7 @@ class _RouteSummaryCardState extends State<RouteSummaryCard> {
               l10n.priceInCurrency(widget.summary.price),
               style: theme.textTheme.headlineSmall?.copyWith(
                 fontWeight: FontWeight.bold,
-                color: theme.colorScheme.onPrimary,
+                color: Colors.white,
               ),
             ),
           ),
@@ -188,19 +188,19 @@ class _RouteSummaryCardState extends State<RouteSummaryCard> {
       ),
       child: Column(
         children: [
-          Icon(icon, color: theme.colorScheme.onPrimary, size: 20),
+          Icon(icon, color: Colors.white, size: 20),
           const SizedBox(height: 6),
           Text(
             label,
             style: theme.textTheme.bodySmall?.copyWith(
-              color: theme.colorScheme.onPrimary.withOpacity(0.7),
+              color: Colors.white.withOpacity(0.9),
             ),
           ),
           const SizedBox(height: 4),
           Text(
             value,
             style: theme.textTheme.bodyMedium?.copyWith(
-              color: theme.colorScheme.onPrimary,
+              color: Colors.white,
               fontWeight: FontWeight.bold,
             ),
           ),

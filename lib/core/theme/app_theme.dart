@@ -151,6 +151,7 @@ class AppTheme {
     primaryColor: AppColorsLight.primary,
 
     colorScheme: const ColorScheme.light(
+      error: Colors.red,
       primary: AppColorsLight.primary,
       secondary: AppColorsLight.secondary,
       surface: AppColorsLight.surface,
@@ -228,6 +229,10 @@ class AppTheme {
 
     /// Divider
     dividerColor: AppColorsLight.divider,
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+      selectedItemColor: AppColorsLight.primary,
+      unselectedItemColor: Colors.grey,
+    ),
 
     /// Text
     textTheme: TextTheme(
@@ -255,6 +260,7 @@ class AppTheme {
     primaryColor: AppColorsDark.primary,
 
     colorScheme: const ColorScheme.dark(
+      error: Colors.red,
       primary: AppColorsDark.primary,
       secondary: AppColorsDark.secondary,
       surface: AppColorsDark.surface,
@@ -275,6 +281,10 @@ class AppTheme {
       color: AppColorsDark.card,
       elevation: 2,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+    ),
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+      selectedItemColor: AppColorsLight.primary,
+      unselectedItemColor: Colors.grey,
     ),
 
     /// Buttons

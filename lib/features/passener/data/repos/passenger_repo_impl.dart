@@ -1,9 +1,14 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:smart_microbus/core/error/failure.dart';
+import 'package:smart_microbus/features/passener/data/models/all_report_response_model.dart';
+import 'package:smart_microbus/features/passener/domain/entities/all_report_request_entity.dart';
+import 'package:smart_microbus/features/passener/domain/entities/all_report_response_entity.dart';
+import 'package:smart_microbus/features/passener/domain/entities/base_response.dart';
 import 'package:smart_microbus/features/passener/domain/entities/destination_entity.dart';
 import 'package:smart_microbus/features/passener/domain/entities/favourite_route_entity.dart';
 import 'package:smart_microbus/features/passener/domain/entities/on_the_way_microbus_entity.dart';
+import 'package:smart_microbus/features/passener/domain/entities/report.dart';
 import 'package:smart_microbus/features/passener/domain/entities/report_entity.dart';
 import 'package:smart_microbus/features/passener/domain/entities/report_reason_entity.dart';
 import 'package:smart_microbus/features/passener/domain/entities/route_entity.dart';
@@ -13,6 +18,7 @@ import 'package:smart_microbus/features/passener/domain/repos/passenger_repo.dar
 
 import '../../../../core/error/error_handler.dart';
 import '../datasource/passenger_remote_data_source.dart';
+import '../models/all_report_request_model.dart';
 import '../models/base_response_model.dart';
 import '../models/report_request_body_model.dart';
 
@@ -112,6 +118,7 @@ class PassengerRepoImpl implements PassengerRepo {
   getFavoriteRoutes() async {
     try {
       final favoriteRoutes = await remoteDataSource.getFavoriteRoutes();
+
       return Right(favoriteRoutes);
     } on DioException catch (e) {
       return Left(ErrorHandler.handle(e));
@@ -164,6 +171,69 @@ class PassengerRepoImpl implements PassengerRepo {
   ) async {
     try {
       final result = await remoteDataSource.submitReport(
+        ReportRequestBodyModel.fromEntity(report),
+      );
+      return Right(result);
+    } on DioException catch (e) {
+      return Left(ErrorHandler.handle(e));
+    } catch (e) {
+      return Left(ServerFailure(errorMessage));
+    }
+  }
+
+  @override
+  Future<Either<Failure, AllReportResponseEntity>> getAllReports(
+    AllrportRequestEntity? requestEntity,
+  ) async {
+    try {
+      final response = await remoteDataSource.getAllReports(
+        AllReportRequestModel(
+          plateNumber: requestEntity?.plateNumber,
+          fromDate: requestEntity?.fromDate,
+          toDate: requestEntity?.toDate,
+          pageNumber: requestEntity?.pageNumber,
+          pageSize: requestEntity?.pageSize,
+        ),
+      );
+
+      return Right(response.toEntity());
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, BaseResponse>> deleteReportById(String id) async {
+    try {
+      final result = await remoteDataSource.deleteReportById(id);
+      return Right(result);
+    } on DioException catch (e) {
+      return Left(ErrorHandler.handle(e));
+    } catch (e) {
+      return Left(ServerFailure(errorMessage));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Report>> getReportById(String id) async {
+    try {
+      final report = await remoteDataSource.getReportById(id);
+      return Right(report);
+    } on DioException catch (e) {
+      return Left(ErrorHandler.handle(e));
+    } catch (e) {
+      return Left(ServerFailure(errorMessage));
+    }
+  }
+
+  @override
+  Future<Either<Failure, BaseResponse>> updateReport(
+    String id,
+    ReportEntity report,
+  ) async {
+    try {
+      final result = await remoteDataSource.updateReport(
+        id,
         ReportRequestBodyModel.fromEntity(report),
       );
       return Right(result);
