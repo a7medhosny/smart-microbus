@@ -21,6 +21,7 @@ class ProfileListener extends StatelessWidget {
     return BlocListener<ProfileCubit, ProfileState>(
       listener: (context, state) {
         if (state is LogoutSuccess) {
+          
           ShowToastHelper.showToast(context, 'Logout successful');
           TokenManager.clearLoginData();
           context.read<PassengerCubit>().currentNavIndex = 0;

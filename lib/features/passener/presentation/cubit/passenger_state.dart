@@ -11,7 +11,6 @@ sealed class PassengerState extends Equatable {
 
 final class PassengerInitial extends PassengerState {}
 
-
 // ================= ROUTES =================
 
 final class GetRoutesLoading extends PassengerState {}
@@ -37,7 +36,6 @@ final class GetRoutesError extends PassengerState {
 // =====================================================
 // ================= DESTINATIONS =======================
 // =====================================================
-
 
 final class GetDestinationsLoading extends PassengerState {}
 
@@ -187,9 +185,7 @@ final class GetReportReasonsError extends PassengerState {
 
 class AddFavoriteLoading extends PassengerState {}
 
-class AddFavoriteSuccess extends PassengerState {
-  
-}
+class AddFavoriteSuccess extends PassengerState {}
 
 class AddFavoriteError extends PassengerState {
   final String message;
@@ -211,9 +207,67 @@ final class SubmitReportSuccess extends PassengerState {
 
 final class SubmitReportError extends PassengerState {
   final String message;
-    const SubmitReportError(this.message);
+  const SubmitReportError(this.message);
+}
 
-  
+// ================= ALL REPORTS =================
+class GetAllReportsLoading extends PassengerState {}
+
+class GetAllReportsSuccess extends PassengerState {
+  final AllReportResponseEntity data;
+
+  const GetAllReportsSuccess(this.data);
+}
+
+class GetAllReportsError extends PassengerState {
+  final String message;
+
+  const GetAllReportsError(this.message);
+}
+
+// ================= REPORT DETAILS =================
+class GetReportByIdLoading extends PassengerState {}
+
+class GetReportByIdSuccess extends PassengerState {
+  final Report report;
+
+  const GetReportByIdSuccess(this.report);
+}
+
+class GetReportByIdError extends PassengerState {
+  final String message;
+
+  const GetReportByIdError(this.message);
+}
+
+// ================= DELETE =================
+class DeleteReportLoading extends PassengerState {}
+
+class DeleteReportSuccess extends PassengerState {
+  final String message;
+
+  const DeleteReportSuccess(this.message);
+}
+
+class DeleteReportError extends PassengerState {
+  final String message;
+
+  const DeleteReportError(this.message);
+}
+
+// ================= UPDATE =================
+class UpdateReportLoading extends PassengerState {}
+
+class UpdateReportSuccess extends PassengerState {
+  final String message;
+
+  const UpdateReportSuccess(this.message);
+}
+
+class UpdateReportError extends PassengerState {
+  final String message;
+
+  const UpdateReportError(this.message);
 }
 
 class RemoveFavoriteLoading extends PassengerState {}

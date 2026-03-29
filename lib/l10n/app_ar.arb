@@ -207,7 +207,19 @@
   "deleteAccountMessage": "لا يمكن التراجع عن هذا الإجراء.\nهل أنت متأكد أنك تريد المتابعة؟",
   "cancel": "إلغاء",
   "changePhoto": "تغيير الصورة",
-  "deletePhoto": "حذف الصورة"
+  "deletePhoto": "حذف الصورة",
+  "editReportTitle":"تعديل البلاغ",
+"updateReport":"تعديل البلاغ",
+"reportDetails": "تفاصيل البلاغ",
+  "status": "الحالة",
+  "description": "الوصف",
+  "delete": "حذف",
+  "edit": "تعديل",
+  "cancel": "إلغاء",
+  "deleteReport": "حذف البلاغ",
+  "deleteConfirmation": "هل أنت متأكد من حذف هذا البلاغ؟",
+  "reasons": "الأسباب",
+  "enterDescriptionError": "من فضلك اكتب السبب"
 
 
 

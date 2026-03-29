@@ -19,7 +19,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<PassengerCubit>().getFavorites();
+    // context.read<PassengerCubit>().getFavorites();
   }
 
   @override

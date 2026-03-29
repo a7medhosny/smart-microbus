@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/helpers/show_toast_helper.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../domain/entities/report_entity.dart';
 import '../../domain/entities/report_reason_entity.dart';
+import '../../domain/entities/report.dart';
 import '../cubit/passenger_cubit.dart';
 
 class ReportPage extends StatefulWidget {
   final String plateNumber;
+  final Report? existingReport;
 
-  const ReportPage({super.key, required this.plateNumber});
+  const ReportPage({super.key, required this.plateNumber, this.existingReport});
 
   @override
   State<ReportPage> createState() => _ReportPageState();
@@ -20,19 +23,33 @@ class _ReportPageState extends State<ReportPage> {
   List<ReportReasonEntity> reasons = [];
   final TextEditingController descriptionController = TextEditingController();
 
+  bool get isEdit => widget.existingReport != null;
+
+  bool get isOtherSelected =>
+      (reasons.isNotEmpty && selectedReasonIds.contains(reasons.last.id) ||
+      (isEdit && widget.existingReport!.reasons.contains("other")));
+
   @override
   void initState() {
     super.initState();
+
     context.read<PassengerCubit>().getReportReasons();
+
+    if (isEdit) {
+      descriptionController.text = widget.existingReport!.description;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<PassengerCubit>();
     final l10n = AppLocalizations.of(context)!;
+    final theme = Theme.of(context);
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.reportTitle)),
+      appBar: AppBar(
+        title: Text(isEdit ? l10n.editReportTitle : l10n.reportTitle),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -61,6 +78,16 @@ class _ReportPageState extends State<ReportPage> {
                   if (state is GetReportReasonsSuccess) {
                     reasons = state.reasons;
 
+                    /// pre-select (edit)
+                    if (isEdit && selectedReasonIds.isEmpty) {
+                      final existingReasons = widget.existingReport!.reasons;
+
+                      selectedReasonIds = reasons
+                          .where((r) => existingReasons.contains(r.name))
+                          .map((e) => e.id)
+                          .toList();
+                    }
+
                     return ListView.separated(
                       itemCount: reasons.length,
                       separatorBuilder: (_, __) => const SizedBox(height: 10),
@@ -74,6 +101,11 @@ class _ReportPageState extends State<ReportPage> {
                             setState(() {
                               if (selectedReasonIds.contains(reason.id)) {
                                 selectedReasonIds.remove(reason.id);
+
+                                /// ✅ لو شال Other → امسح description
+                                if (reason.id == reasons.last.id) {
+                                  descriptionController.clear();
+                                }
                               } else {
                                 selectedReasonIds.add(reason.id);
                               }
@@ -90,46 +122,60 @@ class _ReportPageState extends State<ReportPage> {
             ),
 
             /// ================= Description =================
-            if (reasons.isNotEmpty &&
-                selectedReasonIds.contains(reasons.last.id)) ...[
-              TextField(
-                controller: descriptionController,
-                maxLines: 3,
-                decoration: InputDecoration(
-                  hintText: l10n.additionalDetailsHint,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  contentPadding: const EdgeInsets.all(12),
-                ),
-              ),
-              const SizedBox(height: 16),
-            ],
+            AnimatedSwitcher(
+              duration: const Duration(milliseconds: 300),
+              child: isOtherSelected
+                  ? Column(
+                      key: const ValueKey("desc"),
+                      children: [
+                        TextField(
+                          controller: descriptionController,
+                          maxLines: 3,
+                          decoration: InputDecoration(
+                            hintText: l10n.additionalDetailsHint,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                      ],
+                    )
+                  : const SizedBox(),
+            ),
 
             /// ================= Submit =================
             BlocConsumer<PassengerCubit, PassengerState>(
               listenWhen: (prev, curr) =>
-                  curr is SubmitReportSuccess || curr is SubmitReportError,
+                  curr is SubmitReportSuccess ||
+                  curr is SubmitReportError ||
+                  curr is UpdateReportSuccess ||
+                  curr is UpdateReportError,
               listener: (context, state) {
-                if (state is SubmitReportSuccess) {
-                  ScaffoldMessenger.of(
-                    context,
-                  ).showSnackBar(SnackBar(content: Text(state.message)));
+                if (state is SubmitReportSuccess ||
+                    state is UpdateReportSuccess) {
+                  final message = state is SubmitReportSuccess
+                      ? state.message
+                      : (state as UpdateReportSuccess).message;
+                  ShowToastHelper.showToast(context, message);
+
                   Navigator.pop(context);
                 }
 
-                if (state is SubmitReportError) {
+                if (state is SubmitReportError || state is UpdateReportError) {
+                  final message = state is SubmitReportError
+                      ? state.message
+                      : (state as UpdateReportError).message;
+
                   ScaffoldMessenger.of(
                     context,
-                  ).showSnackBar(SnackBar(content: Text(state.message)));
+                  ).showSnackBar(SnackBar(content: Text(message)));
                 }
               },
-              buildWhen: (prev, curr) =>
-                  curr is SubmitReportLoading ||
-                  curr is SubmitReportSuccess ||
-                  curr is SubmitReportError,
               builder: (context, state) {
-                final isLoading = state is SubmitReportLoading;
+                final isLoading =
+                    state is SubmitReportLoading ||
+                    state is UpdateReportLoading;
 
                 return SizedBox(
                   width: double.infinity,
@@ -144,13 +190,33 @@ class _ReportPageState extends State<ReportPage> {
                               return;
                             }
 
-                            cubit.submitReport(
-                              ReportEntity(
-                                plateNumber: widget.plateNumber,
-                                reasonIds: selectedReasonIds,
-                                description: descriptionController.text,
-                              ),
+                            /// ✅ validation
+                            if (isOtherSelected &&
+                                descriptionController.text.trim().isEmpty) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(l10n.enterDescriptionError),
+                                ),
+                              );
+                              return;
+                            }
+
+                            final report = ReportEntity(
+                              plateNumber: widget.plateNumber,
+                              reasonIds: selectedReasonIds,
+                              description: isOtherSelected
+                                  ? descriptionController.text
+                                  : "",
                             );
+
+                            if (isEdit) {
+                              cubit.updateReport(
+                                widget.existingReport!.id,
+                                report,
+                              );
+                            } else {
+                              cubit.submitReport(report);
+                            }
                           },
                     child: isLoading
                         ? const SizedBox(
@@ -158,7 +224,7 @@ class _ReportPageState extends State<ReportPage> {
                             width: 20,
                             child: CircularProgressIndicator(strokeWidth: 2),
                           )
-                        : Text(l10n.submitReport),
+                        : Text(isEdit ? l10n.updateReport : l10n.submitReport),
                   ),
                 );
               },
@@ -170,6 +236,7 @@ class _ReportPageState extends State<ReportPage> {
   }
 }
 
+/// ================= Plate =================
 class _PlateWidget extends StatelessWidget {
   final String plate;
 
@@ -178,6 +245,7 @@ class _PlateWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final colors = Theme.of(context).colorScheme;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -188,7 +256,7 @@ class _PlateWidget extends StatelessWidget {
           width: double.infinity,
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
-            color: Colors.grey.withOpacity(0.1),
+            color: colors.surfaceVariant,
             borderRadius: BorderRadius.circular(12),
           ),
           child: Text(plate, textAlign: TextAlign.center),
@@ -198,6 +266,7 @@ class _PlateWidget extends StatelessWidget {
   }
 }
 
+/// ================= Reason Item =================
 class _ReasonItem extends StatelessWidget {
   final String title;
   final bool isSelected;
@@ -211,6 +280,8 @@ class _ReasonItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+
     return InkWell(
       borderRadius: BorderRadius.circular(16),
       onTap: onTap,
@@ -219,14 +290,14 @@ class _ReasonItem extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: isSelected ? Colors.blue : Colors.grey.shade300,
+            color: isSelected ? colors.primary : colors.outlineVariant,
           ),
         ),
         child: Row(
           children: [
             Icon(
               isSelected ? Icons.check_box : Icons.check_box_outline_blank,
-              color: isSelected ? Colors.blue : Colors.grey,
+              color: isSelected ? colors.primary : colors.onSurfaceVariant,
             ),
             const SizedBox(width: 12),
             Expanded(child: Text(title)),

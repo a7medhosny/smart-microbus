@@ -14,6 +14,7 @@ import 'package:smart_microbus/l10n/app_localizations.dart';
 
 import 'core/auth/token_manager.dart';
 import 'core/di/dependency_injection.dart';
+import 'core/helpers/app_state_manager.dart';
 import 'core/localization/locale_cubit.dart';
 import 'core/localization/locale_state.dart';
 import 'core/routing/app_router.dart';
@@ -42,14 +43,18 @@ class MyApp extends StatelessWidget {
     final appRouter = AppRouter();
     final bool isLoggedIn = TokenManager.token != null;
     final bool isDriver = TokenManager.role == 'Driver';
+    final passengerCubit = getIt<PassengerCubit>();
+    final driverCubit = getIt<DriverHomeCubit>();
+    AppStateManager.passengerCubit = passengerCubit;
+    AppStateManager.driverCubit = driverCubit;
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => getIt<LocaleCubit>()),
         BlocProvider(create: (_) => getIt<ThemeCubit>()),
         BlocProvider(create: (_) => getIt<RegisterCubit>()),
-        BlocProvider(create: (_) => getIt<PassengerCubit>()),
+        BlocProvider(create: (_) => passengerCubit),
         BlocProvider(create: (_) => getIt<ProfileCubit>()),
-        BlocProvider(create: (_) => getIt<DriverHomeCubit>()),
+        BlocProvider(create: (_) => driverCubit),
       ],
       child: BlocBuilder<LocaleCubit, LocaleState>(
         builder: (context, localeState) {

@@ -1108,6 +1108,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Delete Photo'**
   String get deletePhoto;
+
+  /// No description provided for @editReportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Report'**
+  String get editReportTitle;
+
+  /// No description provided for @updateReport.
+  ///
+  /// In en, this message translates to:
+  /// **'Updated Report'**
+  String get updateReport;
+
+  /// No description provided for @reportDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Report Details'**
+  String get reportDetails;
+
+  /// No description provided for @status.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get status;
+
+  /// No description provided for @description.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get description;
+
+  /// No description provided for @delete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get delete;
+
+  /// No description provided for @edit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get edit;
+
+  /// No description provided for @deleteReport.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Report'**
+  String get deleteReport;
+
+  /// No description provided for @deleteConfirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this report?'**
+  String get deleteConfirmation;
+
+  /// No description provided for @reasons.
+  ///
+  /// In en, this message translates to:
+  /// **'Reasons'**
+  String get reasons;
+
+  /// No description provided for @enterDescriptionError.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter the reason'**
+  String get enterDescriptionError;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

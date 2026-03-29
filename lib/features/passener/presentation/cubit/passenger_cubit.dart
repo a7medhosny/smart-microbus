@@ -4,9 +4,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/storage/cache_helper.dart';
 import '../../../../core/storage/cache_keys.dart';
+import '../../domain/entities/all_report_request_entity.dart';
+import '../../domain/entities/all_report_response_entity.dart';
 import '../../domain/entities/destination_entity.dart';
 import '../../domain/entities/favourite_route_entity.dart';
 import '../../domain/entities/on_the_way_microbus_entity.dart';
+import '../../domain/entities/report.dart';
 import '../../domain/entities/report_entity.dart';
 import '../../domain/entities/report_reason_entity.dart';
 import '../../domain/entities/route_entity.dart';
@@ -14,8 +17,11 @@ import '../../domain/entities/route_summary_entity.dart';
 import '../../domain/entities/station_microbus_entity.dart';
 
 import '../../domain/usecases/add_route_to_favourite_use_case.dart';
+import '../../domain/usecases/delete_report_by_id_use_case.dart';
+import '../../domain/usecases/get_all_reports_use_case.dart';
 import '../../domain/usecases/get_favourite_routes.dart';
 import '../../domain/usecases/get_on_the_way_microbuses_use_case.dart';
+import '../../domain/usecases/get_report_by_id_use_case.dart';
 import '../../domain/usecases/get_report_reasons_use_case.dart';
 import '../../domain/usecases/get_route_destination_use_case.dart';
 import '../../domain/usecases/get_route_summary_use_case.dart';
@@ -24,6 +30,7 @@ import '../../domain/usecases/get_station_microbuses_use_case.dart';
 import '../../domain/usecases/is_route_favourite_use_case.dart';
 import '../../domain/usecases/remove_route_from_fav_use_case.dart';
 import '../../domain/usecases/submit_report_use_case.dart';
+import '../../domain/usecases/update_report_use_case.dart';
 
 part 'passenger_state.dart';
 
@@ -40,6 +47,10 @@ class PassengerCubit extends Cubit<PassengerState> {
   final RemoveRouteFromFavUseCase removeRouteFromFavoritesUceCase;
   final IsRouteFavouriteUseCase isRouteFavouriteUseCase;
   final GetFavouriteRoutes getFavouriteRoutes;
+  final GetAllReportsUseCase getAllReportsUseCase;
+  final GetReportByIdUseCase getReportByIdUseCase;
+  final DeleteReportByIdUseCase deleteReportByIdUseCase;
+  final UpdateReportUseCase updateReportUseCase;
 
   PassengerCubit(
     this.getRoutesUseCase,
@@ -53,6 +64,11 @@ class PassengerCubit extends Cubit<PassengerState> {
     this.removeRouteFromFavoritesUceCase,
     this.isRouteFavouriteUseCase,
     this.getFavouriteRoutes,
+    this.getAllReportsUseCase,
+    this.getReportByIdUseCase,
+    this.deleteReportByIdUseCase,
+    this.updateReportUseCase,
+
   ) : super(PassengerInitial());
 
   // ================= STATE DATA =================
@@ -252,4 +268,72 @@ class PassengerCubit extends Cubit<PassengerState> {
       (reasons) => emit(GetReportReasonsSuccess(reasons, null)),
     );
   }
+
+  AllReportResponseEntity? allReports;
+Report? currentReport;
+
+/// ================= GET ALL REPORTS =================
+Future<void> getAllReports({String? plateNumber}) async {
+  emit(GetAllReportsLoading());
+
+  final result = await getAllReportsUseCase(
+    requestEntity: plateNumber != null
+        ? AllrportRequestEntity(plateNumber: plateNumber)
+        : null,
+  );
+
+  result.fold(
+    (failure) => emit(GetAllReportsError(failure.message)),
+    (data) {
+      allReports = data;
+      emit(GetAllReportsSuccess(data));
+    },
+  );
+}
+
+/// ================= GET REPORT BY ID =================
+Future<void> getReportById(String id) async {
+  emit(GetReportByIdLoading());
+
+  final result = await getReportByIdUseCase(id);
+
+  result.fold(
+    (failure) => emit(GetReportByIdError(failure.message)),
+    (data) {
+      currentReport = data;
+      emit(GetReportByIdSuccess(data));
+    },
+  );
+}
+
+/// ================= DELETE =================
+Future<void> deleteReport(String id) async {
+  emit(DeleteReportLoading());
+
+  final result = await deleteReportByIdUseCase(id);
+
+  result.fold(
+    (failure) => emit(DeleteReportError(failure.message)),
+    (data) async {
+      await getAllReports();
+      emit(DeleteReportSuccess(data.message));
+    },
+  );
+}
+
+/// ================= UPDATE =================
+Future<void> updateReport(String id, ReportEntity report) async {
+  emit(UpdateReportLoading());
+
+  final result = await updateReportUseCase(id, report);
+
+  result.fold(
+    (failure) => emit(UpdateReportError(failure.message)),
+    (data) async {
+      await getReportById(id);
+      emit(UpdateReportSuccess(data.message));
+    },
+  );
+}
+
 }

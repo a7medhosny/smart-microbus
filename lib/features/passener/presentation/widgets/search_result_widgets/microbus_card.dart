@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_microbus/features/passener/domain/entities/on_the_way_microbus_entity.dart';
 import 'package:smart_microbus/features/passener/domain/entities/station_microbus_entity.dart';
 import 'package:smart_microbus/l10n/app_localizations.dart';
 
+import '../../cubit/passenger_cubit.dart';
+import '../../screens/report_details_screen.dart';
 import '../../screens/report_screen.dart';
 
 class MicrobusCard extends StatelessWidget {
@@ -139,14 +142,43 @@ class MicrobusCard extends StatelessWidget {
                   /// زرار Report (الجديد)
                   InkWell(
                     borderRadius: BorderRadius.circular(12),
-                    onTap: () {
-                      //TODO
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => ReportPage(plateNumber: plateNumber),
-                        ),
-                      );
+
+                    //TODO
+                    onTap: () async {
+                      final cubit = context.read<PassengerCubit>();
+
+                      await cubit.getAllReports(plateNumber: plateNumber);
+
+                      final reports = cubit.allReports?.items ?? [];
+
+                      if (reports.isEmpty) {
+                        /// ➜ اعمل Report جديد
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) =>
+                                ReportPage(plateNumber: plateNumber),
+                          ),
+                        );
+                      } else {
+                        /// ➜ عنده Report بالفعل
+                        final reportId = reports.first.id;
+
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) =>
+                                ReportDetailsPage(reportId: reportId),
+                          ),
+                        );
+                      }
+
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //     builder: (_) => ReportPage(plateNumber: plateNumber),
+                      //   ),
+                      // );
                     },
                     child: Container(
                       padding: const EdgeInsets.all(10),

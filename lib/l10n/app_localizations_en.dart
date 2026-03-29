@@ -534,4 +534,37 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get deletePhoto => 'Delete Photo';
+
+  @override
+  String get editReportTitle => 'Edit Report';
+
+  @override
+  String get updateReport => 'Updated Report';
+
+  @override
+  String get reportDetails => 'Report Details';
+
+  @override
+  String get status => 'Status';
+
+  @override
+  String get description => 'Description';
+
+  @override
+  String get delete => 'Delete';
+
+  @override
+  String get edit => 'Edit';
+
+  @override
+  String get deleteReport => 'Delete Report';
+
+  @override
+  String get deleteConfirmation => 'Are you sure you want to delete this report?';
+
+  @override
+  String get reasons => 'Reasons';
+
+  @override
+  String get enterDescriptionError => 'Please enter the reason';
 }

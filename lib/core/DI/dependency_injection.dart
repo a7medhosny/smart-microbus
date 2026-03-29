@@ -15,6 +15,10 @@ import 'package:smart_microbus/features/Driver/driver_home/presentation/cubit/dr
 import 'package:smart_microbus/features/passener/data/datasource/passenger_api_service.dart';
 import 'package:smart_microbus/features/passener/data/datasource/passenger_remote_data_source.dart';
 import 'package:smart_microbus/features/passener/domain/repos/passenger_repo.dart';
+import 'package:smart_microbus/features/passener/domain/usecases/delete_report_by_id_use_case.dart';
+import 'package:smart_microbus/features/passener/domain/usecases/get_all_reports_use_case.dart';
+import 'package:smart_microbus/features/passener/domain/usecases/get_report_by_id_use_case.dart';
+import 'package:smart_microbus/features/passener/domain/usecases/update_report_use_case.dart';
 import 'package:smart_microbus/features/passener/presentation/cubit/passenger_cubit.dart';
 import 'package:smart_microbus/features/profile/domain/usecases/logout_use_case.dart';
 import 'package:smart_microbus/features/register/data/datasource/register_api_service.dart';
@@ -339,6 +343,19 @@ void _driverDependencies() {
     () => GetReportReasonsUseCase(getIt<PassengerRepo>()),
   );
 
+  getIt.registerLazySingleton<UpdateReportUseCase>(
+    () => UpdateReportUseCase(getIt<PassengerRepo>()),
+  );
+  getIt.registerLazySingleton<DeleteReportByIdUseCase>(
+    () => DeleteReportByIdUseCase(getIt<PassengerRepo>()),
+  );
+  getIt.registerLazySingleton<GetAllReportsUseCase>(
+    () => GetAllReportsUseCase(getIt<PassengerRepo>()),
+  );
+  getIt.registerLazySingleton<GetReportByIdUseCase>(
+    () => GetReportByIdUseCase(getIt<PassengerRepo>()),
+  );
+
   getIt.registerFactory<PassengerCubit>(
     () => PassengerCubit(
       getIt<GetRoutesUseCase>(),
@@ -352,6 +369,10 @@ void _driverDependencies() {
       getIt<RemoveRouteFromFavUseCase>(),
       getIt<IsRouteFavouriteUseCase>(),
       getIt<GetFavouriteRoutes>(),
+      getIt<GetAllReportsUseCase>(),
+      getIt<GetReportByIdUseCase>(),
+      getIt<DeleteReportByIdUseCase>(),
+      getIt<UpdateReportUseCase>()
     ),
   );
 }

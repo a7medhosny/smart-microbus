@@ -59,7 +59,7 @@ class FavouriteRouteCard extends StatelessWidget {
                     children: [
                       Text(
                         isArabic
-                            ? "${route.to} ← ${route.from}"
+                            ? "${route.from} ← ${route.to}"
                             : "${route.from} → ${route.to}",
                         style: theme.textTheme.bodyLarge?.copyWith(
                           fontWeight: FontWeight.bold,

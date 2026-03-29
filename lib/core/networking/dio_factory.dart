@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
+import 'package:smart_microbus/core/helpers/app_state_manager.dart';
 import 'package:smart_microbus/core/storage/cache_helper.dart';
 import 'package:smart_microbus/core/storage/cache_keys.dart';
 
@@ -23,11 +24,9 @@ class DioFactory {
         ..options.receiveTimeout = const Duration(seconds: 30);
 
       _dio!.interceptors.add(_addLanguageHeader());
-      // _dio!.interceptors.add(_loggerInterceptor());
-      // _dio!.interceptors.add(_addAPIKey());
 
       addAuthInterceptor();
-      // addDioInterceptor();
+
       _dio!.interceptors.add(
         PrettyDioLogger(
           requestBody: true,
@@ -35,6 +34,7 @@ class DioFactory {
           responseHeader: true,
         ),
       );
+
       _dio!.interceptors.add(
         InterceptorsWrapper(
           onResponse: (response, handler) {
@@ -49,41 +49,11 @@ class DioFactory {
     return _dio!;
   }
 
-  static Interceptor _loggerInterceptor() {
-    return LogInterceptor(
-      requestBody: true,
-      requestHeader: true,
-      request: true,
-    );
-  }
-
-  static void addDioInterceptor() {
-    _dio?.interceptors.add(
-      PrettyDioLogger(
-        requestBody: true,
-        requestHeader: true,
-        responseHeader: true,
-      ),
-    );
-  }
-
-  // static Interceptor _addAPIKey() {
-  //   return InterceptorsWrapper(
-  //     onRequest: (options, handler) {
-  //       options.headers['X-API-KEY'] =
-  //           "ovuPaA2bJcgksW6yONrlDYtKweqihHfGnd9pI1FMVRmCTzE7UBx03SXZ8QL5j4";
-  //       handler.next(options);
-  //     },
-  //   );
-  // }
-
   static Interceptor _addLanguageHeader() {
     return InterceptorsWrapper(
       onRequest: (options, handler) {
         final lang = CacheHelper.getCacheData(key: CacheKeys.localeKey) ?? 'en';
-
         options.headers['Accept-Language'] = lang;
-
         handler.next(options);
       },
     );
@@ -124,22 +94,12 @@ class DioFactory {
   }
 }
 
-Future<void> testRefreshToken() async {
-  try {
-    final response = await _refreshToken();
-    print('Token refreshed successfully: ${response.token}');
-  } catch (e) {
-    print('Failed to refresh token: $e');
-  }
-}
-
 class AuthInterceptor extends Interceptor {
   final Dio dio;
 
   AuthInterceptor(this.dio);
 
   bool _isRefreshing = false;
-  final List<RequestOptions> _retryQueue = [];
 
   // =========================
   // 🔹 Request
@@ -159,7 +119,7 @@ class AuthInterceptor extends Interceptor {
   }
 
   // =========================
-  // 🔹 Error
+  // 🔹 Error (FIXED)
   // =========================
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) async {
@@ -168,21 +128,21 @@ class AuthInterceptor extends Interceptor {
       'on ${err.requestOptions.path}',
     );
 
-    // =========================
-    // ❌ Not 401 → Show SnackBar
-    // =========================
+    /// ❌ مش 401 → عادي
     if (err.response?.statusCode != 401 || TokenManager.refreshToken == null) {
-      authLog('❌ Non-401 error or no refresh token. Showing error snackbar.');
-      // showGlobalSnackBar("Something went wrong. Please try again.");
-
       return handler.reject(err);
     }
 
     final requestOptions = err.requestOptions;
 
+    /// 🟡 لو في refresh شغال → استنى و retry
     if (_isRefreshing) {
-      _retryQueue.add(requestOptions);
-      return;
+      try {
+        final response = await dio.fetch(requestOptions);
+        return handler.resolve(response);
+      } catch (e) {
+        return handler.reject(err);
+      }
     }
 
     _isRefreshing = true;
@@ -204,55 +164,23 @@ class AuthInterceptor extends Interceptor {
         refreshTokenExpirationDateTime:
             authResponse.refreshTokenExpirationDateTime ?? '',
         userName: authResponse.userName ?? '',
-        userId: TokenHelper.extractUserId(authResponse.token ?? '') ?? '',
+        userId: TokenHelper.extractUserId(newToken) ?? '',
         phone: authResponse.phone ?? '',
       );
 
       authLog('✅ Token refreshed successfully');
 
-      // =========================
-      // 2️⃣ RETRY ORIGINAL REQUEST
-      // =========================
-      Response<dynamic>? response;
-
-      try {
-        requestOptions.headers['Authorization'] = 'Bearer $newToken';
-
-        response = await dio.fetch(requestOptions);
-      } catch (e) {
-        authLog('❌ Original request retry failed: $e');
-
-        // showGlobalSnackBar("Request failed. Please try again.");
-      }
-
-      // =========================
-      // 3️⃣ RETRY QUEUED REQUESTS
-      // =========================
-      for (final req in _retryQueue) {
-        try {
-          req.headers['Authorization'] = 'Bearer $newToken';
-
-          await dio.fetch(req);
-        } catch (e) {
-          authLog('❌ Retry failed: ${req.path} → $e');
-
-          // showGlobalSnackBar("Some requests failed. Please try again.");
-        }
-      }
-
-      _retryQueue.clear();
       _isRefreshing = false;
 
-      if (response != null) {
-        return handler.resolve(response);
-      } else {
-        return handler.reject(err);
-      }
-    }
-    // =========================
-    // ❌ Refresh Failed → Logout ONLY
-    // =========================
-    catch (e) {
+      // =========================
+      // 2️⃣ RETRY ORIGINAL REQUEST (IMPORTANT)
+      // =========================
+      requestOptions.headers['Authorization'] = 'Bearer $newToken';
+
+      final response = await dio.fetch(requestOptions);
+
+      return handler.resolve(response);
+    } catch (e) {
       authLog('❌ Token refresh failed: $e');
 
       _isRefreshing = false;
@@ -263,8 +191,9 @@ class AuthInterceptor extends Interceptor {
         Routes.login,
         (route) => false,
       );
+      AppStateManager.resetAll();
 
-      handler.reject(err);
+      return handler.reject(err);
     }
   }
 }

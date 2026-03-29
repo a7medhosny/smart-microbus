@@ -534,4 +534,37 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get deletePhoto => 'حذف الصورة';
+
+  @override
+  String get editReportTitle => 'تعديل البلاغ';
+
+  @override
+  String get updateReport => 'تعديل البلاغ';
+
+  @override
+  String get reportDetails => 'تفاصيل البلاغ';
+
+  @override
+  String get status => 'الحالة';
+
+  @override
+  String get description => 'الوصف';
+
+  @override
+  String get delete => 'حذف';
+
+  @override
+  String get edit => 'تعديل';
+
+  @override
+  String get deleteReport => 'حذف البلاغ';
+
+  @override
+  String get deleteConfirmation => 'هل أنت متأكد من حذف هذا البلاغ؟';
+
+  @override
+  String get reasons => 'الأسباب';
+
+  @override
+  String get enterDescriptionError => 'من فضلك اكتب السبب';
 }
