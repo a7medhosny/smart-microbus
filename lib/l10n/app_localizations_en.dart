@@ -567,4 +567,31 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get enterDescriptionError => 'Please enter the reason';
+
+  @override
+  String get reports_empty_title => 'No Reports Yet';
+
+  @override
+  String get reports_empty_message => 'You haven\'t submitted any reports yet. Once you do, they will appear here.';
+
+  @override
+  String get all_reports_title => 'All Reports';
+
+  @override
+  String get filter_reports => 'Filter Reports';
+
+  @override
+  String get from => 'From';
+
+  @override
+  String get to => 'To';
+
+  @override
+  String get apply => 'Apply';
+
+  @override
+  String get reset => 'Reset';
+
+  @override
+  String get reports => 'Reports';
 }

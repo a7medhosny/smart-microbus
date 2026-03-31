@@ -219,7 +219,16 @@
   "deleteReport": "حذف البلاغ",
   "deleteConfirmation": "هل أنت متأكد من حذف هذا البلاغ؟",
   "reasons": "الأسباب",
-  "enterDescriptionError": "من فضلك اكتب السبب"
+  "enterDescriptionError": "من فضلك اكتب السبب",
+  "reports_empty_title": "لا توجد بلاغات بعد",
+"reports_empty_message": "لم تقم بإرسال أي بلاغات حتى الآن. عند إضافة بلاغ جديد سيظهر هنا.",
+"all_reports_title": "كل البلاغات",
+"filter_reports": "تصفية البلاغات",
+"from": "من",
+"to": "إلى",
+"apply": "تطبيق",
+"reset": "إعادة تعيين",
+"reports": "بلاغات"
 
 
 

@@ -6,6 +6,7 @@ import 'package:smart_microbus/features/passener/presentation/cubit/passenger_cu
 import 'package:smart_microbus/l10n/app_localizations.dart';
 
 import '../../../../core/helpers/app_error_helper.dart';
+import '../../../../core/widgets/empty_list.dart';
 import '../widgets/favourite_route_card.dart';
 
 class FavoritesScreen extends StatefulWidget {
@@ -59,7 +60,11 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
 
           /// 📭 Empty
           if (favs.isEmpty) {
-            return _embtyList();
+            return EmptyList(
+              title: l10n.noFavorites,
+              message: l10n.noFavoritesMessage,
+              icon: Icons.favorite_border,
+            );
           }
 
           /// ✅ List
@@ -80,46 +85,6 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
             },
           );
         },
-      ),
-    );
-  }
-
-  Widget _embtyList() {
-    final theme = Theme.of(context);
-    final l10n = AppLocalizations.of(context)!;
-
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              Icons.favorite_border,
-              size: 60,
-              color: theme.colorScheme.primary.withOpacity(0.6),
-            ),
-            const SizedBox(height: 16),
-
-            Text(
-              l10n.noFavorites,
-              style: theme.textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
-              textAlign: TextAlign.center,
-            ),
-
-            const SizedBox(height: 8),
-
-            Text(
-              l10n.noFavoritesMessage,
-              style: theme.textTheme.bodyMedium?.copyWith(
-                color: theme.hintColor,
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ],
-        ),
       ),
     );
   }

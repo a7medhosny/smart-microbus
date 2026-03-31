@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 // //Auth
 import 'package:smart_microbus/core/routing/routes.dart';
+import 'package:smart_microbus/features/passener/presentation/screens/all_report_screen.dart';
 // import 'package:smart_microbus/core/storage/cache_keys.dart';
 // import 'package:smart_microbus/features/profile/presentation/cubit/profile_cubit.dart';
 // import 'package:smart_microbus/features/register/presentation/pages/register_screen.dart';
@@ -15,6 +16,7 @@ import 'package:smart_microbus/core/routing/routes.dart';
 // Passenger
 import 'package:smart_microbus/features/passener/presentation/screens/passenger_search_view.dart';
 import 'package:smart_microbus/features/passener/presentation/screens/favourite_screen.dart';
+import 'package:smart_microbus/features/passener/presentation/screens/report_details_screen.dart';
 import 'package:smart_microbus/features/passener/presentation/screens/search_result_screen.dart';
 import 'package:smart_microbus/features/passener/presentation/widgets/search_result_widgets/station_list_screen.dart';
 import 'package:smart_microbus/features/passener/presentation/widgets/search_result_widgets/on_the_way_list_screen.dart';
@@ -43,6 +45,8 @@ class TabRouter {
           case 1:
             return _route(const FavoritesScreen());
           case 2:
+            return _route(const AllReportScreen());
+          case 3:
             return _route(const ProfileScreen());
         }
       }
@@ -74,6 +78,9 @@ class TabRouter {
       case Routes.onTheWayListScreen:
         final onTheWay = settings.arguments as List;
         return _route(OnTheWayListScreen(onTheWay: onTheWay));
+      case Routes.reportDetailsPage:
+        final routeId = settings.arguments as String;
+        return _route(ReportDetailsPage(reportId: routeId));
 
       /// Driver (لو هتزود بعدين)
       case Routes.driverTripHistory:

@@ -219,7 +219,15 @@
   "deleteReport": "Delete Report",
   "deleteConfirmation": "Are you sure you want to delete this report?",
   "reasons": "Reasons",
-  "enterDescriptionError": "Please enter the reason"
+  "enterDescriptionError": "Please enter the reason",
+  "reports_empty_title": "No Reports Yet",
+"reports_empty_message": "You haven't submitted any reports yet. Once you do, they will appear here.",
+"all_reports_title": "All Reports",
+"filter_reports": "Filter Reports",
+"from": "From",
+"to": "To","apply": "Apply",
+"reset": "Reset",
+"reports": "Reports"
 
 
 

@@ -18,14 +18,15 @@ class Routes {
 
   // ================= PASSENGER =================
   static const String passengerSearch = '/PassengerSearchView';
-  static const String passengerSearchResultScreen = '/PassengerSearchResultScreen';
+  static const String passengerSearchResultScreen =
+      '/PassengerSearchResultScreen';
   static const String stationListScreen = '/StationListScreen';
   static const String onTheWayListScreen = '/OnTheWayListScreen';
   static const String profile = '/profile';
+  static const String allReportScreen = '/AllReportScreen';
+  static const String reportDetailsPage = '/ReportDetailsPage';
   // static const String navigationScreen = '/navigationScreen';
   // static const navigationWrapper = '/navigationWrapper';
-     static const String driverNavigationScreen = '/driverNavigationScreen';
-     static const String passengerNavigationScreen = '/passengerNavigationScreen';
-
-
+  static const String driverNavigationScreen = '/driverNavigationScreen';
+  static const String passengerNavigationScreen = '/passengerNavigationScreen';
 }

@@ -567,4 +567,31 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get enterDescriptionError => 'من فضلك اكتب السبب';
+
+  @override
+  String get reports_empty_title => 'لا توجد بلاغات بعد';
+
+  @override
+  String get reports_empty_message => 'لم تقم بإرسال أي بلاغات حتى الآن. عند إضافة بلاغ جديد سيظهر هنا.';
+
+  @override
+  String get all_reports_title => 'كل البلاغات';
+
+  @override
+  String get filter_reports => 'تصفية البلاغات';
+
+  @override
+  String get from => 'من';
+
+  @override
+  String get to => 'إلى';
+
+  @override
+  String get apply => 'تطبيق';
+
+  @override
+  String get reset => 'إعادة تعيين';
+
+  @override
+  String get reports => 'بلاغات';
 }

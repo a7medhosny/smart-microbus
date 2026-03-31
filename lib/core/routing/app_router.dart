@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:smart_microbus/core/storage/cache_keys.dart';
-import 'package:smart_microbus/features/passener/presentation/screens/navigation_screen.dart';
 import 'package:smart_microbus/features/passener/presentation/screens/passenger_search_view.dart';
 import 'package:smart_microbus/features/passener/presentation/screens/search_result_screen.dart';
 import 'package:smart_microbus/features/profile/presentation/cubit/profile_cubit.dart';
@@ -19,11 +18,11 @@ import '../../features/Driver/driver_home/presentation/cubit/driver_home_cubit.d
 import '../../features/Driver/driver_home/presentation/screens/driver_home_page.dart';
 import '../../features/Driver/driver_home/presentation/screens/driver_nav_screen.dart';
 import '../../features/Driver/driver_home/presentation/screens/driver_trip_history.dart';
+import '../../features/passener/presentation/screens/all_report_screen.dart';
 import '../../features/passener/presentation/screens/passenger_nav_screen.dart';
+import '../../features/passener/presentation/screens/report_details_screen.dart';
 import '../../features/passener/presentation/widgets/search_result_widgets/on_the_way_list_screen.dart';
 import '../../features/passener/presentation/widgets/search_result_widgets/station_list_screen.dart';
-import '../auth/token_manager.dart';
-import '../config/app_config.dart';
 import 'routes.dart';
 
 // ================= IMPORT SCREENS =================
@@ -136,6 +135,11 @@ class AppRouter {
 
       case Routes.driverNavigationScreen:
         return _materialRoute(DriverNavigationScreen());
+      case Routes.allReportScreen:
+        return _materialRoute(AllReportScreen());
+      case Routes.reportDetailsPage:
+        final String reportId = settings.arguments as String;
+        return _materialRoute(ReportDetailsPage(reportId: reportId));
 
       //   case Routes.navigationWrapper:
       //     return _materialRoute(

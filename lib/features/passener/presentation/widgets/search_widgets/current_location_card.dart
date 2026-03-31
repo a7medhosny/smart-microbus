@@ -4,7 +4,6 @@ import 'package:smart_microbus/core/helpers/extensions.dart';
 import 'package:smart_microbus/l10n/app_localizations.dart';
 import '../../../../../core/routing/routes.dart';
 import '../../cubit/passenger_cubit.dart';
-import '../../screens/favourite_screen.dart';
 
 class CurrentLocationCard extends StatelessWidget {
   const CurrentLocationCard({super.key});
@@ -48,7 +47,7 @@ class CurrentLocationCard extends StatelessWidget {
           /// 👤 Avatar
           InkWell(
             onTap: () {
-              context.read<PassengerCubit>().changeBottomNavIndex(2);
+              context.read<PassengerCubit>().changeBottomNavIndex(3);
             },
             child: CircleAvatar(
               radius: 24,

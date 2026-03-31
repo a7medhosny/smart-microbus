@@ -37,16 +37,11 @@ class _ReportDetailsPageState extends State<ReportDetailsPage> {
           curr is UpdateReportSuccess ||
           curr is UpdateReportError,
       listener: (context, state) {
-        /// ================= SUCCESS =================
         if (state is DeleteReportSuccess) {
-          final message = state.message;
-
-          ShowToastHelper.showToast(context, message);
-
+          ShowToastHelper.showToast(context, state.message);
           Navigator.pop(context);
         }
 
-        /// ================= ERROR =================
         if (state is DeleteReportError || state is UpdateReportError) {
           final message = state is DeleteReportError
               ? state.message
@@ -73,61 +68,111 @@ class _ReportDetailsPageState extends State<ReportDetailsPage> {
           appBar: AppBar(title: Text(l10n.reportDetails), centerTitle: true),
           body: Builder(
             builder: (context) {
-              /// ================= LOADING =================
               if (state is GetReportByIdLoading) {
                 return const Center(child: CircularProgressIndicator());
               }
 
-              /// ================= ERROR =================
               if (state is GetReportByIdError) {
                 return Center(
                   child: Text(
                     state.message,
-                    style: textTheme.bodyMedium?.copyWith(color: colors.error),
+                    style: textTheme.bodyMedium?.copyWith(
+                      color: colors.error,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 );
               }
 
-              /// ================= SUCCESS =================
               if (state is GetReportByIdSuccess) {
                 final report = state.report;
 
-                return Padding(
+                return SingleChildScrollView(
                   padding: const EdgeInsets.all(16),
                   child: Column(
                     children: [
                       /// CARD
                       Container(
                         width: double.infinity,
-                        padding: const EdgeInsets.all(16),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 18,
+                          vertical: 20,
+                        ),
                         decoration: BoxDecoration(
                           color: colors.surface,
-                          borderRadius: BorderRadius.circular(16),
+                          borderRadius: BorderRadius.circular(22),
+                          border: Border.all(
+                            color: colors.outline.withOpacity(0.1),
+                          ),
                           boxShadow: [
                             BoxShadow(
-                              color: colors.shadow.withOpacity(0.05),
-                              blurRadius: 10,
-                              offset: const Offset(0, 4),
+                              color: colors.shadow.withOpacity(0.08),
+                              blurRadius: 24,
+                              offset: const Offset(0, 12),
                             ),
                           ],
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            _buildRow(
-                              context,
-                              title: l10n.plateNumber,
-                              value: report.plateNumber,
+                            /// TOP ACCENT
+                            Container(
+                              height: 4,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                gradient: LinearGradient(
+                                  colors: [colors.primary, colors.secondary],
+                                ),
+                              ),
                             ),
-                            const SizedBox(height: 12),
+
+                            const SizedBox(height: 20),
+
+                            /// PLATE NUMBER
+                            Container(
+                              width: double.infinity,
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 20,
+                                vertical: 16,
+                              ),
+                              decoration: BoxDecoration(
+                                color: colors.surface.withOpacity(0.6),
+                                borderRadius: BorderRadius.circular(16),
+                                border: Border.all(
+                                  color: colors.primary.withOpacity(0.2),
+                                ),
+                              ),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    l10n.plateNumber,
+                                    style: textTheme.labelSmall?.copyWith(
+                                      color: colors.onSurfaceVariant,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 6),
+                                  Text(
+                                    report.plateNumber,
+                                    style: textTheme.titleLarge?.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                      letterSpacing: 1.3,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+
+                            const SizedBox(height: 20),
+
                             _buildRow(
                               context,
                               title: l10n.status,
                               value: report.status,
+                              isStatus: true,
                             ),
 
                             if (report.description.isNotEmpty) ...[
-                              const SizedBox(height: 12),
+                              const SizedBox(height: 20),
                               _buildRow(
                                 context,
                                 title: l10n.description,
@@ -135,7 +180,7 @@ class _ReportDetailsPageState extends State<ReportDetailsPage> {
                               ),
                             ],
 
-                            const SizedBox(height: 16),
+                            const SizedBox(height: 24),
 
                             /// REASONS
                             if (report.reasons.isNotEmpty) ...[
@@ -143,41 +188,49 @@ class _ReportDetailsPageState extends State<ReportDetailsPage> {
                                 l10n.reasons,
                                 style: textTheme.labelMedium?.copyWith(
                                   color: colors.onSurfaceVariant,
+                                  fontWeight: FontWeight.w600,
                                 ),
                               ),
-                              const SizedBox(height: 8),
+                              const SizedBox(height: 12),
                               Wrap(
-                                spacing: 8,
-                                runSpacing: 8,
-                                children: report.reasons
-                                    .map(
-                                      (reason) => Container(
-                                        padding: const EdgeInsets.symmetric(
-                                          horizontal: 12,
-                                          vertical: 6,
-                                        ),
-                                        decoration: BoxDecoration(
-                                          color: colors.secondaryContainer,
-                                          borderRadius: BorderRadius.circular(
-                                            20,
-                                          ),
-                                        ),
-                                        child: Text(
-                                          reason,
-                                          style: textTheme.bodyMedium?.copyWith(
-                                            color: colors.onSecondaryContainer,
-                                          ),
+                                spacing: 10,
+                                runSpacing: 10,
+                                children: report.reasons.map((reason) {
+                                  return Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 14,
+                                      vertical: 8,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        colors: [
+                                          colors.secondary.withOpacity(0.2),
+                                          colors.secondary.withOpacity(0.05),
+                                        ],
+                                      ),
+                                      borderRadius: BorderRadius.circular(14),
+                                      border: Border.all(
+                                        color: colors.secondary.withOpacity(
+                                          0.25,
                                         ),
                                       ),
-                                    )
-                                    .toList(),
+                                    ),
+                                    child: Text(
+                                      reason,
+                                      style: textTheme.bodyMedium?.copyWith(
+                                        color: colors.secondary,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  );
+                                }).toList(),
                               ),
                             ],
                           ],
                         ),
                       ),
 
-                      const Spacer(),
+                      const SizedBox(height: 30),
 
                       /// ACTIONS
                       Row(
@@ -195,7 +248,19 @@ class _ReportDetailsPageState extends State<ReportDetailsPage> {
                                   : Icon(Icons.delete, color: colors.error),
                               label: Text(
                                 l10n.delete,
-                                style: TextStyle(color: colors.error),
+                                style: TextStyle(
+                                  color: colors.error,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              style: OutlinedButton.styleFrom(
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 14,
+                                ),
+                                side: BorderSide(color: colors.error),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(14),
+                                ),
                               ),
                               onPressed: isLoading
                                   ? null
@@ -212,7 +277,21 @@ class _ReportDetailsPageState extends State<ReportDetailsPage> {
                           Expanded(
                             child: ElevatedButton.icon(
                               icon: const Icon(Icons.edit),
-                              label: Text(l10n.edit),
+                              label: Text(
+                                l10n.edit,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              style: ElevatedButton.styleFrom(
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 14,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(14),
+                                ),
+                                elevation: 2,
+                              ),
                               onPressed: isLoading
                                   ? null
                                   : () {
@@ -230,6 +309,8 @@ class _ReportDetailsPageState extends State<ReportDetailsPage> {
                           ),
                         ],
                       ),
+
+                      const SizedBox(height: 20),
                     ],
                   ),
                 );
@@ -247,6 +328,7 @@ class _ReportDetailsPageState extends State<ReportDetailsPage> {
     BuildContext context, {
     required String title,
     required String value,
+    bool isStatus = false,
   }) {
     final textTheme = Theme.of(context).textTheme;
     final colors = Theme.of(context).colorScheme;
@@ -258,13 +340,39 @@ class _ReportDetailsPageState extends State<ReportDetailsPage> {
           title,
           style: textTheme.labelMedium?.copyWith(
             color: colors.onSurfaceVariant,
+            fontWeight: FontWeight.w500,
           ),
         ),
-        const SizedBox(height: 4),
-        Text(
-          value,
-          style: textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600),
-        ),
+        const SizedBox(height: 6),
+        isStatus
+            ? Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 14,
+                  vertical: 6,
+                ),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      colors.primary.withOpacity(0.15),
+                      colors.primary.withOpacity(0.05),
+                    ],
+                  ),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Text(
+                  value,
+                  style: textTheme.bodyMedium?.copyWith(
+                    color: colors.primary,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              )
+            : Text(
+                value,
+                style: textTheme.bodyLarge?.copyWith(
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
       ],
     );
   }
@@ -279,6 +387,7 @@ class _ReportDetailsPageState extends State<ReportDetailsPage> {
     showDialog(
       context: context,
       builder: (dialogContext) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: Text(l10n.deleteReport),
         content: Text(l10n.deleteConfirmation),
         actions: [
@@ -291,7 +400,10 @@ class _ReportDetailsPageState extends State<ReportDetailsPage> {
               Navigator.pop(dialogContext);
               cubit.deleteReport(id);
             },
-            child: Text(l10n.delete),
+            child: Text(
+              l10n.delete,
+              style: TextStyle(color: Theme.of(context).colorScheme.error),
+            ),
           ),
         ],
       ),

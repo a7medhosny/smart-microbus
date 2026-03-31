@@ -1174,6 +1174,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Please enter the reason'**
   String get enterDescriptionError;
+
+  /// No description provided for @reports_empty_title.
+  ///
+  /// In en, this message translates to:
+  /// **'No Reports Yet'**
+  String get reports_empty_title;
+
+  /// No description provided for @reports_empty_message.
+  ///
+  /// In en, this message translates to:
+  /// **'You haven\'t submitted any reports yet. Once you do, they will appear here.'**
+  String get reports_empty_message;
+
+  /// No description provided for @all_reports_title.
+  ///
+  /// In en, this message translates to:
+  /// **'All Reports'**
+  String get all_reports_title;
+
+  /// No description provided for @filter_reports.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter Reports'**
+  String get filter_reports;
+
+  /// No description provided for @from.
+  ///
+  /// In en, this message translates to:
+  /// **'From'**
+  String get from;
+
+  /// No description provided for @to.
+  ///
+  /// In en, this message translates to:
+  /// **'To'**
+  String get to;
+
+  /// No description provided for @apply.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply'**
+  String get apply;
+
+  /// No description provided for @reset.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset'**
+  String get reset;
+
+  /// No description provided for @reports.
+  ///
+  /// In en, this message translates to:
+  /// **'Reports'**
+  String get reports;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

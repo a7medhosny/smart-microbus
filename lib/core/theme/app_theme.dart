@@ -157,6 +157,7 @@ class AppTheme {
       surface: AppColorsLight.surface,
       onSurface: AppColorsLight.textPrimary,
       onSurfaceVariant: AppColorsLight.textSecondary,
+      tertiary: Color(0xffF59E0B),
     ),
 
     /// AppBar
@@ -266,6 +267,7 @@ class AppTheme {
       surface: AppColorsDark.surface,
       onSurface: AppColorsDark.textPrimary,
       onSurfaceVariant: AppColorsDark.textSecondary,
+      tertiary: Color(0xffF59E0B),
     ),
 
     /// AppBar

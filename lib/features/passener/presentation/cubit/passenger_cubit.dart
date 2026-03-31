@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smart_microbus/features/passener/domain/entities/report_item_entity.dart';
 
 import '../../../../core/storage/cache_helper.dart';
 import '../../../../core/storage/cache_keys.dart';
@@ -68,7 +69,6 @@ class PassengerCubit extends Cubit<PassengerState> {
     this.getReportByIdUseCase,
     this.deleteReportByIdUseCase,
     this.updateReportUseCase,
-
   ) : super(PassengerInitial());
 
   // ================= STATE DATA =================
@@ -79,6 +79,7 @@ class PassengerCubit extends Cubit<PassengerState> {
   List<DestinationEntity> destinations = [];
   List<PassengerRouteEntity> routes = [];
   List<FavouriteRouteEntity> favouriteRoutes = [];
+  // List<ReportItemEntity> reportItems = [];
 
   int? selectedReasonId;
 
@@ -87,7 +88,7 @@ class PassengerCubit extends Cubit<PassengerState> {
   String? lang = CacheHelper.getCacheData(key: CacheKeys.localeKey);
 
   final List<GlobalKey<NavigatorState>> navigatorKeys = List.generate(
-    3,
+    4,
     (_) => GlobalKey<NavigatorState>(),
   );
 
@@ -100,6 +101,7 @@ class PassengerCubit extends Cubit<PassengerState> {
       lang = CacheHelper.getCacheData(key: CacheKeys.localeKey);
       getRoutes();
       getFavorites();
+      getAllReports();
     }
     // print('lang : ${lang}');
     // print(
@@ -270,70 +272,62 @@ class PassengerCubit extends Cubit<PassengerState> {
   }
 
   AllReportResponseEntity? allReports;
-Report? currentReport;
+  Report? currentReport;
 
-/// ================= GET ALL REPORTS =================
-Future<void> getAllReports({String? plateNumber}) async {
-  emit(GetAllReportsLoading());
+  /// ================= GET ALL REPORTS =================
+  Future<void> getAllReports({AllrportRequestEntity? filters}) async {
+    if (filters == null && allReports != null) {
+      emit(GetAllReportsSuccess(allReports!));
+      return;
+    }
 
-  final result = await getAllReportsUseCase(
-    requestEntity: plateNumber != null
-        ? AllrportRequestEntity(plateNumber: plateNumber)
-        : null,
-  );
+    emit(GetAllReportsLoading());
 
-  result.fold(
-    (failure) => emit(GetAllReportsError(failure.message)),
-    (data) {
+    final result = await getAllReportsUseCase(requestEntity: filters);
+
+    result.fold((failure) => emit(GetAllReportsError(failure.message)), (data) {
       allReports = data;
       emit(GetAllReportsSuccess(data));
-    },
-  );
-}
+    });
+  }
 
-/// ================= GET REPORT BY ID =================
-Future<void> getReportById(String id) async {
-  emit(GetReportByIdLoading());
+  /// ================= GET REPORT BY ID =================
+  Future<void> getReportById(String id) async {
+    emit(GetReportByIdLoading());
 
-  final result = await getReportByIdUseCase(id);
+    final result = await getReportByIdUseCase(id);
 
-  result.fold(
-    (failure) => emit(GetReportByIdError(failure.message)),
-    (data) {
+    result.fold((failure) => emit(GetReportByIdError(failure.message)), (data) {
       currentReport = data;
       emit(GetReportByIdSuccess(data));
-    },
-  );
-}
+    });
+  }
 
-/// ================= DELETE =================
-Future<void> deleteReport(String id) async {
-  emit(DeleteReportLoading());
+  /// ================= DELETE =================
+  Future<void> deleteReport(String id) async {
+    emit(DeleteReportLoading());
 
-  final result = await deleteReportByIdUseCase(id);
+    final result = await deleteReportByIdUseCase(id);
 
-  result.fold(
-    (failure) => emit(DeleteReportError(failure.message)),
-    (data) async {
+    result.fold((failure) => emit(DeleteReportError(failure.message)), (
+      data,
+    ) async {
       await getAllReports();
       emit(DeleteReportSuccess(data.message));
-    },
-  );
-}
+    });
+  }
 
-/// ================= UPDATE =================
-Future<void> updateReport(String id, ReportEntity report) async {
-  emit(UpdateReportLoading());
+  /// ================= UPDATE =================
+  Future<void> updateReport(String id, ReportEntity report) async {
+    emit(UpdateReportLoading());
 
-  final result = await updateReportUseCase(id, report);
+    final result = await updateReportUseCase(id, report);
 
-  result.fold(
-    (failure) => emit(UpdateReportError(failure.message)),
-    (data) async {
+    result.fold((failure) => emit(UpdateReportError(failure.message)), (
+      data,
+    ) async {
       await getReportById(id);
       emit(UpdateReportSuccess(data.message));
-    },
-  );
-}
-
+    });
+  }
 }
