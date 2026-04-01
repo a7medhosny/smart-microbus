@@ -7,8 +7,10 @@ import 'package:smart_microbus/features/Driver/driver_home/presentation/cubit/dr
 import '../../../../../core/helpers/app_error_helper.dart';
 import '../../../../../l10n/app_localizations.dart';
 import '../../domain/entities/driver_current_status.dart';
+import '../widgets/driver_home_skeleton.dart';
 import '../widgets/earnings_summary_section.dart';
 import '../widgets/header_card.dart';
+import '../widgets/in_queue_section.dart';
 import '../widgets/queue_Status.dart';
 import '../widgets/queue_list.dart';
 import '../widgets/started_trip.dart';
@@ -26,9 +28,9 @@ class _DriverHomeViewState extends State<DriverHomeView> {
     super.initState();
 
     final cubit = context.read<DriverHomeCubit>();
-    cubit.connectQueueGlobal();
+    cubit.initRealtime();
     cubit.getCurrentPosition();
-    cubit.getEstimatedDailyEarnings();
+    // cubit.getEstimatedDailyEarnings();
   }
 
   @override
@@ -36,18 +38,7 @@ class _DriverHomeViewState extends State<DriverHomeView> {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       body: SafeArea(
-        child: BlocConsumer<DriverHomeCubit, DriverHomeState>(
-          listener: (context, state) {
-            if (state is GetCurrentPositionError) {
-              ShowToastHelper.showToast(
-                context,
-                state.message,
-                backgroundColor: Colors.red,
-                icon: Icons.error_outline,
-              );
-            }
-          },
-
+        child: BlocBuilder<DriverHomeCubit, DriverHomeState>(
           // builder: (context, state) {
           //   final cubit = context.watch<DriverHomeCubit>();
           //   if (state is GetCurrentPositionError) {
@@ -113,69 +104,87 @@ class _DriverHomeViewState extends State<DriverHomeView> {
               current is GetCurrentPositionSuccess ||
               current is GetCurrentPositionError,
 
-          builder: (context, state) {
-            final cubit = context.watch<DriverHomeCubit>();
+builder: (context, state) {
+  final cubit = context.watch<DriverHomeCubit>();
 
-            /// ================= LOADING =================
-            if (state is GetCurrentPositionLoading) {
-              return const Center(child: CircularProgressIndicator());
-            }
+  /// ================= ERROR =================
+  if (state is GetCurrentPositionError) {
+    return AppErrorWidget(
+      message: state.message,
+      onRetry: () {
+        context.read<DriverHomeCubit>().getCurrentPosition();
+      },
+    );
+  }
 
-            /// ================= ERROR =================
-            if (state is GetCurrentPositionError) {
-              return AppErrorWidget(
-                message: state.message,
-                onRetry: () {
-                  context.read<DriverHomeCubit>().getCurrentPosition();
-                },
+  /// ================= LOADING (GLOBAL SKELETON) =================
+  if (state is GetCurrentPositionLoading ||
+      cubit.currentStatus == null) {
+    return const DriverHomeSkeleton();
+  }
+
+  /// ================= SUCCESS =================
+  final status = cubit.currentStatus!;
+
+  return RefreshIndicator(
+    onRefresh: () async {
+      await context.read<DriverHomeCubit>().getCurrentPosition();
+    },
+    child: SingleChildScrollView(
+      physics: const AlwaysScrollableScrollPhysics(),
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        children: [
+          const HeaderCard(),
+          verticalSpace(20),
+
+          AnimatedSwitcher(
+            duration: const Duration(milliseconds: 600),
+            switchInCurve: Curves.easeOutBack,
+            switchOutCurve: Curves.easeInCubic,
+            layoutBuilder: (currentChild, previousChildren) {
+              return Stack(
+                alignment: Alignment.topCenter,
+                children: [
+                  ...previousChildren,
+                  if (currentChild != null) currentChild,
+                ],
               );
-            }
+            },
+            transitionBuilder: (child, animation) {
+              final fade = CurvedAnimation(
+                parent: animation,
+                curve: Curves.easeOut,
+              );
 
-            /// ================= SUCCESS =================
-            if (state is GetCurrentPositionSuccess) {
-              final status = state.currentStatus;
+              final slide = Tween<Offset>(
+                begin: const Offset(0, 0.15),
+                end: Offset.zero,
+              ).animate(animation);
 
-              return RefreshIndicator(
-                onRefresh: () async {
-                  await context.read<DriverHomeCubit>().getCurrentPosition();
-                },
-                child: SingleChildScrollView(
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    children: [
-                      const HeaderCard(),
-                      verticalSpace(20),
+              final scale = Tween<double>(
+                begin: 0.95,
+                end: 1,
+              ).animate(animation);
 
-                      AnimatedSwitcher(
-                        duration: const Duration(milliseconds: 500),
-                        switchInCurve: Curves.easeOut,
-                        switchOutCurve: Curves.easeIn,
-                        transitionBuilder: (child, animation) {
-                          final slideAnimation = Tween<Offset>(
-                            begin: const Offset(0, 0.1),
-                            end: Offset.zero,
-                          ).animate(animation);
-
-                          return FadeTransition(
-                            opacity: animation,
-                            child: SlideTransition(
-                              position: slideAnimation,
-                              child: child,
-                            ),
-                          );
-                        },
-                        child: _buildBodyByStatus(status),
-                      ),
-                    ],
+              return FadeTransition(
+                opacity: fade,
+                child: SlideTransition(
+                  position: slide,
+                  child: ScaleTransition(
+                    scale: scale,
+                    child: child,
                   ),
                 ),
               );
-            }
-
-            /// ================= INITIAL =================
-            return const SizedBox();
-          },
+            },
+            child: _buildBodyByStatus(status),
+          ),
+        ],
+      ),
+    ),
+  );
+}
         ),
       ),
     );
@@ -279,15 +288,20 @@ class _DriverHomeViewState extends State<DriverHomeView> {
     // // }
 
     /// ================= NORMAL UI =================
+    // return Column(
+    //   key: const ValueKey('inQueue'),
+    //   children: const [
+    //     QueueStatusSection(),
+    //     SizedBox(height: 20),
+    //     QueueListSection(),
+    //     // SizedBox(height: 20),
+    //     // EarningsSummarySection(),
+    //   ],
+    // );
+
     return Column(
       key: const ValueKey('inQueue'),
-      children: const [
-        QueueStatusSection(),
-        SizedBox(height: 20),
-        QueueListSection(),
-        SizedBox(height: 20),
-        EarningsSummarySection(),
-      ],
+      children: const [InQueueSection()],
     );
   }
 

@@ -331,36 +331,22 @@ class ChangePassengerBottomNavState extends PassengerState {
   List<Object> get props => [index];
 }
 
-// ================= REPORT =================
+class GetDriverByPlateNumberLoading extends PassengerState {}
 
-// class SubmitReportLoading extends PassengerState {}
+class GetDriverByPlateNumberSuccess extends PassengerState {
+  final StationMicrobusEntity driver;
 
-// class SubmitReportSuccess extends PassengerState {}
+  const GetDriverByPlateNumberSuccess(this.driver);
 
-// class SubmitReportError extends PassengerState {
-//   final String message;
-//   const SubmitReportError(this.message);
+  @override
+  List<Object?> get props => [driver];
+}
 
-//   @override
-//   List<Object?> get props => [message];
-// }
+class GetDriverByPlateNumberError extends PassengerState {
+  final String message;
 
-// ----------------------------
+  const GetDriverByPlateNumberError(this.message);
 
-// class GetReportReasonsLoading extends PassengerState {}
-
-// class GetReportReasonsSuccess extends PassengerState {
-//   final List<ReportReasonEntity> reasons;
-//   const GetReportReasonsSuccess(this.reasons);
-
-//   @override
-//   List<Object?> get props => [reasons];
-// }
-
-// class GetReportReasonsError extends PassengerState {
-//   final String message;
-//   const GetReportReasonsError(this.message);
-
-//   @override
-//   List<Object?> get props => [message];
-// }
+  @override
+  List<Object?> get props => [message];
+}

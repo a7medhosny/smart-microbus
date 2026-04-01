@@ -12,6 +12,10 @@ class TokenManager {
   static String? get token => CacheHelper.getCacheData(key: CacheKeys.token);
   static String? get refreshToken =>
       CacheHelper.getCacheData(key: CacheKeys.refreshToken);
+      
+  static String? get refreshTokenExpirationDateTime =>
+      CacheHelper.getCacheData(key: CacheKeys.refreshTokenExpiration);
+
   static String? get userName =>
       CacheHelper.getCacheData(key: CacheKeys.userName);
   static String? get phone => CacheHelper.getCacheData(key: CacheKeys.phone);

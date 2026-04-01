@@ -20,6 +20,7 @@ import '../../domain/entities/station_microbus_entity.dart';
 import '../../domain/usecases/add_route_to_favourite_use_case.dart';
 import '../../domain/usecases/delete_report_by_id_use_case.dart';
 import '../../domain/usecases/get_all_reports_use_case.dart';
+import '../../domain/usecases/get_driver_by_plate_number.dart';
 import '../../domain/usecases/get_favourite_routes.dart';
 import '../../domain/usecases/get_on_the_way_microbuses_use_case.dart';
 import '../../domain/usecases/get_report_by_id_use_case.dart';
@@ -52,6 +53,7 @@ class PassengerCubit extends Cubit<PassengerState> {
   final GetReportByIdUseCase getReportByIdUseCase;
   final DeleteReportByIdUseCase deleteReportByIdUseCase;
   final UpdateReportUseCase updateReportUseCase;
+  final GetDriverByPlateNumber getDriverByPlateNumber;
 
   PassengerCubit(
     this.getRoutesUseCase,
@@ -69,6 +71,7 @@ class PassengerCubit extends Cubit<PassengerState> {
     this.getReportByIdUseCase,
     this.deleteReportByIdUseCase,
     this.updateReportUseCase,
+    this.getDriverByPlateNumber,
   ) : super(PassengerInitial());
 
   // ================= STATE DATA =================
@@ -94,6 +97,9 @@ class PassengerCubit extends Cubit<PassengerState> {
 
   GlobalKey<NavigatorState> get currentNavigatorKey =>
       navigatorKeys[currentNavIndex];
+
+  bool showSearchField = false;
+  final TextEditingController searchPlateController = TextEditingController();
 
   void changeBottomNavIndex(int index) {
     currentNavIndex = index;
@@ -287,6 +293,7 @@ class PassengerCubit extends Cubit<PassengerState> {
 
     result.fold((failure) => emit(GetAllReportsError(failure.message)), (data) {
       allReports = data;
+      print("🔥 All Reports Loaded: ${data.items.length}");
       emit(GetAllReportsSuccess(data));
     });
   }
@@ -312,7 +319,8 @@ class PassengerCubit extends Cubit<PassengerState> {
     result.fold((failure) => emit(DeleteReportError(failure.message)), (
       data,
     ) async {
-      await getAllReports();
+      allReports?.items.removeWhere((report) => report.id == id);
+      getAllReports();
       emit(DeleteReportSuccess(data.message));
     });
   }
@@ -329,5 +337,21 @@ class PassengerCubit extends Cubit<PassengerState> {
       await getReportById(id);
       emit(UpdateReportSuccess(data.message));
     });
+  }
+
+  StationMicrobusEntity? driverByPlate;
+
+  Future<void> getDriverByPlate(String plateNumber) async {
+    emit(GetDriverByPlateNumberLoading());
+
+    final result = await getDriverByPlateNumber(plateNumber);
+
+    result.fold(
+      (failure) => emit(GetDriverByPlateNumberError(failure.message)),
+      (driver) {
+        driverByPlate = driver;
+        emit(GetDriverByPlateNumberSuccess(driver));
+      },
+    );
   }
 }

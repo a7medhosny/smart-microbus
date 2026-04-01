@@ -3,12 +3,14 @@ import 'package:get_it/get_it.dart';
 import 'package:smart_microbus/core/networking/dio_factory.dart';
 import 'package:smart_microbus/features/Driver/driver_home/data/datasources/queue_signalr_datasource.dart';
 import 'package:smart_microbus/features/Driver/driver_home/data/repository/driver_home_repository_impl.dart';
+import 'package:smart_microbus/features/Driver/driver_home/domain/usecases/connect_dashboard_use_case.dart';
 import 'package:smart_microbus/features/Driver/driver_home/domain/usecases/connect_queue.dart';
 import 'package:smart_microbus/features/Driver/driver_home/domain/usecases/end_trip_use_case.dart';
 import 'package:smart_microbus/features/Driver/driver_home/domain/usecases/get_current_position_use_case.dart';
 import 'package:smart_microbus/features/Driver/driver_home/domain/usecases/get_estimated_daily_earnings_use_case.dart';
 import 'package:smart_microbus/features/Driver/driver_home/domain/usecases/get_station_queue_use_case.dart';
 import 'package:smart_microbus/features/Driver/driver_home/domain/usecases/get_trip_history_use_case.dart';
+import 'package:smart_microbus/features/Driver/driver_home/domain/usecases/listen_to_dashboard_notifications_use_case.dart';
 import 'package:smart_microbus/features/Driver/driver_home/domain/usecases/listen_to_queue_notifications_use_case.dart';
 import 'package:smart_microbus/features/Driver/driver_home/domain/usecases/start_trip_use_case.dart';
 import 'package:smart_microbus/features/Driver/driver_home/presentation/cubit/driver_home_cubit.dart';
@@ -44,9 +46,11 @@ import '../../features/Driver/driver_home/data/datasources/driver_home_data_sour
 import '../../features/Driver/driver_home/data/datasources/queue_signalr_datasource_impl.dart';
 import '../../features/Driver/driver_home/domain/repository/driver_home_repository.dart'
     show DriverHomeRepository;
+import '../../features/Driver/driver_home/domain/usecases/disconnect_queue.dart';
 import '../../features/passener/data/datasource/passenger_remote_data_source_impl.dart';
 import '../../features/passener/data/repos/passenger_repo_impl.dart';
 import '../../features/passener/domain/usecases/add_route_to_favourite_use_case.dart';
+import '../../features/passener/domain/usecases/get_driver_by_plate_number.dart';
 import '../../features/passener/domain/usecases/get_favourite_routes.dart';
 import '../../features/passener/domain/usecases/get_on_the_way_microbuses_use_case.dart';
 import '../../features/passener/domain/usecases/get_report_reasons_use_case.dart';
@@ -275,6 +279,16 @@ void _driverDependencies() {
   getIt.registerLazySingleton<EndTripUseCase>(
     () => EndTripUseCase(getIt<DriverHomeRepository>()),
   );
+  getIt.registerLazySingleton<ConnectDashboardUseCase>(
+    () => ConnectDashboardUseCase(getIt<DriverHomeRepository>()),
+  );
+  getIt.registerLazySingleton<ListenToDashboardNotificationsUseCase>(
+    () => ListenToDashboardNotificationsUseCase(getIt<DriverHomeRepository>())
+    ,
+  );
+  getIt.registerLazySingleton<DisconnectQueue>(
+    () => DisconnectQueue(getIt<DriverHomeRepository>()),
+  );
 
   // ================= CUBIT =================
 
@@ -285,9 +299,12 @@ void _driverDependencies() {
       getIt<GetStationQueueUseCase>(),
       getIt<GetTripHistoryUseCase>(),
       getIt<ListenToQueueNotificationsUseCase>(),
+      getIt<ListenToDashboardNotificationsUseCase>(),
       getIt<ConnectQueue>(),
+      getIt<ConnectDashboardUseCase>(),
       getIt<StartTripUseCase>(),
       getIt<EndTripUseCase>(),
+      getIt<DisconnectQueue>(),
     ),
   );
   // ================= Passenger Dependencies =================
@@ -356,6 +373,10 @@ void _driverDependencies() {
     () => GetReportByIdUseCase(getIt<PassengerRepo>()),
   );
 
+  getIt.registerLazySingleton<GetDriverByPlateNumber>(
+    () => GetDriverByPlateNumber(getIt<PassengerRepo>()),
+  );
+
   getIt.registerFactory<PassengerCubit>(
     () => PassengerCubit(
       getIt<GetRoutesUseCase>(),
@@ -372,7 +393,8 @@ void _driverDependencies() {
       getIt<GetAllReportsUseCase>(),
       getIt<GetReportByIdUseCase>(),
       getIt<DeleteReportByIdUseCase>(),
-      getIt<UpdateReportUseCase>()
+      getIt<UpdateReportUseCase>(),
+      getIt<GetDriverByPlateNumber>(),
     ),
   );
 }

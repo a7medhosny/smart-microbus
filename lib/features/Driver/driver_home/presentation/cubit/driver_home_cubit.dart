@@ -2,15 +2,17 @@ import 'dart:async';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smart_microbus/features/Driver/driver_home/domain/usecases/disconnect_queue.dart';
 
 import '../../../../../core/auth/token_helper.dart';
 import '../../../../../core/auth/token_manager.dart';
 import '../../../../../core/config/app_config.dart';
-
 import '../../../../../core/storage/cache_helper.dart';
 import '../../../../../core/storage/cache_keys.dart';
+
 import '../../data/mock/driver_home_mock_data.dart';
 
+import '../../domain/entities/dashboard_event.dart';
 import '../../domain/entities/driver_current_status.dart';
 import '../../domain/entities/earning.dart';
 import '../../domain/entities/queue_event.dart';
@@ -18,12 +20,14 @@ import '../../domain/entities/queue_item.dart';
 import '../../domain/entities/trip.dart';
 import '../../domain/entities/trip_history_response.dart';
 
+import '../../domain/usecases/connect_dashboard_use_case.dart';
 import '../../domain/usecases/connect_queue.dart';
 import '../../domain/usecases/end_trip_use_case.dart';
 import '../../domain/usecases/get_current_position_use_case.dart';
 import '../../domain/usecases/get_estimated_daily_earnings_use_case.dart';
 import '../../domain/usecases/get_station_queue_use_case.dart';
 import '../../domain/usecases/get_trip_history_use_case.dart';
+import '../../domain/usecases/listen_to_dashboard_notifications_use_case.dart';
 import '../../domain/usecases/listen_to_queue_notifications_use_case.dart';
 import '../../domain/usecases/start_trip_use_case.dart';
 
@@ -36,9 +40,13 @@ class DriverHomeCubit extends Cubit<DriverHomeState> {
   final GetStationQueueUseCase getStationQueueUseCase;
   final GetTripHistoryUseCase getTripHistoryUseCase;
   final ListenToQueueNotificationsUseCase listenToQueueNotificationsUseCase;
+  final ListenToDashboardNotificationsUseCase
+  listenToDashboardNotificationsUseCase;
   final ConnectQueue connectQueue;
+  final ConnectDashboardUseCase connectDashboardUseCase;
   final StartTripUseCase startTripUseCase;
   final EndTripUseCase endTripUseCase;
+  final DisconnectQueue disconnectQueue;
 
   DriverHomeCubit(
     this.getCurrentPositionUseCase,
@@ -46,9 +54,12 @@ class DriverHomeCubit extends Cubit<DriverHomeState> {
     this.getStationQueueUseCase,
     this.getTripHistoryUseCase,
     this.listenToQueueNotificationsUseCase,
+    this.listenToDashboardNotificationsUseCase,
     this.connectQueue,
+    this.connectDashboardUseCase,
     this.startTripUseCase,
     this.endTripUseCase,
+    this.disconnectQueue,
   ) : super(DriverHomeInitial());
 
   // ================= STATE DATA =================
@@ -57,18 +68,16 @@ class DriverHomeCubit extends Cubit<DriverHomeState> {
   List<QueueItem>? queue;
   DriverCurrentStatus? currentStatus;
   Earning? earning;
-
   TripHistoryResponse? tripHistory;
-
+  bool turnNotified = false;
   int totalAmount = 0;
 
-  DateTime? tripToDate=DateTime.now() ;
-  DateTime? tripFromDate=DateTime.now() .subtract(const Duration(days: 7));
+  DateTime? tripToDate = DateTime.now();
+  DateTime? tripFromDate = DateTime.now().subtract(const Duration(days: 7));
 
   // ================= PAGINATION =================
   final int pageSize = 10;
   int currentPage = 1;
-  bool turnNotified = false;
 
   String? lang = CacheHelper.getCacheData(key: CacheKeys.localeKey);
 
@@ -87,19 +96,28 @@ class DriverHomeCubit extends Cubit<DriverHomeState> {
 
   void changeBottomNavIndex(int index) {
     currentNavIndex = index;
+
     if (lang != CacheHelper.getCacheData(key: CacheKeys.localeKey)) {
       lang = CacheHelper.getCacheData(key: CacheKeys.localeKey);
       getCurrentPosition();
       getTripHistory();
     }
+
     emit(ChangeDriverBottomNavState(index));
   }
 
   // ================= STREAM =================
   StreamSubscription? _queueSubscription;
+  StreamSubscription? _dashboardSubscription;
 
   String? _currentListeningId;
   bool _isConnecting = false;
+
+  // ================= INIT =================
+  Future<void> initRealtime() async {
+    await connectDashboardGlobal();
+    // await connectQueueGlobal();
+  }
 
   // ================= CURRENT POSITION =================
   Future<void> getCurrentPosition() async {
@@ -131,6 +149,7 @@ class DriverHomeCubit extends Cubit<DriverHomeState> {
     );
   }
 
+  // ================= QUEUE HELPERS =================
   int getMyQueueIndex() {
     if (queue == null || queue!.isEmpty) return -1;
 
@@ -191,17 +210,16 @@ class DriverHomeCubit extends Cubit<DriverHomeState> {
   }
 
   // ================= REALTIME QUEUE =================
-  Future<void> connectQueueGlobal() async {
-    if (_queueSubscription != null) return;
-
-    _queueSubscription = listenToQueueNotificationsUseCase().listen(
-      _handleQueueEvent,
-      onError: (error) => emit(ListenQueueNotificationsError(error.toString())),
-    );
-  }
-
   Future<void> listenToQueueNotifications(String queueId) async {
-    if (_currentListeningId == queueId || _isConnecting) return;
+    if (_currentListeningId == queueId && _queueSubscription != null) return;
+    if (_isConnecting) return;
+
+    print("🔌 Connecting + Listening to Queue: $queueId");
+
+    // 🧹 clean old
+    await _queueSubscription?.cancel();
+    _queueSubscription = null;
+    _currentListeningId = null;
 
     _isConnecting = true;
 
@@ -213,8 +231,16 @@ class DriverHomeCubit extends Cubit<DriverHomeState> {
         emit(ListenQueueNotificationsError(failure.message));
       },
       (_) {
-        _currentListeningId = queueId;
         _isConnecting = false;
+        _currentListeningId = queueId;
+
+        _queueSubscription = listenToQueueNotificationsUseCase().listen(
+          _handleQueueEvent,
+          onError: (error) =>
+              emit(ListenQueueNotificationsError(error.toString())),
+        );
+
+        print("✅ Queue listening started");
       },
     );
   }
@@ -228,23 +254,93 @@ class DriverHomeCubit extends Cubit<DriverHomeState> {
 
       currentQueue.sort((a, b) => (a.position ?? 0).compareTo(b.position ?? 0));
 
-      if (event.driver.driverId == TokenManager.userId) {
-        getCurrentPosition();
-      }
+      // if (event.driver.driverId == TokenManager.userId) {
+      //   getCurrentPosition();
+      // }
     }
 
     if (event is DriverRemovedEvent) {
+      print("🚫 Driver removed from queue: ${event.driverId}");
       currentQueue.removeWhere((d) => d.driverId == event.driverId);
 
-      if (event.driverId == TokenManager.userId) {
-        myPosition = null;
-        getCurrentPosition();
-      }
+      // if (event.driverId == TokenManager.userId) {
+      //   myPosition = null;
+      //   getCurrentPosition();
+      // }
     }
 
     queue = currentQueue;
     emit(QueueRealtimeUpdated(List.from(queue!)));
   }
+
+  Future<void> _disconnectQueueCompletely() async {
+    try {
+      await disconnectQueue();
+
+      await _queueSubscription?.cancel();
+      _queueSubscription = null;
+
+      _currentListeningId = null;
+      queue = null;
+
+      print("✅ Queue disconnected بالكامل");
+    } catch (e) {
+      print("❌ Error while disconnecting queue: $e");
+    }
+  }
+
+  // ================= REALTIME DASHBOARD =================
+  Future<void> connectDashboardGlobal() async {
+    if (_dashboardSubscription != null) return;
+
+    final result = await connectDashboardUseCase();
+
+    result.fold(
+      (failure) => emit(ListenQueueNotificationsError(failure.message)),
+      (_) {
+        _dashboardSubscription = listenToDashboardNotificationsUseCase().listen(
+          _handleDashboardEvent,
+          onError: (error) =>
+              emit(ListenQueueNotificationsError(error.toString())),
+        );
+      },
+    );
+  }
+
+  Future<void> _handleDashboardEvent(DashboardEvent event) async {
+    if (event is DashboardUpdatedEvent) {
+      final status = event.data.status;
+      final data = event.data;
+
+      print("📊 Dashboard Status: $status");
+
+      // ✅ لو دخل في رحلة
+      if (status == "OnTrip") {
+        print("🚗 Driver is OnTrip → Disconnecting Queue...");
+
+        _disconnectQueueCompletely();
+      }
+       currentStatus = data;
+        myPosition = data.queue;
+        currentTrip = data.trip;
+
+        emit(GetCurrentPositionSuccess(data));
+
+        if (data.queue != null) {
+          await listenToQueueNotifications(data.queue!.queueId);
+
+          await getStationQueue(
+            driverId: TokenHelper.extractUserId(TokenManager.token ?? '') ?? '',
+            queueId: data.queue!.queueId,
+          );
+        }
+
+
+      // getCurrentPosition();
+    }
+  }
+
+
 
   // ================= TRIP HISTORY =================
   Future<void> getTripHistory({
@@ -291,9 +387,11 @@ class DriverHomeCubit extends Cubit<DriverHomeState> {
     getTripHistory();
   }
 
+  // ================= CLOSE =================
   @override
   Future<void> close() async {
     await _queueSubscription?.cancel();
+    await _dashboardSubscription?.cancel();
     return super.close();
   }
 }

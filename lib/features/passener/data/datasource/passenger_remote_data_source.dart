@@ -30,4 +30,6 @@ abstract class PassengerRemoteDataSource {
     ReportRequestBodyModel report,
   );
   Future<AllReportResponseModel> getAllReports(AllReportRequestModel request);
+
+  Future<StationMicrobusModel> getDriverByPlateNumber(String plateNumber);
 }

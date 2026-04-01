@@ -10,12 +10,12 @@ StationMicrobusModel _$StationMicrobusModelFromJson(
   Map<String, dynamic> json,
 ) => StationMicrobusModel(
   passengerCount: (json['passengerCount'] as num).toInt(),
-  model: json['model'] as String,
-  color: json['color'] as String,
+  model: json['model'] as String? ?? '',
+  color: json['color'] as String? ?? '',
   driverId: json['driverId'] as String,
   driverName: json['driverName'] as String,
-  position: (json['position'] as num).toInt(),
-  status: json['status'] as String,
+  position: (json['position'] as num?)?.toInt() ?? 0,
+  status: json['status'] as String? ?? '',
   plateNumber: json['plateNumber'] as String,
 );
 

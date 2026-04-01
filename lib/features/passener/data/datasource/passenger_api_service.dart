@@ -73,4 +73,10 @@ abstract class PassengerApiService {
     @Path('id') String id,
     @Body() ReportRequestBodyModel report,
   );
+
+   @GET(ApiConstants.getDriverByPlateNumber)
+  Future<StationMicrobusModel> getDriverByPlateNumber(
+    @Query('plateNumber') String plateNumber,
+  );
+
 }

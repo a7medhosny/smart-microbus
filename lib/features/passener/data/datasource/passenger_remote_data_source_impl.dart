@@ -95,4 +95,9 @@ class PassengerRemoteDataSourceImpl implements PassengerRemoteDataSource {
   Future<AllReportResponseModel> getAllReports(AllReportRequestModel request) {
     return apiService.getAllReports(request.toQuery());
   }
+
+  @override
+  Future<StationMicrobusModel> getDriverByPlateNumber(String plateNumber) {
+    return apiService.getDriverByPlateNumber(plateNumber);
+  }
 }

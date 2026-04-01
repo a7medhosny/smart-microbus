@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_microbus/core/helpers/app_error_helper.dart';
@@ -20,6 +22,7 @@ class AllReportScreen extends StatefulWidget {
 
 class _AllReportScreenState extends State<AllReportScreen> {
   final TextEditingController plateController = TextEditingController();
+
 
   DateTime? fromDate;
   DateTime? toDate;
@@ -229,6 +232,8 @@ class _AllReportScreenState extends State<AllReportScreen> {
   @override
   Widget build(BuildContext context) {
     final tr = AppLocalizations.of(context)!;
+    final cubit = context.read<PassengerCubit>();
+    
 
     return Scaffold(
       appBar: AppBar(
@@ -242,6 +247,92 @@ class _AllReportScreenState extends State<AllReportScreen> {
       ),
       body: Column(
         children: [
+          //    /// ================= NEW FEATURE =================
+          // /// Search by plate Number for testing u can delete
+
+          // Padding(
+          //   padding: const EdgeInsets.all(12),
+          //   child: ElevatedButton.icon(
+          //     onPressed: () {
+          //       setState(() {
+          //         cubit.showSearchField = !cubit.showSearchField;
+          //       });
+          //     },
+          //     icon: const Icon(Icons.search),
+          //     label: const Text("Search by plate"),
+          //   ),
+          // ),
+
+          // if (cubit.showSearchField)
+          //   Padding(
+          //     padding: const EdgeInsets.symmetric(horizontal: 12),
+          //     child: TextField(
+          //       controller: cubit.searchPlateController,
+          //       textInputAction: TextInputAction.search,
+          //       onChanged: (value) {
+          //         if (_debounce?.isActive ?? false) {
+          //           _debounce!.cancel();
+          //         }
+
+          //         _debounce =
+          //             Timer(const Duration(milliseconds: 500), () {
+          //           if (value.isNotEmpty) {
+          //             context
+          //                 .read<PassengerCubit>()
+          //                 .getDriverByPlate(value);
+          //           }
+          //         });
+          //       },
+          //       decoration: InputDecoration(
+          //         labelText: tr.plate_number,
+          //         prefixIcon:
+          //             const Icon(Icons.directions_car),
+          //         border: const OutlineInputBorder(),
+          //       ),
+          //     ),
+          //   ),
+
+          // BlocBuilder<PassengerCubit, PassengerState>(
+          //   buildWhen: (previous, current) =>
+          //       current is GetDriverByPlateNumberLoading ||
+          //       current is GetDriverByPlateNumberSuccess ||
+          //       current is GetDriverByPlateNumberError,
+          //   builder: (context, state) {
+          //     if (state is GetDriverByPlateNumberLoading) {
+          //       return const Padding(
+          //         padding: EdgeInsets.all(12),
+          //         child: LinearProgressIndicator(),
+          //       );
+          //     }
+
+          //     if (state is GetDriverByPlateNumberError) {
+          //       return Padding(
+          //         padding: const EdgeInsets.all(12),
+          //         child: Text(
+          //           state.message,
+          //           style: const TextStyle(color: Colors.red),
+          //         ),
+          //       );
+          //     }
+
+          //     if (state is GetDriverByPlateNumberSuccess) {
+          //       final driver = state.driver;
+
+          //       return Card(
+          //         margin: const EdgeInsets.all(12),
+          //         child: ListTile(
+          //           leading: const Icon(Icons.directions_bus),
+          //           title: Text(driver.plateNumber ?? ""),
+          //           subtitle: Text(
+          //               "Passengers: ${driver.passengerCount}"),
+          //         ),
+          //       );
+          //     }
+
+          //     return const SizedBox();
+          //   },
+          // ),
+
           /// LIST
           Expanded(
             child: BlocBuilder<PassengerCubit, PassengerState>(
@@ -250,6 +341,7 @@ class _AllReportScreenState extends State<AllReportScreen> {
                   current is GetAllReportsSuccess ||
                   current is GetAllReportsError,
               builder: (context, state) {
+                print("Current State: $state"); 
                 if (state is GetAllReportsLoading) {
                   return const Center(child: CircularProgressIndicator());
                 }

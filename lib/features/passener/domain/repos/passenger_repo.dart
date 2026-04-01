@@ -43,4 +43,8 @@ abstract class PassengerRepo {
     String id,
     ReportEntity report,
   );
+
+  Future<Either<Failure, StationMicrobusEntity>> getDriverByPlateNumber(
+    String plateNumber,
+  );
 }

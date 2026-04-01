@@ -5,6 +5,7 @@ import 'package:smart_microbus/features/Driver/driver_home/domain/entities/queue
 import 'package:smart_microbus/features/Driver/driver_home/domain/entities/trip_history_response.dart';
 
 import '../../../../../core/error/failure.dart';
+import '../entities/dashboard_event.dart';
 import '../entities/driver_current_status.dart';
 
 abstract class DriverHomeRepository {
@@ -30,4 +31,13 @@ abstract class DriverHomeRepository {
   Future<Either<Failure, Unit>> startTrip({required String driverId});
 
   Future<Either<Failure, Unit>> endTrip({required String driverId});
+
+  Stream<DashboardEvent> listenToDashboardNotifications();
+
+Future<Either<Failure, Unit>> connectToDashboard();
+
+Future<Either<Failure, Unit>> disconnectQueue();
+
+Future<Either<Failure, Unit>> disconnectDashboard();
+
 }

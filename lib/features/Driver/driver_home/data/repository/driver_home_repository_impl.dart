@@ -9,6 +9,7 @@ import 'package:smart_microbus/features/Driver/driver_home/domain/entities/queue
 import 'package:smart_microbus/features/Driver/driver_home/domain/entities/trip_history_response.dart';
 import 'package:smart_microbus/features/Driver/driver_home/domain/repository/driver_home_repository.dart';
 
+import '../../domain/entities/dashboard_event.dart';
 import '../../domain/entities/driver_current_status.dart';
 import '../datasources/driver_home_data_source.dart';
 import '../datasources/queue_signalr_datasource.dart';
@@ -81,20 +82,60 @@ class DriverHomeRepositoryImpl extends DriverHomeRepository {
     }
   }
 
+
+
+  // ================= SIGNALR =================
+
   @override
   Stream<QueueEvent> listenToQueueNotifications() {
     return signalRDataSource.queueEvents;
   }
 
   @override
+  Stream<DashboardEvent> listenToDashboardNotifications() {
+    return signalRDataSource.dashboardEvents;
+  }
+
+  @override
   Future<Either<Failure, Unit>> connectToQueue(String queueId) async {
     try {
-      await signalRDataSource.connect(queueId);
+      await signalRDataSource.connectQueue(queueId); 
       return const Right(unit);
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, Unit>> connectToDashboard() async {
+    try {
+      await signalRDataSource.connectDashboard();
+      return const Right(unit);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> disconnectQueue() async {
+    try {
+      await signalRDataSource.disconnectQueue();
+      return const Right(unit);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> disconnectDashboard() async {
+    try {
+      await signalRDataSource.disconnectDashboard();
+      return const Right(unit);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
 
   @override
   Future<Either<Failure, Unit>> startTrip({required String driverId}) async {
