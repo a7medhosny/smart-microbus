@@ -228,7 +228,12 @@
 "to": "إلى",
 "apply": "تطبيق",
 "reset": "إعادة تعيين",
-"reports": "بلاغات"
+"reports": "بلاغات",
+"model": "الموديل",
+  "color": "اللون",
+  "plate_number": "رقم العربية",
+  "report": "بلاغ",
+  "already_reported": "تم الإبلاغ بالفعل"
 
 
 

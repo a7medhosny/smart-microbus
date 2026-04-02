@@ -452,7 +452,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get report_title => 'إبلاغ عن سائق';
 
   @override
-  String get plate_number => 'رقم اللوحة';
+  String get plate_number => 'رقم العربية';
 
   @override
   String get report_reason => 'سبب الإبلاغ';
@@ -594,4 +594,16 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get reports => 'بلاغات';
+
+  @override
+  String get model => 'الموديل';
+
+  @override
+  String get color => 'اللون';
+
+  @override
+  String get report => 'بلاغ';
+
+  @override
+  String get already_reported => 'تم الإبلاغ بالفعل';
 }

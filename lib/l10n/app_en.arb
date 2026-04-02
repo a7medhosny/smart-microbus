@@ -227,12 +227,18 @@
 "from": "From",
 "to": "To","apply": "Apply",
 "reset": "Reset",
-"reports": "Reports"
+"reports": "Reports",
+ "model": "Model",
+  "color": "Color",
+  "plate_number": "Plate Number",
+  "report": "Report",
+  "already_reported": "Already Reported"
 
 
 
 }
   
+
 
 
 

@@ -594,4 +594,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get reports => 'Reports';
+
+  @override
+  String get model => 'Model';
+
+  @override
+  String get color => 'Color';
+
+  @override
+  String get report => 'Report';
+
+  @override
+  String get already_reported => 'Already Reported';
 }

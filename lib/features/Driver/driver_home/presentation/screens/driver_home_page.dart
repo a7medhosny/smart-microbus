@@ -104,87 +104,84 @@ class _DriverHomeViewState extends State<DriverHomeView> {
               current is GetCurrentPositionSuccess ||
               current is GetCurrentPositionError,
 
-builder: (context, state) {
-  final cubit = context.watch<DriverHomeCubit>();
+          builder: (context, state) {
+            final cubit = context.watch<DriverHomeCubit>();
 
-  /// ================= ERROR =================
-  if (state is GetCurrentPositionError) {
-    return AppErrorWidget(
-      message: state.message,
-      onRetry: () {
-        context.read<DriverHomeCubit>().getCurrentPosition();
-      },
-    );
-  }
-
-  /// ================= LOADING (GLOBAL SKELETON) =================
-  if (state is GetCurrentPositionLoading ||
-      cubit.currentStatus == null) {
-    return const DriverHomeSkeleton();
-  }
-
-  /// ================= SUCCESS =================
-  final status = cubit.currentStatus!;
-
-  return RefreshIndicator(
-    onRefresh: () async {
-      await context.read<DriverHomeCubit>().getCurrentPosition();
-    },
-    child: SingleChildScrollView(
-      physics: const AlwaysScrollableScrollPhysics(),
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        children: [
-          const HeaderCard(),
-          verticalSpace(20),
-
-          AnimatedSwitcher(
-            duration: const Duration(milliseconds: 600),
-            switchInCurve: Curves.easeOutBack,
-            switchOutCurve: Curves.easeInCubic,
-            layoutBuilder: (currentChild, previousChildren) {
-              return Stack(
-                alignment: Alignment.topCenter,
-                children: [
-                  ...previousChildren,
-                  if (currentChild != null) currentChild,
-                ],
+            /// ================= ERROR =================
+            if (state is GetCurrentPositionError) {
+              return AppErrorWidget(
+                message: state.message,
+                onRetry: () {
+                  context.read<DriverHomeCubit>().getCurrentPosition();
+                },
               );
-            },
-            transitionBuilder: (child, animation) {
-              final fade = CurvedAnimation(
-                parent: animation,
-                curve: Curves.easeOut,
-              );
+            }
 
-              final slide = Tween<Offset>(
-                begin: const Offset(0, 0.15),
-                end: Offset.zero,
-              ).animate(animation);
+            /// ================= LOADING (GLOBAL SKELETON) =================
+            if (state is GetCurrentPositionLoading ||
+                cubit.currentStatus == null) {
+              return const DriverHomeSkeleton();
+            }
 
-              final scale = Tween<double>(
-                begin: 0.95,
-                end: 1,
-              ).animate(animation);
+            /// ================= SUCCESS =================
+            final status = cubit.currentStatus!;
 
-              return FadeTransition(
-                opacity: fade,
-                child: SlideTransition(
-                  position: slide,
-                  child: ScaleTransition(
-                    scale: scale,
-                    child: child,
-                  ),
+            return RefreshIndicator(
+              onRefresh: () async {
+                await context.read<DriverHomeCubit>().getCurrentPosition();
+              },
+              child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  children: [
+                    const HeaderCard(),
+                    verticalSpace(20),
+
+                    AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 600),
+                      switchInCurve: Curves.easeOutCubic,
+                      switchOutCurve: Curves.easeInCubic,
+                      layoutBuilder: (currentChild, previousChildren) {
+                        return Stack(
+                          alignment: Alignment.topCenter,
+                          children: [
+                            ...previousChildren,
+                            if (currentChild != null) currentChild,
+                          ],
+                        );
+                      },
+                      transitionBuilder: (child, animation) {
+                        final fade = CurvedAnimation(
+                          parent: animation,
+                          curve: Curves.easeOut,
+                        );
+
+                        final slide = Tween<Offset>(
+                          begin: const Offset(0, 0.15),
+                          end: Offset.zero,
+                        ).animate(animation);
+
+                        final scale = Tween<double>(
+                          begin: 0.95,
+                          end: 1,
+                        ).animate(animation);
+
+                        return FadeTransition(
+                          opacity: fade,
+                          child: SlideTransition(
+                            position: slide,
+                            child: ScaleTransition(scale: scale, child: child),
+                          ),
+                        );
+                      },
+                      child: _buildBodyByStatus(status),
+                    ),
+                  ],
                 ),
-              );
-            },
-            child: _buildBodyByStatus(status),
-          ),
-        ],
-      ),
-    ),
-  );
-}
+              ),
+            );
+          },
         ),
       ),
     );

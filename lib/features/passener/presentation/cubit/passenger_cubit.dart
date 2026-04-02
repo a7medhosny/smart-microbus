@@ -260,10 +260,13 @@ class PassengerCubit extends Cubit<PassengerState> {
 
     final result = await submitReportUseCase(report);
 
-    result.fold(
-      (failure) => emit(SubmitReportError(failure.message)),
-      (data) => emit(SubmitReportSuccess(data.message)),
-    );
+    result.fold((failure) => emit(SubmitReportError(failure.message)), (
+      data,
+    ) async {
+      allReports = null;
+      await getAllReports();
+      emit(SubmitReportSuccess(data.message));
+    });
   }
 
   Future<void> getReportReasons() async {
@@ -353,5 +356,10 @@ class PassengerCubit extends Cubit<PassengerState> {
         emit(GetDriverByPlateNumberSuccess(driver));
       },
     );
+  }
+
+  void resetDriverSearch() {
+    driverByPlate = null;
+    emit(PassengerInitial());
   }
 }

@@ -21,6 +21,7 @@ import '../../features/Driver/driver_home/presentation/screens/driver_trip_histo
 import '../../features/passener/presentation/screens/all_report_screen.dart';
 import '../../features/passener/presentation/screens/passenger_nav_screen.dart';
 import '../../features/passener/presentation/screens/report_details_screen.dart';
+import '../../features/passener/presentation/screens/report_screen.dart';
 import '../../features/passener/presentation/widgets/search_result_widgets/on_the_way_list_screen.dart';
 import '../../features/passener/presentation/widgets/search_result_widgets/station_list_screen.dart';
 import 'routes.dart';
@@ -140,6 +141,9 @@ class AppRouter {
       case Routes.reportDetailsPage:
         final String reportId = settings.arguments as String;
         return _materialRoute(ReportDetailsPage(reportId: reportId));
+      case Routes.reportPage:
+        final String plateNumber = settings.arguments as String;
+        return _materialRoute(ReportPage(plateNumber: plateNumber));
 
       //   case Routes.navigationWrapper:
       //     return _materialRoute(

@@ -320,27 +320,24 @@ class DriverHomeCubit extends Cubit<DriverHomeState> {
 
         _disconnectQueueCompletely();
       }
-       currentStatus = data;
-        myPosition = data.queue;
-        currentTrip = data.trip;
+      currentStatus = data;
+      myPosition = data.queue;
+      currentTrip = data.trip;
 
-        emit(GetCurrentPositionSuccess(data));
+      emit(GetCurrentPositionSuccess(data));
 
-        if (data.queue != null) {
-          await listenToQueueNotifications(data.queue!.queueId);
+      if (data.queue != null) {
+        await listenToQueueNotifications(data.queue!.queueId);
 
-          await getStationQueue(
-            driverId: TokenHelper.extractUserId(TokenManager.token ?? '') ?? '',
-            queueId: data.queue!.queueId,
-          );
-        }
-
+        await getStationQueue(
+          driverId: TokenHelper.extractUserId(TokenManager.token ?? '') ?? '',
+          queueId: data.queue!.queueId,
+        );
+      }
 
       // getCurrentPosition();
     }
   }
-
-
 
   // ================= TRIP HISTORY =================
   Future<void> getTripHistory({

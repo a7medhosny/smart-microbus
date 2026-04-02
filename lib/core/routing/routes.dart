@@ -29,4 +29,5 @@ class Routes {
   // static const navigationWrapper = '/navigationWrapper';
   static const String driverNavigationScreen = '/driverNavigationScreen';
   static const String passengerNavigationScreen = '/passengerNavigationScreen';
+  static const String reportPage = '/ReportPage';
 }
