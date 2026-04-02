@@ -9,7 +9,6 @@ class ConfirmDeleteDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final primaryColor = Theme.of(context).colorScheme.primary;
     final theme = Theme.of(context);
     final tr = AppLocalizations.of(context)!;
     return Dialog(

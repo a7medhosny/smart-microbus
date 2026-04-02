@@ -232,7 +232,11 @@
   "color": "Color",
   "plate_number": "Plate Number",
   "report": "Report",
-  "already_reported": "Already Reported"
+  "already_reported": "Already Reported",
+  "rejected": "Rejected",
+    "approved": "Approved",
+    "pending": "Pending"
+
 
 
 

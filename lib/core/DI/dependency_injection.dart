@@ -337,10 +337,7 @@ void _driverDependencies() {
   getIt.registerLazySingleton<GetOnTheWayMicrobusesUseCase>(
     () => GetOnTheWayMicrobusesUseCase(getIt<PassengerRepo>()),
   );
-  // getIt.registerLazySingleton<GetReportReasonsUseCase>(
-  //   () => GetReportReasonsUseCase(getIt<PassengerRepo>()),
-  // )
-  ;
+
   getIt.registerLazySingleton<AddRouteToFavouriteUseCase>(
     () => AddRouteToFavouriteUseCase(getIt<PassengerRepo>()),
   );

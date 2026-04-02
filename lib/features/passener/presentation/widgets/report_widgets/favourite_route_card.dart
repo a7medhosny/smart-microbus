@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_microbus/features/passener/domain/entities/favourite_route_entity.dart';
 import 'package:smart_microbus/l10n/app_localizations.dart';
 
-import '../../../../core/helpers/extensions.dart';
-import '../../../../core/routing/routes.dart';
-import '../cubit/passenger_cubit.dart';
+import '../../../../../core/helpers/extensions.dart';
+import '../../../../../core/routing/routes.dart';
+import '../../cubit/passenger_cubit.dart';
 
 class FavouriteRouteCard extends StatelessWidget {
   final FavouriteRouteEntity route;
@@ -84,70 +84,7 @@ class FavouriteRouteCard extends StatelessWidget {
 
             const SizedBox(height: 16),
 
-            // /// ================= BOTTOM =================
-            // Row(
-            //   children: [
-            //     /// 💰 السعر
-            //     Expanded(
-            //       child: Container(
-            //         padding: const EdgeInsets.all(12),
-            //         decoration: BoxDecoration(
-            //           color:
-            //               theme.colorScheme.primary.withOpacity(0.1),
-            //           borderRadius: BorderRadius.circular(12),
-            //         ),
-            //         child: Column(
-            //           children: [
-            //             Text(
-            //               l10n.
-            //               priceLabel
-            //               ,
-            //               style: theme.textTheme.bodySmall,
-            //             ),
-            //             const SizedBox(height: 4),
-            //             Text(
-            //               l10n.priceInCurrency(route.price),
-            //               style: theme.textTheme.bodyMedium?.copyWith(
-            //                 fontWeight: FontWeight.bold,
-            //               ),
-            //             ),
-            //           ],
-            //         ),
-            //       ),
-            //     ),
-
-            //     const SizedBox(width: 10),
-
-            // /// 🚌 Route ID
-            // Expanded(
-            //   child: Container(
-            //     padding: const EdgeInsets.all(12),
-            //     decoration: BoxDecoration(
-            //       color:
-            //           theme.colorScheme.primary.withOpacity(0.1),
-            //       borderRadius: BorderRadius.circular(12),
-            //     ),
-            //     child: Column(
-            //       children: [
-            //         Text(
-            //           l10n.
-            //           routeLabel
-            //           ,
-            //           style: theme.textTheme.bodySmall,
-            //         ),
-            //         const SizedBox(height: 4),
-            //         Text(
-            //           route.,
-            //           style: theme.textTheme.bodyMedium?.copyWith(
-            //             fontWeight: FontWeight.bold,
-            //           ),
-            //         ),
-            //       ],
-            //     ),
-            //   ),
-            // ),
-            // ],
-            // ),
+           
           ],
         ),
       ),

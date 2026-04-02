@@ -159,6 +159,7 @@ class _LoginFormBodyState extends State<LoginFormBody> {
                   phone: user.phone,
                   userId: TokenHelper.extractUserId(user.token) ?? '',
                 );
+                DioFactory.setTokenIntoHeaderAfterLogin(user.token);
                 if (isDriver) {
                   context.pushNamedAndRemoveUntilRoot(
                     Routes.driverNavigationScreen,

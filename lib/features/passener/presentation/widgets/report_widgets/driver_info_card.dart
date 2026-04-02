@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../../l10n/app_localizations.dart';
-import '../../domain/entities/station_microbus_entity.dart';
+import '../../../../../l10n/app_localizations.dart';
+import '../../../domain/entities/station_microbus_entity.dart';
 
 class DriverInfoCard extends StatelessWidget {
   final StationMicrobusEntity driver;

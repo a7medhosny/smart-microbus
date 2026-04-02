@@ -197,6 +197,8 @@ class PassengerRepoImpl implements PassengerRepo {
       );
 
       return Right(response.toEntity());
+    } on DioException catch (e) {
+      return Left(ErrorHandler.handle(e));
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }
@@ -244,14 +246,12 @@ class PassengerRepoImpl implements PassengerRepo {
     }
   }
 
-    @override
+  @override
   Future<Either<Failure, StationMicrobusEntity>> getDriverByPlateNumber(
     String plateNumber,
   ) async {
     try {
-      final driver = await remoteDataSource.getDriverByPlateNumber(
-        plateNumber,
-      );
+      final driver = await remoteDataSource.getDriverByPlateNumber(plateNumber);
       return Right(driver);
     } on DioException catch (e) {
       return Left(ErrorHandler.handle(e));

@@ -17,8 +17,6 @@ abstract class DriverHomeApiService {
   Future<DriverCurrentStatusModel> getCurrentPosition();
   @GET(ApiConstants.stationQueue)
   Future<List<QueueItemModel>> getStationQueue({
-    // @Path('stationId') required String stationId,
-    // @Path('routeId') required String routeId,
     @Query('driverId') required String driverId,
   });
   @GET(ApiConstants.tripHistory)

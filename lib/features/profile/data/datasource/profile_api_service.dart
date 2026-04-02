@@ -28,6 +28,5 @@ abstract class ProfileApiService {
 
   @DELETE(ApiConstants.deletePhotoEndpoint)
   Future<BaseResponseModel> deleteProfilePhoto();
-  // @POST(ApiConstants.resetPasswordEndpoint)
-  // Future<void> resetPassword(@Body() ResetPasswordModel model);
+ 
 }

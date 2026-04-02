@@ -5,13 +5,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_microbus/core/helpers/app_error_helper.dart';
 import 'package:smart_microbus/core/helpers/extensions.dart';
 import 'package:smart_microbus/core/widgets/empty_list.dart';
-import 'package:smart_microbus/features/passener/presentation/widgets/driver_info_card.dart';
+import 'package:smart_microbus/features/passener/presentation/widgets/report_widgets/driver_info_card.dart';
 import 'package:smart_microbus/l10n/app_localizations.dart';
 import '../../../../core/routing/routes.dart';
 import '../../domain/entities/all_report_request_entity.dart';
 import '../cubit/passenger_cubit.dart';
-import '../widgets/add_report_sheet.dart';
-import '../widgets/report_card_mini.dart';
+import '../widgets/report_widgets/add_report_sheet.dart';
+import '../widgets/report_widgets/plate_input_field.dart';
+import '../widgets/report_widgets/report_card_mini.dart';
 
 import 'report_details_screen.dart';
 
@@ -76,7 +77,17 @@ class _AllReportScreenState extends State<AllReportScreen> {
 
   void _openFilterSheet() {
     final tr = AppLocalizations.of(context)!;
-    final tempPlate = TextEditingController(text: plateController.text);
+    final letter1Controller = TextEditingController();
+    final letter2Controller = TextEditingController();
+    final numbersController = TextEditingController();
+
+    if (plateController.text.isNotEmpty && plateController.text.length >= 3) {
+      final plate = plateController.text;
+
+      letter1Controller.text = plate[0];
+      letter2Controller.text = plate[2];
+      numbersController.text = plate.substring(3);
+    }
     DateTime? tempFrom = fromDate;
     DateTime? tempTo = toDate;
 
@@ -121,13 +132,11 @@ class _AllReportScreenState extends State<AllReportScreen> {
                     const SizedBox(height: 16),
 
                     /// Plate
-                    TextField(
-                      controller: tempPlate,
-                      decoration: InputDecoration(
-                        labelText: tr.plate_number,
-                        prefixIcon: Icon(Icons.directions_car),
-                        border: OutlineInputBorder(),
-                      ),
+                    PlateInputField(
+                      label: tr.plate_number,
+                      letter1Controller: letter1Controller,
+                      letter2Controller: letter2Controller,
+                      numbersController: numbersController,
                     ),
 
                     const SizedBox(height: 16),
@@ -174,7 +183,11 @@ class _AllReportScreenState extends State<AllReportScreen> {
                           child: ElevatedButton(
                             onPressed: () {
                               setState(() {
-                                plateController.text = tempPlate.text;
+                                final plate =
+                                    "${letter1Controller.text} ${letter2Controller.text} ${numbersController.text}"
+                                        .trim();
+
+                                plateController.text = plate;
                                 fromDate = tempFrom;
                                 toDate = tempTo;
                               });
@@ -190,7 +203,9 @@ class _AllReportScreenState extends State<AllReportScreen> {
                           child: OutlinedButton(
                             onPressed: () {
                               setModalState(() {
-                                tempPlate.clear();
+                                letter1Controller.clear();
+                                letter2Controller.clear();
+                                numbersController.clear();
                                 tempFrom = null;
                                 tempTo = null;
                               });

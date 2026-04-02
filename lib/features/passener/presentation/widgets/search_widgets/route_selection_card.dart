@@ -76,39 +76,7 @@ void initState() {
           ),
           const SizedBox(height: 6),
 
-          // BlocBuilder<PassengerCubit, PassengerState>(
-           
-          //   builder: (context, state) {
-          //     if (state is GetRoutesLoading) {
-          //       return const Center(
-          //         child: Padding(
-          //           padding: EdgeInsets.all(12),
-          //           child: CircularProgressIndicator(),
-          //         ),
-          //       );
-          //     }
-
-          //     if (state is GetRoutesError) {
-          //       return Column(
-          //         children: [
-          //           const Icon(
-          //             Icons.error_outline,
-          //             color: Colors.red,
-          //             size: 40,
-          //           ),
-          //           const SizedBox(height: 8),
-          //           Text(state.message, textAlign: TextAlign.center),
-          //           const SizedBox(height: 10),
-          //           ElevatedButton(
-          //             onPressed: () =>
-          //                 context.read<PassengerCubit>().getRoutes(),
-          //             child: Text(l10n.retry),
-          //           ),
-          //         ],
-          //       );
-          //     }
-
-          //     if (state is GetRoutesSuccess) {
+         
                  DropdownButtonFormField<String>(
                   initialValue: selectedCity,
                   hint: Text(l10n.selectCity),

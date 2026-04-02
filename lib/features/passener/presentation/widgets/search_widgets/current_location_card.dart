@@ -29,20 +29,7 @@ class CurrentLocationCard extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          // InkWell(
-          //   onTap: () {
-          //     //TODO
-          //     Navigator.push(
-          //       context,
-          //       MaterialPageRoute(builder: (_) => FavoritesScreen()),
-          //     );
-          //   },
-          //   child: CircleAvatar(
-          //     radius: 24,
-          //     backgroundColor: Colors.white.withOpacity(.15),
-          //     child: const Icon(Icons.favorite, color: Colors.white, size: 20),
-          //   ),
-          // ),
+         
 
           /// 👤 Avatar
           InkWell(

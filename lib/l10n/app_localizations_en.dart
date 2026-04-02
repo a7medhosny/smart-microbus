@@ -606,4 +606,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get already_reported => 'Already Reported';
+
+  @override
+  String get rejected => 'Rejected';
+
+  @override
+  String get approved => 'Approved';
+
+  @override
+  String get pending => 'Pending';
 }

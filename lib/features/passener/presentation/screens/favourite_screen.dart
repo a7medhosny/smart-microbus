@@ -7,7 +7,7 @@ import 'package:smart_microbus/l10n/app_localizations.dart';
 
 import '../../../../core/helpers/app_error_helper.dart';
 import '../../../../core/widgets/empty_list.dart';
-import '../widgets/favourite_route_card.dart';
+import '../widgets/report_widgets/favourite_route_card.dart';
 
 class FavoritesScreen extends StatefulWidget {
   const FavoritesScreen({super.key});

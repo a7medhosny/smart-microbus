@@ -233,7 +233,10 @@
   "color": "اللون",
   "plate_number": "رقم العربية",
   "report": "بلاغ",
-  "already_reported": "تم الإبلاغ بالفعل"
+  "already_reported": "تم الإبلاغ بالفعل",
+  "rejected": "مرفوض",
+    "approved": "مقبول",
+    "pending": "قيد الانتظار"
 
 
 

@@ -2,16 +2,7 @@ import 'package:flutter/material.dart';
 // //Auth
 import 'package:smart_microbus/core/routing/routes.dart';
 import 'package:smart_microbus/features/passener/presentation/screens/all_report_screen.dart';
-// import 'package:smart_microbus/core/storage/cache_keys.dart';
-// import 'package:smart_microbus/features/profile/presentation/cubit/profile_cubit.dart';
-// import 'package:smart_microbus/features/register/presentation/pages/register_screen.dart';
-// import 'package:smart_microbus/features/register/presentation/pages/verify_otp_screen.dart';
-// import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:smart_microbus/core/DI/dependency_injection.dart';
-// import 'package:smart_microbus/features/Auth/login/presentation/cubit/cubit/login_cubit.dart';
-// import 'package:smart_microbus/features/Auth/login/presentation/screens/forgetp_password_screen.dart';
-// import 'package:smart_microbus/features/Auth/login/presentation/screens/login_Screen.dart';
-// import 'package:smart_microbus/features/Auth/login/presentation/screens/reset_password_screen.dart';
+
 
 // Passenger
 import 'package:smart_microbus/features/passener/presentation/screens/passenger_search_view.dart';
@@ -88,69 +79,10 @@ class TabRouter {
         final plateNumber = settings.arguments as String;
         return _route(ReportPage(plateNumber: plateNumber));
 
-      /// Driver (لو هتزود بعدين)
+      /// Driver 
       case Routes.driverTripHistory:
         return _route(const DriverTripHistoryScreen());
-      // case Routes.login:
-      //   return _route(
-      //     BlocProvider(
-      //       create: (context) => getIt<LoginCubit>(),
-      //       child: const LoginScreen(),
-      //     ),
-      //   );
-
-      // // ================= forget password =================
-      // case Routes.forgotPassword:
-      //   return _route(
-      //     BlocProvider(
-      //       create: (context) => getIt<LoginCubit>(),
-      //       child: ForgetpPasswordScreen(),
-      //     ),
-      //   );
-
-      // case Routes.profile:
-      //   return _route(
-      //     BlocProvider(
-      //       create: (context) => getIt<ProfileCubit>(),
-      //       child: ProfileScreen(),
-      //     ),
-      //   );
-
-      // // ================= reset password =================
-      // case Routes.resetPassword:
-      //   final args = settings.arguments as Map<String, dynamic>;
-      //   final String phone = args[CacheKeys.phone];
-      //   final String token = args[CacheKeys.token];
-      //   final String userId = args[CacheKeys.userId];
-      //   return _route(
-      //     BlocProvider(
-      //       create: (context) => getIt<LoginCubit>(),
-      //       child: ResetPasswordScreen(
-      //         phone: phone,
-      //         token: token,
-      //         userId: userId,
-      //       ),
-      //     ),
-      //   );
-      // // ================= REGISTER =================
-      // case Routes.register:
-      //   return _route(const RegisterScreen());
-
-      // // ================= OTP VERIFICATION =================
-      // case Routes.otpVerification:
-      //   {
-      //     final args = settings.arguments as Map<String, dynamic>;
-
-      //     final String phoneNumber = args["phone"];
-      //     final String from = args["from"];
-      //     return _route(VerifyOtpScreen(phoneNumber: phoneNumber, from: from));
-      //   }
-
-      // case Routes.passengerNavigationScreen:
-      //   return _route(PassengerNavigationScreen());
-
-      // case Routes.driverNavigationScreen:
-      //   return _route(DriverNavigationScreen());
+     
       default:
         return null;
     }

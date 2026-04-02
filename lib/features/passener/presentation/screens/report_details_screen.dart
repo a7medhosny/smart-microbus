@@ -22,6 +22,8 @@ class _ReportDetailsPageState extends State<ReportDetailsPage> {
     context.read<PassengerCubit>().getReportById(widget.reportId);
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -86,6 +88,19 @@ class _ReportDetailsPageState extends State<ReportDetailsPage> {
 
               if (state is GetReportByIdSuccess) {
                 final report = state.report;
+                String getStatusText() {
+                  final l10n = AppLocalizations.of(context)!;
+                  switch (report.status.toLowerCase()) {
+                    case "pending":
+                      return l10n.pending;
+                    case "approved":
+                      return l10n.approved;
+                    case "rejected":
+                      return l10n.rejected;
+                    default:
+                      return l10n.pending;
+                  }
+                }
 
                 return SingleChildScrollView(
                   padding: const EdgeInsets.all(16),
@@ -167,7 +182,7 @@ class _ReportDetailsPageState extends State<ReportDetailsPage> {
                             _buildRow(
                               context,
                               title: l10n.status,
-                              value: report.status,
+                              value: getStatusText(),
                               isStatus: true,
                             ),
 

@@ -36,8 +36,5 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
     return api.uploadUserPhoto(file);
   }
 
-  // @override
-  // Future<void> resetPassword(ResetPasswordModel model) {
-  //   return api.resetPassword(model);
-  // }
+
 }

@@ -27,11 +27,7 @@ import '../../features/passener/presentation/widgets/search_result_widgets/stati
 import 'routes.dart';
 
 // ================= IMPORT SCREENS =================
-// Auth
-// import 'package:smart_microbus/features/auth/login_screen.dart';
 
-// Layout
-// import 'package:smart_microbus/features/layout/layout_screen.dart';
 
 class AppRouter {
   Route<dynamic>? onGenerateRoute(RouteSettings settings) {
@@ -115,8 +111,7 @@ class AppRouter {
         );
 
       // ================= Passenger  =================
-      // case Routes.navigationScreen:
-      //   return _materialRoute(MainNavigationScreen());
+ 
       case Routes.passengerSearch:
         return _materialRoute(PassengerSearchView());
       case Routes.passengerSearchResultScreen:
@@ -145,17 +140,6 @@ class AppRouter {
         final String plateNumber = settings.arguments as String;
         return _materialRoute(ReportPage(plateNumber: plateNumber));
 
-      //   case Routes.navigationWrapper:
-      //     return _materialRoute(
-      //       BlocProvider(
-      //         create: (context) => NavCubit(),
-      //         child: const MainNavigationScreen(),
-      //       ),
-      //     );
-      //   // ================= DEFAULT =================
-      //   default:
-      //     return null;
-      // }
     }
     return null;
   }

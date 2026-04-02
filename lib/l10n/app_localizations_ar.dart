@@ -606,4 +606,13 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get already_reported => 'تم الإبلاغ بالفعل';
+
+  @override
+  String get rejected => 'مرفوض';
+
+  @override
+  String get approved => 'مقبول';
+
+  @override
+  String get pending => 'قيد الانتظار';
 }

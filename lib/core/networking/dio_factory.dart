@@ -62,6 +62,18 @@ class DioFactory {
     );
   }
 
+  static void setTokenIntoHeaderAfterLogin(String token) {
+    if (_dio == null) return;
+
+    _dio!.options.headers['Authorization'] = 'Bearer $token';
+
+    final alreadyAdded = _dio!.interceptors.any((i) => i is AuthInterceptor);
+
+    if (!alreadyAdded) {
+      _dio!.interceptors.add(AuthInterceptor(_dio!));
+    }
+  }
+  
   static void removeAuthInterceptor() {
     if (_dio == null) return;
 
@@ -72,6 +84,9 @@ class DioFactory {
     _dio!.options.headers.remove('Authorization');
   }
 }
+
+
+
 
 class AuthInterceptor extends Interceptor {
   final Dio dio;

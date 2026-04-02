@@ -1,6 +1,10 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:smart_microbus/features/passener/domain/entities/report_item_entity.dart';
+
+import '../../../../../l10n/app_localizations.dart';
 
 class ReportCardMini extends StatelessWidget {
   final ReportItemEntity report;
@@ -27,6 +31,19 @@ class ReportCardMini extends StatelessWidget {
         return Colors.red;
       default:
         return colors.primary;
+    }
+  }
+  String getStatusText(BuildContext context) {
+     final l10n = AppLocalizations.of(context)!;
+    switch (report.status.toLowerCase()) {
+      case "pending":
+        return l10n.pending;
+      case "approved":
+        return l10n.approved;
+      case "rejected":
+        return l10n.rejected;
+      default:
+        return l10n.pending;
     }
   }
 
@@ -118,7 +135,7 @@ class ReportCardMini extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Text(
-                report.status,
+                getStatusText(context),
                 style: TextStyle(
                   color: statusColor,
                   fontSize: 12,

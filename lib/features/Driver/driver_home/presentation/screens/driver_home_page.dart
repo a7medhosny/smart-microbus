@@ -39,66 +39,7 @@ class _DriverHomeViewState extends State<DriverHomeView> {
       backgroundColor: Theme.of(context).colorScheme.surface,
       body: SafeArea(
         child: BlocBuilder<DriverHomeCubit, DriverHomeState>(
-          // builder: (context, state) {
-          //   final cubit = context.watch<DriverHomeCubit>();
-          //   if (state is GetCurrentPositionError) {
-          //     return _errorState(context, state.message);
-          //   }
-
-          //   /// ================= LOADING =================
-          //   if (!cubit.positionLoaded || state is GetCurrentPositionLoading) {
-          //     return const Center(child: CircularProgressIndicator());
-          //   }
-
-          //   final status = cubit.currentStatus;
-
-          //   /// ================= NO DATA =================
-          //   if (status == null) {
-          //     return _emptyState(context);
-          //   }
-
-          //   return RefreshIndicator(
-          //     onRefresh: () async {
-          //       await context.read<DriverHomeCubit>().getCurrentPosition();
-          //     },
-          //     child: SingleChildScrollView(
-          //       physics: const AlwaysScrollableScrollPhysics(),
-          //       padding: const EdgeInsets.all(16),
-          //       child: Column(
-          //         children: [
-          //           const HeaderCard(),
-          //           verticalSpace(20),
-
-          //           /// 👇 dynamic UI based on status
-          //           // AnimatedSwitcher(
-          //           //   duration: const Duration(milliseconds: 300),
-          //           //   child: _buildBodyByStatus(status),
-          //           // ),
-          //           AnimatedSwitcher(
-          //             duration: const Duration(milliseconds: 500),
-          //             switchInCurve: Curves.easeOut,
-          //             switchOutCurve: Curves.easeIn,
-          //             transitionBuilder: (child, animation) {
-          //               final slideAnimation = Tween<Offset>(
-          //                 begin: const Offset(0, 0.1),
-          //                 end: Offset.zero,
-          //               ).animate(animation);
-
-          //               return FadeTransition(
-          //                 opacity: animation,
-          //                 child: SlideTransition(
-          //                   position: slideAnimation,
-          //                   child: child,
-          //                 ),
-          //               );
-          //             },
-          //             child: _buildBodyByStatus(status),
-          //           ),
-          //         ],
-          //       ),
-          //     ),
-          //   );
-          // },
+         
           buildWhen: (previous, current) =>
               current is GetCurrentPositionLoading ||
               current is GetCurrentPositionSuccess ||
@@ -264,38 +205,7 @@ class _DriverHomeViewState extends State<DriverHomeView> {
 
   /// ================= IN QUEUE =================
   Widget _inQueueUI(DriverCurrentStatus status) {
-    // final cubit = context.watch<DriverHomeCubit>();
-
-    // final queue = cubit.queue;
-    // final myPos = cubit.myPosition;
-
-    // /// ================= LOADING =================
-    // if (queue == null || myPos == null) {
-    //   return const Center(
-    //     child: Padding(
-    //       padding: EdgeInsets.all(20),
-    //       child: CircularProgressIndicator(),
-    //     ),
-    //   );
-    // }
-
-    // // /// ================= EMPTY QUEUE =================
-    // // if (queue.isEmpty) {
-    // //   return _emptyQueue(context);
-    // // }
-
-    /// ================= NORMAL UI =================
-    // return Column(
-    //   key: const ValueKey('inQueue'),
-    //   children: const [
-    //     QueueStatusSection(),
-    //     SizedBox(height: 20),
-    //     QueueListSection(),
-    //     // SizedBox(height: 20),
-    //     // EarningsSummarySection(),
-    //   ],
-    // );
-
+   
     return Column(
       key: const ValueKey('inQueue'),
       children: const [InQueueSection()],

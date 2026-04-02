@@ -108,9 +108,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               MenuTile(Icons.dark_mode_outlined, () {
                                 context.read<ThemeCubit>().toggleTheme();
                               }, tr.changeTheme),
-                              // MenuTile(Icons.lock_outline, () {
-                              //   // context.pushNamed(Routes.changePass);
-                              // }, tr.changePassword),
+                           
                             ],
                           ),
 

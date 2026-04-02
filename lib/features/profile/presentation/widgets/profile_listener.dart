@@ -24,6 +24,10 @@ class ProfileListener extends StatelessWidget {
           
           ShowToastHelper.showToast(context, 'Logout successful');
           TokenManager.clearLoginData();
+
+    DioFactory.removeAuthInterceptor();
+
+ 
           context.read<PassengerCubit>().currentNavIndex = 0;
           context.read<DriverHomeCubit>().currentNavIndex = 0;
           navigatorKey.currentState!.pushNamedAndRemoveUntil(
@@ -33,6 +37,8 @@ class ProfileListener extends StatelessWidget {
         } else if (state is ProfileDeleteAccountSuccess) {
           ShowToastHelper.showToast(context, state.message);
           TokenManager.clearLoginData();
+              DioFactory.removeAuthInterceptor();
+
           navigatorKey.currentState!.pushNamedAndRemoveUntil(
             Routes.register,
             (route) => false,
