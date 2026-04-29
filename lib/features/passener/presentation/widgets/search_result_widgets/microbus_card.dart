@@ -148,15 +148,15 @@ class MicrobusCard extends StatelessWidget {
                     onTap: () async {
                       final cubit = context.read<PassengerCubit>();
 
-                      await cubit.getAllReports(
-                        filters: AllrportRequestEntity(
-                          plateNumber: plateNumber,
-                        ),
-                      );
+                      // await cubit.getAllReports(
+                      //   filters: AllrportRequestEntity(
+                      //     plateNumber: plateNumber,
+                      //   ),
+                      // );
 
                       final reports = cubit.allReports?.items ?? [];
 
-                      if (reports.isEmpty) {
+                      if (reports.isEmpty || reports.every((r) => r.plateNumber != plateNumber)) {
                         /// ➜ اعمل Report جديد
                         Navigator.push(
                           context,
@@ -167,7 +167,7 @@ class MicrobusCard extends StatelessWidget {
                         );
                       } else {
                         /// ➜ عنده Report بالفعل
-                        final reportId = reports.first.id;
+                        final reportId = reports.firstWhere((r) => r.plateNumber == plateNumber).id;
 
                         Navigator.push(
                           context,

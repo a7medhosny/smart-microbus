@@ -7,8 +7,14 @@ part of 'route_model.dart';
 // **************************************************************************
 
 PassengerRouteModel _$PassengerRouteModelFromJson(Map<String, dynamic> json) =>
-    PassengerRouteModel(cityName: json['cityName'] as String);
+    PassengerRouteModel(
+      cityName: json['cityName'] as String,
+      stationId: json['stationId'] as String,
+    );
 
 Map<String, dynamic> _$PassengerRouteModelToJson(
   PassengerRouteModel instance,
-) => <String, dynamic>{'cityName': instance.cityName};
+) => <String, dynamic>{
+  'cityName': instance.cityName,
+  'stationId': instance.stationId,
+};

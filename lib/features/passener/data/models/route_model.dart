@@ -6,7 +6,7 @@ part 'route_model.g.dart';
 
 @JsonSerializable()
 class PassengerRouteModel extends PassengerRouteEntity {
-  PassengerRouteModel({required super.cityName});
+  PassengerRouteModel({required super.cityName, required super.stationId});
   factory PassengerRouteModel.fromJson(Map<String, dynamic> json) =>
       _$PassengerRouteModelFromJson(json);
   Map<String, dynamic> toJson() => _$PassengerRouteModelToJson(this);

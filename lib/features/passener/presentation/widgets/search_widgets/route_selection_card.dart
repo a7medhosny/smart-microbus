@@ -15,11 +15,11 @@ class _RouteSelectionCardState extends State<RouteSelectionCard> {
   String? selectedRouteId;
   late PassengerCubit cubit;
 
-@override
-void initState() {
-  super.initState();
-  cubit = context.read<PassengerCubit>();
-}
+  @override
+  void initState() {
+    super.initState();
+    cubit = context.read<PassengerCubit>();
+  }
 
   @override
   void dispose() {
@@ -76,41 +76,44 @@ void initState() {
           ),
           const SizedBox(height: 6),
 
-         
-                 DropdownButtonFormField<String>(
-                  initialValue: selectedCity,
-                  hint: Text(l10n.selectCity),
-                  decoration: buildDecoration(),
-                  items: cubit.routes
-                      .map(
-                        (e) => DropdownMenuItem(
-                          value: e.cityName,
-                          child: Text(e.cityName),
-                        ),
-                      )
-                      .toList(),
-                  onChanged: (value) {
-                    setState(() {
-                      selectedCity = value;
+          DropdownButtonFormField<String>(
+            initialValue: selectedCity,
+            hint: Text(l10n.selectCity),
+            decoration: buildDecoration(),
+            items: cubit.routes
+                .map(
+                  (e) => DropdownMenuItem(
+                    value: e.cityName,
+                    child: Text(e.cityName),
+                  ),
+                )
+                .toList(),
+            onChanged: (value) {
+              setState(() {
+                selectedCity = value;
 
-                      /// reset
-                      selectedRouteId = null;
-                      cubit.selectedRouteId = null;
-                      cubit.destinations = [];
+                /// reset
+                selectedRouteId = null;
+                cubit.selectedRouteId = null;
+                cubit.destinations = [];
 
-                      cubit.selectedCity = value;
-                      cubit.selectedDestination = null;
-                    });
+                cubit.selectedCity = value;
+                cubit.selectedDestination = null;
+              });
 
-                    cubit.getRouteDestination(value!);
-                  },
-                ),
-              // }
+              final selectedRoute = cubit.routes.firstWhere(
+                (e) => e.cityName == value,
+              );
 
-              // return const SizedBox();
-            // },
+              cubit.getRouteDestination(selectedRoute.stationId);
+            },
+          ),
+
+          // }
+
+          // return const SizedBox();
+          // },
           // );
-
           const SizedBox(height: 16),
 
           /// ================= ICON =================
@@ -171,5 +174,4 @@ void initState() {
       ),
     );
   }
-
 }

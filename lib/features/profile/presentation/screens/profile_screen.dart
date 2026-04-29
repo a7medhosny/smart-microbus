@@ -11,12 +11,14 @@ import '../../../../core/auth/token_manager.dart';
 import '../../../../core/helpers/spacing.dart';
 import '../../../../core/localization/locale_cubit.dart';
 
+import '../../../../core/localization/locale_state.dart';
 import '../../../../core/theme/theme_cubit.dart';
 import '../cubit/profile_cubit.dart';
 
 import '../cubit/profile_state.dart';
 import '../widgets/confirm_dialog.dart';
 import '../widgets/menu_tile.dart';
+import '../widgets/menu_switch_tile.dart';
 import '../widgets/profile_header.dart';
 import '../widgets/section_title.dart';
 
@@ -99,19 +101,40 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                           verticalSpace(15),
                           SectionTitle(tr.actions),
-
                           SectionCard(
                             children: [
-                              MenuTile(Icons.language, () {
-                                context.read<LocaleCubit>().toggleLocale();
-                              }, tr.changeLanguage),
-                              MenuTile(Icons.dark_mode_outlined, () {
-                                context.read<ThemeCubit>().toggleTheme();
-                              }, tr.changeTheme),
-                           
+                              /// Dark Mode
+                              BlocBuilder<ThemeCubit, ThemeMode>(
+                                builder: (context, themeMode) {
+                                  return MenuSwitchTile(
+                                    icon: Icons.dark_mode_outlined,
+                                    title: tr.darkMode,
+                                    value: themeMode == ThemeMode.dark,
+                                    onChanged: (_) {
+                                      context.read<ThemeCubit>().toggleTheme();
+                                    },
+                                  );
+                                },
+                              ),
+
+                              /// English
+                              BlocBuilder<LocaleCubit, LocaleState>(
+                                builder: (context, localeState) {
+                                  return MenuSwitchTile(
+                                    icon: Icons.language,
+                                    title: tr.english,
+                                    value:
+                                        localeState.locale.languageCode == 'en',
+                                    onChanged: (_) {
+                                      context
+                                          .read<LocaleCubit>()
+                                          .toggleLocale();
+                                    },
+                                  );
+                                },
+                              ),
                             ],
                           ),
-
                           verticalSpace(15),
                           SectionTitle(tr.more),
 

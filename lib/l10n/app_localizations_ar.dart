@@ -615,4 +615,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get pending => 'قيد الانتظار';
+
+  @override
+  String get darkMode => 'الوضع الليلي';
+
+  @override
+  String get english => 'الإنجليزية';
 }

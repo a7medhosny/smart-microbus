@@ -236,7 +236,11 @@
   "already_reported": "تم الإبلاغ بالفعل",
   "rejected": "مرفوض",
     "approved": "مقبول",
-    "pending": "قيد الانتظار"
+    "pending": "قيد الانتظار",
+    
+  "darkMode": "الوضع الليلي",
+  "english": "الإنجليزية"
+
 
 
 

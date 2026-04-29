@@ -24,7 +24,7 @@ abstract class PassengerApiService {
   Future<List<PassengerRouteModel>> getRoutes();
   @GET(ApiConstants.routeDestinations)
   Future<List<DestinationModel>> getRouteDestinations(
-    @Query('from') String from,
+    @Query('fromStationId') String from,
   );
 
   @GET('${ApiConstants.routes}/{routeId}/summary')

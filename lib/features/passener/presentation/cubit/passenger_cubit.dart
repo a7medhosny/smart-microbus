@@ -83,6 +83,9 @@ class PassengerCubit extends Cubit<PassengerState> {
   List<PassengerRouteEntity> routes = [];
   List<FavouriteRouteEntity> favouriteRoutes = [];
   // List<ReportItemEntity> reportItems = [];
+  Report? currentReport;
+  AllReportResponseEntity? allReports;
+  AllReportResponseEntity? filteredReports;
 
   int? selectedReasonId;
 
@@ -255,6 +258,20 @@ class PassengerCubit extends Cubit<PassengerState> {
   }
 
   // ================= REPORT =================
+  // Future<void> submitReport(ReportEntity report) async {
+  //   emit(SubmitReportLoading());
+
+  //   final result = await submitReportUseCase(report);
+
+  //   result.fold((failure) => emit(SubmitReportError(failure.message)), (
+  //     data,
+  //   ) async {
+  //     allReports = null;
+  //     await getAllReports();
+  //     emit(SubmitReportSuccess(data.message));
+  //   });
+  // }
+
   Future<void> submitReport(ReportEntity report) async {
     emit(SubmitReportLoading());
 
@@ -263,8 +280,8 @@ class PassengerCubit extends Cubit<PassengerState> {
     result.fold((failure) => emit(SubmitReportError(failure.message)), (
       data,
     ) async {
-      allReports = null;
-      await getAllReports();
+      filteredReports = null; // مهم جدًا
+      await getAllReports(); // رجع كل البيانات fresh
       emit(SubmitReportSuccess(data.message));
     });
   }
@@ -280,22 +297,35 @@ class PassengerCubit extends Cubit<PassengerState> {
     );
   }
 
-  AllReportResponseEntity? allReports;
-  Report? currentReport;
-
   /// ================= GET ALL REPORTS =================
-  Future<void> getAllReports({AllrportRequestEntity? filters}) async {
-    if (filters == null && allReports != null) {
-      emit(GetAllReportsSuccess(allReports!));
-      return;
-    }
+  // Future<void> getAllReports({AllrportRequestEntity? filters}) async {
+  //   if (filters == null && allReports != null) {
+  //     emit(GetAllReportsSuccess(allReports!));
+  //     return;
+  //   }
 
+  //   emit(GetAllReportsLoading());
+
+  //   final result = await getAllReportsUseCase(requestEntity: filters);
+
+  //   result.fold((failure) => emit(GetAllReportsError(failure.message)), (data) {
+  //     allReports = data;
+  //     print("🔥 All Reports Loaded: ${data.items.length}");
+  //     emit(GetAllReportsSuccess(data));
+  //   });
+  // }
+  Future<void> getAllReports({AllrportRequestEntity? filters}) async {
     emit(GetAllReportsLoading());
 
     final result = await getAllReportsUseCase(requestEntity: filters);
 
     result.fold((failure) => emit(GetAllReportsError(failure.message)), (data) {
-      allReports = data;
+      if (filters == null) {
+        allReports = data; // كل الريبورتات
+      } else {
+        filteredReports = data; // فلتر فقط
+      }
+
       print("🔥 All Reports Loaded: ${data.items.length}");
       emit(GetAllReportsSuccess(data));
     });
@@ -323,6 +353,11 @@ class PassengerCubit extends Cubit<PassengerState> {
       data,
     ) async {
       allReports?.items.removeWhere((report) => report.id == id);
+      filteredReports?.items.removeWhere((report) => report.id == id);
+
+      if (allReports != null) {
+        emit(GetAllReportsSuccess(allReports!));
+      }
       getAllReports();
       emit(DeleteReportSuccess(data.message));
     });

@@ -36,11 +36,14 @@ class _AllReportScreenState extends State<AllReportScreen> {
   }
 
   void applyFilter() {
+    final fixedToDate = toDate == null
+        ? null
+        : DateTime(toDate!.year, toDate!.month, toDate!.day, 23, 59, 59);
     context.read<PassengerCubit>().getAllReports(
       filters: AllrportRequestEntity(
         plateNumber: plateController.text.isEmpty ? null : plateController.text,
         fromDate: fromDate,
-        toDate: toDate,
+        toDate: fixedToDate,
         pageNumber: 1,
         pageSize: 10,
       ),
@@ -185,7 +188,8 @@ class _AllReportScreenState extends State<AllReportScreen> {
                               setState(() {
                                 final plate =
                                     "${letter1Controller.text} ${letter2Controller.text} ${numbersController.text}"
-                                        .trim();
+                                        .trim()
+                                        .replaceAll(RegExp(r'\s+'), ' ');
 
                                 plateController.text = plate;
                                 fromDate = tempFrom;
@@ -294,6 +298,9 @@ class _AllReportScreenState extends State<AllReportScreen> {
                   }
 
                   return ListView.builder(
+                    // padding: const EdgeInsets.only(
+                    //   bottom: 80,
+                    // ), // مهم عشان الزرار
                     itemCount: reports.items.length,
                     itemBuilder: (context, index) {
                       final report = reports.items[index];
@@ -315,6 +322,25 @@ class _AllReportScreenState extends State<AllReportScreen> {
               },
             ),
           ),
+
+          // /// BUTTON (بدل الفلوتنج)
+          // SafeArea(
+          //   child: Padding(
+          //     padding: const EdgeInsets.all(16),
+          //     child: SizedBox(
+          //       width: double.infinity,
+          //       child: ElevatedButton.icon(
+          //         onPressed: () => openAddReportSheet(context),
+          //         icon: const Icon(Icons.report),
+          //         label: Text("الإبلاغ عن سائق"), // "الإبلاغ عن سائق"
+          //         style: ElevatedButton.styleFrom(
+          //           padding: const EdgeInsets.symmetric(vertical: 14),
+          //           textStyle: const TextStyle(fontSize: 16),
+          //         ),
+          //       ),
+          //     ),
+          //   ),
+          // ),
         ],
       ),
       floatingActionButton: FloatingActionButton(

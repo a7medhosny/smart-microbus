@@ -56,7 +56,7 @@ class _PassengerApiService implements PassengerApiService {
   @override
   Future<List<DestinationModel>> getRouteDestinations(String from) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'from': from};
+    final queryParameters = <String, dynamic>{r'fromStationId': from};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<List<DestinationModel>>(

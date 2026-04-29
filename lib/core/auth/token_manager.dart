@@ -34,6 +34,16 @@ class TokenManager {
     return exp.isBefore(DateTime.now());
   }
 
+  static bool isRefreshTokenExpired() {
+  final exp = refreshTokenExpirationDateTime;
+  if (exp == null) return true;
+
+  final date = DateTime.tryParse(exp);
+  if (date == null) return true;
+
+  return date.isBefore(DateTime.now());
+}
+
   static Future<void> saveLoginData({
     required String token,
     required String refreshToken,

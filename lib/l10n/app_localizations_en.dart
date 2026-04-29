@@ -615,4 +615,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get pending => 'Pending';
+
+  @override
+  String get darkMode => 'Dark Mode';
+
+  @override
+  String get english => 'English';
 }

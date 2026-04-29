@@ -21,7 +21,8 @@ class PlateInputField extends StatelessWidget {
 
   String getPlate() {
     return "${letter1Controller.text} ${letter2Controller.text} ${numbersController.text}"
-        .trim();
+        .trim()
+        .replaceAll(RegExp(r'\s+'), ' ');
   }
 
   @override

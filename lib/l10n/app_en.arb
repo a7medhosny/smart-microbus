@@ -235,7 +235,11 @@
   "already_reported": "Already Reported",
   "rejected": "Rejected",
     "approved": "Approved",
-    "pending": "Pending"
+    "pending": "Pending",
+    
+  "darkMode": "Dark Mode",
+  "english": "English"
+
 
 
 

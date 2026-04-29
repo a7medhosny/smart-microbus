@@ -209,7 +209,8 @@ class AddReportSheetContent extends StatelessWidget {
                     onPressed: () {
                       final plate =
                          "${letter1Controller.text} ${letter2Controller.text} ${numbersController.text}"
-                              .trim();
+        .trim()
+        .replaceAll(RegExp(r'\s+'), ' ');
 
                       if (plate.length < 5) return;
 

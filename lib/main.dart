@@ -32,16 +32,20 @@ void main() async {
   await NotificationService.requestPermission();
   print("🟢Token: ${TokenManager.token}");
   print("🟢User ID: ${TokenManager.userId}");
-  runApp(const MyApp());
+  final bool isLoggedIn = await initializeAuth();
+
+  runApp(MyApp(isLoggedIn: isLoggedIn));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({super.key, required this.isLoggedIn});
+
+  final bool isLoggedIn;
 
   @override
   Widget build(BuildContext context) {
     final appRouter = AppRouter();
-    final bool isLoggedIn = TokenManager.token != null;
+    // final bool isLoggedIn = TokenManager.token != null;
     final bool isDriver = TokenManager.role == 'Driver';
     final passengerCubit = getIt<PassengerCubit>();
     final driverCubit = getIt<DriverHomeCubit>();

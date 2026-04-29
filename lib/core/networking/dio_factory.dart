@@ -241,6 +241,49 @@ Future<AuthResponseModel> _refreshToken() async {
   return AuthResponseModel.fromJson(response.data);
 }
 
+Future<bool> initializeAuth() async {
+  /// مفيش token → مش logged in
+  if (TokenManager.token == null) return false;
+
+  /// لو access token لسه شغال → تمام
+  if (!TokenManager.isTokenExpired()) {
+    return true;
+  }
+
+  /// access token expired → نشوف refresh
+  if (TokenManager.refreshToken == null ||
+      TokenManager.isRefreshTokenExpired()) {
+    return false;
+  }
+
+  try {
+    authLog('🚀 Initial refresh before app start');
+
+    final res = await _refreshToken();
+
+    final newToken = res.token ?? '';
+
+    await TokenManager.saveLoginData(
+      token: newToken,
+      refreshToken: res.refreshToken ?? '',
+      expiration: res.expiration ?? '',
+      refreshTokenExpirationDateTime:
+          res.refreshTokenExpirationDateTime ?? '',
+      userName: res.userName ?? '',
+      userId: TokenHelper.extractUserId(newToken) ?? '',
+      phone: res.phone ?? '',
+      isRefresh: true,
+    );
+
+    authLog('✅ Initial refresh success');
+
+    return true;
+  } catch (e) {
+    authLog('❌ Initial refresh failed');
+    return false;
+  }
+}
+
 void authLog(String message) {
   debugPrint('🔐 $message');
 }
