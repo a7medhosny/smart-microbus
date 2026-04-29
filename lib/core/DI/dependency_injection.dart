@@ -14,6 +14,9 @@ import 'package:smart_microbus/features/Driver/driver_home/domain/usecases/liste
 import 'package:smart_microbus/features/Driver/driver_home/domain/usecases/listen_to_queue_notifications_use_case.dart';
 import 'package:smart_microbus/features/Driver/driver_home/domain/usecases/start_trip_use_case.dart';
 import 'package:smart_microbus/features/Driver/driver_home/presentation/cubit/driver_home_cubit.dart';
+import 'package:smart_microbus/features/maps/data/datasource/maps_api_service.dart';
+import 'package:smart_microbus/features/maps/domain/usecases/get_driver_location_use_case.dart';
+import 'package:smart_microbus/features/maps/domain/usecases/get_stations_use_case.dart';
 import 'package:smart_microbus/features/passener/data/datasource/passenger_api_service.dart';
 import 'package:smart_microbus/features/passener/data/datasource/passenger_remote_data_source.dart';
 import 'package:smart_microbus/features/passener/domain/repos/passenger_repo.dart';
@@ -47,6 +50,14 @@ import '../../features/Driver/driver_home/data/datasources/queue_signalr_datasou
 import '../../features/Driver/driver_home/domain/repository/driver_home_repository.dart'
     show DriverHomeRepository;
 import '../../features/Driver/driver_home/domain/usecases/disconnect_queue.dart';
+import '../../features/maps/data/datasource/maps_remote_data_source.dart';
+import '../../features/maps/data/datasource/maps_remote_data_source_impl.dart';
+import '../../features/maps/data/repos/maps_repo_impl.dart';
+import '../../features/maps/domain/repos/maps_repo.dart';
+import '../../features/maps/domain/usecases/get_nearest_station_use_case.dart';
+import '../../features/maps/domain/usecases/get_route_between_station_use_case.dart';
+import '../../features/maps/domain/usecases/get_station_details_with_route_use_case.dart';
+import '../../features/maps/domain/usecases/update_driver_location_use_case.dart';
 import '../../features/passener/data/datasource/passenger_remote_data_source_impl.dart';
 import '../../features/passener/data/repos/passenger_repo_impl.dart';
 import '../../features/passener/domain/usecases/add_route_to_favourite_use_case.dart';
@@ -283,8 +294,7 @@ void _driverDependencies() {
     () => ConnectDashboardUseCase(getIt<DriverHomeRepository>()),
   );
   getIt.registerLazySingleton<ListenToDashboardNotificationsUseCase>(
-    () => ListenToDashboardNotificationsUseCase(getIt<DriverHomeRepository>())
-    ,
+    () => ListenToDashboardNotificationsUseCase(getIt<DriverHomeRepository>()),
   );
   getIt.registerLazySingleton<DisconnectQueue>(
     () => DisconnectQueue(getIt<DriverHomeRepository>()),
@@ -393,5 +403,33 @@ void _driverDependencies() {
       getIt<UpdateReportUseCase>(),
       getIt<GetDriverByPlateNumber>(),
     ),
+  );
+  // ================= Maps Dependencies =================
+  getIt.registerLazySingleton<MapsApiService>(
+    () => MapsApiService(getIt<Dio>()),
+  );
+  getIt.registerLazySingleton<MapsRemoteDataSource>(
+    () => MapsRemoteDataSourceImpl(getIt<MapsApiService>()),
+  );
+  getIt.registerLazySingleton<MapsRepo>(
+    () => MapsRepoImpl(getIt<MapsRemoteDataSource>()),
+  );
+  getIt.registerLazySingleton<GetDriverLocationUseCase>(
+    () => GetDriverLocationUseCase(getIt<MapsRepo>()),
+  );
+  getIt.registerLazySingleton<GetNearestStationUseCase>(
+    () => GetNearestStationUseCase(getIt<MapsRepo>()),
+  );
+  getIt.registerLazySingleton<GetStationDetailsWithRouteUseCase>(
+    () => GetStationDetailsWithRouteUseCase(getIt<MapsRepo>()),
+  );
+  getIt.registerLazySingleton<GetStationsUseCase>(
+    () => GetStationsUseCase(getIt<MapsRepo>()),
+  );
+  getIt.registerLazySingleton<UpdateDriverLocationUseCase>(
+    () => UpdateDriverLocationUseCase(getIt<MapsRepo>()),
+  );
+  getIt.registerLazySingleton<GetRouteBetweenStationUseCase>(
+    () => GetRouteBetweenStationUseCase(getIt<MapsRepo>()),
   );
 }

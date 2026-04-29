@@ -58,4 +58,10 @@ class ApiConstants {
 
   static const String reportReasons = '/Report/reasons';
   static const String report = '/Report';
+
+  static const String driverLocation = '/Driver/location';
+
+  static const String stations = '/Stations';
+  static const String nearestStations = '/Stations/nearest';
+  static const String routeBetweenStations = '/Stations/route-between';
 }

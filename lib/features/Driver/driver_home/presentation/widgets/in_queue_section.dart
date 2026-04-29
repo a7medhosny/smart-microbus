@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:implicitly_animated_list/implicitly_animated_list.dart';
-import 'package:shimmer/shimmer.dart';
 
 import '../../../../../core/helpers/app_error_helper.dart';
 import '../../../../../core/helpers/spacing.dart';
@@ -351,10 +350,7 @@ class _QueueSkeleton extends StatelessWidget {
     return AppShimmer(
       child: Column(
         children: [
-            const SkeletonBox(
-            width: double.infinity,
-            height: 50,
-          ),
+          const SkeletonBox(width: double.infinity, height: 50),
 
           const SizedBox(height: 16),
 
@@ -393,10 +389,9 @@ class _QueueSkeleton extends StatelessWidget {
       ),
     );
   }
-  
 }
 
-  class _SkeletonListItem extends StatelessWidget {
+class _SkeletonListItem extends StatelessWidget {
   const _SkeletonListItem();
 
   @override
