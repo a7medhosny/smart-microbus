@@ -238,7 +238,15 @@
     "pending": "Pending",
     
   "darkMode": "Dark Mode",
-  "english": "English"
+  "english": "English",
+  "searchHere": "Search for a station",
+  "nearest": "Nearest Station",
+  "chooseStations": "Select stations to view the route",
+   "selectStationToViewDetails": "Select a station to view details",
+  "routeInformationUnavailable": "Route information is unavailable",
+    "startAndEndCannotBeSame": "Start and destination stations cannot be the same",
+    "stations":"Stations"
+
 
 
 

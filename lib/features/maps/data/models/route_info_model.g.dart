@@ -10,14 +10,12 @@ RouteInfoModel _$RouteInfoModelFromJson(Map<String, dynamic> json) =>
     RouteInfoModel(
       distanceKm: (json['distanceKm'] as num).toDouble(),
       etaMinutes: (json['etaMinutes'] as num).toDouble(),
-      routeCoordinates: (json['routeCoordinates'] as List<dynamic>)
-          .map((e) => LocationModel.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      points: RouteInfoModel._pointsFromJson(json['points'] as List),
     );
 
 Map<String, dynamic> _$RouteInfoModelToJson(RouteInfoModel instance) =>
     <String, dynamic>{
       'distanceKm': instance.distanceKm,
       'etaMinutes': instance.etaMinutes,
-      'routeCoordinates': instance.routeCoordinates,
+      'points': instance.points,
     };

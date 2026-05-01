@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:smart_microbus/features/maps/data/models/location_model.dart';
+import 'package:smart_microbus/features/maps/data/models/nearest_station_result_model.dart';
 import 'package:smart_microbus/features/maps/data/models/route_info_model.dart';
 import 'package:smart_microbus/features/passener/data/models/base_response_model.dart';
 
@@ -22,7 +23,7 @@ abstract class MapsApiService {
     @Path('driverId') String driverId,
   );
   @GET(ApiConstants.nearestStations)
-  Future<RouteInfoModel> getNearestStations(
+  Future<NearestStationResultModel> getNearestStations(
     @Query('lat') double lat,
     @Query('lng') double lng,
     @Query('mode') String? mode,

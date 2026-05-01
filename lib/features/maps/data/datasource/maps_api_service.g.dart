@@ -77,7 +77,7 @@ class _MapsApiService implements MapsApiService {
   }
 
   @override
-  Future<RouteInfoModel> getNearestStations(
+  Future<NearestStationResultModel> getNearestStations(
     double lat,
     double lng,
     String? mode,
@@ -91,7 +91,7 @@ class _MapsApiService implements MapsApiService {
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<RouteInfoModel>(
+    final _options = _setStreamType<NearestStationResultModel>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -102,9 +102,9 @@ class _MapsApiService implements MapsApiService {
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late RouteInfoModel _value;
+    late NearestStationResultModel _value;
     try {
-      _value = RouteInfoModel.fromJson(_result.data!);
+      _value = NearestStationResultModel.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);
       rethrow;

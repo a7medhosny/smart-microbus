@@ -56,7 +56,9 @@ class PassengerNavigationScreen extends StatelessWidget {
                 _buildTabNavigator(context, 0),
                 _buildTabNavigator(context, 1),
                 _buildTabNavigator(context, 2),
+
                 _buildTabNavigator(context, 3),
+                _buildTabNavigator(context, 4),
               ],
             ),
             bottomNavigationBar: BottomNavigationBar(
@@ -84,6 +86,10 @@ class PassengerNavigationScreen extends StatelessWidget {
                   icon: const Icon(Icons.report),
                   label: l10n.reports,
                 ),
+                  BottomNavigationBarItem(
+                    icon: const Icon(Icons.location_on),
+                    label: l10n.stations,
+                  ),
                 BottomNavigationBarItem(
                   icon: const Icon(Icons.person),
                   label: l10n.profile,

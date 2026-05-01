@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:smart_microbus/features/passener/domain/entities/report_item_entity.dart';
 
 import '../../../../core/storage/cache_helper.dart';
 import '../../../../core/storage/cache_keys.dart';
@@ -94,7 +93,7 @@ class PassengerCubit extends Cubit<PassengerState> {
   String? lang = CacheHelper.getCacheData(key: CacheKeys.localeKey);
 
   final List<GlobalKey<NavigatorState>> navigatorKeys = List.generate(
-    4,
+    5,
     (_) => GlobalKey<NavigatorState>(),
   );
 

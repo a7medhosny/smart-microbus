@@ -73,7 +73,7 @@ class _RouteSummaryCardState extends State<RouteSummaryCard> {
                     (e) => e.routeId == widget.routeId,
                   );
                   print(
-                    "Fav Length : ${cubit.favouriteRoutes.length} , IsFav : ${isFav} , route ${cubit.selectedRouteId}",
+                    "Fav Length : ${cubit.favouriteRoutes.length} , IsFav : $isFav , route ${cubit.selectedRouteId}",
                   );
 
                   return IconButton(

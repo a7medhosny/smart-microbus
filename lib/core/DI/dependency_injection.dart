@@ -58,6 +58,7 @@ import '../../features/maps/domain/usecases/get_nearest_station_use_case.dart';
 import '../../features/maps/domain/usecases/get_route_between_station_use_case.dart';
 import '../../features/maps/domain/usecases/get_station_details_with_route_use_case.dart';
 import '../../features/maps/domain/usecases/update_driver_location_use_case.dart';
+import '../../features/maps/presentation/cubit/map_cubit.dart';
 import '../../features/passener/data/datasource/passenger_remote_data_source_impl.dart';
 import '../../features/passener/data/repos/passenger_repo_impl.dart';
 import '../../features/passener/domain/usecases/add_route_to_favourite_use_case.dart';
@@ -431,5 +432,15 @@ void _driverDependencies() {
   );
   getIt.registerLazySingleton<GetRouteBetweenStationUseCase>(
     () => GetRouteBetweenStationUseCase(getIt<MapsRepo>()),
+  );
+
+  getIt.registerFactory(
+    () => MapCubit(
+      getStationsUseCase: getIt<GetStationsUseCase>(),
+      getNearestStationUseCase: getIt<GetNearestStationUseCase>(),
+      getStationDetailsWithRouteUseCase:
+          getIt<GetStationDetailsWithRouteUseCase>(),
+      getRouteBetweenStationUseCase: getIt<GetRouteBetweenStationUseCase>(),
+    ),
   );
 }

@@ -88,7 +88,7 @@ class _DriverHomeViewState extends State<DriverHomeView> {
                           alignment: Alignment.topCenter,
                           children: [
                             ...previousChildren,
-                            if (currentChild != null) currentChild,
+                            ?currentChild,
                           ],
                         );
                       },

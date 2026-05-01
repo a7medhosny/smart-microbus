@@ -4,7 +4,7 @@ import '../../../../../core/widgets/app_shimmer.dart';
 import 'header_card.dart';
 
 class DriverHomeSkeleton extends StatelessWidget {
-  const DriverHomeSkeleton();
+  const DriverHomeSkeleton({super.key});
 
   @override
   Widget build(BuildContext context) {

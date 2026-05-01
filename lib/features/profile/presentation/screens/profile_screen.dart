@@ -7,7 +7,6 @@ import 'package:smart_microbus/features/profile/presentation/widgets/profile_lis
 import 'package:smart_microbus/features/profile/presentation/widgets/section_card.dart';
 import 'package:smart_microbus/l10n/app_localizations.dart';
 
-import '../../../../core/auth/token_manager.dart';
 import '../../../../core/helpers/spacing.dart';
 import '../../../../core/localization/locale_cubit.dart';
 

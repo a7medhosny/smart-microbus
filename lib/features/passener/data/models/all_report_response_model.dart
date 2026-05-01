@@ -1,6 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
 import '../../domain/entities/all_report_response_entity.dart';
-import '../../domain/entities/report_item_entity.dart';
 import 'report_item_model.dart';
 
 part 'all_report_response_model.g.dart';

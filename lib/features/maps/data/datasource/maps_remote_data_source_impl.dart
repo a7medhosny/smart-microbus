@@ -1,6 +1,7 @@
 import 'package:smart_microbus/features/maps/data/datasource/maps_remote_data_source.dart';
 import 'package:smart_microbus/features/maps/data/models/driver_location_model.dart';
 import 'package:smart_microbus/features/maps/data/models/location_model.dart';
+import 'package:smart_microbus/features/maps/data/models/nearest_station_result_model.dart';
 import 'package:smart_microbus/features/maps/data/models/route_info_model.dart';
 import 'package:smart_microbus/features/maps/data/models/station_model.dart';
 import 'package:smart_microbus/features/maps/domain/enums/travel_mode.dart';
@@ -19,7 +20,7 @@ class MapsRemoteDataSourceImpl implements MapsRemoteDataSource {
   }
 
   @override
-  Future<RouteInfoModel> getNearestStation({
+  Future<NearestStationResultModel> getNearestStation({
     required LocationModel location,
     TravelMode? mode,
   }) {

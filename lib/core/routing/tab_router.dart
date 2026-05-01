@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 // //Auth
 import 'package:smart_microbus/core/routing/routes.dart';
+import 'package:smart_microbus/features/maps/presentation/screens/map_screen.dart';
+import 'package:smart_microbus/features/maps/presentation/screens/route_screen.dart';
 import 'package:smart_microbus/features/passener/presentation/screens/all_report_screen.dart';
 
 
@@ -39,7 +41,9 @@ class TabRouter {
             return _route(const FavoritesScreen());
           case 2:
             return _route(const AllReportScreen());
-          case 3:
+            case 3:
+            return _route(const MapScreen());
+          case 4:
             return _route(const ProfileScreen());
         }
       }
@@ -82,6 +86,9 @@ class TabRouter {
       /// Driver 
       case Routes.driverTripHistory:
         return _route(const DriverTripHistoryScreen());
+
+        case Routes.routeScreen:
+        return _route(const RouteScreen());
      
       default:
         return null;

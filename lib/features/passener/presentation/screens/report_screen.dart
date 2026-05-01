@@ -256,7 +256,7 @@ class _PlateWidget extends StatelessWidget {
           width: double.infinity,
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
-            color: colors.surfaceVariant,
+            color: colors.surfaceContainerHighest,
             borderRadius: BorderRadius.circular(12),
           ),
           child: Text(plate, textAlign: TextAlign.center),

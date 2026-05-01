@@ -621,4 +621,25 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get english => 'الإنجليزية';
+
+  @override
+  String get searchHere => 'ابحث عن محطة';
+
+  @override
+  String get nearest => 'أقرب محطة';
+
+  @override
+  String get chooseStations => 'اختر المحطات لعرض المسار';
+
+  @override
+  String get selectStationToViewDetails => 'اختر محطة لعرض التفاصيل';
+
+  @override
+  String get routeInformationUnavailable => 'بيانات المسار غير متوفرة';
+
+  @override
+  String get startAndEndCannotBeSame => 'محطة البداية والنهاية لا يمكن أن تكونا متطابقتين';
+
+  @override
+  String get stations => 'المحطات';
 }

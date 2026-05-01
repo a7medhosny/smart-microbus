@@ -78,10 +78,8 @@ class DriverInfoCard extends StatelessWidget {
     addRow(tr.model, driver.model);
     addRow(tr.color, driver.color);
 
-    if (driver.passengerCount != null) {
-      rows.add(_infoRow(tr.passengers, driver.passengerCount.toString()));
-    }
-
+    rows.add(_infoRow(tr.passengers, driver.passengerCount.toString()));
+  
     return rows;
   }
 

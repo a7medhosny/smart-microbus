@@ -4,7 +4,6 @@ import 'package:smart_microbus/features/passener/domain/entities/on_the_way_micr
 import 'package:smart_microbus/features/passener/domain/entities/station_microbus_entity.dart';
 import 'package:smart_microbus/l10n/app_localizations.dart';
 
-import '../../../domain/entities/all_report_request_entity.dart';
 import '../../cubit/passenger_cubit.dart';
 import '../../screens/report_details_screen.dart';
 import '../../screens/report_screen.dart';

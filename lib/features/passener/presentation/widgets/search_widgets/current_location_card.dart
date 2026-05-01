@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:smart_microbus/core/helpers/extensions.dart';
 import 'package:smart_microbus/l10n/app_localizations.dart';
-import '../../../../../core/routing/routes.dart';
 import '../../cubit/passenger_cubit.dart';
 
 class CurrentLocationCard extends StatelessWidget {

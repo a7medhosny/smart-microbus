@@ -14,6 +14,7 @@ import 'package:smart_microbus/features/maps/domain/enums/travel_mode.dart';
 import 'package:smart_microbus/features/passener/domain/entities/base_response.dart';
 
 import '../../../../core/error/error_handler.dart';
+import '../../domain/entities/nearest_station_result_entity.dart';
 import '../../domain/entities/route_info_entity.dart';
 import '../../domain/repos/maps_repo.dart';
 import '../datasource/maps_remote_data_source.dart';
@@ -39,7 +40,7 @@ class MapsRepoImpl implements MapsRepo {
   }
 
   @override
-  Future<Either<Failure, RouteInfoEntity>> getNearestStation({
+  Future<Either<Failure, NearestStationResultEntity>> getNearestStation({
     required LocationEntity location,
     TravelMode? mode,
   }) async {

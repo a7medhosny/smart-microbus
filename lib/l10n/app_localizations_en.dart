@@ -621,4 +621,25 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get english => 'English';
+
+  @override
+  String get searchHere => 'Search for a station';
+
+  @override
+  String get nearest => 'Nearest Station';
+
+  @override
+  String get chooseStations => 'Select stations to view the route';
+
+  @override
+  String get selectStationToViewDetails => 'Select a station to view details';
+
+  @override
+  String get routeInformationUnavailable => 'Route information is unavailable';
+
+  @override
+  String get startAndEndCannotBeSame => 'Start and destination stations cannot be the same';
+
+  @override
+  String get stations => 'Stations';
 }

@@ -1282,6 +1282,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'English'**
   String get english;
+
+  /// No description provided for @searchHere.
+  ///
+  /// In en, this message translates to:
+  /// **'Search for a station'**
+  String get searchHere;
+
+  /// No description provided for @nearest.
+  ///
+  /// In en, this message translates to:
+  /// **'Nearest Station'**
+  String get nearest;
+
+  /// No description provided for @chooseStations.
+  ///
+  /// In en, this message translates to:
+  /// **'Select stations to view the route'**
+  String get chooseStations;
+
+  /// No description provided for @selectStationToViewDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Select a station to view details'**
+  String get selectStationToViewDetails;
+
+  /// No description provided for @routeInformationUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Route information is unavailable'**
+  String get routeInformationUnavailable;
+
+  /// No description provided for @startAndEndCannotBeSame.
+  ///
+  /// In en, this message translates to:
+  /// **'Start and destination stations cannot be the same'**
+  String get startAndEndCannotBeSame;
+
+  /// No description provided for @stations.
+  ///
+  /// In en, this message translates to:
+  /// **'Stations'**
+  String get stations;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

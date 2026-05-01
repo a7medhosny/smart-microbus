@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -8,6 +7,7 @@ import 'package:smart_microbus/core/helpers/extensions.dart';
 import 'package:smart_microbus/core/networking/dio_factory.dart';
 import 'package:smart_microbus/core/routing/routes.dart';
 import 'package:smart_microbus/core/services/noification_servises.dart';
+import 'package:smart_microbus/features/maps/presentation/cubit/map_cubit.dart';
 import 'package:smart_microbus/features/passener/presentation/cubit/passenger_cubit.dart';
 import 'package:smart_microbus/features/register/presentation/cubit/register_cubit.dart';
 import 'package:smart_microbus/l10n/app_localizations.dart';
@@ -58,6 +58,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => getIt<RegisterCubit>()),
         BlocProvider(create: (_) => passengerCubit),
         BlocProvider(create: (_) => getIt<ProfileCubit>()),
+        BlocProvider(create: (_) => getIt<MapCubit>()..initialize()),
         BlocProvider(create: (_) => driverCubit),
       ],
       child: BlocBuilder<LocaleCubit, LocaleState>(

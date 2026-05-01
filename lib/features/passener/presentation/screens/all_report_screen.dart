@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_microbus/core/helpers/app_error_helper.dart';
 import 'package:smart_microbus/core/helpers/extensions.dart';
 import 'package:smart_microbus/core/widgets/empty_list.dart';
-import 'package:smart_microbus/features/passener/presentation/widgets/report_widgets/driver_info_card.dart';
 import 'package:smart_microbus/l10n/app_localizations.dart';
 import '../../../../core/routing/routes.dart';
 import '../../domain/entities/all_report_request_entity.dart';
@@ -14,7 +13,6 @@ import '../widgets/report_widgets/add_report_sheet.dart';
 import '../widgets/report_widgets/plate_input_field.dart';
 import '../widgets/report_widgets/report_card_mini.dart';
 
-import 'report_details_screen.dart';
 
 class AllReportScreen extends StatefulWidget {
   const AllReportScreen({super.key});

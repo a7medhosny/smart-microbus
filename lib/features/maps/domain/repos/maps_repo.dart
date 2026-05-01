@@ -4,6 +4,7 @@ import '../../../../core/error/failure.dart';
 import '../../../passener/domain/entities/base_response.dart';
 import '../entities/driver_location_entity.dart' show DriverLocationEntity;
 import '../entities/location_entity.dart';
+import '../entities/nearest_station_result_entity.dart';
 import '../entities/route_info_entity.dart';
 import '../entities/station_entity.dart';
 import '../enums/travel_mode.dart';
@@ -15,7 +16,7 @@ abstract class MapsRepo {
   Future<Either<Failure, DriverLocationEntity>> getDriverLocation(
     String driverId,
   );
-  Future<Either<Failure, RouteInfoEntity>> getNearestStation({
+  Future<Either<Failure, NearestStationResultEntity>> getNearestStation({
     required LocationEntity location,
     TravelMode? mode,
   });
