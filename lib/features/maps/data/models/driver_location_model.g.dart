@@ -12,7 +12,9 @@ DriverLocationModel _$DriverLocationModelFromJson(Map<String, dynamic> json) =>
       lastUpdated: DateTime.parse(json['lastUpdated'] as String),
       distance: (json['distance'] as num).toDouble(),
       duration: (json['duration'] as num).toDouble(),
-      coordinates: json['coordinates'] as List<dynamic>,
+      coordinates: const LocationListConverter().fromJson(
+        json['coordinates'] as List,
+      ),
     );
 
 Map<String, dynamic> _$DriverLocationModelToJson(
@@ -22,5 +24,5 @@ Map<String, dynamic> _$DriverLocationModelToJson(
   'lastUpdated': instance.lastUpdated.toIso8601String(),
   'distance': instance.distance,
   'duration': instance.duration,
-  'coordinates': instance.coordinates,
+  'coordinates': const LocationListConverter().toJson(instance.coordinates),
 };

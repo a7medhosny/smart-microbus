@@ -361,7 +361,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get distance => 'Dis tance';
+  String get distance => 'Distance';
 
   @override
   String distanceKm(Object distance) {
@@ -645,4 +645,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noStationsFound => 'No stations found for your search';
+
+  @override
+  String get liveTracking => 'Live Bus Tracking';
+
+  @override
+  String get noLiveLocationAvailable => 'Live location is currently unavailable';
+
+  @override
+  String get duration => 'Estimated Time';
+
+  @override
+  String get updated => 'Last Update';
+
+  @override
+  String get loadingTracking => 'Loading live tracking...';
 }

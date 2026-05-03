@@ -151,13 +151,7 @@ class MapCubit extends Cubit<MapState> {
   Future<void> getStationRoute(StationEntity station) async {
     if (state.currentPosition == null) return;
 
-    emit(
-      state.copyWith(
-        routeLoading: true,
-        selectedStation: station,
-        errorMessage: null,
-      ),
-    );
+    emit(state.copyWith(routeLoading: true, errorMessage: null));
 
     final result = await getStationDetailsWithRouteUseCase(
       id: station.id,
@@ -175,7 +169,13 @@ class MapCubit extends Cubit<MapState> {
         );
       },
       (route) {
-        emit(state.copyWith(currentRoute: route, routeLoading: false));
+        emit(
+          state.copyWith(
+            currentRoute: route,
+            selectedStation: station,
+            routeLoading: false,
+          ),
+        );
       },
     );
   }

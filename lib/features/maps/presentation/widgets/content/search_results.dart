@@ -68,6 +68,7 @@ class SearchResults extends StatelessWidget {
                               TextEditingValue(text: station.name);
 
                           context.read<MapCubit>().getStationRoute(station);
+                          context.read<MapCubit>().moveToStation(station);
 
                           context.read<MapCubit>().updateSearchQuery('');
                         },

@@ -1,13 +1,25 @@
 import 'package:json_annotation/json_annotation.dart';
+
 import 'package:smart_microbus/features/maps/domain/entities/location_entity.dart';
+
 part 'location_model.g.dart';
 
 @JsonSerializable()
 class LocationModel extends LocationEntity {
   LocationModel({required super.latitude, required super.longitude});
+
   factory LocationModel.fromJson(Map<String, dynamic> json) =>
       _$LocationModelFromJson(json);
+
   Map<String, dynamic> toJson() => _$LocationModelToJson(this);
+
+  factory LocationModel.fromList(List<dynamic> data) {
+    return LocationModel(
+      latitude: (data[1] as num).toDouble(),
+      longitude: (data[0] as num).toDouble(),
+    );
+  }
+
   LocationEntity toEntity() {
     return LocationEntity(latitude: latitude, longitude: longitude);
   }

@@ -60,8 +60,12 @@ import '../../features/maps/domain/usecases/get_station_by_id_use_case.dart';
 import '../../features/maps/domain/usecases/get_station_details_with_route_use_case.dart';
 import '../../features/maps/domain/usecases/update_driver_location_use_case.dart';
 import '../../features/maps/presentation/cubit/map_cubit.dart';
+import '../../features/passener/data/datasource/passenger_location_datasource.dart';
+import '../../features/passener/data/datasource/passenger_location_datasource_impl.dart';
 import '../../features/passener/data/datasource/passenger_remote_data_source_impl.dart';
+import '../../features/passener/data/repos/passenger_location_repo_impl.dart';
 import '../../features/passener/data/repos/passenger_repo_impl.dart';
+import '../../features/passener/domain/repos/passenger_location_repo.dart';
 import '../../features/passener/domain/usecases/add_route_to_favourite_use_case.dart';
 import '../../features/passener/domain/usecases/get_driver_by_plate_number.dart';
 import '../../features/passener/domain/usecases/get_favourite_routes.dart';
@@ -72,8 +76,12 @@ import '../../features/passener/domain/usecases/get_route_summary_use_case.dart'
 import '../../features/passener/domain/usecases/get_routes_use_case.dart';
 import '../../features/passener/domain/usecases/get_station_microbuses_use_case.dart';
 import '../../features/passener/domain/usecases/is_route_favourite_use_case.dart';
+import '../../features/passener/domain/usecases/location_usecases/connect_to_driver_location_usecase.dart';
+import '../../features/passener/domain/usecases/location_usecases/disconnect_driver_location_usecase.dart';
+import '../../features/passener/domain/usecases/location_usecases/listen_to_driver_location_usecase.dart';
 import '../../features/passener/domain/usecases/remove_route_from_fav_use_case.dart';
 import '../../features/passener/domain/usecases/submit_report_use_case.dart';
+import '../../features/passener/presentation/cubit/passenger_location_cubit.dart';
 import '../../features/profile/data/datasource/profile_api_service.dart';
 import '../../features/profile/data/datasource/profile_remote_data_source.dart';
 import '../../features/profile/data/datasource/profile_remote_data_source_impl.dart';
@@ -446,6 +454,50 @@ void _driverDependencies() {
       getRouteBetweenStationUseCase: getIt<GetRouteBetweenStationUseCase>(),
       getDriverLocationUseCase: getIt<GetDriverLocationUseCase>(),
       getStationByIdUseCase: getIt<GetStationByIdUseCase>(),
+    ),
+  );
+
+  /// =============================
+  /// PASSENGER LOCATION SIGNALR
+  /// =============================
+
+  getIt.registerLazySingleton<PassengerLocationDataSource>(
+    () => PassengerLocationDataSourceImpl(),
+  );
+
+  getIt.registerLazySingleton<PassengerLocationRepo>(
+    () => PassengerLocationRepoImpl(getIt<PassengerLocationDataSource>()),
+  );
+
+  /// =============================
+  /// USE CASES
+  /// =============================
+
+  getIt.registerLazySingleton<ConnectToDriverLocationUseCase>(
+    () => ConnectToDriverLocationUseCase(getIt<PassengerLocationRepo>()),
+  );
+
+  getIt.registerLazySingleton<DisconnectDriverLocationUseCase>(
+    () => DisconnectDriverLocationUseCase(getIt<PassengerLocationRepo>()),
+  );
+
+  getIt.registerLazySingleton<ListenToDriverLocationUseCase>(
+    () => ListenToDriverLocationUseCase(getIt<PassengerLocationRepo>()),
+  );
+
+  /// =============================
+  /// CUBIT
+  /// =============================
+
+  getIt.registerFactory(
+    () => PassengerLocationCubit(
+      getIt<ConnectToDriverLocationUseCase>(),
+
+      getIt<DisconnectDriverLocationUseCase>(),
+
+      getIt<ListenToDriverLocationUseCase>(),
+
+      getIt<GetDriverLocationUseCase>(),
     ),
   );
 }

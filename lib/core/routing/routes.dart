@@ -29,5 +29,6 @@ class Routes {
   static const String passengerNavigationScreen = '/passengerNavigationScreen';
   static const String reportPage = '/ReportPage';
   static const String routeScreen = '/routeScreen';
-  static const String driverTrackingScreen = '/DriverTrackingScreen';
+  static const String driverTracking = '/driverTracking';
+
 }

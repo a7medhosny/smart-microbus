@@ -645,4 +645,19 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get noStationsFound => 'لم يتم العثور على محطات مطابقة لبحثك';
+
+  @override
+  String get liveTracking => 'تتبع الميكروباص مباشر';
+
+  @override
+  String get noLiveLocationAvailable => 'الموقع المباشر غير متاح حالياً';
+
+  @override
+  String get duration => 'الوقت المتوقع';
+
+  @override
+  String get updated => 'آخر تحديث';
+
+  @override
+  String get loadingTracking => 'جاري تحميل التتبع المباشر...';
 }

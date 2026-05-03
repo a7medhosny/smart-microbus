@@ -770,7 +770,7 @@ abstract class AppLocalizations {
   /// No description provided for @distance.
   ///
   /// In en, this message translates to:
-  /// **'Dis tance'**
+  /// **'Distance'**
   String get distance;
 
   /// No description provided for @distanceKm.
@@ -1330,6 +1330,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No stations found for your search'**
   String get noStationsFound;
+
+  /// No description provided for @liveTracking.
+  ///
+  /// In en, this message translates to:
+  /// **'Live Bus Tracking'**
+  String get liveTracking;
+
+  /// No description provided for @noLiveLocationAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Live location is currently unavailable'**
+  String get noLiveLocationAvailable;
+
+  /// No description provided for @duration.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimated Time'**
+  String get duration;
+
+  /// No description provided for @updated.
+  ///
+  /// In en, this message translates to:
+  /// **'Last Update'**
+  String get updated;
+
+  /// No description provided for @loadingTracking.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading live tracking...'**
+  String get loadingTracking;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -247,7 +247,14 @@
   "routeInformationUnavailable": "بيانات المسار غير متوفرة",
     "startAndEndCannotBeSame": "محطة البداية والنهاية لا يمكن أن تكونا متطابقتين",
     "stations":"المحطات",
-     "noStationsFound": "لم يتم العثور على محطات مطابقة لبحثك"
+     "noStationsFound": "لم يتم العثور على محطات مطابقة لبحثك",
+    "liveTracking": "تتبع الميكروباص مباشر",
+  "noLiveLocationAvailable": "الموقع المباشر غير متاح حالياً",
+  "distance": "المسافة",
+  "duration": "الوقت المتوقع",
+  "updated": "آخر تحديث",
+   "loadingTracking":
+      "جاري تحميل التتبع المباشر..."
 
 
 

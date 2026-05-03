@@ -30,13 +30,7 @@ class OnTheWayListScreen extends StatelessWidget {
               itemBuilder: (context, index) {
                 return MicrobusCard.fromOnTheWay(
                   onTheWay[index],
-                  onTap: () {
-                    print("clicked");
-                    context.pushNamed(
-                      Routes.driverTrackingScreen,
-                      arguments: onTheWay[index].driverId,
-                    );
-                  },
+                  
                 );
               },
             ),

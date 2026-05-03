@@ -246,7 +246,14 @@
   "routeInformationUnavailable": "Route information is unavailable",
     "startAndEndCannotBeSame": "Start and destination stations cannot be the same",
     "stations":"Stations",
-     "noStationsFound": "No stations found for your search"
+     "noStationsFound": "No stations found for your search",
+    "liveTracking": "Live Bus Tracking",
+  "noLiveLocationAvailable": "Live location is currently unavailable",
+  "distance": "Distance",
+  "duration": "Estimated Time",
+  "updated": "Last Update",
+  "loadingTracking":
+      "Loading live tracking..."
 
 
 

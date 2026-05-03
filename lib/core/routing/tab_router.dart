@@ -5,6 +5,7 @@ import 'package:smart_microbus/features/maps/presentation/screens/map_screen.dar
 import 'package:smart_microbus/features/maps/presentation/screens/route_screen.dart';
 import 'package:smart_microbus/features/passener/domain/entities/on_the_way_microbus_entity.dart';
 import 'package:smart_microbus/features/passener/presentation/screens/all_report_screen.dart';
+import 'package:smart_microbus/features/passener/presentation/screens/driver_tracking_screen.dart';
 
 // Passenger
 import 'package:smart_microbus/features/passener/presentation/screens/passenger_search_view.dart';
@@ -89,6 +90,10 @@ class TabRouter {
 
       case Routes.routeScreen:
         return _route(const RouteScreen());
+
+      case Routes.driverTracking:
+        final driverId = settings.arguments as String;
+        return _route(DriverTrackingScreen(driverId: driverId));
 
       default:
         return null;

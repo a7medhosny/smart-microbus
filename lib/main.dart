@@ -21,6 +21,7 @@ import 'core/routing/app_router.dart';
 import 'core/theme/app_theme.dart';
 import 'core/theme/theme_cubit.dart';
 import 'features/Driver/driver_home/presentation/cubit/driver_home_cubit.dart';
+import 'features/passener/presentation/cubit/passenger_location_cubit.dart';
 import 'features/profile/presentation/cubit/profile_cubit.dart';
 
 void main() async {
@@ -59,7 +60,9 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => passengerCubit),
         BlocProvider(create: (_) => getIt<ProfileCubit>()),
         BlocProvider(create: (_) => getIt<MapCubit>()..initialize()),
+        BlocProvider(create: (_) => getIt<PassengerLocationCubit>()),
         BlocProvider(create: (_) => driverCubit),
+        
       ],
       child: BlocBuilder<LocaleCubit, LocaleState>(
         builder: (context, localeState) {
