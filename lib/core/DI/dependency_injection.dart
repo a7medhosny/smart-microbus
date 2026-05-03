@@ -56,6 +56,7 @@ import '../../features/maps/data/repos/maps_repo_impl.dart';
 import '../../features/maps/domain/repos/maps_repo.dart';
 import '../../features/maps/domain/usecases/get_nearest_station_use_case.dart';
 import '../../features/maps/domain/usecases/get_route_between_station_use_case.dart';
+import '../../features/maps/domain/usecases/get_station_by_id_use_case.dart';
 import '../../features/maps/domain/usecases/get_station_details_with_route_use_case.dart';
 import '../../features/maps/domain/usecases/update_driver_location_use_case.dart';
 import '../../features/maps/presentation/cubit/map_cubit.dart';
@@ -433,7 +434,9 @@ void _driverDependencies() {
   getIt.registerLazySingleton<GetRouteBetweenStationUseCase>(
     () => GetRouteBetweenStationUseCase(getIt<MapsRepo>()),
   );
-
+  getIt.registerLazySingleton<GetStationByIdUseCase>(
+    () => GetStationByIdUseCase(getIt<MapsRepo>()),
+  );
   getIt.registerFactory(
     () => MapCubit(
       getStationsUseCase: getIt<GetStationsUseCase>(),
@@ -442,6 +445,7 @@ void _driverDependencies() {
           getIt<GetStationDetailsWithRouteUseCase>(),
       getRouteBetweenStationUseCase: getIt<GetRouteBetweenStationUseCase>(),
       getDriverLocationUseCase: getIt<GetDriverLocationUseCase>(),
+      getStationByIdUseCase: getIt<GetStationByIdUseCase>(),
     ),
   );
 }

@@ -30,7 +30,7 @@ class MapCubit extends Cubit<MapState> {
 
   final GetRouteBetweenStationUseCase getRouteBetweenStationUseCase;
   final GetDriverLocationUseCase getDriverLocationUseCase;
-
+  final GetStationByIdUseCase getStationByIdUseCase;
   final TextEditingController controller = TextEditingController();
   MapCubit({
     required this.getStationsUseCase,
@@ -38,6 +38,7 @@ class MapCubit extends Cubit<MapState> {
     required this.getStationDetailsWithRouteUseCase,
     required this.getRouteBetweenStationUseCase,
     required this.getDriverLocationUseCase,
+    required this.getStationByIdUseCase,
   }) : super(const MapState());
 
   StreamSubscription<Position>? positionStream;
@@ -244,7 +245,7 @@ class MapCubit extends Cubit<MapState> {
     );
   }
 
-  void startDriverTrip(String stationToId) async {
+  Future<void> startDriverTrip(String stationToId) async {
     emit(
       state.copyWith(
         mode: MapMode.driver,
@@ -254,9 +255,18 @@ class MapCubit extends Cubit<MapState> {
       ),
     );
 
-    await _getCurrentLocation();
+    final result = await getStationByIdUseCase(stationToId);
 
-    await _getDriverRouteToStation(stationToId);
+    result.fold(
+      (failure) {
+        emit(state.copyWith(errorMessage: failure.message));
+      },
+      (station) {
+        emit(state.copyWith(toStation: station));
+      },
+    );
+
+    await _getCurrentLocation();
   }
 
   Future<void> _getDriverRouteToStation(String stationToId) async {

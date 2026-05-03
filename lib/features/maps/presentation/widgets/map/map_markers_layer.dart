@@ -10,6 +10,7 @@ import '../../../domain/enums/map_mode.dart';
 class MapMarkersLayer extends StatelessWidget {
   final Position? currentPosition;
   final StationEntity? selectedStation;
+  final StationEntity? driverDestination;
   final MapMode mode;
 
   const MapMarkersLayer({
@@ -17,6 +18,7 @@ class MapMarkersLayer extends StatelessWidget {
     required this.currentPosition,
     required this.selectedStation,
     required this.mode,
+    this.driverDestination,
   });
 
   @override
@@ -60,12 +62,20 @@ class MapMarkersLayer extends StatelessWidget {
                   ),
           ),
 
-        if (selectedStation != null)
+        if (mode == MapMode.station && selectedStation != null)
           Marker(
             point: LatLng(selectedStation!.lat, selectedStation!.lng),
             width: 25.w,
             height: 25.h,
             child: Icon(Icons.location_on, size: 45.sp, color: Colors.red),
+          ),
+
+        if (mode == MapMode.driver && driverDestination != null)
+          Marker(
+            point: LatLng(driverDestination!.lat, driverDestination!.lng),
+            width: 30.w,
+            height: 30.h,
+            child: Icon(Icons.location_on, size: 40.sp, color: Colors.red),
           ),
       ],
     );

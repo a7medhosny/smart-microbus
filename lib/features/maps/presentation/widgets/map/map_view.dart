@@ -61,6 +61,7 @@ class MapView extends StatelessWidget {
                 currentPosition: data.position,
                 selectedStation: null,
                 mode: data.mode,
+                driverDestination: cubit.state.toStation,
               ),
           ],
         );
