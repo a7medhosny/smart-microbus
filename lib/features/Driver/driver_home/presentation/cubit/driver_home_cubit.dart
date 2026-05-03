@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smart_microbus/features/Driver/driver_home/domain/entities/driver_trip.dart';
 import 'package:smart_microbus/features/Driver/driver_home/domain/usecases/disconnect_queue.dart';
 
 import '../../../../../core/auth/token_helper.dart';
@@ -64,7 +65,7 @@ class DriverHomeCubit extends Cubit<DriverHomeState> {
 
   // ================= STATE DATA =================
   QueueItem? myPosition;
-  Trip? currentTrip;
+  DriverTrip? currentTrip;
   List<QueueItem>? queue;
   DriverCurrentStatus? currentStatus;
   Earning? earning;

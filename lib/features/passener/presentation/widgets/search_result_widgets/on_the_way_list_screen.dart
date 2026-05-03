@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:smart_microbus/features/passener/domain/entities/on_the_way_microbus_entity.dart';
 import 'package:smart_microbus/features/passener/presentation/widgets/search_result_widgets/empty_state.dart';
 import 'package:smart_microbus/features/passener/presentation/widgets/search_result_widgets/microbus_card.dart';
 import 'package:smart_microbus/l10n/app_localizations.dart';
 
+import '../../../../../core/helpers/extensions.dart';
+import '../../../../../core/routing/routes.dart';
+
 class OnTheWayListScreen extends StatelessWidget {
-  final List onTheWay;
+  final List<OnTheWayMicrobusEntity> onTheWay;
 
   const OnTheWayListScreen({super.key, required this.onTheWay});
 
@@ -24,7 +28,16 @@ class OnTheWayListScreen extends StatelessWidget {
               padding: const EdgeInsets.all(16),
               itemCount: onTheWay.length,
               itemBuilder: (context, index) {
-                return MicrobusCard.fromOnTheWay(onTheWay[index]);
+                return MicrobusCard.fromOnTheWay(
+                  onTheWay[index],
+                  onTap: () {
+                    print("clicked");
+                    context.pushNamed(
+                      Routes.driverTrackingScreen,
+                      arguments: onTheWay[index].driverId,
+                    );
+                  },
+                );
               },
             ),
     );

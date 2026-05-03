@@ -1324,6 +1324,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Stations'**
   String get stations;
+
+  /// No description provided for @noStationsFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No stations found for your search'**
+  String get noStationsFound;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

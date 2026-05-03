@@ -16,7 +16,7 @@ DriverCurrentStatusModel _$DriverCurrentStatusModelFromJson(
       : QueueItemModel.fromJson(json['queue'] as Map<String, dynamic>),
   trip: json['trip'] == null
       ? null
-      : TripModel.fromJson(json['trip'] as Map<String, dynamic>),
+      : DriverTripModel.fromJson(json['trip'] as Map<String, dynamic>),
 );
 
 Map<String, dynamic> _$DriverCurrentStatusModelToJson(

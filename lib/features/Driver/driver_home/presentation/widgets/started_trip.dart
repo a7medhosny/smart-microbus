@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:smart_microbus/core/helpers/spacing.dart';
 
 import '../../../../../l10n/app_localizations.dart';
+import '../../../../maps/presentation/cubit/map_cubit.dart';
+import '../../../../maps/presentation/widgets/map/map_view.dart';
 import '../cubit/driver_home_cubit.dart';
 
 class StartedTripSection extends StatelessWidget {
@@ -21,7 +24,7 @@ class StartedTripSection extends StatelessWidget {
     if (trip == null) {
       return const Center(child: CircularProgressIndicator());
     }
-    
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -126,11 +129,10 @@ class StartedTripSection extends StatelessWidget {
           borderRadius: BorderRadius.circular(18),
           child: Stack(
             children: [
-              Image.asset(
-                "assets/images/GPS.jpg",
+              SizedBox(
                 height: 200,
                 width: double.infinity,
-                fit: BoxFit.cover,
+                child: const MapView(),
               ),
 
               /// overlay
@@ -143,8 +145,21 @@ class StartedTripSection extends StatelessWidget {
                     color: theme.colorScheme.surface.withOpacity(.9),
                     shape: BoxShape.circle,
                   ),
-                  child: Icon(
-                    Icons.my_location,
+                  child: IconButton(
+                    onPressed: () {
+                      final cubit = context.read<MapCubit>();
+
+                      if (cubit.state.currentPosition != null) {
+                        cubit.currentMapController.move(
+                          LatLng(
+                            cubit.state.currentPosition!.latitude,
+                            cubit.state.currentPosition!.longitude,
+                          ),
+                          16,
+                        );
+                      }
+                    },
+                    icon: Icon(Icons.my_location),
                     color: theme.colorScheme.primary,
                   ),
                 ),
@@ -196,7 +211,7 @@ class StartedTripSection extends StatelessWidget {
                 context,
                 icon: Icons.route,
                 title: l10n.tripDistance,
-                value: "${trip.distance} KM",
+                value: "${trip.distanceKm} KM",
               ),
             ),
 

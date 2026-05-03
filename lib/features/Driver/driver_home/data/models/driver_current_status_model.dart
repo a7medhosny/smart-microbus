@@ -1,8 +1,8 @@
 import 'package:json_annotation/json_annotation.dart';
 
 import '../../domain/entities/driver_current_status.dart';
+import 'driver_trip_model.dart';
 import 'queue_item_model.dart';
-import 'trip_model.dart';
 
 part 'driver_current_status_model.g.dart';
 
@@ -11,7 +11,7 @@ class DriverCurrentStatusModel {
   final String driverId;
   final String status;
   final QueueItemModel? queue;
-  final TripModel? trip;
+  final DriverTripModel? trip;
 
   DriverCurrentStatusModel({
     required this.driverId,

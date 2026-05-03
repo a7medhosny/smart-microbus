@@ -3,18 +3,20 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:smart_microbus/core/theme/app_colors.dart';
 
 import '../../../domain/entities/station_entity.dart';
+import '../../../domain/enums/map_mode.dart';
 
 class MapMarkersLayer extends StatelessWidget {
   final Position? currentPosition;
   final StationEntity? selectedStation;
+  final MapMode mode;
 
   const MapMarkersLayer({
     super.key,
     required this.currentPosition,
     required this.selectedStation,
+    required this.mode,
   });
 
   @override
@@ -31,31 +33,39 @@ class MapMarkersLayer extends StatelessWidget {
             ),
             width: 25.w,
             height: 25.h,
-            child: Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: colorScheme.surface,
-                  width: 4.w,
-                ),
-                color: colorScheme.primary,
-              ),
-            ),
+            child: mode == MapMode.driver
+                ? Container(
+                    width: 40.w,
+                    height: 40.h,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+
+                      color: colorScheme.primary.withAlpha(60),
+                    ),
+                    child: Icon(
+                      Icons.directions_car,
+                      color: colorScheme.primary,
+                      size: 25.sp,
+                    ),
+                  )
+                : Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: colorScheme.surface,
+                        width: 4.w,
+                      ),
+                      color: colorScheme.primary,
+                    ),
+                  ),
           ),
 
         if (selectedStation != null)
           Marker(
-            point: LatLng(
-              selectedStation!.lat,
-              selectedStation!.lng,
-            ),
+            point: LatLng(selectedStation!.lat, selectedStation!.lng),
             width: 25.w,
             height: 25.h,
-            child: Icon(
-              Icons.location_on,
-              size: 45.sp,
-              color: Colors.red,
-            ),
+            child: Icon(Icons.location_on, size: 45.sp, color: Colors.red),
           ),
       ],
     );

@@ -21,8 +21,12 @@ class MapState {
   final StationEntity? toStation;
 
   final TravelMode selectedMode;
+  final String searchQuery;
+  final DriverLocationEntity? driverLocation;
+  final MapMode mode;
 
   const MapState({
+    this.searchQuery = '',
     this.loading = false,
     this.routeLoading = false,
     this.errorMessage,
@@ -34,6 +38,8 @@ class MapState {
     this.fromStation,
     this.toStation,
     this.selectedMode = TravelMode.driving,
+    this.driverLocation,
+    this.mode = MapMode.station,
   });
 
   MapState copyWith({
@@ -48,6 +54,9 @@ class MapState {
     StationEntity? fromStation,
     StationEntity? toStation,
     TravelMode? selectedMode,
+    String? searchQuery,
+    DriverLocationEntity? driverLocation,
+    MapMode? mode,
   }) {
     return MapState(
       loading: loading ?? this.loading,
@@ -57,11 +66,13 @@ class MapState {
       stations: stations ?? this.stations,
       selectedStation: selectedStation ?? this.selectedStation,
       currentRoute: currentRoute ?? this.currentRoute,
-      routeBetweenStations:
-          routeBetweenStations ?? this.routeBetweenStations,
+      routeBetweenStations: routeBetweenStations ?? this.routeBetweenStations,
       fromStation: fromStation ?? this.fromStation,
       toStation: toStation ?? this.toStation,
       selectedMode: selectedMode ?? this.selectedMode,
+      searchQuery: searchQuery ?? this.searchQuery,
+      driverLocation: driverLocation ?? this.driverLocation,
+      mode: mode ?? this.mode,
     );
   }
 }

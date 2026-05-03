@@ -8,7 +8,6 @@ class Trip {
   final double distance;
   final double estimatedArrivalMinutes;
   final String status;
-  
 
   Trip({
     required this.amount,

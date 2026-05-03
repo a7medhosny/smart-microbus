@@ -5,6 +5,7 @@ import '../../../../core/helpers/show_toast_helper.dart';
 import '../cubit/map_cubit.dart';
 import '../widgets/content/direction_button.dart';
 import '../widgets/content/map_content.dart';
+import '../widgets/content/search_results.dart';
 import '../widgets/map/map_view.dart';
 import '../widgets/overlays/loading_overlay.dart';
 
@@ -33,8 +34,11 @@ class MapScreen extends StatelessWidget {
         body: Stack(
           children: [
             MapView(),
+
             LoadingOverlay(),
             MapContent(),
+            Positioned(top: 105, left: 0, right: 0, child: SearchResults()),
+
             DirectionButton(),
           ],
         ),

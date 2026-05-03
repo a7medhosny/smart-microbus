@@ -441,6 +441,7 @@ void _driverDependencies() {
       getStationDetailsWithRouteUseCase:
           getIt<GetStationDetailsWithRouteUseCase>(),
       getRouteBetweenStationUseCase: getIt<GetRouteBetweenStationUseCase>(),
+      getDriverLocationUseCase: getIt<GetDriverLocationUseCase>(),
     ),
   );
 }

@@ -1,11 +1,12 @@
+import 'package:smart_microbus/features/Driver/driver_home/domain/entities/driver_trip.dart';
+
 import 'queue_item.dart';
-import 'trip.dart';
 
 class DriverCurrentStatus {
   final String driverId;
   final String status;
   final QueueItem? queue;
-  final Trip? trip;
+  final DriverTrip? trip;
 
   DriverCurrentStatus({
     required this.driverId,

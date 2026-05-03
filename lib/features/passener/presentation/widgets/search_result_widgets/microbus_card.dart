@@ -17,6 +17,7 @@ class MicrobusCard extends StatelessWidget {
   final int position;
   final String status;
   final int? estimatedArrivalMinutes;
+  final Function()? onTap;
 
   const MicrobusCard({
     super.key,
@@ -28,6 +29,7 @@ class MicrobusCard extends StatelessWidget {
     required this.position,
     required this.status,
     this.estimatedArrivalMinutes,
+    this.onTap,
   });
 
   factory MicrobusCard.fromStation(StationMicrobusEntity bus) {
@@ -42,7 +44,10 @@ class MicrobusCard extends StatelessWidget {
     );
   }
 
-  factory MicrobusCard.fromOnTheWay(OnTheWayMicrobusEntity bus) {
+  factory MicrobusCard.fromOnTheWay(
+    OnTheWayMicrobusEntity bus, {
+    Function()? onTap,
+  }) {
     return MicrobusCard(
       driverName: bus.driverName,
       model: bus.model,
@@ -52,6 +57,7 @@ class MicrobusCard extends StatelessWidget {
       position: bus.position,
       status: bus.status,
       estimatedArrivalMinutes: bus.estimatedArrivalMinutes,
+      onTap: onTap,
     );
   }
 
@@ -62,201 +68,213 @@ class MicrobusCard extends StatelessWidget {
 
     final bool isOnTheWay = estimatedArrivalMinutes != null;
 
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: theme.colorScheme.surface,
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Column(
-        children: [
-          /// ================= TOP ROW =================
-          Row(
-            children: [
-              /// الوقت (لو On The Way)
-              if (isOnTheWay)
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      l10n.afterMinutes(estimatedArrivalMinutes!),
-                      style: theme.textTheme.titleMedium?.copyWith(
-                        color: theme.colorScheme.primary,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(l10n.arrivalTime, style: theme.textTheme.bodySmall),
-                  ],
-                ),
+    return InkWell(
+      onTap: onTap,
 
-              const SizedBox(width: 12),
-
-              /// اسم السواق + التفاصيل
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      driverName,
-                      style: theme.textTheme.bodyLarge?.copyWith(
-                        fontWeight: FontWeight.bold,
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 12),
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: theme.colorScheme.surface,
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.05),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Column(
+          children: [
+            /// ================= TOP ROW =================
+            Row(
+              children: [
+                /// الوقت (لو On The Way)
+                if (isOnTheWay)
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        l10n.afterMinutes(estimatedArrivalMinutes!),
+                        style: theme.textTheme.titleMedium?.copyWith(
+                          color: theme.colorScheme.primary,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      "$model - $color",
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        color: Colors.grey,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
-              /// ================= ICONS =================
-              Row(
-                children: [
-                  /// أيقونة الميكروباص
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: theme.colorScheme.primary.withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Icon(
-                      Icons.directions_bus,
-                      color: theme.colorScheme.primary,
-                    ),
+                      Text(l10n.arrivalTime, style: theme.textTheme.bodySmall),
+                    ],
                   ),
 
-                  const SizedBox(width: 8),
+                const SizedBox(width: 12),
 
-                  /// زرار Report (الجديد)
-                  InkWell(
-                    borderRadius: BorderRadius.circular(12),
+                /// اسم السواق + التفاصيل
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        driverName,
+                        style: theme.textTheme.bodyLarge?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        "$model - $color",
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
 
-                    //TODO
-                    onTap: () async {
-                      final cubit = context.read<PassengerCubit>();
-
-                      // await cubit.getAllReports(
-                      //   filters: AllrportRequestEntity(
-                      //     plateNumber: plateNumber,
-                      //   ),
-                      // );
-
-                      final reports = cubit.allReports?.items ?? [];
-
-                      if (reports.isEmpty || reports.every((r) => r.plateNumber != plateNumber)) {
-                        /// ➜ اعمل Report جديد
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) =>
-                                ReportPage(plateNumber: plateNumber),
-                          ),
-                        );
-                      } else {
-                        /// ➜ عنده Report بالفعل
-                        final reportId = reports.firstWhere((r) => r.plateNumber == plateNumber).id;
-
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) =>
-                                ReportDetailsPage(reportId: reportId),
-                          ),
-                        );
-                      }
-
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //     builder: (_) => ReportPage(plateNumber: plateNumber),
-                      //   ),
-                      // );
-                    },
-                    child: Container(
+                /// ================= ICONS =================
+                Row(
+                  children: [
+                    /// أيقونة الميكروباص
+                    Container(
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                        color: Colors.red.withOpacity(0.1),
+                        color: theme.colorScheme.primary.withOpacity(0.1),
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      child: const Icon(
-                        Icons.report_problem_outlined,
-                        color: Colors.red,
-                        size: 22,
+                      child: Icon(
+                        Icons.directions_bus,
+                        color: theme.colorScheme.primary,
                       ),
                     ),
-                  ),
-                ],
-              ),
-            ],
-          ),
 
-          const SizedBox(height: 16),
+                    const SizedBox(width: 8),
 
-          /// ================= BOTTOM =================
-          Row(
-            children: [
-              /// عدد الركاب
-              Expanded(
-                child: Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: Colors.grey.withOpacity(0.05),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Column(
-                    children: [
-                      Text(l10n.passengers, style: theme.textTheme.bodySmall),
-                      const SizedBox(height: 4),
-                      Text(
-                        "$passengerCount ${l10n.person}",
-                        style: theme.textTheme.bodyMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
+                    /// زرار Report (الجديد)
+                    InkWell(
+                      borderRadius: BorderRadius.circular(12),
+
+                      //TODO
+                      onTap: () async {
+                        final cubit = context.read<PassengerCubit>();
+
+                        // await cubit.getAllReports(
+                        //   filters: AllrportRequestEntity(
+                        //     plateNumber: plateNumber,
+                        //   ),
+                        // );
+
+                        final reports = cubit.allReports?.items ?? [];
+
+                        if (reports.isEmpty ||
+                            reports.every(
+                              (r) => r.plateNumber != plateNumber,
+                            )) {
+                          /// ➜ اعمل Report جديد
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) =>
+                                  ReportPage(plateNumber: plateNumber),
+                            ),
+                          );
+                        } else {
+                          /// ➜ عنده Report بالفعل
+                          final reportId = reports
+                              .firstWhere((r) => r.plateNumber == plateNumber)
+                              .id;
+
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) =>
+                                  ReportDetailsPage(reportId: reportId),
+                            ),
+                          );
+                        }
+
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (_) => ReportPage(plateNumber: plateNumber),
+                        //   ),
+                        // );
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: Colors.red.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: const Icon(
+                          Icons.report_problem_outlined,
+                          color: Colors.red,
+                          size: 22,
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ),
+              ],
+            ),
 
-              const SizedBox(width: 10),
+            const SizedBox(height: 16),
 
-              /// رقم اللوحة
-              Expanded(
-                child: Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: Colors.grey.withOpacity(0.05),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Column(
-                    children: [
-                      Text(l10n.plateNumber, style: theme.textTheme.bodySmall),
-                      const SizedBox(height: 4),
-                      Text(
-                        plateNumber,
-                        style: theme.textTheme.bodyMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
+            /// ================= BOTTOM =================
+            Row(
+              children: [
+                /// عدد الركاب
+                Expanded(
+                  child: Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Colors.grey.withOpacity(0.05),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Column(
+                      children: [
+                        Text(l10n.passengers, style: theme.textTheme.bodySmall),
+                        const SizedBox(height: 4),
+                        Text(
+                          "$passengerCount ${l10n.person}",
+                          style: theme.textTheme.bodyMedium?.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
-        ],
+
+                const SizedBox(width: 10),
+
+                /// رقم اللوحة
+                Expanded(
+                  child: Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Colors.grey.withOpacity(0.05),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Column(
+                      children: [
+                        Text(
+                          l10n.plateNumber,
+                          style: theme.textTheme.bodySmall,
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          plateNumber,
+                          style: theme.textTheme.bodyMedium?.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

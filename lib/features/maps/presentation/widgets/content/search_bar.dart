@@ -1,55 +1,75 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:smart_microbus/l10n/app_localizations.dart';
 
-class SearchBarWidget extends StatelessWidget {
+import '../../cubit/map_cubit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+class SearchBarWidget extends StatefulWidget {
   const SearchBarWidget({super.key});
 
   @override
+  State<SearchBarWidget> createState() => _SearchBarWidgetState();
+}
+
+class _SearchBarWidgetState extends State<SearchBarWidget> {
+  @override
   Widget build(BuildContext context) {
+    final controller = context.read<MapCubit>().controller;
     final colorScheme = Theme.of(context).colorScheme;
-    final textTheme = Theme.of(context).textTheme;
     final loc = AppLocalizations.of(context)!;
 
-    return Container(
-      height: 58.h,
-      margin: EdgeInsets.symmetric(horizontal: 14.w),
-      padding: EdgeInsets.symmetric(horizontal: 14.w),
-      decoration: BoxDecoration(
-        color: colorScheme.surface,
-        borderRadius: BorderRadius.circular(30.r),
-      ),
-      child: Row(
-        children: [
-          Icon(Icons.search, color: colorScheme.onSurfaceVariant),
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
+      child: TextField(
+        controller: controller,
 
-          SizedBox(width: 12.w),
+        onChanged: (value) {
+          context.read<MapCubit>().updateSearchQuery(value);
+        },
 
-          Expanded(
-            child: Text(
-              loc.searchHere,
-              style: textTheme.bodyLarge?.copyWith(
-                color: colorScheme.onSurfaceVariant,
-              ),
-            ),
+        style: TextStyle(fontSize: 14.sp),
+
+        decoration: InputDecoration(
+          hintText: loc.searchHere,
+
+          prefixIcon: Icon(Icons.search, color: colorScheme.primary),
+
+          suffixIcon: IconButton(
+            icon: Icon(Icons.close, size: 16.sp),
+            onPressed: () {
+              controller.clear();
+
+              context.read<MapCubit>().updateSearchQuery("");
+
+              FocusScope.of(context).unfocus();
+            },
           ),
 
-          // Icon(
-          //   Icons.mic,
-          //   color: colorScheme.onSurfaceVariant,
-          // ),
+          filled: true,
+          fillColor: colorScheme.surface,
 
-          // SizedBox(width: 14.w),
+          contentPadding: EdgeInsets.symmetric(vertical: 12.h),
 
-          // CircleAvatar(
-          //   radius: 18.r,
-          //   backgroundColor: colorScheme.primary,
-          //   child: Icon(
-          //     Icons.person_outline,
-          //     color: colorScheme.onPrimary,
-          //   ),
-          // ),
-        ],
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20.r),
+            borderSide: BorderSide.none,
+          ),
+
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20.r),
+            borderSide: BorderSide.none,
+          ),
+
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20.r),
+            borderSide: BorderSide(
+              color: colorScheme.primary.withOpacity(0.4),
+              width: 1.2,
+            ),
+          ),
+        ),
       ),
     );
   }

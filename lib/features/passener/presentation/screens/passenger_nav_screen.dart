@@ -5,6 +5,8 @@ import 'package:smart_microbus/core/routing/tab_router.dart';
 import 'package:smart_microbus/features/passener/presentation/cubit/passenger_cubit.dart';
 
 import '../../../../l10n/app_localizations.dart';
+import '../../../maps/domain/enums/map_mode.dart';
+import '../../../maps/presentation/cubit/map_cubit.dart';
 
 class PassengerNavigationScreen extends StatelessWidget {
   const PassengerNavigationScreen({super.key});
@@ -43,6 +45,14 @@ class PassengerNavigationScreen extends StatelessWidget {
               navigator.pop();
             } else {
               if (currentIndex != 0) {
+                final mapCubit = context.read<MapCubit>();
+
+                if (currentIndex == 3 &&
+                    mapCubit.state.mode != MapMode.station) {
+                  mapCubit.resetMap(MapMode.station);
+                  mapCubit.initialize();
+                }
+
                 cubit.changeBottomNavIndex(0);
               } else {
                 SystemNavigator.pop();
@@ -64,11 +74,18 @@ class PassengerNavigationScreen extends StatelessWidget {
             bottomNavigationBar: BottomNavigationBar(
               currentIndex: currentIndex,
               onTap: (index) {
+                final mapCubit = context.read<MapCubit>();
+
                 if (index == currentIndex) {
                   cubit.navigatorKeys[index].currentState!.popUntil(
                     (route) => route.isFirst,
                   );
                 } else {
+                  if (index == 3 && mapCubit.state.mode != MapMode.station) {
+                    mapCubit.resetMap(MapMode.station);
+                    mapCubit.initialize();
+                  }
+
                   cubit.changeBottomNavIndex(index);
                 }
               },
@@ -86,10 +103,10 @@ class PassengerNavigationScreen extends StatelessWidget {
                   icon: const Icon(Icons.report),
                   label: l10n.reports,
                 ),
-                  BottomNavigationBarItem(
-                    icon: const Icon(Icons.location_on),
-                    label: l10n.stations,
-                  ),
+                BottomNavigationBarItem(
+                  icon: const Icon(Icons.location_on),
+                  label: l10n.stations,
+                ),
                 BottomNavigationBarItem(
                   icon: const Icon(Icons.person),
                   label: l10n.profile,

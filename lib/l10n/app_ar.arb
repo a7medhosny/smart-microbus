@@ -246,7 +246,8 @@
   "selectStationToViewDetails": "اختر محطة لعرض التفاصيل",
   "routeInformationUnavailable": "بيانات المسار غير متوفرة",
     "startAndEndCannotBeSame": "محطة البداية والنهاية لا يمكن أن تكونا متطابقتين",
-    "stations":"المحطات"
+    "stations":"المحطات",
+     "noStationsFound": "لم يتم العثور على محطات مطابقة لبحثك"
 
 
 

@@ -245,7 +245,8 @@
    "selectStationToViewDetails": "Select a station to view details",
   "routeInformationUnavailable": "Route information is unavailable",
     "startAndEndCannotBeSame": "Start and destination stations cannot be the same",
-    "stations":"Stations"
+    "stations":"Stations",
+     "noStationsFound": "No stations found for your search"
 
 
 

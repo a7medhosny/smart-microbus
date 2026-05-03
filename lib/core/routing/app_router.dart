@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smart_microbus/core/storage/cache_keys.dart';
+import 'package:smart_microbus/features/passener/domain/entities/on_the_way_microbus_entity.dart';
+
 import 'package:smart_microbus/features/passener/presentation/screens/passenger_search_view.dart';
 import 'package:smart_microbus/features/passener/presentation/screens/search_result_screen.dart';
 import 'package:smart_microbus/features/profile/presentation/cubit/profile_cubit.dart';
@@ -18,6 +20,7 @@ import '../../features/Driver/driver_home/presentation/cubit/driver_home_cubit.d
 import '../../features/Driver/driver_home/presentation/screens/driver_home_page.dart';
 import '../../features/Driver/driver_home/presentation/screens/driver_nav_screen.dart';
 import '../../features/Driver/driver_home/presentation/screens/driver_trip_history.dart';
+import '../../features/maps/presentation/screens/map_screen.dart';
 import '../../features/passener/presentation/screens/all_report_screen.dart';
 import '../../features/passener/presentation/screens/passenger_nav_screen.dart';
 import '../../features/passener/presentation/screens/report_details_screen.dart';
@@ -27,7 +30,6 @@ import '../../features/passener/presentation/widgets/search_result_widgets/stati
 import 'routes.dart';
 
 // ================= IMPORT SCREENS =================
-
 
 class AppRouter {
   Route<dynamic>? onGenerateRoute(RouteSettings settings) {
@@ -111,7 +113,7 @@ class AppRouter {
         );
 
       // ================= Passenger  =================
- 
+
       case Routes.passengerSearch:
         return _materialRoute(PassengerSearchView());
       case Routes.passengerSearchResultScreen:
@@ -123,7 +125,8 @@ class AppRouter {
           StationListScreen(stationMicrobuses: stationMicrobuses),
         );
       case Routes.onTheWayListScreen:
-        final onTheWayMicrobuses = settings.arguments as List;
+        final onTheWayMicrobuses =
+            settings.arguments as List<OnTheWayMicrobusEntity>;
         return _materialRoute(OnTheWayListScreen(onTheWay: onTheWayMicrobuses));
 
       case Routes.passengerNavigationScreen:
@@ -139,7 +142,6 @@ class AppRouter {
       case Routes.reportPage:
         final String plateNumber = settings.arguments as String;
         return _materialRoute(ReportPage(plateNumber: plateNumber));
-
     }
     return null;
   }

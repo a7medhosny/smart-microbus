@@ -6,6 +6,8 @@ import 'package:smart_microbus/features/Driver/driver_home/presentation/cubit/dr
 
 import '../../../../../core/helpers/app_error_helper.dart';
 import '../../../../../l10n/app_localizations.dart';
+import '../../../../maps/domain/enums/map_mode.dart';
+import '../../../../maps/presentation/cubit/map_cubit.dart';
 import '../../domain/entities/driver_current_status.dart';
 import '../widgets/driver_home_skeleton.dart';
 import '../widgets/earnings_summary_section.dart';
@@ -39,7 +41,6 @@ class _DriverHomeViewState extends State<DriverHomeView> {
       backgroundColor: Theme.of(context).colorScheme.surface,
       body: SafeArea(
         child: BlocBuilder<DriverHomeCubit, DriverHomeState>(
-         
           buildWhen: (previous, current) =>
               current is GetCurrentPositionLoading ||
               current is GetCurrentPositionSuccess ||
@@ -86,10 +87,7 @@ class _DriverHomeViewState extends State<DriverHomeView> {
                       layoutBuilder: (currentChild, previousChildren) {
                         return Stack(
                           alignment: Alignment.topCenter,
-                          children: [
-                            ...previousChildren,
-                            ?currentChild,
-                          ],
+                          children: [...previousChildren, ?currentChild],
                         );
                       },
                       transitionBuilder: (child, animation) {
@@ -196,7 +194,10 @@ class _DriverHomeViewState extends State<DriverHomeView> {
   /// ================= ON TRIP =================
   Widget _onTripUI(DriverCurrentStatus status) {
     context.read<DriverHomeCubit>().turnNotified = false;
+    final mapCubit = context.read<MapCubit>();
 
+    mapCubit.resetMap(MapMode.driver);
+    mapCubit.startDriverTrip(status.trip!.toStationId);
     return const Column(
       key: ValueKey('onTrip'),
       children: [StartedTripSection()],
@@ -205,7 +206,6 @@ class _DriverHomeViewState extends State<DriverHomeView> {
 
   /// ================= IN QUEUE =================
   Widget _inQueueUI(DriverCurrentStatus status) {
-   
     return Column(
       key: const ValueKey('inQueue'),
       children: const [InQueueSection()],

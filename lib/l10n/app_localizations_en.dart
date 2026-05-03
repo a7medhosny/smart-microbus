@@ -642,4 +642,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get stations => 'Stations';
+
+  @override
+  String get noStationsFound => 'No stations found for your search';
 }
