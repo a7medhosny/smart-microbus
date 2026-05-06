@@ -18,8 +18,6 @@ class StartedTripSection extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
     final trip = cubit.currentTrip;
 
-    // if (position == null) return const SizedBox();
-
     final theme = Theme.of(context);
     if (trip == null) {
       return const Center(child: CircularProgressIndicator());
@@ -132,7 +130,30 @@ class StartedTripSection extends StatelessWidget {
               SizedBox(
                 height: 200,
                 width: double.infinity,
-                child: const MapView(),
+                child: Stack(
+                  children: [
+                    const MapView(),
+
+                    /// 👇 Loading Overlay
+                    BlocBuilder<MapCubit, MapState>(
+                      builder: (context, state) {
+                        final isLoading =
+                            state.loading ||
+                            state.routeLoading ||
+                            state.currentPosition == null;
+
+                        if (!isLoading) return const SizedBox.shrink();
+
+                        return Container(
+                          color: Colors.black.withOpacity(0.2),
+                          child: const Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
               ),
 
               /// overlay

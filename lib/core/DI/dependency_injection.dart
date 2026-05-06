@@ -454,6 +454,7 @@ void _driverDependencies() {
       getRouteBetweenStationUseCase: getIt<GetRouteBetweenStationUseCase>(),
       getDriverLocationUseCase: getIt<GetDriverLocationUseCase>(),
       getStationByIdUseCase: getIt<GetStationByIdUseCase>(),
+      updateDriverLocationUseCase: getIt<UpdateDriverLocationUseCase>(),
     ),
   );
 

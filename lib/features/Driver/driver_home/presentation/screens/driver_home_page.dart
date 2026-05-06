@@ -25,102 +25,126 @@ class DriverHomeView extends StatefulWidget {
 }
 
 class _DriverHomeViewState extends State<DriverHomeView> {
+  bool _tripInitialized = false;
   @override
   void initState() {
     super.initState();
 
-    final cubit = context.read<DriverHomeCubit>();
-    cubit.initRealtime();
-    cubit.getCurrentPosition();
-    // cubit.getEstimatedDailyEarnings();
+    final driverCubit = context.read<DriverHomeCubit>();
+
+    driverCubit.initRealtime();
+    driverCubit.getCurrentPosition();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface,
-      body: SafeArea(
-        child: BlocBuilder<DriverHomeCubit, DriverHomeState>(
-          buildWhen: (previous, current) =>
-              current is GetCurrentPositionLoading ||
-              current is GetCurrentPositionSuccess ||
-              current is GetCurrentPositionError,
+    return BlocListener<DriverHomeCubit, DriverHomeState>(
+      listenWhen: (_, current) => current is GetCurrentPositionSuccess,
+      listener: (context, state) {
+        final driverCubit = context.read<DriverHomeCubit>();
+        final mapCubit = context.read<MapCubit>();
 
-          builder: (context, state) {
-            final cubit = context.watch<DriverHomeCubit>();
+        final status = driverCubit.currentStatus;
 
-            /// ================= ERROR =================
-            if (state is GetCurrentPositionError) {
-              return AppErrorWidget(
-                message: state.message,
-                onRetry: () {
-                  context.read<DriverHomeCubit>().getCurrentPosition();
+        if (status?.isOnTrip == true) {
+          final newId = status!.trip!.toStationId;
+
+          if (!_tripInitialized || mapCubit.state.toStation?.id != newId) {
+            _tripInitialized = true;
+
+            mapCubit.resetMap(MapMode.driver);
+            mapCubit.startDriverTrip(newId);
+          }
+        }
+      },
+      child: Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        body: SafeArea(
+          child: BlocBuilder<DriverHomeCubit, DriverHomeState>(
+            buildWhen: (previous, current) =>
+                current is GetCurrentPositionLoading ||
+                current is GetCurrentPositionSuccess ||
+                current is GetCurrentPositionError,
+
+            builder: (context, state) {
+              final cubit = context.watch<DriverHomeCubit>();
+
+              /// ================= ERROR =================
+              if (state is GetCurrentPositionError) {
+                return AppErrorWidget(
+                  message: state.message,
+                  onRetry: () {
+                    context.read<DriverHomeCubit>().getCurrentPosition();
+                  },
+                );
+              }
+
+              /// ================= LOADING (GLOBAL SKELETON) =================
+              if (state is GetCurrentPositionLoading ||
+                  cubit.currentStatus == null) {
+                return const DriverHomeSkeleton();
+              }
+
+              /// ================= SUCCESS =================
+              final status = cubit.currentStatus!;
+
+              return RefreshIndicator(
+                onRefresh: () async {
+                  await context.read<DriverHomeCubit>().getCurrentPosition();
                 },
-              );
-            }
+                child: SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    children: [
+                      const HeaderCard(),
+                      verticalSpace(20),
 
-            /// ================= LOADING (GLOBAL SKELETON) =================
-            if (state is GetCurrentPositionLoading ||
-                cubit.currentStatus == null) {
-              return const DriverHomeSkeleton();
-            }
+                      AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 600),
+                        switchInCurve: Curves.easeOutCubic,
+                        switchOutCurve: Curves.easeInCubic,
+                        layoutBuilder: (currentChild, previousChildren) {
+                          return Stack(
+                            alignment: Alignment.topCenter,
+                            children: [...previousChildren, ?currentChild],
+                          );
+                        },
+                        transitionBuilder: (child, animation) {
+                          final fade = CurvedAnimation(
+                            parent: animation,
+                            curve: Curves.easeOut,
+                          );
 
-            /// ================= SUCCESS =================
-            final status = cubit.currentStatus!;
+                          final slide = Tween<Offset>(
+                            begin: const Offset(0, 0.15),
+                            end: Offset.zero,
+                          ).animate(animation);
 
-            return RefreshIndicator(
-              onRefresh: () async {
-                await context.read<DriverHomeCubit>().getCurrentPosition();
-              },
-              child: SingleChildScrollView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  children: [
-                    const HeaderCard(),
-                    verticalSpace(20),
+                          final scale = Tween<double>(
+                            begin: 0.95,
+                            end: 1,
+                          ).animate(animation);
 
-                    AnimatedSwitcher(
-                      duration: const Duration(milliseconds: 600),
-                      switchInCurve: Curves.easeOutCubic,
-                      switchOutCurve: Curves.easeInCubic,
-                      layoutBuilder: (currentChild, previousChildren) {
-                        return Stack(
-                          alignment: Alignment.topCenter,
-                          children: [...previousChildren, ?currentChild],
-                        );
-                      },
-                      transitionBuilder: (child, animation) {
-                        final fade = CurvedAnimation(
-                          parent: animation,
-                          curve: Curves.easeOut,
-                        );
-
-                        final slide = Tween<Offset>(
-                          begin: const Offset(0, 0.15),
-                          end: Offset.zero,
-                        ).animate(animation);
-
-                        final scale = Tween<double>(
-                          begin: 0.95,
-                          end: 1,
-                        ).animate(animation);
-
-                        return FadeTransition(
-                          opacity: fade,
-                          child: SlideTransition(
-                            position: slide,
-                            child: ScaleTransition(scale: scale, child: child),
-                          ),
-                        );
-                      },
-                      child: _buildBodyByStatus(status),
-                    ),
-                  ],
+                          return FadeTransition(
+                            opacity: fade,
+                            child: SlideTransition(
+                              position: slide,
+                              child: ScaleTransition(
+                                scale: scale,
+                                child: child,
+                              ),
+                            ),
+                          );
+                        },
+                        child: _buildBodyByStatus(status),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            );
-          },
+              );
+            },
+          ),
         ),
       ),
     );
@@ -194,10 +218,6 @@ class _DriverHomeViewState extends State<DriverHomeView> {
   /// ================= ON TRIP =================
   Widget _onTripUI(DriverCurrentStatus status) {
     context.read<DriverHomeCubit>().turnNotified = false;
-    final mapCubit = context.read<MapCubit>();
-
-    mapCubit.resetMap(MapMode.driver);
-    mapCubit.startDriverTrip(status.trip!.toStationId);
     return const Column(
       key: ValueKey('onTrip'),
       children: [StartedTripSection()],

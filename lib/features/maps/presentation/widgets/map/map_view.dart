@@ -34,7 +34,7 @@ class MapView extends StatelessWidget {
         mode: state.mode,
       ),
       builder: (context, data) {
-        final cubit = context.watch<MapCubit>();
+        final cubit = context.read<MapCubit>();
 
         final center = data.position != null
             ? LatLng(data.position!.latitude, data.position!.longitude)

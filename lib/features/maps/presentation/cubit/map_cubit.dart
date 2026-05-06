@@ -6,6 +6,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:smart_microbus/features/maps/domain/usecases/get_station_by_id_use_case.dart';
+import 'package:smart_microbus/features/maps/domain/usecases/update_driver_location_use_case.dart';
 
 import '../../domain/entities/driver_location_entity.dart';
 import '../../domain/entities/location_entity.dart';
@@ -27,7 +28,7 @@ class MapCubit extends Cubit<MapState> {
   final GetNearestStationUseCase getNearestStationUseCase;
 
   final GetStationDetailsWithRouteUseCase getStationDetailsWithRouteUseCase;
-
+  final UpdateDriverLocationUseCase updateDriverLocationUseCase;
   final GetRouteBetweenStationUseCase getRouteBetweenStationUseCase;
   final GetDriverLocationUseCase getDriverLocationUseCase;
   final GetStationByIdUseCase getStationByIdUseCase;
@@ -39,12 +40,14 @@ class MapCubit extends Cubit<MapState> {
     required this.getRouteBetweenStationUseCase,
     required this.getDriverLocationUseCase,
     required this.getStationByIdUseCase,
+    required this.updateDriverLocationUseCase,
   }) : super(const MapState());
 
   StreamSubscription<Position>? positionStream;
   final MapController stationController = MapController();
   final MapController driverController = MapController();
   final MapController driverLocationController = MapController();
+  DateTime? _lastUpdateTime;
   MapController get currentMapController {
     switch (state.mode) {
       case MapMode.station:
@@ -71,36 +74,74 @@ class MapCubit extends Cubit<MapState> {
   }
 
   Future<void> _getCurrentLocation() async {
+    stopLocationTracking();
+
     LocationPermission permission = await Geolocator.requestPermission();
 
     if (permission == LocationPermission.denied ||
         permission == LocationPermission.deniedForever) {
       emit(state.copyWith(errorMessage: 'Location permission denied'));
-
       return;
     }
 
-    final position = await Geolocator.getCurrentPosition();
+    final position = await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.bestForNavigation,
+    );
 
     emit(state.copyWith(currentPosition: position));
 
     positionStream =
         Geolocator.getPositionStream(
-          locationSettings: const LocationSettings(
-            accuracy: LocationAccuracy.high,
-            distanceFilter: 10,
+          locationSettings: AndroidSettings(
+            accuracy: LocationAccuracy.bestForNavigation,
+            distanceFilter: 5,
+            intervalDuration: const Duration(seconds: 1),
+            forceLocationManager: true,
+            foregroundNotificationConfig: const ForegroundNotificationConfig(
+              notificationTitle: 'Location Tracking',
+              notificationText: 'Tracking your live location',
+            ),
           ),
         ).listen((position) async {
+          /// ✅ تجاهل القراءات الضعيفة
+          if (position.accuracy > 20) return;
+
           emit(state.copyWith(currentPosition: position));
 
+          final now = DateTime.now();
+
+          /// ✅ نعمل throttle للتحديثات (route + server)
+          final shouldUpdate =
+              _lastUpdateTime == null ||
+              now.difference(_lastUpdateTime!) >= const Duration(seconds: 5);
+
+          if (!shouldUpdate) return;
+
+          _lastUpdateTime = now;
+
+          /// ✅ station mode
           if (state.mode == MapMode.station && state.selectedStation != null) {
             await getStationRoute(state.selectedStation!);
           }
 
+          /// ✅ driver mode
           if (state.mode == MapMode.driver && state.toStation != null) {
             await _getDriverRouteToStation(state.toStation!.id);
+
+            await _updateDriverLocation(position);
           }
         });
+  }
+
+  Future<void> _updateDriverLocation(Position position) async {
+    final result = await updateDriverLocationUseCase(
+      LocationEntity(
+        latitude: position.latitude,
+        longitude: position.longitude,
+      ),
+    );
+
+    result.fold((failure) {}, (_) {});
   }
 
   Future<void> getStations() async {
@@ -267,6 +308,9 @@ class MapCubit extends Cubit<MapState> {
     );
 
     await _getCurrentLocation();
+    if (state.toStation != null) {
+      await _getDriverRouteToStation(state.toStation!.id);
+    }
   }
 
   Future<void> _getDriverRouteToStation(String stationToId) async {
