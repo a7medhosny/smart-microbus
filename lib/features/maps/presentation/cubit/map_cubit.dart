@@ -85,7 +85,9 @@ class MapCubit extends Cubit<MapState> {
     }
 
     final position = await Geolocator.getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.bestForNavigation,
+      locationSettings: AndroidSettings(
+        accuracy: LocationAccuracy.bestForNavigation,
+      ),
     );
 
     emit(state.copyWith(currentPosition: position));
@@ -94,41 +96,114 @@ class MapCubit extends Cubit<MapState> {
         Geolocator.getPositionStream(
           locationSettings: AndroidSettings(
             accuracy: LocationAccuracy.bestForNavigation,
-            distanceFilter: 5,
-            intervalDuration: const Duration(seconds: 1),
-            forceLocationManager: true,
+            distanceFilter: 3,
+            intervalDuration: const Duration(seconds: 2),
             foregroundNotificationConfig: const ForegroundNotificationConfig(
               notificationTitle: 'Location Tracking',
               notificationText: 'Tracking your live location',
             ),
           ),
         ).listen((position) async {
-          /// ✅ تجاهل القراءات الضعيفة
-          if (position.accuracy > 20) return;
+          /// =========================
+          /// DEBUG
+          /// =========================
+          print(
+            'LOCATION => '
+            'lat=${position.latitude}, '
+            'lng=${position.longitude}, '
+            'accuracy=${position.accuracy}',
+          );
+
+          emit(
+            state.copyWith(
+              errorMessage:
+                  'LOCATION => '
+                  'lat=${position.latitude}, '
+                  'lng=${position.longitude}, '
+                  'accuracy=${position.accuracy}',
+            ),
+          );
+
+          /// =========================
+          /// FILTER WEAK GPS
+          /// =========================
+
+          /// تجاهل القراءات السيئة جدًا فقط
+          if (position.accuracy > 50) {
+            print('Weak GPS skipped');
+            emit(
+              state.copyWith(
+                errorMessage:
+                    'Weak GPS signal (accuracy: ${position.accuracy}m)',
+              ),
+            );
+            return;
+          }
+
+          /// =========================
+          /// FILTER FAKE MOVEMENT
+          /// =========================
+
+          final oldPosition = state.currentPosition;
+
+          if (oldPosition != null) {
+            final distance = Geolocator.distanceBetween(
+              oldPosition.latitude,
+              oldPosition.longitude,
+              position.latitude,
+              position.longitude,
+            );
+
+            /// تجاهل التحرك الوهمي
+            if (distance < 5) {
+              print('Fake movement skipped');
+              return;
+            }
+          }
+
+          /// =========================
+          /// UPDATE UI
+          /// =========================
 
           emit(state.copyWith(currentPosition: position));
 
+          /// =========================
+          /// THROTTLE SERVER REQUESTS
+          /// =========================
+
           final now = DateTime.now();
 
-          /// ✅ نعمل throttle للتحديثات (route + server)
-          final shouldUpdate =
+          final shouldSend =
               _lastUpdateTime == null ||
               now.difference(_lastUpdateTime!) >= const Duration(seconds: 5);
 
-          if (!shouldUpdate) return;
+          if (!shouldSend) {
+            print('Throttle skipped');
+            return;
+          }
 
           _lastUpdateTime = now;
 
-          /// ✅ station mode
+          /// =========================
+          /// STATION MODE
+          /// =========================
+
           if (state.mode == MapMode.station && state.selectedStation != null) {
             await getStationRoute(state.selectedStation!);
           }
 
-          /// ✅ driver mode
+          /// =========================
+          /// DRIVER MODE
+          /// =========================
+
           if (state.mode == MapMode.driver && state.toStation != null) {
+            /// حدث route
             await _getDriverRouteToStation(state.toStation!.id);
 
+            /// ابعت السيرفر
             await _updateDriverLocation(position);
+
+            print('Driver location sent');
           }
         });
   }

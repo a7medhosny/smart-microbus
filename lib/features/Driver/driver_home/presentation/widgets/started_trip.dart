@@ -139,7 +139,6 @@ class StartedTripSection extends StatelessWidget {
                       builder: (context, state) {
                         final isLoading =
                             state.loading ||
-                            state.routeLoading ||
                             state.currentPosition == null;
 
                         if (!isLoading) return const SizedBox.shrink();

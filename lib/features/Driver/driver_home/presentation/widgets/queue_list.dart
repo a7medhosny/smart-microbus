@@ -49,13 +49,16 @@ class QueueListSection extends StatelessWidget {
 
         final queue = cubit.queue;
         String firstDriver = "";
-        if (queue != null&& queue.isNotEmpty) firstDriver = queue.first.driverId;
+        if (queue != null && queue.isNotEmpty)
+          firstDriver = queue.first.driverId;
         final myPos = cubit.myPosition;
         final driverCurrentStatus = cubit.currentStatus;
 
         /// ================= LOADING =================
         if (queue == null || myPos == null) {
-          print('Queue or position is null. Queue: $queue, My Position: $myPos');
+          print(
+            'Queue or position is null. Queue: $queue, My Position: $myPos',
+          );
           return Container(
             padding: const EdgeInsets.all(20),
             alignment: Alignment.center,
@@ -65,13 +68,15 @@ class QueueListSection extends StatelessWidget {
 
         /// ================= EMPTY QUEUE =================
         if (queue.isEmpty) {
+          Future.microtask(() {
+            cubit.getCurrentPosition();
+
+          });
+
           return Container(
             padding: const EdgeInsets.all(20),
             alignment: Alignment.center,
-            child: Text(
-              'No drivers in queue',
-              style: theme.textTheme.bodyMedium,
-            ),
+            child: const CircularProgressIndicator(),
           );
         }
 

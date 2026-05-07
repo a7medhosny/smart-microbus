@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:smart_microbus/features/Driver/driver_home/domain/entities/trip.dart';
 import '../../../../../../l10n/app_localizations.dart';
 
@@ -58,8 +59,8 @@ class TripCard extends StatelessWidget {
                 ),
                 _tripInfo(
                   context,
-                  Icons.schedule,
-                  "${trip.endedAt.difference(trip.startedAt).inMinutes.toString()}  min",
+                  Icons.calendar_today,
+                  DateFormat('dd MMM yyyy').format(trip.startedAt),
                 ),
               ],
             ),
