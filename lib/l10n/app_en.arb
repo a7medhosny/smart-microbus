@@ -253,7 +253,20 @@
   "duration": "Estimated Time",
   "updated": "Last Update",
   "loadingTracking":
-      "Loading live tracking..."
+      "Loading live tracking...",
+   "distance_km": "{value} km",
+  "@distance_km": {
+    "placeholders": {
+      "value": {}
+    }
+  },
+
+  "duration_min": "{value} min",
+  "@duration_min": {
+    "placeholders": {
+      "value": {}
+    }
+  }
 
 
 

@@ -49,8 +49,9 @@ class QueueListSection extends StatelessWidget {
 
         final queue = cubit.queue;
         String firstDriver = "";
-        if (queue != null && queue.isNotEmpty)
+        if (queue != null && queue.isNotEmpty) {
           firstDriver = queue.first.driverId;
+        }
         final myPos = cubit.myPosition;
         final driverCurrentStatus = cubit.currentStatus;
 
@@ -70,7 +71,6 @@ class QueueListSection extends StatelessWidget {
         if (queue.isEmpty) {
           Future.microtask(() {
             cubit.getCurrentPosition();
-
           });
 
           return Container(

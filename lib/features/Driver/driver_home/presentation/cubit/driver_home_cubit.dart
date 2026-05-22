@@ -18,7 +18,6 @@ import '../../domain/entities/driver_current_status.dart';
 import '../../domain/entities/earning.dart';
 import '../../domain/entities/queue_event.dart';
 import '../../domain/entities/queue_item.dart';
-import '../../domain/entities/trip.dart';
 import '../../domain/entities/trip_history_response.dart';
 
 import '../../domain/usecases/connect_dashboard_use_case.dart';

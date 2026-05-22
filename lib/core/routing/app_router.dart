@@ -20,7 +20,6 @@ import '../../features/Driver/driver_home/presentation/cubit/driver_home_cubit.d
 import '../../features/Driver/driver_home/presentation/screens/driver_home_page.dart';
 import '../../features/Driver/driver_home/presentation/screens/driver_nav_screen.dart';
 import '../../features/Driver/driver_home/presentation/screens/driver_trip_history.dart';
-import '../../features/maps/presentation/screens/map_screen.dart';
 import '../../features/passener/presentation/screens/all_report_screen.dart';
 import '../../features/passener/presentation/screens/passenger_nav_screen.dart';
 import '../../features/passener/presentation/screens/report_details_screen.dart';

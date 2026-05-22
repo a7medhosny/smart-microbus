@@ -64,15 +64,17 @@ class BottomCard extends StatelessWidget {
                       Row(
                         children: [
                           InfoChip(
-                            text:
-                                "${data.route!.distanceKm.toStringAsFixed(1)} km",
+                            text: loc.distance_km(
+                              data.route!.distanceKm.toStringAsFixed(1),
+                            ),
                           ),
 
                           horizontalSpace(12),
 
                           InfoChip(
-                            text:
-                                "${data.route!.etaMinutes.toStringAsFixed(0)} min",
+                            text: loc.duration_min(
+                              data.route!.etaMinutes.toStringAsFixed(0),
+                            ),
                           ),
                         ],
                       )

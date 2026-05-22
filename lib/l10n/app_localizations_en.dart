@@ -660,4 +660,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get loadingTracking => 'Loading live tracking...';
+
+  @override
+  String distance_km(Object value) {
+    return '$value km';
+  }
+
+  @override
+  String duration_min(Object value) {
+    return '$value min';
+  }
 }

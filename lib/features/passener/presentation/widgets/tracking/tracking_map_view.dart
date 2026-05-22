@@ -11,46 +11,30 @@ import 'tracking_info_card.dart';
 class TrackingMapView extends StatefulWidget {
   final DriverLocationEntity location;
 
-  const TrackingMapView({
-    super.key,
-    required this.location,
-  });
+  const TrackingMapView({super.key, required this.location});
 
   @override
-  State<TrackingMapView> createState() =>
-      _TrackingMapViewState();
+  State<TrackingMapView> createState() => _TrackingMapViewState();
 }
 
-class _TrackingMapViewState
-    extends State<TrackingMapView> {
-  final MapController _mapController =
-      MapController();
+class _TrackingMapViewState extends State<TrackingMapView> {
+  final MapController _mapController = MapController();
 
   List<LatLng> get _points {
     return widget.location.coordinates
-        .map(
-          (e) => LatLng(
-            e.latitude,
-            e.longitude,
-          ),
-        )
+        .map((e) => LatLng(e.latitude, e.longitude))
         .toList();
   }
 
   @override
-  void didUpdateWidget(
-    covariant TrackingMapView oldWidget,
-  ) {
+  void didUpdateWidget(covariant TrackingMapView oldWidget) {
     super.didUpdateWidget(oldWidget);
 
     final points = _points;
 
     if (points.isEmpty) return;
 
-    _mapController.move(
-      points.last,
-      _mapController.camera.zoom,
-    );
+    _mapController.moveAndRotate(points.last, _mapController.camera.zoom, 0);
   }
 
   @override
@@ -61,24 +45,18 @@ class _TrackingMapViewState
       return const SizedBox();
     }
 
-    final startPoint = points.first;
-
-    final endPoint = points.last;
+    final driverPoint = points.last;
+    final destinationPoint = points.first;
 
     return Stack(
       children: [
         FlutterMap(
           mapController: _mapController,
-          options: MapOptions(
-            initialCenter: endPoint,
-            initialZoom: 15,
-          ),
+          options: MapOptions(initialCenter: driverPoint, initialZoom: 15),
           children: [
             TileLayer(
-              urlTemplate:
-                  'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-              userAgentPackageName:
-                  'com.smart.microbus',
+              urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+              userAgentPackageName: 'com.smart.microbus',
             ),
 
             PolylineLayer(
@@ -86,9 +64,7 @@ class _TrackingMapViewState
                 Polyline(
                   points: points,
                   strokeWidth: 5,
-                  color: Theme.of(context)
-                      .colorScheme
-                      .primary,
+                  color: Theme.of(context).colorScheme.primary,
                 ),
               ],
             ),
@@ -96,17 +72,17 @@ class _TrackingMapViewState
             MarkerLayer(
               markers: [
                 Marker(
-                  point: startPoint,
+                  point: destinationPoint,
                   width: 40,
                   height: 40,
-                  child: const StartMarker(),
+                  child: const BusMarker(),
                 ),
 
                 Marker(
-                  point: endPoint,
+                  point: driverPoint,
                   width: 50,
                   height: 50,
-                  child: const BusMarker(),
+                  child: const StartMarker(),
                 ),
               ],
             ),
@@ -117,9 +93,7 @@ class _TrackingMapViewState
           left: 16,
           right: 16,
           bottom: 16,
-          child: TrackingInfoCard(
-            location: widget.location,
-          ),
+          child: TrackingInfoCard(location: widget.location),
         ),
       ],
     );

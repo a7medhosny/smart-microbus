@@ -254,7 +254,20 @@
   "duration": "الوقت المتوقع",
   "updated": "آخر تحديث",
    "loadingTracking":
-      "جاري تحميل التتبع المباشر..."
+      "جاري تحميل التتبع المباشر...",
+"distance_km": "{value} كم",
+  "@distance_km": {
+    "placeholders": {
+      "value": {}
+    }
+  },
+
+  "duration_min": "{value} دقيقة",
+  "@duration_min": {
+    "placeholders": {
+      "value": {}
+    }
+  }
 
 
 

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:smart_microbus/core/helpers/show_toast_helper.dart';
 import 'package:smart_microbus/core/helpers/spacing.dart';
 import 'package:smart_microbus/features/Driver/driver_home/presentation/cubit/driver_home_cubit.dart';
 
@@ -10,11 +9,8 @@ import '../../../../maps/domain/enums/map_mode.dart';
 import '../../../../maps/presentation/cubit/map_cubit.dart';
 import '../../domain/entities/driver_current_status.dart';
 import '../widgets/driver_home_skeleton.dart';
-import '../widgets/earnings_summary_section.dart';
 import '../widgets/header_card.dart';
 import '../widgets/in_queue_section.dart';
-import '../widgets/queue_Status.dart';
-import '../widgets/queue_list.dart';
 import '../widgets/started_trip.dart';
 
 class DriverHomeView extends StatefulWidget {

@@ -4,9 +4,6 @@ import 'package:smart_microbus/features/passener/presentation/widgets/search_res
 import 'package:smart_microbus/features/passener/presentation/widgets/search_result_widgets/microbus_card.dart';
 import 'package:smart_microbus/l10n/app_localizations.dart';
 
-import '../../../../../core/helpers/extensions.dart';
-import '../../../../../core/routing/routes.dart';
-
 class OnTheWayListScreen extends StatelessWidget {
   final List<OnTheWayMicrobusEntity> onTheWay;
 
@@ -28,10 +25,7 @@ class OnTheWayListScreen extends StatelessWidget {
               padding: const EdgeInsets.all(16),
               itemCount: onTheWay.length,
               itemBuilder: (context, index) {
-                return MicrobusCard.fromOnTheWay(
-                  onTheWay[index],
-                  
-                );
+                return MicrobusCard.fromOnTheWay(onTheWay[index]);
               },
             ),
     );

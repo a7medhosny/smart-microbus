@@ -78,11 +78,11 @@ class MapCubit extends Cubit<MapState> {
 
     LocationPermission permission = await Geolocator.requestPermission();
 
-    if (permission == LocationPermission.denied ||
-        permission == LocationPermission.deniedForever) {
-      emit(state.copyWith(errorMessage: 'Location permission denied'));
-      return;
-    }
+    // if (permission == LocationPermission.denied ||
+    //     permission == LocationPermission.deniedForever) {
+    //   emit(state.copyWith(errorMessage: 'Location permission denied'));
+    //   return;
+    // }
 
     final position = await Geolocator.getCurrentPosition(
       locationSettings: AndroidSettings(
@@ -96,7 +96,7 @@ class MapCubit extends Cubit<MapState> {
         Geolocator.getPositionStream(
           locationSettings: AndroidSettings(
             accuracy: LocationAccuracy.bestForNavigation,
-            distanceFilter: 3,
+            distanceFilter: 10,
             intervalDuration: const Duration(seconds: 2),
             foregroundNotificationConfig: const ForegroundNotificationConfig(
               notificationTitle: 'Location Tracking',
@@ -114,16 +114,6 @@ class MapCubit extends Cubit<MapState> {
             'accuracy=${position.accuracy}',
           );
 
-          emit(
-            state.copyWith(
-              errorMessage:
-                  'LOCATION => '
-                  'lat=${position.latitude}, '
-                  'lng=${position.longitude}, '
-                  'accuracy=${position.accuracy}',
-            ),
-          );
-
           /// =========================
           /// FILTER WEAK GPS
           /// =========================
@@ -131,12 +121,7 @@ class MapCubit extends Cubit<MapState> {
           /// تجاهل القراءات السيئة جدًا فقط
           if (position.accuracy > 50) {
             print('Weak GPS skipped');
-            emit(
-              state.copyWith(
-                errorMessage:
-                    'Weak GPS signal (accuracy: ${position.accuracy}m)',
-              ),
-            );
+
             return;
           }
 
@@ -383,6 +368,8 @@ class MapCubit extends Cubit<MapState> {
     );
 
     await _getCurrentLocation();
+
+    await _updateDriverLocation(state.currentPosition!);
     if (state.toStation != null) {
       await _getDriverRouteToStation(state.toStation!.id);
     }

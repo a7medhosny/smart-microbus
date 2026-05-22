@@ -6,8 +6,6 @@ import 'package:smart_microbus/features/maps/data/models/location_model.dart';
 
 import 'package:smart_microbus/features/maps/domain/entities/driver_location_entity.dart';
 
-import '../../domain/entities/location_entity.dart';
-
 part 'driver_location_model.g.dart';
 
 @JsonSerializable()
@@ -31,13 +29,10 @@ class DriverLocationModel {
     required this.coordinates,
   });
 
-  factory DriverLocationModel.fromJson(
-    Map<String, dynamic> json,
-  ) =>
+  factory DriverLocationModel.fromJson(Map<String, dynamic> json) =>
       _$DriverLocationModelFromJson(json);
 
-  Map<String, dynamic> toJson() =>
-      _$DriverLocationModelToJson(this);
+  Map<String, dynamic> toJson() => _$DriverLocationModelToJson(this);
 
   DriverLocationEntity toEntity() {
     return DriverLocationEntity(
@@ -45,10 +40,7 @@ class DriverLocationModel {
       lastUpdated: lastUpdated.toLocal(),
       distance: distance,
       duration: duration,
-      coordinates:
-          coordinates
-              .map((e) => e.toEntity())
-              .toList(),
+      coordinates: coordinates.map((e) => e.toEntity()).toList(),
     );
   }
 }

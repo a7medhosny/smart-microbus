@@ -9,10 +9,7 @@ import 'tracking_info_item.dart';
 class TrackingInfoCard extends StatelessWidget {
   final DriverLocationEntity location;
 
-  const TrackingInfoCard({
-    super.key,
-    required this.location,
-  });
+  const TrackingInfoCard({super.key, required this.location});
 
   @override
   Widget build(BuildContext context) {
@@ -22,26 +19,21 @@ class TrackingInfoCard extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Row(
-          mainAxisAlignment:
-              MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             TrackingInfoItem(
               title: loc.distance,
-              value:
-                  '${location.distance.toStringAsFixed(1)} km',
+              value: loc.distance_km(location.distance.toStringAsFixed(1)),
             ),
 
             TrackingInfoItem(
               title: loc.duration,
-              value:
-                  '${location.duration.toStringAsFixed(0)} min',
+              value: loc.duration_min(location.duration.toStringAsFixed(0)),
             ),
 
             TrackingInfoItem(
               title: loc.updated,
-              value: _formatTime(
-                location.lastUpdated,
-              ),
+              value: _formatTime(location.lastUpdated),
             ),
           ],
         ),
@@ -52,11 +44,9 @@ class TrackingInfoCard extends StatelessWidget {
   String _formatTime(DateTime? date) {
     if (date == null) return '--';
 
-    final hour =
-        date.hour.toString().padLeft(2, '0');
+    final hour = date.hour.toString().padLeft(2, '0');
 
-    final minute =
-        date.minute.toString().padLeft(2, '0');
+    final minute = date.minute.toString().padLeft(2, '0');
 
     return '$hour:$minute';
   }

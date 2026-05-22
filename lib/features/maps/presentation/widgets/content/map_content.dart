@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:smart_microbus/features/maps/presentation/widgets/content/search_results.dart';
 
 import '../../../../../core/helpers/spacing.dart';
 

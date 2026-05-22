@@ -1360,6 +1360,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Loading live tracking...'**
   String get loadingTracking;
+
+  /// No description provided for @distance_km.
+  ///
+  /// In en, this message translates to:
+  /// **'{value} km'**
+  String distance_km(Object value);
+
+  /// No description provided for @duration_min.
+  ///
+  /// In en, this message translates to:
+  /// **'{value} min'**
+  String duration_min(Object value);
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

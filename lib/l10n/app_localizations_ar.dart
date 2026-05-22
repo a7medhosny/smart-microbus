@@ -660,4 +660,14 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get loadingTracking => 'جاري تحميل التتبع المباشر...';
+
+  @override
+  String distance_km(Object value) {
+    return '$value كم';
+  }
+
+  @override
+  String duration_min(Object value) {
+    return '$value دقيقة';
+  }
 }
