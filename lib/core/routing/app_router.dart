@@ -22,12 +22,14 @@ import '../../features/Driver/driver_home/presentation/cubit/driver_home_cubit.d
 import '../../features/Driver/driver_home/presentation/screens/driver_home_page.dart';
 import '../../features/Driver/driver_home/presentation/screens/driver_nav_screen.dart';
 import '../../features/Driver/driver_home/presentation/screens/driver_trip_history.dart';
+import '../../features/on_boarding/presentation/cubit/onboarding_cubit.dart';
 import '../../features/passener/presentation/screens/all_report_screen.dart';
 import '../../features/passener/presentation/screens/passenger_nav_screen.dart';
 import '../../features/passener/presentation/screens/report_details_screen.dart';
 import '../../features/passener/presentation/screens/report_screen.dart';
 import '../../features/passener/presentation/widgets/search_result_widgets/on_the_way_list_screen.dart';
 import '../../features/passener/presentation/widgets/search_result_widgets/station_list_screen.dart';
+import '../../features/on_boarding/presentation/pages/onboarding_screen.dart';
 import 'routes.dart';
 
 // ================= IMPORT SCREENS =================
@@ -40,6 +42,15 @@ class AppRouter {
       // ================= INITIAL =================
       case Routes.homeScreen:
         return _materialRoute(const HomeScreen());
+
+      // ================= ONBOARDING =================
+      case Routes.onboarding:
+        return _materialRoute(
+          BlocProvider(
+            create: (context) => getIt<OnboardingCubit>(),
+            child: const OnboardingScreen(),
+          ),
+        );
 
       // ================= LOGIN =================
       case Routes.login:

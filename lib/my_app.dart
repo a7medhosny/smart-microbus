@@ -20,7 +20,10 @@ import 'core/auth/session_manager.dart';
 import 'core/auth/token_manager.dart';
 import 'core/helpers/app_state_manager.dart';
 import 'core/routing/routes.dart';
+import 'core/storage/cache_helper.dart';
+import 'core/storage/cache_keys.dart';
 import 'features/Driver/driver_home/presentation/cubit/driver_home_cubit.dart';
+import 'features/on_boarding/presentation/cubit/onboarding_cubit.dart';
 import 'features/passener/presentation/cubit/passenger_cubit.dart';
 
 class MyApp extends StatelessWidget {
@@ -39,6 +42,8 @@ class MyApp extends StatelessWidget {
     final driverCubit = getIt<DriverHomeCubit>();
     AppStateManager.passengerCubit = passengerCubit;
     AppStateManager.driverCubit = driverCubit;
+    final bool isOnboardingCompleted =
+        CacheHelper.getCacheData(key: CacheKeys.onboardingKey) == 'true';
     switch (sessionState) {
       case SessionState.guest:
         initialRoute = Routes.passengerNavigationScreen;
@@ -53,7 +58,9 @@ class MyApp extends StatelessWidget {
         break;
 
       case SessionState.unauthenticated:
-        initialRoute = Routes.homeScreen;
+        initialRoute = isOnboardingCompleted
+            ? Routes.homeScreen
+            : Routes.onboarding;
 
         break;
     }
@@ -67,6 +74,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => getIt<ProfileCubit>()),
         BlocProvider(create: (_) => getIt<MapCubit>()..initialize()),
         BlocProvider(create: (_) => getIt<PassengerLocationCubit>()),
+        BlocProvider(create: (_) => getIt<OnboardingCubit>()),
         BlocProvider(create: (_) => driverCubit),
       ],
       child: BlocBuilder<LocaleCubit, LocaleState>(

@@ -5,7 +5,7 @@ import '../storage/cache_helper.dart';
 import '../storage/cache_keys.dart';
 
 class ThemeCubit extends Cubit<ThemeMode> {
-  ThemeCubit() : super(ThemeMode.light) {
+  ThemeCubit() : super(ThemeMode.system) {
     _loadTheme();
   }
 
@@ -29,7 +29,7 @@ class ThemeCubit extends Cubit<ThemeMode> {
     final cachedValue = CacheHelper.getCacheData(key: CacheKeys.themeKey);
 
     if (cachedValue == null) {
-      emit(ThemeMode.light);
+      emit(ThemeMode.system);
       return;
     }
 

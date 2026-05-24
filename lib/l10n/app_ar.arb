@@ -270,6 +270,21 @@
 
   },
 
+  "onboardingTitle1": "التتبع الذكي",
+  "onboardingSubtitle1": "تتبع الميكروباص في الوقت الفعلي بتقنية نظام تحديد المواقع. اعرف مكان الباص بالضبط في كل لحظة.",
+  
+  "onboardingTitle2": "الطرق الذكية",
+  "onboardingSubtitle2": "طرق محسنة وملاحة ذكية. صل إلى وجهتك بسرعة وأسهل.",
+  
+  "onboardingTitle3": "تنقل يومي أسرع",
+  "onboardingSubtitle3": "وفر وقتك وتحرك بذكاء كل يوم. جرب مستقبل النقل الحضري.",
+  
+  "skip": "تخطي",
+  "next": "التالي",
+  "back": "رجوع",
+  "getStarted": "ابدأ الآن",
+
+
 
 
  "join_us": "استمتع بالتجربة الكاملة",
@@ -281,6 +296,18 @@
   "guest_profile_message":
 "سجل دخولك لحفظ تفضيلاتك والوصول لجميع المميزات.",
 "profile_title": "سجل دخولك"
+,
+
+  "liveQueue": "الطابور المباشر",
+  "realtimeStationUpdates": "تحديثات المحطة المباشرة",
+  "driversCount": "{count} سائق",
+  "@driversCount": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "noDriversInQueue": "لا يوجد سائقون في الطابور",
+  "waitingDriversQueue": "في انتظار انضمام السائقين إلى طابور المحطة."
 
 
 }

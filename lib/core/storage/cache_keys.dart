@@ -18,4 +18,5 @@ class CacheKeys {
   static const otpPhone = "otpPhone";
   static const confirmAccount = "confirmAccount";
   static const forgetPassword = "forgetPassword";
+  static const onboardingKey = 'onboarding_completed';
 }

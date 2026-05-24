@@ -269,6 +269,22 @@
   },
 
 
+  "onboardingTitle1": "Smart Tracking",
+  "onboardingSubtitle1": "Real-time microbus tracking with GPS technology. Know exactly where your bus is at every moment.",
+  
+  "onboardingTitle2": "Smart Routes",
+  "onboardingSubtitle2": "Optimized routes and intelligent navigation. Get to your destination faster and smarter.",
+  
+  "onboardingTitle3": "Faster Daily Commute",
+  "onboardingSubtitle3": "Save time and move smarter every day. Experience the future of urban transportation.",
+  
+  "skip": "Skip",
+  "next": "Next",
+  "back": "Back",
+  "getStarted": "Get Started",
+
+
+
  "join_us": "Unlock Full Experience",
   "guest_banner_desc": "Create an account or sign in to access personalized features, saved items, reports, and real-time updates.",
   "login_required": "Login Required",
@@ -277,7 +293,19 @@
   "create_account": "Create Account",
   "guest_profile_message":
 "Sign in to save your preferences and access all features.",
-"profile_title": "Sign in"
+"profile_title": "Sign in",
+
+  "liveQueue": "LIVE QUEUE",
+  "realtimeStationUpdates": "Realtime station updates",
+  "driversCount": "{count} Drivers",
+  "@driversCount": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "noDriversInQueue": "No drivers in queue",
+  "waitingDriversQueue": "Waiting for drivers to join the station queue."
+
 
 
 

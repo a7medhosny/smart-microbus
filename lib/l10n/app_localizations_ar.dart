@@ -678,6 +678,36 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String get onboardingTitle1 => 'التتبع الذكي';
+
+  @override
+  String get onboardingSubtitle1 => 'تتبع الميكروباص في الوقت الفعلي بتقنية نظام تحديد المواقع. اعرف مكان الباص بالضبط في كل لحظة.';
+
+  @override
+  String get onboardingTitle2 => 'الطرق الذكية';
+
+  @override
+  String get onboardingSubtitle2 => 'طرق محسنة وملاحة ذكية. صل إلى وجهتك بسرعة وأسهل.';
+
+  @override
+  String get onboardingTitle3 => 'تنقل يومي أسرع';
+
+  @override
+  String get onboardingSubtitle3 => 'وفر وقتك وتحرك بذكاء كل يوم. جرب مستقبل النقل الحضري.';
+
+  @override
+  String get skip => 'تخطي';
+
+  @override
+  String get next => 'التالي';
+
+  @override
+  String get back => 'رجوع';
+
+  @override
+  String get getStarted => 'ابدأ الآن';
+
+  @override
   String get join_us => 'استمتع بالتجربة الكاملة';
 
   @override
@@ -697,4 +727,21 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get profile_title => 'سجل دخولك';
+
+  @override
+  String get liveQueue => 'الطابور المباشر';
+
+  @override
+  String get realtimeStationUpdates => 'تحديثات المحطة المباشرة';
+
+  @override
+  String driversCount(Object count) {
+    return '$count سائق';
+  }
+
+  @override
+  String get noDriversInQueue => 'لا يوجد سائقون في الطابور';
+
+  @override
+  String get waitingDriversQueue => 'في انتظار انضمام السائقين إلى طابور المحطة.';
 }

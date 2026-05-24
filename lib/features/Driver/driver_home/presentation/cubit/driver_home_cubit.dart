@@ -158,6 +158,14 @@ class DriverHomeCubit extends Cubit<DriverHomeState> {
 
     return queue!.indexWhere((d) => d.driverId == myId);
   }
+  int getdriverIndex(String driverId) {
+    if (queue == null || queue!.isEmpty) return -1;
+
+    if (driverId == null) return -1;
+
+    return queue!.indexWhere((d) => d.driverId == driverId) + 1;
+  }
+
 
   int getVehiclesAhead() {
     final index = getMyQueueIndex();

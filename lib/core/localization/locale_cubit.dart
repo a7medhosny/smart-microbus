@@ -7,8 +7,8 @@ import 'locale_storage.dart';
 class LocaleCubit extends Cubit<LocaleState> {
   final LocaleStorage storage;
 
-  /// Default = English
-  LocaleCubit(this.storage) : super(const LocaleState(locale: Locale('en')));
+  /// Default = Arabic
+  LocaleCubit(this.storage) : super(const LocaleState(locale: Locale('ar')));
 
   // =========================
   // Load Saved Locale
@@ -57,6 +57,6 @@ class LocaleCubit extends Cubit<LocaleState> {
   Future<void> resetLocale() async {
     await storage.clearLocale();
 
-    emit(const LocaleState(locale: Locale('en')));
+    emit(const LocaleState(locale: Locale('ar')));
   }
 }

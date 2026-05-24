@@ -8,6 +8,9 @@ import 'package:smart_microbus/core/theme/app_colors.dart';
 import 'package:smart_microbus/features/splash/widgets/typing_text.dart';
 import 'package:smart_microbus/l10n/app_localizations.dart';
 
+import '../../../core/storage/cache_helper.dart';
+import '../../../core/storage/cache_keys.dart';
+
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -47,6 +50,8 @@ class _SplashScreenState extends State<SplashScreen>
     final session = await SessionManager.initializeSession();
 
     final isDriver = TokenManager.role == 'Driver';
+    final bool isOnboardingCompleted =
+        CacheHelper.getCacheData(key: CacheKeys.onboardingKey) == 'true';
 
     if (!mounted) return;
 
@@ -72,7 +77,9 @@ class _SplashScreenState extends State<SplashScreen>
         break;
 
       case SessionState.unauthenticated:
-        Navigator.pushReplacementNamed(context, Routes.homeScreen);
+        isOnboardingCompleted
+            ? Navigator.pushReplacementNamed(context, Routes.homeScreen)
+            : Navigator.pushReplacementNamed(context, Routes.onboarding);
     }
   }
 

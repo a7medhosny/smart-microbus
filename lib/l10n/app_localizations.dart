@@ -1385,6 +1385,66 @@ abstract class AppLocalizations {
   /// **'{value} min'**
   String duration_min(Object value);
 
+  /// No description provided for @onboardingTitle1.
+  ///
+  /// In en, this message translates to:
+  /// **'Smart Tracking'**
+  String get onboardingTitle1;
+
+  /// No description provided for @onboardingSubtitle1.
+  ///
+  /// In en, this message translates to:
+  /// **'Real-time microbus tracking with GPS technology. Know exactly where your bus is at every moment.'**
+  String get onboardingSubtitle1;
+
+  /// No description provided for @onboardingTitle2.
+  ///
+  /// In en, this message translates to:
+  /// **'Smart Routes'**
+  String get onboardingTitle2;
+
+  /// No description provided for @onboardingSubtitle2.
+  ///
+  /// In en, this message translates to:
+  /// **'Optimized routes and intelligent navigation. Get to your destination faster and smarter.'**
+  String get onboardingSubtitle2;
+
+  /// No description provided for @onboardingTitle3.
+  ///
+  /// In en, this message translates to:
+  /// **'Faster Daily Commute'**
+  String get onboardingTitle3;
+
+  /// No description provided for @onboardingSubtitle3.
+  ///
+  /// In en, this message translates to:
+  /// **'Save time and move smarter every day. Experience the future of urban transportation.'**
+  String get onboardingSubtitle3;
+
+  /// No description provided for @skip.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get skip;
+
+  /// No description provided for @next.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get next;
+
+  /// No description provided for @back.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get back;
+
+  /// No description provided for @getStarted.
+  ///
+  /// In en, this message translates to:
+  /// **'Get Started'**
+  String get getStarted;
+
   /// No description provided for @join_us.
   ///
   /// In en, this message translates to:
@@ -1426,6 +1486,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sign in'**
   String get profile_title;
+
+  /// No description provided for @liveQueue.
+  ///
+  /// In en, this message translates to:
+  /// **'LIVE QUEUE'**
+  String get liveQueue;
+
+  /// No description provided for @realtimeStationUpdates.
+  ///
+  /// In en, this message translates to:
+  /// **'Realtime station updates'**
+  String get realtimeStationUpdates;
+
+  /// No description provided for @driversCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} Drivers'**
+  String driversCount(Object count);
+
+  /// No description provided for @noDriversInQueue.
+  ///
+  /// In en, this message translates to:
+  /// **'No drivers in queue'**
+  String get noDriversInQueue;
+
+  /// No description provided for @waitingDriversQueue.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for drivers to join the station queue.'**
+  String get waitingDriversQueue;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

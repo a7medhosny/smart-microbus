@@ -15,6 +15,9 @@ class NetworkFailure extends Failure {
 class UnknownFailure extends Failure {
   const UnknownFailure(super.message);
 }
+class CacheFailure extends Failure {
+  const CacheFailure(super.message);
+}
 
 class UnauthorizedFailure extends Failure {
   const UnauthorizedFailure() : super("Unauthorized");

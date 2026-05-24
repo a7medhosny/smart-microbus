@@ -678,6 +678,36 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get onboardingTitle1 => 'Smart Tracking';
+
+  @override
+  String get onboardingSubtitle1 => 'Real-time microbus tracking with GPS technology. Know exactly where your bus is at every moment.';
+
+  @override
+  String get onboardingTitle2 => 'Smart Routes';
+
+  @override
+  String get onboardingSubtitle2 => 'Optimized routes and intelligent navigation. Get to your destination faster and smarter.';
+
+  @override
+  String get onboardingTitle3 => 'Faster Daily Commute';
+
+  @override
+  String get onboardingSubtitle3 => 'Save time and move smarter every day. Experience the future of urban transportation.';
+
+  @override
+  String get skip => 'Skip';
+
+  @override
+  String get next => 'Next';
+
+  @override
+  String get back => 'Back';
+
+  @override
+  String get getStarted => 'Get Started';
+
+  @override
   String get join_us => 'Unlock Full Experience';
 
   @override
@@ -697,4 +727,21 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profile_title => 'Sign in';
+
+  @override
+  String get liveQueue => 'LIVE QUEUE';
+
+  @override
+  String get realtimeStationUpdates => 'Realtime station updates';
+
+  @override
+  String driversCount(Object count) {
+    return '$count Drivers';
+  }
+
+  @override
+  String get noDriversInQueue => 'No drivers in queue';
+
+  @override
+  String get waitingDriversQueue => 'Waiting for drivers to join the station queue.';
 }

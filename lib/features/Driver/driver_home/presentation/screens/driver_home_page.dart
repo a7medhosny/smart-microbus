@@ -10,8 +10,8 @@ import '../../../../maps/presentation/cubit/map_cubit.dart';
 import '../../domain/entities/driver_current_status.dart';
 import '../widgets/driver_home_skeleton.dart';
 import '../widgets/header_card.dart';
-import '../widgets/in_queue_section.dart';
-import '../widgets/started_trip.dart';
+import '../widgets/queue/in_queue_section.dart';
+import '../widgets/startedTrip/started_trip_section.dart';
 
 class DriverHomeView extends StatefulWidget {
   const DriverHomeView({super.key});
