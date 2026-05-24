@@ -7,6 +7,7 @@ import '../../domain/entities/report_entity.dart';
 import '../../domain/entities/report_reason_entity.dart';
 import '../../domain/entities/report.dart';
 import '../cubit/passenger_cubit.dart';
+import '../widgets/guest_widgets/guest_required_bottom_sheet.dart';
 
 class ReportPage extends StatefulWidget {
   final String plateNumber;
@@ -152,6 +153,9 @@ class _ReportPageState extends State<ReportPage> {
                   curr is UpdateReportSuccess ||
                   curr is UpdateReportError,
               listener: (context, state) {
+                if (state is GuestRestrictedState) {
+                  showGuestRequiredBottomSheet(context);
+                }
                 if (state is SubmitReportSuccess ||
                     state is UpdateReportSuccess) {
                   final message = state is SubmitReportSuccess

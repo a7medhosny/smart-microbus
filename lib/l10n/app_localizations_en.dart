@@ -667,7 +667,31 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get continue_as_guest => 'Continue as a Guest';
+
+  @override
   String duration_min(Object value) {
     return '$value min';
   }
+
+  @override
+  String get join_us => 'Unlock Full Experience';
+
+  @override
+  String get guest_banner_desc => 'Create an account or sign in to access personalized features, saved items, reports, and real-time updates.';
+
+  @override
+  String get login_required => 'Login Required';
+
+  @override
+  String get guest_access_message => 'Create an account or sign in to access this feature';
+
+  @override
+  String get create_account => 'Create Account';
+
+  @override
+  String get guest_profile_message => 'Sign in to save your preferences and access all features.';
+
+  @override
+  String get profile_title => 'Sign in';
 }

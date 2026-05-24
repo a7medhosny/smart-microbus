@@ -49,3 +49,5 @@ final class ResetPasswordFailure extends LoginState {
   @override
   List<Object> get props => [message];
 }
+
+class LoginGuestSuccess extends LoginState {}

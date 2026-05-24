@@ -7,11 +7,13 @@ import 'package:smart_microbus/features/profile/presentation/widgets/profile_lis
 import 'package:smart_microbus/features/profile/presentation/widgets/section_card.dart';
 import 'package:smart_microbus/l10n/app_localizations.dart';
 
+import '../../../../core/auth/session_manager.dart';
 import '../../../../core/helpers/spacing.dart';
 import '../../../../core/localization/locale_cubit.dart';
 
 import '../../../../core/localization/locale_state.dart';
 import '../../../../core/theme/theme_cubit.dart';
+import '../../../passener/presentation/widgets/guest_widgets/guest_profile_widget.dart';
 import '../cubit/profile_cubit.dart';
 
 import '../cubit/profile_state.dart';
@@ -33,11 +35,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void initState() {
     super.initState();
 
-    context.read<ProfileCubit>().loadProfile();
+    if (!SessionManager.isGuest) {
+      context.read<ProfileCubit>().loadProfile();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    if (SessionManager.isGuest) {
+      return Scaffold(
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+
+        body: const GuestProfileWidget(),
+      );
+    }
     final primary = Theme.of(context).colorScheme.primary;
     final tr = AppLocalizations.of(context)!;
     return Scaffold(

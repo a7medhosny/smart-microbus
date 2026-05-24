@@ -261,17 +261,26 @@
       "value": {}
     }
   },
-
+ "continue_as_guest": "المتابعة كضيف",
   "duration_min": "{value} دقيقة",
   "@duration_min": {
     "placeholders": {
       "value": {}
     }
-  }
+
+  },
 
 
 
-
+ "join_us": "استمتع بالتجربة الكاملة",
+  "guest_banner_desc": "أنشئ حسابًا أو سجل الدخول للوصول إلى الميزات المخصصة، والعناصر المحفوظة، والتقارير، والتحديثات المباشرة.",
+   "login_required": "تسجيل الدخول مطلوب",
+  "guest_access_message":
+      "أنشئ حسابًا أو سجل دخولك للوصول إلى هذه الميزة",
+  "create_account": "إنشاء حساب",
+  "guest_profile_message":
+"سجل دخولك لحفظ تفضيلاتك والوصول لجميع المميزات.",
+"profile_title": "سجل دخولك"
 
 
 }

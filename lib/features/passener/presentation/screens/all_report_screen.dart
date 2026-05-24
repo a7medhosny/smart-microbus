@@ -13,7 +13,6 @@ import '../widgets/report_widgets/add_report_sheet.dart';
 import '../widgets/report_widgets/plate_input_field.dart';
 import '../widgets/report_widgets/report_card_mini.dart';
 
-
 class AllReportScreen extends StatefulWidget {
   const AllReportScreen({super.key});
 

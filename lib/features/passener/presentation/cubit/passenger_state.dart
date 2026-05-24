@@ -350,3 +350,12 @@ class GetDriverByPlateNumberError extends PassengerState {
   @override
   List<Object?> get props => [message];
 }
+
+class GuestRestrictedState extends PassengerState {
+  final int trigger;
+
+  const GuestRestrictedState(this.trigger);
+
+  @override
+  List<Object?> get props => [trigger];
+}

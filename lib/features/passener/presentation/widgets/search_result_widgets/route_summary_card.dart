@@ -5,6 +5,8 @@ import 'package:smart_microbus/features/passener/domain/entities/route_summary_e
 import 'package:smart_microbus/features/passener/presentation/cubit/passenger_cubit.dart';
 import 'package:smart_microbus/l10n/app_localizations.dart';
 
+import '../guest_widgets/guest_required_bottom_sheet.dart';
+
 class RouteSummaryCard extends StatefulWidget {
   final RouteSummaryEntity summary;
   final String routeId;
@@ -62,7 +64,27 @@ class _RouteSummaryCardState extends State<RouteSummaryCard> {
               ),
 
               ///  Favorite Button
-              BlocBuilder<PassengerCubit, PassengerState>(
+              BlocConsumer<PassengerCubit, PassengerState>(
+                listenWhen: (prev, curr) =>
+                    curr is AddFavoriteError || curr is RemoveFavoriteError,
+
+                listener: (context, state) {
+                  if (state is GuestRestrictedState) {
+                    showGuestRequiredBottomSheet(context);
+                  }
+                  if (state is AddFavoriteError) {
+                    ScaffoldMessenger.of(
+                      context,
+                    ).showSnackBar(SnackBar(content: Text(state.message)));
+                  }
+
+                  if (state is RemoveFavoriteError) {
+                    ScaffoldMessenger.of(
+                      context,
+                    ).showSnackBar(SnackBar(content: Text(state.message)));
+                  }
+                },
+
                 buildWhen: (prev, curr) =>
                     curr is GetFavoritesSuccess ||
                     curr is AddFavoriteSuccess ||

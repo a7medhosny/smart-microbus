@@ -48,7 +48,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
 
           /// ❌ Error
           if (state is GetFavoritesError) {
-            AppErrorWidget(
+            return AppErrorWidget(
               message: state.message,
               onRetry: () {
                 context.read<PassengerCubit>().getFavorites();

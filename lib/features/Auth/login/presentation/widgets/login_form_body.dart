@@ -14,6 +14,8 @@ import 'package:smart_microbus/l10n/app_localizations.dart';
 import '../../../../../core/helpers/app_regex.dart';
 import '../../../../../core/networking/dio_factory.dart';
 import '../../../../../core/routing/routes.dart';
+import '../../../../../core/storage/cache_helper.dart';
+import '../../../../passener/presentation/cubit/passenger_cubit.dart';
 
 class LoginFormBody extends StatefulWidget {
   const LoginFormBody({
@@ -145,7 +147,7 @@ class _LoginFormBodyState extends State<LoginFormBody> {
                   );
                   return;
                 }
-                
+
                 ShowToastHelper.showToast(context, loc.loginSuccess);
                 widget.phoneController.clear();
                 widget.passwordController.clear();
@@ -159,12 +161,15 @@ class _LoginFormBodyState extends State<LoginFormBody> {
                   phone: user.phone,
                   userId: TokenHelper.extractUserId(user.token) ?? '',
                 );
+
                 DioFactory.setTokenIntoHeaderAfterLogin(user.token);
                 if (isDriver) {
                   context.pushNamedAndRemoveUntilRoot(
                     Routes.driverNavigationScreen,
                   );
                 } else {
+                  CacheHelper.deleteCacheItem(key: CacheKeys.guestId);
+                  context.read<PassengerCubit>().changeBottomNavIndex(0);
                   context.pushNamedAndRemoveUntilRoot(
                     Routes.passengerNavigationScreen,
                   );

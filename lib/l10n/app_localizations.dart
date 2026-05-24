@@ -1367,11 +1367,59 @@ abstract class AppLocalizations {
   /// **'{value} km'**
   String distance_km(Object value);
 
+  /// No description provided for @continue_as_guest.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue as a Guest'**
+  String get continue_as_guest;
+
   /// No description provided for @duration_min.
   ///
   /// In en, this message translates to:
   /// **'{value} min'**
   String duration_min(Object value);
+
+  /// No description provided for @join_us.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock Full Experience'**
+  String get join_us;
+
+  /// No description provided for @guest_banner_desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Create an account or sign in to access personalized features, saved items, reports, and real-time updates.'**
+  String get guest_banner_desc;
+
+  /// No description provided for @login_required.
+  ///
+  /// In en, this message translates to:
+  /// **'Login Required'**
+  String get login_required;
+
+  /// No description provided for @guest_access_message.
+  ///
+  /// In en, this message translates to:
+  /// **'Create an account or sign in to access this feature'**
+  String get guest_access_message;
+
+  /// No description provided for @create_account.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Account'**
+  String get create_account;
+
+  /// No description provided for @guest_profile_message.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to save your preferences and access all features.'**
+  String get guest_profile_message;
+
+  /// No description provided for @profile_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in'**
+  String get profile_title;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

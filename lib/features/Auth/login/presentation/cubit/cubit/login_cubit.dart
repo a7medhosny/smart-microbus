@@ -8,6 +8,8 @@ import 'package:smart_microbus/features/Auth/login/domain/usecases/forget_passwo
 import 'package:smart_microbus/features/Auth/login/domain/usecases/login_use_case.dart';
 import 'package:smart_microbus/features/Auth/login/domain/usecases/reset_password_use_case.dart';
 
+import '../../../../../../core/auth/session_manager.dart';
+
 part 'login_state.dart';
 
 class LoginCubit extends Cubit<LoginState> {
@@ -45,5 +47,13 @@ class LoginCubit extends Cubit<LoginState> {
       (failure) => emit(ResetPasswordFailure(message: failure.message)),
       (_) => emit(ResetPasswordSuccess()),
     );
+  }
+
+  Future<void> continueAsGuest() async {
+    emit(LoginLoading());
+
+    await SessionManager.enterGuest();
+
+    emit(LoginGuestSuccess());
   }
 }

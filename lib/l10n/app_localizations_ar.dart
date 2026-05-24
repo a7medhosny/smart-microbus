@@ -667,7 +667,31 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String get continue_as_guest => 'المتابعة كضيف';
+
+  @override
   String duration_min(Object value) {
     return '$value دقيقة';
   }
+
+  @override
+  String get join_us => 'استمتع بالتجربة الكاملة';
+
+  @override
+  String get guest_banner_desc => 'أنشئ حسابًا أو سجل الدخول للوصول إلى الميزات المخصصة، والعناصر المحفوظة، والتقارير، والتحديثات المباشرة.';
+
+  @override
+  String get login_required => 'تسجيل الدخول مطلوب';
+
+  @override
+  String get guest_access_message => 'أنشئ حسابًا أو سجل دخولك للوصول إلى هذه الميزة';
+
+  @override
+  String get create_account => 'إنشاء حساب';
+
+  @override
+  String get guest_profile_message => 'سجل دخولك لحفظ تفضيلاتك والوصول لجميع المميزات.';
+
+  @override
+  String get profile_title => 'سجل دخولك';
 }

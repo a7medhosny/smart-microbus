@@ -5,10 +5,12 @@ import 'package:smart_microbus/features/passener/presentation/cubit/passenger_cu
 import 'package:smart_microbus/features/passener/presentation/widgets/search_widgets/passenger_search_body.dart';
 import 'package:smart_microbus/l10n/app_localizations.dart';
 
+import '../../../../core/auth/guest_guard.dart';
 import '../../../../core/helpers/app_error_helper.dart';
 import '../../../../core/routing/routes.dart';
 import '../../../../core/storage/cache_helper.dart';
 import '../../../../core/storage/cache_keys.dart';
+import '../widgets/guest_widgets/guest_banner.dart';
 
 class PassengerSearchView extends StatefulWidget {
   const PassengerSearchView({super.key});
@@ -21,10 +23,13 @@ class _PassengerSearchViewState extends State<PassengerSearchView> {
   @override
   void initState() {
     super.initState();
-
     final cubit = context.read<PassengerCubit>();
+
     cubit.getRoutes();
-    cubit.getFavorites();
+
+    if (GuestGuard.canAccess(GuestFeature.getFavouriteRoutes)) {
+      cubit.getFavorites();
+    }
   }
 
   @override

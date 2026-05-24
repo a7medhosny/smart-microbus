@@ -7,6 +7,7 @@ import 'package:smart_microbus/features/passener/presentation/cubit/passenger_cu
 import '../../../../l10n/app_localizations.dart';
 import '../../../maps/domain/enums/map_mode.dart';
 import '../../../maps/presentation/cubit/map_cubit.dart';
+import '../widgets/guest_widgets/guest_required_bottom_sheet.dart';
 
 class PassengerNavigationScreen extends StatelessWidget {
   const PassengerNavigationScreen({super.key});
@@ -29,8 +30,23 @@ class PassengerNavigationScreen extends StatelessWidget {
     final cubit = context.read<PassengerCubit>();
     final l10n = AppLocalizations.of(context)!;
 
-    return BlocBuilder<PassengerCubit, PassengerState>(
-      buildWhen: (prev, curr) => curr is ChangePassengerBottomNavState,
+    return BlocConsumer<PassengerCubit, PassengerState>(
+      listenWhen: (prev, current) {
+        return current is GuestRestrictedState;
+      },
+      listener: (context, state) {
+        print("STATE TYPE = ${state.runtimeType}");
+        if (state is GuestRestrictedState) {
+          showGuestRequiredBottomSheet(context);
+        }
+      },
+      buildWhen: (prev, curr) {
+        if (curr is GuestRestrictedState) {
+          return false;
+        }
+
+        return curr is ChangePassengerBottomNavState;
+      },
       builder: (context, state) {
         final currentIndex = cubit.currentNavIndex;
 

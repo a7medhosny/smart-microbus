@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:smart_microbus/core/auth/session_manager.dart';
 
 import 'package:smart_microbus/core/helpers/extensions.dart';
 import 'package:smart_microbus/core/networking/dio_factory.dart';
@@ -20,6 +21,7 @@ import 'core/localization/locale_state.dart';
 import 'core/routing/app_router.dart';
 import 'core/theme/app_theme.dart';
 import 'core/theme/theme_cubit.dart';
+import 'features/Auth/login/presentation/cubit/cubit/login_cubit.dart';
 import 'features/Driver/driver_home/presentation/cubit/driver_home_cubit.dart';
 import 'features/passener/presentation/cubit/passenger_location_cubit.dart';
 import 'features/profile/presentation/cubit/profile_cubit.dart';
@@ -33,18 +35,20 @@ void main() async {
   await NotificationService.requestPermission();
   print("🟢Token: ${TokenManager.token}");
   print("🟢User ID: ${TokenManager.userId}");
-  final bool isLoggedIn = await initializeAuth();
-
-  runApp(MyApp(isLoggedIn: isLoggedIn));
+  // final bool isLoggedIn = await initializeAuth();
+  final sessionState = await SessionManager.initializeSession();
+  runApp(MyApp(sessionState: sessionState));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key, required this.isLoggedIn});
+  const MyApp({super.key, required this.sessionState});
 
-  final bool isLoggedIn;
+  final SessionState sessionState;
 
   @override
   Widget build(BuildContext context) {
+    String initialRoute;
+
     final appRouter = AppRouter();
     // final bool isLoggedIn = TokenManager.token != null;
     final bool isDriver = TokenManager.role == 'Driver';
@@ -52,17 +56,35 @@ class MyApp extends StatelessWidget {
     final driverCubit = getIt<DriverHomeCubit>();
     AppStateManager.passengerCubit = passengerCubit;
     AppStateManager.driverCubit = driverCubit;
+    switch (sessionState) {
+      case SessionState.guest:
+        initialRoute = Routes.passengerNavigationScreen;
+
+        break;
+
+      case SessionState.authenticated:
+        initialRoute = isDriver
+            ? Routes.driverNavigationScreen
+            : Routes.passengerNavigationScreen;
+
+        break;
+
+      case SessionState.unauthenticated:
+        initialRoute = Routes.homeScreen;
+
+        break;
+    }
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => getIt<LocaleCubit>()),
         BlocProvider(create: (_) => getIt<ThemeCubit>()),
         BlocProvider(create: (_) => getIt<RegisterCubit>()),
+        BlocProvider(create: (_) => getIt<LoginCubit>()),
         BlocProvider(create: (_) => passengerCubit),
         BlocProvider(create: (_) => getIt<ProfileCubit>()),
         BlocProvider(create: (_) => getIt<MapCubit>()..initialize()),
         BlocProvider(create: (_) => getIt<PassengerLocationCubit>()),
         BlocProvider(create: (_) => driverCubit),
-        
       ],
       child: BlocBuilder<LocaleCubit, LocaleState>(
         builder: (context, localeState) {
@@ -78,11 +100,7 @@ class MyApp extends StatelessWidget {
                     debugShowCheckedModeBanner: false,
                     navigatorKey: navigatorKey,
                     onGenerateRoute: appRouter.onGenerateRoute,
-                    initialRoute: isLoggedIn
-                        ? isDriver
-                              ? Routes.driverNavigationScreen
-                              : Routes.passengerNavigationScreen
-                        : Routes.homeScreen,
+                    initialRoute: initialRoute,
                     // ================= Localization =================
                     locale: localeState.locale,
                     supportedLocales: AppLocalizations.supportedLocales,
@@ -118,137 +136,165 @@ class HomeScreen extends StatelessWidget {
     final tr = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
 
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        title: Text(
-          tr.appName,
-          style: const TextStyle(fontWeight: FontWeight.bold),
-        ),
-        centerTitle: true,
-        actions: [
-          IconButton(
-            onPressed: themeCubit.toggleTheme,
-            icon: const Icon(Icons.dark_mode_rounded),
+    return BlocListener<LoginCubit, LoginState>(
+      listener: (context, state) {
+        if (state is LoginGuestSuccess) {
+          context.pushNamedRoot(Routes.passengerNavigationScreen);
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          elevation: 0,
+          title: Text(
+            tr.appName,
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
-        ],
-      ),
+          centerTitle: true,
+          actions: [
+            IconButton(
+              onPressed: themeCubit.toggleTheme,
+              icon: const Icon(Icons.dark_mode_rounded),
+            ),
+          ],
+        ),
 
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              /// LOGO / ICON
-              Container(
-                padding: const EdgeInsets.all(25),
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: theme.colorScheme.primary.withOpacity(.1),
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                /// LOGO / ICON
+                Container(
+                  padding: const EdgeInsets.all(25),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: theme.colorScheme.primary.withOpacity(.1),
+                  ),
+                  child: Icon(
+                    Icons.directions_bus_rounded,
+                    size: 70,
+                    color: theme.colorScheme.primary,
+                  ),
                 ),
-                child: Icon(
-                  Icons.directions_bus_rounded,
-                  size: 70,
-                  color: theme.colorScheme.primary,
+
+                const SizedBox(height: 25),
+
+                /// APP NAME
+                Text(
+                  tr.welcomeToMinya,
+                  textAlign: TextAlign.center,
+                  style: theme.textTheme.headlineMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
 
-              const SizedBox(height: 25),
+                const SizedBox(height: 8),
 
-              /// APP NAME
-              Text(
-                tr.welcomeToMinya,
-                textAlign: TextAlign.center,
-                style: theme.textTheme.headlineMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
+                Text(
+                  tr.chooseRoleDescription,
+                  textAlign: TextAlign.center,
+                  style: theme.textTheme.bodyMedium,
                 ),
-              ),
 
-              const SizedBox(height: 8),
+                const SizedBox(height: 40),
 
-              Text(
-                tr.chooseRoleDescription,
-                textAlign: TextAlign.center,
-                style: theme.textTheme.bodyMedium,
-              ),
+                /// LOGIN BUTTON
+                SizedBox(
+                  width: double.infinity,
+                  height: 55,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      context.pushNamedRoot(Routes.login);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                    ),
+                    child: Text(tr.login, style: const TextStyle(fontSize: 16)),
+                  ),
+                ),
 
-              const SizedBox(height: 40),
+                const SizedBox(height: 20),
 
-              /// LOGIN BUTTON
-              SizedBox(
-                width: double.infinity,
-                height: 55,
-                child: ElevatedButton(
-                  onPressed: () {
-                    context.pushNamedRoot(Routes.login);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
+                /// Register BUTTON
+                SizedBox(
+                  width: double.infinity,
+                  height: 55,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      context.pushNamedRoot(Routes.register);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                    ),
+                    child: Text(
+                      tr.register,
+                      style: const TextStyle(fontSize: 16),
                     ),
                   ),
-                  child: Text(tr.login, style: const TextStyle(fontSize: 16)),
                 ),
-              ),
 
-              const SizedBox(height: 20),
-
-              /// Register BUTTON
-              SizedBox(
-                width: double.infinity,
-                height: 55,
-                child: ElevatedButton(
-                  onPressed: () {
-                    context.pushNamedRoot(Routes.register);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
+                const SizedBox(height: 30),
+                //geust
+                SizedBox(
+                  width: double.infinity,
+                  height: 55,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      context.read<LoginCubit>().continueAsGuest();
+                    },
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                    ),
+                    child: Text(
+                      tr.continue_as_guest,
+                      style: const TextStyle(fontSize: 16),
                     ),
                   ),
-                  child: Text(
-                    tr.register,
-                    style: const TextStyle(fontSize: 16),
-                  ),
                 ),
-              ),
 
-              const SizedBox(height: 30),
+                const SizedBox(height: 30),
 
-              /// LANGUAGE SWITCH
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  OutlinedButton(
-                    onPressed: localeCubit.toEnglish,
-                    child: const Text("English"),
-                  ),
-                  const SizedBox(width: 12),
-                  OutlinedButton(
-                    onPressed: localeCubit.toArabic,
-                    child: const Text("العربية"),
-                  ),
-                ],
-              ),
-              // ElevatedButton(
-              //   onPressed: () {
-              //     NotificationService.showNotification(
-              //       title: 'notification',
-              //       body: 'fjifjijr',
-              //     );
-              //   },
-              //   style: ElevatedButton.styleFrom(
-              //     shape: RoundedRectangleBorder(
-              //       borderRadius: BorderRadius.circular(16),
-              //     ),
-              //   ),
-              //   child: Text(
-              //     'send notification',
-              //     style: const TextStyle(fontSize: 16),
-              //   ),
-              // ),
-            ],
+                /// LANGUAGE SWITCH
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    OutlinedButton(
+                      onPressed: localeCubit.toEnglish,
+                      child: const Text("English"),
+                    ),
+                    const SizedBox(width: 12),
+                    OutlinedButton(
+                      onPressed: localeCubit.toArabic,
+                      child: const Text("العربية"),
+                    ),
+                  ],
+                ),
+                // ElevatedButton(
+                //   onPressed: () {
+                //     NotificationService.showNotification(
+                //       title: 'notification',
+                //       body: 'fjifjijr',
+                //     );
+                //   },
+                //   style: ElevatedButton.styleFrom(
+                //     shape: RoundedRectangleBorder(
+                //       borderRadius: BorderRadius.circular(16),
+                //     ),
+                //   ),
+                //   child: Text(
+                //     'send notification',
+                //     style: const TextStyle(fontSize: 16),
+                //   ),
+                // ),
+              ],
+            ),
           ),
         ),
       ),

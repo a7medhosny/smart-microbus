@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/auth/guest_guard.dart';
 import '../../../../core/storage/cache_helper.dart';
 import '../../../../core/storage/cache_keys.dart';
 import '../../domain/entities/all_report_request_entity.dart';
@@ -32,6 +33,7 @@ import '../../domain/usecases/is_route_favourite_use_case.dart';
 import '../../domain/usecases/remove_route_from_fav_use_case.dart';
 import '../../domain/usecases/submit_report_use_case.dart';
 import '../../domain/usecases/update_report_use_case.dart';
+import '../widgets/guest_widgets/guest_required_bottom_sheet.dart';
 
 part 'passenger_state.dart';
 
@@ -53,7 +55,7 @@ class PassengerCubit extends Cubit<PassengerState> {
   final DeleteReportByIdUseCase deleteReportByIdUseCase;
   final UpdateReportUseCase updateReportUseCase;
   final GetDriverByPlateNumber getDriverByPlateNumber;
-
+  int _guestTrigger = 0;
   PassengerCubit(
     this.getRoutesUseCase,
     this.getRouteDestinationUseCase,
@@ -103,18 +105,53 @@ class PassengerCubit extends Cubit<PassengerState> {
   bool showSearchField = false;
   final TextEditingController searchPlateController = TextEditingController();
 
+  // void changeBottomNavIndex(int index) {
+  //   currentNavIndex = index;
+  //   if (lang != CacheHelper.getCacheData(key: CacheKeys.localeKey)) {
+  //     lang = CacheHelper.getCacheData(key: CacheKeys.localeKey);
+  //     getRoutes();
+  //     getFavorites();
+  //     getAllReports();
+  //   }
+  //   // print('lang : ${lang}');
+  //   // print(
+  //   //   'System lang : ${CacheHelper.getCacheData(key: CacheKeys.localeKey)}',
+  //   // );
+
+  //   emit(ChangePassengerBottomNavState(index));
+  // }
   void changeBottomNavIndex(int index) {
+    // ===== Guest Guard =====
+
+    if (index == 1 && !GuestGuard.canAccess(GuestFeature.getFavouriteRoutes)) {
+      emit(GuestRestrictedState(++_guestTrigger));
+
+      return;
+    }
+
+    if (index == 2 && !GuestGuard.canAccess(GuestFeature.getAllReports)) {
+      emit(GuestRestrictedState(++_guestTrigger));
+
+      return;
+    }
+
     currentNavIndex = index;
+
+    // ===== Refresh Data On Locale Change =====
+
     if (lang != CacheHelper.getCacheData(key: CacheKeys.localeKey)) {
       lang = CacheHelper.getCacheData(key: CacheKeys.localeKey);
+
       getRoutes();
-      getFavorites();
-      getAllReports();
+
+      if (GuestGuard.canAccess(GuestFeature.getFavouriteRoutes)) {
+        getFavorites();
+      }
+
+      if (GuestGuard.canAccess(GuestFeature.getAllReports)) {
+        getAllReports();
+      }
     }
-    // print('lang : ${lang}');
-    // print(
-    //   'System lang : ${CacheHelper.getCacheData(key: CacheKeys.localeKey)}',
-    // );
 
     emit(ChangePassengerBottomNavState(index));
   }
@@ -204,6 +241,12 @@ class PassengerCubit extends Cubit<PassengerState> {
 
   // ================= FAVORITES =================
   Future<void> addToFavorites(String routeId) async {
+    print("🔥 GET addToFavorites");
+    if (!GuestGuard.canAccess(GuestFeature.addFavourite)) {
+      emit(GuestRestrictedState(++_guestTrigger));
+      print("🚨 addToFavorites GUEST");
+      return;
+    }
     emit(AddFavoriteLoading());
 
     final result = await addRouteToFavouriteUseCase(routeId);
@@ -217,6 +260,12 @@ class PassengerCubit extends Cubit<PassengerState> {
   }
 
   Future<void> removeFromFavorites(String routeId) async {
+    print("🔥 GET removeFromFavorites");
+    if (!GuestGuard.canAccess(GuestFeature.removeFavourite)) {
+      emit(GuestRestrictedState(++_guestTrigger));
+      print("🚨 removeFromFavorites GUEST");
+      return;
+    }
     emit(RemoveFavoriteLoading());
 
     final result = await removeRouteFromFavoritesUceCase(routeId);
@@ -230,6 +279,13 @@ class PassengerCubit extends Cubit<PassengerState> {
   }
 
   Future<void> checkIfFavorite(String routeId) async {
+    print("🔥 GET checkIfFavorite");
+    if (!GuestGuard.canAccess(GuestFeature.routeFavourite)) {
+      emit(GuestRestrictedState(++_guestTrigger));
+      print("🚨 checkIfFavorite GUEST");
+
+      return;
+    }
     emit(CheckFavoriteLoading());
 
     final isFav = favouriteRoutes.any((route) => route.routeId == routeId);
@@ -245,6 +301,11 @@ class PassengerCubit extends Cubit<PassengerState> {
   }
 
   Future<void> getFavorites() async {
+    print("🔥 GET getFavorites");
+    if (!GuestGuard.canAccess(GuestFeature.getFavouriteRoutes)) {
+      print("🚨 getFavorites GUEST");
+      return;
+    }
     emit(GetFavoritesLoading());
 
     final result = await getFavouriteRoutes();
@@ -272,6 +333,12 @@ class PassengerCubit extends Cubit<PassengerState> {
   // }
 
   Future<void> submitReport(ReportEntity report) async {
+    print("🔥 GET submitReport");
+    if (!GuestGuard.canAccess(GuestFeature.submitReport)) {
+      emit(GuestRestrictedState(++_guestTrigger));
+      print("🚨 submitReport Geust");
+      return;
+    }
     emit(SubmitReportLoading());
 
     final result = await submitReportUseCase(report);
@@ -314,6 +381,11 @@ class PassengerCubit extends Cubit<PassengerState> {
   //   });
   // }
   Future<void> getAllReports({AllrportRequestEntity? filters}) async {
+    print("🔥 GET getAllReports");
+    if (!GuestGuard.canAccess(GuestFeature.getAllReports)) {
+      print("🚨 getAllReports Geust");
+      return;
+    }
     emit(GetAllReportsLoading());
 
     final result = await getAllReportsUseCase(requestEntity: filters);
@@ -332,6 +404,13 @@ class PassengerCubit extends Cubit<PassengerState> {
 
   /// ================= GET REPORT BY ID =================
   Future<void> getReportById(String id) async {
+    print("🔥 GET getReportById");
+    if (!GuestGuard.canAccess(GuestFeature.getReportById)) {
+      emit(GuestRestrictedState(++_guestTrigger));
+      print("🚨 getReportById Geust");
+
+      return;
+    }
     emit(GetReportByIdLoading());
 
     final result = await getReportByIdUseCase(id);
@@ -344,6 +423,12 @@ class PassengerCubit extends Cubit<PassengerState> {
 
   /// ================= DELETE =================
   Future<void> deleteReport(String id) async {
+    print("🔥 GET deleteReport");
+    if (!GuestGuard.canAccess(GuestFeature.deleteReport)) {
+      emit(GuestRestrictedState(++_guestTrigger));
+      print("🚨 deleteReport Geust");
+      return;
+    }
     emit(DeleteReportLoading());
 
     final result = await deleteReportByIdUseCase(id);
@@ -364,6 +449,12 @@ class PassengerCubit extends Cubit<PassengerState> {
 
   /// ================= UPDATE =================
   Future<void> updateReport(String id, ReportEntity report) async {
+    print("🔥 GET updateReport");
+    if (!GuestGuard.canAccess(GuestFeature.updateReport)) {
+      emit(GuestRestrictedState(++_guestTrigger));
+      print("🚨 updateReport Geust");
+      return;
+    }
     emit(UpdateReportLoading());
 
     final result = await updateReportUseCase(id, report);

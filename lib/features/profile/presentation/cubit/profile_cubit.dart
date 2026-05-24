@@ -5,6 +5,7 @@ import 'package:smart_microbus/features/profile/domain/usecases/delete_profile_p
 import 'package:smart_microbus/features/profile/domain/usecases/upload_profile_photo_use_case.dart';
 import 'package:smart_microbus/features/profile/presentation/cubit/profile_state.dart';
 
+import '../../../../core/auth/guest_guard.dart';
 import '../../domain/entities/profile.dart';
 import '../../domain/usecases/delete_account_use_case.dart';
 import '../../domain/usecases/get_profile_usecase.dart';
@@ -32,6 +33,11 @@ class ProfileCubit extends Cubit<ProfileState> {
   /// Get Profile
   /// ==========================
   Future<void> loadProfile() async {
+    if (!GuestGuard.canAccess(GuestFeature.profile)) {
+      emit(ProfileError("Login required"));
+
+      return;
+    }
     emit(ProfileLoading());
 
     final result = await getProfileUseCase();

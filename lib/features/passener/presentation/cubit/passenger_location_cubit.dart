@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../../../core/auth/guest_guard.dart';
 import '../../../maps/domain/entities/driver_location_entity.dart';
 import '../../../maps/domain/usecases/get_driver_location_use_case.dart';
 
@@ -31,6 +32,16 @@ class PassengerLocationCubit extends Cubit<PassengerLocationState> {
   ) : super(const PassengerLocationState());
 
   Future<void> connect(String driverId) async {
+    if (!GuestGuard.canAccess(GuestFeature.liveLocation)) {
+      emit(
+        state.copyWith(
+          error: 'login is required',
+          guestTrigger: state.guestTrigger + 1,
+        ),
+      );
+
+      return;
+    }
     emit(state.copyWith(loading: true, error: null));
 
     // =========================

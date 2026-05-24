@@ -4,11 +4,13 @@ import 'package:smart_microbus/features/passener/domain/entities/on_the_way_micr
 import 'package:smart_microbus/features/passener/domain/entities/station_microbus_entity.dart';
 import 'package:smart_microbus/l10n/app_localizations.dart';
 
+import '../../../../../core/auth/guest_guard.dart';
 import '../../../../../core/helpers/extensions.dart';
 import '../../../../../core/routing/routes.dart';
 import '../../cubit/passenger_cubit.dart';
 import '../../screens/report_details_screen.dart';
 import '../../screens/report_screen.dart';
+import '../guest_widgets/guest_required_bottom_sheet.dart';
 
 class MicrobusCard extends StatelessWidget {
   final String driverName;
@@ -129,33 +131,39 @@ class MicrobusCard extends StatelessWidget {
 
               /// ================= ICONS =================
               Row(
-               
                 children: [
                   /// أيقونة الميكروباص
-                  if(!isOnTheWay)...[
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: theme.colorScheme.primary.withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(12),
+                  if (!isOnTheWay) ...[
+                    Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: theme.colorScheme.primary.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Icon(
+                        Icons.directions_bus,
+                        color: theme.colorScheme.primary,
+                      ),
                     ),
-                    child: Icon(
-                      Icons.directions_bus,
-                      color: theme.colorScheme.primary,
-                    ),
-                  ),
 
-                  const SizedBox(width: 8),
+                    const SizedBox(width: 8),
                   ],
 
                   /// ================= TRACK =================
                   if (isOnTheWay && driverId != null) ...[
-
                     InkWell(
                       borderRadius: BorderRadius.circular(12),
                       onTap: () {
+                        print("user tapped live trakink");
+                        if (!GuestGuard.canAccess(GuestFeature.liveLocation)) {
+                          showGuestRequiredBottomSheet(context);
+
+                          return;
+                        }
+
                         context.pushNamed(
                           Routes.driverTracking,
+
                           arguments: driverId!,
                         );
                       },
@@ -172,10 +180,8 @@ class MicrobusCard extends StatelessWidget {
                         ),
                       ),
                     ),
-                                      const SizedBox(width: 8),
-
+                    const SizedBox(width: 8),
                   ],
-
 
                   /// زرار Report (الجديد)
                   InkWell(

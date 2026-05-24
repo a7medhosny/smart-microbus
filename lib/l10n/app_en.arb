@@ -260,16 +260,24 @@
       "value": {}
     }
   },
-
+ "continue_as_guest": "Continue as a Guest",
   "duration_min": "{value} min",
   "@duration_min": {
     "placeholders": {
       "value": {}
     }
-  }
+  },
 
 
-
+ "join_us": "Unlock Full Experience",
+  "guest_banner_desc": "Create an account or sign in to access personalized features, saved items, reports, and real-time updates.",
+  "login_required": "Login Required",
+  "guest_access_message":
+      "Create an account or sign in to access this feature",
+  "create_account": "Create Account",
+  "guest_profile_message":
+"Sign in to save your preferences and access all features.",
+"profile_title": "Sign in"
 
 
 
