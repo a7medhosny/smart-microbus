@@ -9,13 +9,16 @@ class AppLocalizationsAr extends AppLocalizations {
   AppLocalizationsAr([String locale = 'ar']) : super(locale);
 
   @override
-  String get appName => 'SMART MICROBUS';
+  String get appName => 'وصلة';
 
   @override
   String get welcomeToMinya => 'أهلاً بك في المنيا';
 
   @override
-  String get chooseRoleDescription => 'يرجى اختيار دورك للبدء في استخدام نظام النقل الذكي';
+  String get chooseRoleDescription => 'تبدأ رحلتك الذكية من هنا. تتبّع رحلتك، تنقّل بسهولة، واستمتع بتجربة نقل أذكى';
+
+  @override
+  String get smart_transport_platform => 'منصة النقل الذكي';
 
   @override
   String get passenger => 'راكب';

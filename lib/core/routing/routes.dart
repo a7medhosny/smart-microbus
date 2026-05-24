@@ -30,5 +30,5 @@ class Routes {
   static const String reportPage = '/ReportPage';
   static const String routeScreen = '/routeScreen';
   static const String driverTracking = '/driverTracking';
-
+  static const splashScreen = "/splash";
 }

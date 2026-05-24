@@ -9,13 +9,16 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get appName => 'SMART MICROBUS';
+  String get appName => 'Wasla';
 
   @override
   String get welcomeToMinya => 'Welcome to Minya';
 
   @override
-  String get chooseRoleDescription => 'Please choose your role to start using the smart transport system';
+  String get chooseRoleDescription => 'Smart transportation starts here. Track, ride, and travel smarter';
+
+  @override
+  String get smart_transport_platform => 'Smart Transport Platform';
 
   @override
   String get passenger => 'Passenger';

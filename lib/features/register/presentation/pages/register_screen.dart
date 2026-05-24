@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smart_microbus/features/Auth/login/presentation/widgets/login_header.dart';
 
 import '../controllers/register_controllers.dart';
 import '../widgets/register_widgets/register_footer.dart';
@@ -30,7 +31,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
           child: Column(
             children: [
-              const RegisterHeader(),
+              const LoginHeader(),
 
               const SizedBox(height: 24),
 

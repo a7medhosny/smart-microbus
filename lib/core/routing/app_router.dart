@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smart_microbus/core/storage/cache_keys.dart';
+import 'package:smart_microbus/features/Auth/welcome/views/home_screen.dart';
+
 import 'package:smart_microbus/features/passener/domain/entities/on_the_way_microbus_entity.dart';
 
 import 'package:smart_microbus/features/passener/presentation/screens/passenger_search_view.dart';
@@ -14,7 +16,7 @@ import 'package:smart_microbus/features/Auth/login/presentation/cubit/cubit/logi
 import 'package:smart_microbus/features/Auth/login/presentation/screens/forgetp_password_screen.dart';
 import 'package:smart_microbus/features/Auth/login/presentation/screens/login_Screen.dart';
 import 'package:smart_microbus/features/Auth/login/presentation/screens/reset_password_screen.dart';
-import 'package:smart_microbus/main.dart';
+import 'package:smart_microbus/features/splash/views/splash_screen.dart';
 
 import '../../features/Driver/driver_home/presentation/cubit/driver_home_cubit.dart';
 import '../../features/Driver/driver_home/presentation/screens/driver_home_page.dart';
@@ -33,6 +35,8 @@ import 'routes.dart';
 class AppRouter {
   Route<dynamic>? onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
+      case Routes.splashScreen:
+        return _materialRoute(const SplashScreen());
       // ================= INITIAL =================
       case Routes.homeScreen:
         return _materialRoute(const HomeScreen());

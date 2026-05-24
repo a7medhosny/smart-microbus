@@ -1,11 +1,11 @@
 {
   "@@locale": "en",
 
-  "appName": "SMART MICROBUS",
+  "appName": "Wasla",
 
   "welcomeToMinya": "Welcome to Minya",
-  "chooseRoleDescription": "Please choose your role to start using the smart transport system",
-
+  "chooseRoleDescription": "Smart transportation starts here. Track, ride, and travel smarter",
+"smart_transport_platform": "Smart Transport Platform",
   "passenger": "Passenger",
   "passengerDescription": "Search for your trip and book your seat easily",
 

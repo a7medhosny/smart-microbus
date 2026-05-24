@@ -1,11 +1,11 @@
 {
   "@@locale": "ar",
 
-  "appName": "SMART MICROBUS",
+  "appName": "وصلة",
 
   "welcomeToMinya": "أهلاً بك في المنيا",
-  "chooseRoleDescription": "يرجى اختيار دورك للبدء في استخدام نظام النقل الذكي",
-
+  "chooseRoleDescription": "تبدأ رحلتك الذكية من هنا. تتبّع رحلتك، تنقّل بسهولة، واستمتع بتجربة نقل أذكى",
+"smart_transport_platform": "منصة النقل الذكي",
   "passenger": "راكب",
   "passengerDescription": "ابحث عن رحلتك واحجز مقعدك بسهولة",
 

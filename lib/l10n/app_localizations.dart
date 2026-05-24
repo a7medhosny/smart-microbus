@@ -98,7 +98,7 @@ abstract class AppLocalizations {
   /// No description provided for @appName.
   ///
   /// In en, this message translates to:
-  /// **'SMART MICROBUS'**
+  /// **'Wasla'**
   String get appName;
 
   /// No description provided for @welcomeToMinya.
@@ -110,8 +110,14 @@ abstract class AppLocalizations {
   /// No description provided for @chooseRoleDescription.
   ///
   /// In en, this message translates to:
-  /// **'Please choose your role to start using the smart transport system'**
+  /// **'Smart transportation starts here. Track, ride, and travel smarter'**
   String get chooseRoleDescription;
+
+  /// No description provided for @smart_transport_platform.
+  ///
+  /// In en, this message translates to:
+  /// **'Smart Transport Platform'**
+  String get smart_transport_platform;
 
   /// No description provided for @passenger.
   ///
