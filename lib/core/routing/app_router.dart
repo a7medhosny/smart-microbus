@@ -31,7 +31,6 @@ import '../../features/passener/presentation/widgets/search_result_widgets/on_th
 import '../../features/passener/presentation/widgets/search_result_widgets/station_list_screen.dart';
 import '../../features/on_boarding/presentation/pages/onboarding_screen.dart';
 import '../../features/staff_qr/presentation/cubit/staff_qr_cubit.dart';
-import '../../features/staff_qr/presentation/screens/staff_qr_screen.dart';
 import '../../features/staff_qr/presentation/screens/staff_qr_screenV2.dart';
 import 'routes.dart';
 
