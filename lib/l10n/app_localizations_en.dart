@@ -744,4 +744,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get waitingDriversQueue => 'Waiting for drivers to join the station queue.';
+
+  @override
+  String get language => 'Language';
 }

@@ -51,10 +51,7 @@ class GuestBanner extends StatelessWidget {
               Expanded(
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.of(
-                      context,
-                      rootNavigator: true,
-                    ).pushNamedAndRemoveUntil(Routes.login, (route) => false);
+                    context.pushNamed(Routes.login);
                   },
 
                   child: Text(tr.login),
@@ -66,13 +63,7 @@ class GuestBanner extends StatelessWidget {
               Expanded(
                 child: OutlinedButton(
                   onPressed: () {
-                    Navigator.of(
-                      context,
-                      rootNavigator: true,
-                    ).pushNamedAndRemoveUntil(
-                      Routes.register,
-                      (route) => false,
-                    );
+                    context.pushNamed(Routes.register);
                   },
 
                   child: Text(tr.register),

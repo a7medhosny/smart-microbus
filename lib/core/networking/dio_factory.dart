@@ -54,8 +54,7 @@ class DioFactory {
   static Interceptor _addLanguageHeader() {
     return InterceptorsWrapper(
       onRequest: (options, handler) {
-        final lang =
-            CacheHelper.getCacheData(key: CacheKeys.localeKey) ?? 'en';
+        final lang = CacheHelper.getCacheData(key: CacheKeys.localeKey) ?? 'ar';
         options.headers['Accept-Language'] = lang;
         handler.next(options);
       },
@@ -73,7 +72,7 @@ class DioFactory {
       _dio!.interceptors.add(AuthInterceptor(_dio!));
     }
   }
-  
+
   static void removeAuthInterceptor() {
     if (_dio == null) return;
 
@@ -84,9 +83,6 @@ class DioFactory {
     _dio!.options.headers.remove('Authorization');
   }
 }
-
-
-
 
 class AuthInterceptor extends Interceptor {
   final Dio dio;
@@ -201,7 +197,9 @@ class AuthInterceptor extends Interceptor {
   // 🔴 Logout
   // =========================
   Future<void> _handleLogout(
-      ErrorInterceptorHandler handler, DioException err) async {
+    ErrorInterceptorHandler handler,
+    DioException err,
+  ) async {
     TokenManager.clearLoginData();
 
     DioFactory.removeAuthInterceptor();
@@ -267,8 +265,7 @@ Future<bool> initializeAuth() async {
       token: newToken,
       refreshToken: res.refreshToken ?? '',
       expiration: res.expiration ?? '',
-      refreshTokenExpirationDateTime:
-          res.refreshTokenExpirationDateTime ?? '',
+      refreshTokenExpirationDateTime: res.refreshTokenExpirationDateTime ?? '',
       userName: res.userName ?? '',
       userId: TokenHelper.extractUserId(newToken) ?? '',
       phone: res.phone ?? '',

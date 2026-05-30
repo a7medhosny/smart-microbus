@@ -1,3 +1,4 @@
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_microbus/features/passener/presentation/cubit/passenger_cubit.dart';
@@ -78,6 +79,7 @@ class _RouteSelectionCardState extends State<RouteSelectionCard> {
 
           DropdownButtonFormField<String>(
             initialValue: selectedCity,
+            menuMaxHeight: 200,
             hint: Text(l10n.selectCity),
             decoration: buildDecoration(),
             items: cubit.routes
@@ -137,9 +139,13 @@ class _RouteSelectionCardState extends State<RouteSelectionCard> {
           ),
           const SizedBox(height: 6),
 
-          DropdownButtonFormField<String>(
-            initialValue: selectedRouteId,
+          DropdownButtonFormField2<String>(
+            valueListenable: ValueNotifier(selectedRouteId),
+
+            isExpanded: true,
+
             hint: Text(l10n.selectDestination),
+
             decoration: buildDecoration(
               suffix: isLoadingDestinations
                   ? const Padding(
@@ -152,15 +158,18 @@ class _RouteSelectionCardState extends State<RouteSelectionCard> {
                     )
                   : null,
             ),
-            items: cubit.destinations
-                .map(
-                  (e) => DropdownMenuItem(value: e.routeId, child: Text(e.to)),
-                )
-                .toList(),
+
+            dropdownStyleData: const DropdownStyleData(maxHeight: 200),
+
+            items: cubit.destinations.map((e) {
+              return DropdownItem<String>(value: e.routeId, child: Text(e.to));
+            }).toList(),
+
             onChanged: isDestinationEnabled
                 ? (value) {
                     setState(() {
                       selectedRouteId = value;
+
                       cubit.selectedRouteId = value;
 
                       cubit.selectedDestination = cubit.destinations.firstWhere(

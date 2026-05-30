@@ -16,16 +16,15 @@ class ForgetpPasswordScreen extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 22),
               child: Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(22),
+                padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
                   color: Theme.of(context).cardColor,
                   borderRadius: BorderRadius.circular(20),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withAlpha(15),
-                      blurRadius: 30,
-                      offset: const Offset(0, 15),
+                      color: Colors.black.withAlpha(10),
+                      blurRadius: 20,
+                      offset: const Offset(0, 10),
                     ),
                   ],
                 ),

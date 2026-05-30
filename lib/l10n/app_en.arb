@@ -304,7 +304,8 @@
     }
   },
   "noDriversInQueue": "No drivers in queue",
-  "waitingDriversQueue": "Waiting for drivers to join the station queue."
+  "waitingDriversQueue": "Waiting for drivers to join the station queue.",
+   "language": "Language"
 
 
 

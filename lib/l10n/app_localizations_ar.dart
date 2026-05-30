@@ -744,4 +744,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get waitingDriversQueue => 'في انتظار انضمام السائقين إلى طابور المحطة.';
+
+  @override
+  String get language => 'اللغة';
 }

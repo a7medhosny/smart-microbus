@@ -41,6 +41,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   @override
+  void didUpdateWidget(covariant ProfileScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (!SessionManager.isGuest) {
+      context.read<ProfileCubit>().loadProfile();
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     if (SessionManager.isGuest) {
       return Scaffold(

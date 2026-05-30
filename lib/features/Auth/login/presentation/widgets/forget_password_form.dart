@@ -26,136 +26,133 @@ class ForgetPasswordForm extends StatelessWidget {
     final loc = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Icon(
-            Icons.lock_reset_rounded,
-            size: 70,
-            color: theme.colorScheme.primary,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Icon(
+          Icons.lock_reset_rounded,
+          size: 70,
+          color: theme.colorScheme.primary,
+        ),
+
+        verticalSpace(20),
+
+        Text(
+          loc.forgetPasswordFormTitle,
+          textAlign: TextAlign.center,
+          style: theme.textTheme.titleMedium?.copyWith(
+            fontWeight: FontWeight.bold,
           ),
+        ),
 
-          verticalSpace(20),
+        verticalSpace(8),
 
-          Text(
-            loc.forgetPasswordFormTitle,
-            textAlign: TextAlign.center,
-            style: theme.textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
+        Text(
+          loc.forgetPasswordFormDescription,
+          textAlign: TextAlign.center,
+          style: theme.textTheme.bodyMedium,
+        ),
+
+        verticalSpace(40),
+        Card(
+          elevation: 0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
           ),
+          child: Form(
+            key: formKey,
+            child: Column(
+              children: [
+                CustomTextField(
+                  labelText: loc.phoneNumber,
+                  controller: phoneController,
+                  keyboardType: TextInputType.phone,
 
-          verticalSpace(8),
-
-          Text(
-            loc.forgetPasswordFormDescription,
-            textAlign: TextAlign.center,
-            style: theme.textTheme.bodyMedium,
-          ),
-
-          verticalSpace(40),
-          Card(
-            elevation: 0,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Form(
-              key: formKey,
-              child: Column(
-                children: [
-                  CustomTextField(
-                    labelText: loc.phoneNumber,
-                    controller: phoneController,
-                    keyboardType: TextInputType.phone,
-
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return loc.phoneRequired;
-                      }
-                      if (!AppRegex.isPhoneNumberValid(value)) {
-                        return loc.invalidPhone;
-                      }
-                      return null;
-                    },
-                    hintText: loc.enterPhoneNumber,
-                  ),
-                ],
-              ),
-            ),
-          ),
-
-          verticalSpace(24),
-          BlocConsumer<LoginCubit, LoginState>(
-            listener: (context, state) {
-              if (state is ForgetPasswordLoading) {
-                showDialog(
-                  context: context,
-                  barrierDismissible: false,
-                  builder: (_) =>
-                      const Center(child: CircularProgressIndicator()),
-                );
-              }
-
-              if (state is ForgetPasswordFailure) {
-                if (Navigator.of(context).canPop()) {
-                  context.pop();
-                }
-                if (state.message.contains("not confirmed")) {
-                  ShowToastHelper.showToast(context, loc.phoneNotConfirmed);
-                  // getIt<RegisterCubit>().resendConfirmation(
-                  //   phoneNumber: phoneController.text,
-                  // );
-                }
-                // showGlobalSnackBar(state.message);
-                ShowToastHelper.showToast(
-                  context,
-                  state.message,
-                  backgroundColor: Colors.redAccent,
-                  icon: Icons.close,
-                );
-              }
-
-              if (state is ForgetPasswordSuccess) {
-                if (Navigator.of(context).canPop()) {
-                  context.pop();
-                }
-                ShowToastHelper.showToast(context, loc.otpSent);
-                context.pushNamedRoot(
-                  Routes.otpVerification,
-                  arguments: {
-                    "phone": phoneController.text,
-                    "from": CacheKeys.forgetPassword,
-                  },
-                );
-                phoneController.clear();
-              }
-            },
-            builder: (context, state) {
-              return SizedBox(
-                height: 52,
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    if (formKey.currentState!.validate()) {
-                      context.read<LoginCubit>().forgetPassword(
-                        phoneNumber: phoneController.text,
-                      );
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return loc.phoneRequired;
                     }
+                    if (!AppRegex.isPhoneNumberValid(value)) {
+                      return loc.invalidPhone;
+                    }
+                    return null;
                   },
-                  child: Text(loc.sendResetCode),
+                  hintText: loc.enterPhoneNumber,
                 ),
-              );
-            },
+              ],
+            ),
           ),
+        ),
 
-          verticalSpace(16),
+        verticalSpace(24),
+        BlocConsumer<LoginCubit, LoginState>(
+          listener: (context, state) {
+            if (state is ForgetPasswordLoading) {
+              showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (_) =>
+                    const Center(child: CircularProgressIndicator()),
+              );
+            }
 
-          TextButton(onPressed: () => context.pop(), child: Text(loc.loginNow)),
-        ],
-      ),
+            if (state is ForgetPasswordFailure) {
+              if (Navigator.of(context).canPop()) {
+                context.pop();
+              }
+              if (state.message.contains("not confirmed")) {
+                ShowToastHelper.showToast(context, loc.phoneNotConfirmed);
+                // getIt<RegisterCubit>().resendConfirmation(
+                //   phoneNumber: phoneController.text,
+                // );
+              }
+              // showGlobalSnackBar(state.message);
+              ShowToastHelper.showToast(
+                context,
+                state.message,
+                backgroundColor: Colors.redAccent,
+                icon: Icons.close,
+              );
+            }
+
+            if (state is ForgetPasswordSuccess) {
+              if (Navigator.of(context).canPop()) {
+                context.pop();
+              }
+              ShowToastHelper.showToast(context, loc.otpSent);
+              context.pushNamedRoot(
+                Routes.otpVerification,
+                arguments: {
+                  "phone": phoneController.text,
+                  "from": CacheKeys.forgetPassword,
+                },
+              );
+              phoneController.clear();
+            }
+          },
+          builder: (context, state) {
+            return SizedBox(
+              height: 52,
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {
+                  if (formKey.currentState!.validate()) {
+                    context.read<LoginCubit>().forgetPassword(
+                      phoneNumber: phoneController.text,
+                    );
+                  }
+                },
+                child: Text(loc.sendResetCode),
+              ),
+            );
+          },
+        ),
+
+        verticalSpace(16),
+
+        TextButton(onPressed: () => context.pop(), child: Text(loc.loginNow)),
+      ],
     );
   }
 }

@@ -1516,6 +1516,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Waiting for drivers to join the station queue.'**
   String get waitingDriversQueue;
+
+  /// No description provided for @language.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get language;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

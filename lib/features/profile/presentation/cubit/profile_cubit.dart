@@ -19,6 +19,7 @@ class ProfileCubit extends Cubit<ProfileState> {
   final DeleteAccountUseCase deleteAccountUseCase;
   final UploadProfilePhotoUseCase uploadProfilePhotoUseCase;
   final DeleteProfilePhotoUseCase deleteProfilePhotoUseCase;
+
   Profile? currentUserProfile;
   ProfileCubit(
     this.getProfileUseCase,

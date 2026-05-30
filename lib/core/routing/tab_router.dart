@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 // //Auth
 import 'package:smart_microbus/core/routing/routes.dart';
+import 'package:smart_microbus/features/Auth/login/presentation/screens/login_Screen.dart';
 import 'package:smart_microbus/features/maps/presentation/screens/map_screen.dart';
 import 'package:smart_microbus/features/maps/presentation/screens/route_screen.dart';
 import 'package:smart_microbus/features/passener/domain/entities/on_the_way_microbus_entity.dart';
@@ -21,6 +22,7 @@ import 'package:smart_microbus/features/Driver/driver_home/presentation/screens/
 
 // Shared
 import 'package:smart_microbus/features/profile/presentation/screens/profile_screen.dart';
+import 'package:smart_microbus/features/register/presentation/pages/register_screen.dart';
 
 import '../../features/passener/presentation/screens/report_screen.dart';
 
@@ -83,6 +85,11 @@ class TabRouter {
       case Routes.reportPage:
         final plateNumber = settings.arguments as String;
         return _route(ReportPage(plateNumber: plateNumber));
+
+      case Routes.login:
+        return _route(const LoginScreen());
+      case Routes.register:
+        return _route(const RegisterScreen());
 
       /// Driver
       case Routes.driverTripHistory:

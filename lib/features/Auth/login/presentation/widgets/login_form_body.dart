@@ -9,6 +9,7 @@ import 'package:smart_microbus/core/storage/cache_keys.dart';
 import 'package:smart_microbus/core/widgets/custom_text_field.dart';
 import 'package:smart_microbus/features/Auth/login/domain/entites/login_entity.dart';
 import 'package:smart_microbus/features/Auth/login/presentation/cubit/cubit/login_cubit.dart';
+import 'package:smart_microbus/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:smart_microbus/l10n/app_localizations.dart';
 
 import '../../../../../core/helpers/app_regex.dart';
@@ -128,6 +129,7 @@ class _LoginFormBodyState extends State<LoginFormBody> {
                   );
                 }
               } else if (state is LoginSuccess) {
+                CacheHelper.deleteCacheItem(key: CacheKeys.guestId);
                 final user = state.user;
                 final String role = TokenHelper.extractRoles(user.token);
                 final bool isDriver =
@@ -168,7 +170,9 @@ class _LoginFormBodyState extends State<LoginFormBody> {
                     Routes.driverNavigationScreen,
                   );
                 } else {
-                  CacheHelper.deleteCacheItem(key: CacheKeys.guestId);
+                  if (context.read<ProfileCubit>().currentUserProfile == null) {
+                    context.read<ProfileCubit>().loadProfile();
+                  }
                   context.read<PassengerCubit>().changeBottomNavIndex(0);
                   context.pushNamedAndRemoveUntilRoot(
                     Routes.passengerNavigationScreen,
