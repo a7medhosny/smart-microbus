@@ -30,6 +30,9 @@ import '../../features/passener/presentation/screens/report_screen.dart';
 import '../../features/passener/presentation/widgets/search_result_widgets/on_the_way_list_screen.dart';
 import '../../features/passener/presentation/widgets/search_result_widgets/station_list_screen.dart';
 import '../../features/on_boarding/presentation/pages/onboarding_screen.dart';
+import '../../features/staff_qr/presentation/cubit/staff_qr_cubit.dart';
+import '../../features/staff_qr/presentation/screens/staff_qr_screen.dart';
+import '../../features/staff_qr/presentation/screens/staff_qr_screenV2.dart';
 import 'routes.dart';
 
 // ================= IMPORT SCREENS =================
@@ -156,7 +159,15 @@ class AppRouter {
       case Routes.reportPage:
         final String plateNumber = settings.arguments as String;
         return _materialRoute(ReportPage(plateNumber: plateNumber));
+      case Routes.staffScreen:
+        return _materialRoute(
+          BlocProvider(
+            create: (context) => getIt<StaffQrCubit>(),
+            child: StaffQrScreen(),
+          ),
+        );
     }
+
     return null;
   }
 

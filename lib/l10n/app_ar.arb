@@ -308,7 +308,21 @@
   },
   "noDriversInQueue": "لا يوجد سائقون في الطابور",
   "waitingDriversQueue": "في انتظار انضمام السائقين إلى طابور المحطة.",
-  "language": "اللغة"
+  "language": "اللغة",
+    "busGateScanner": "ماسح بوابة الحافلات",
+  "readyForScanning": "جاهز لمسح رمز QR",
+  "busEntry": "دخول حافلة",
+  "busExit": "خروج حافلة",
+  "allowBusEntry": "السماح للحافلة بدخول المحطة",
+  "registerBusExit": "تسجيل خروج الحافلة",
+  "tapToScan": "اضغط للمسح",
+  "scanInstruction": "وجّه الكاميرا نحو رمز الحافلة",
+  "scannerStatus": "حالة الماسح",
+  "changeLanguage": "تغيير اللغة",
+  "changeTheme": "تغيير الثيم",
+  "logout": "تسجيل الخروج",
+  "placeQrInsideFrame": "ضع رمز QR داخل الإطار",
+  "systemReadyForScanning": "النظام جاهز لمسح QR للحافلات"
 
 
 }

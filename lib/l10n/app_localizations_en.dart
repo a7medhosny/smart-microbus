@@ -747,4 +747,37 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get language => 'Language';
+
+  @override
+  String get busGateScanner => 'Bus Gate Scanner';
+
+  @override
+  String get readyForScanning => 'Ready for QR scanning';
+
+  @override
+  String get busEntry => 'Microbus Entry';
+
+  @override
+  String get busExit => 'Microbus Exit';
+
+  @override
+  String get allowBusEntry => 'Allow Microbus to enter station';
+
+  @override
+  String get registerBusExit => 'Register Microbus exit';
+
+  @override
+  String get tapToScan => 'Tap to scan';
+
+  @override
+  String get scanInstruction => 'Point the camera toward the Microbus QR code';
+
+  @override
+  String get scannerStatus => 'Scanner Status';
+
+  @override
+  String get placeQrInsideFrame => 'Place QR code inside the frame';
+
+  @override
+  String get systemReadyForScanning => 'System ready for Microbus QR scanning';
 }

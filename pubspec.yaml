@@ -45,6 +45,7 @@ dependencies:
   jwt_decoder: ^2.0.1
   latlong2: ^0.9.1
   lottie: ^3.3.3
+  mobile_scanner: ^7.2.0
   pinput: ^6.0.2
   pretty_dio_logger: ^1.4.0
   retrofit: ^4.6.0

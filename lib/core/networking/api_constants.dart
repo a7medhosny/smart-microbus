@@ -64,4 +64,10 @@ class ApiConstants {
   static const String stations = '/Stations';
   static const String nearestStations = '/Stations/nearest';
   static const String routeBetweenStations = '/Stations/route-between';
+
+   static const String staffCheckIn =
+      "/Staff/check-in";
+
+  static const String staffCheckOut =
+      "/Staff/check-out";
 }

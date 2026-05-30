@@ -50,6 +50,7 @@ class _SplashScreenState extends State<SplashScreen>
     final session = await SessionManager.initializeSession();
 
     final isDriver = TokenManager.role == 'Driver';
+    final isPassenger = TokenManager.role == 'Passenger';
     final bool isOnboardingCompleted =
         CacheHelper.getCacheData(key: CacheKeys.onboardingKey) == 'true';
 
@@ -71,7 +72,9 @@ class _SplashScreenState extends State<SplashScreen>
 
           isDriver
               ? Routes.driverNavigationScreen
-              : Routes.passengerNavigationScreen,
+              : isPassenger
+                  ? Routes.passengerNavigationScreen
+                  : Routes.staffScreen,
         );
 
         break;

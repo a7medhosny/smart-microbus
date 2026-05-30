@@ -1522,6 +1522,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Language'**
   String get language;
+
+  /// No description provided for @busGateScanner.
+  ///
+  /// In en, this message translates to:
+  /// **'Bus Gate Scanner'**
+  String get busGateScanner;
+
+  /// No description provided for @readyForScanning.
+  ///
+  /// In en, this message translates to:
+  /// **'Ready for QR scanning'**
+  String get readyForScanning;
+
+  /// No description provided for @busEntry.
+  ///
+  /// In en, this message translates to:
+  /// **'Microbus Entry'**
+  String get busEntry;
+
+  /// No description provided for @busExit.
+  ///
+  /// In en, this message translates to:
+  /// **'Microbus Exit'**
+  String get busExit;
+
+  /// No description provided for @allowBusEntry.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow Microbus to enter station'**
+  String get allowBusEntry;
+
+  /// No description provided for @registerBusExit.
+  ///
+  /// In en, this message translates to:
+  /// **'Register Microbus exit'**
+  String get registerBusExit;
+
+  /// No description provided for @tapToScan.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to scan'**
+  String get tapToScan;
+
+  /// No description provided for @scanInstruction.
+  ///
+  /// In en, this message translates to:
+  /// **'Point the camera toward the Microbus QR code'**
+  String get scanInstruction;
+
+  /// No description provided for @scannerStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Scanner Status'**
+  String get scannerStatus;
+
+  /// No description provided for @placeQrInsideFrame.
+  ///
+  /// In en, this message translates to:
+  /// **'Place QR code inside the frame'**
+  String get placeQrInsideFrame;
+
+  /// No description provided for @systemReadyForScanning.
+  ///
+  /// In en, this message translates to:
+  /// **'System ready for Microbus QR scanning'**
+  String get systemReadyForScanning;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

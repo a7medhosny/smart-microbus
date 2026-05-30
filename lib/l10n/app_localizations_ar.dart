@@ -419,7 +419,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get changePasswordDesc => 'أدخل كلمة المرور الجديدة وقم بتأكيدها';
 
   @override
-  String get changeTheme => 'تغيير السمة';
+  String get changeTheme => 'تغيير الثيم';
 
   @override
   String get changeLanguage => 'تغيير اللغة';
@@ -747,4 +747,37 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get language => 'اللغة';
+
+  @override
+  String get busGateScanner => 'ماسح بوابة الحافلات';
+
+  @override
+  String get readyForScanning => 'جاهز لمسح رمز QR';
+
+  @override
+  String get busEntry => 'دخول حافلة';
+
+  @override
+  String get busExit => 'خروج حافلة';
+
+  @override
+  String get allowBusEntry => 'السماح للحافلة بدخول المحطة';
+
+  @override
+  String get registerBusExit => 'تسجيل خروج الحافلة';
+
+  @override
+  String get tapToScan => 'اضغط للمسح';
+
+  @override
+  String get scanInstruction => 'وجّه الكاميرا نحو رمز الحافلة';
+
+  @override
+  String get scannerStatus => 'حالة الماسح';
+
+  @override
+  String get placeQrInsideFrame => 'ضع رمز QR داخل الإطار';
+
+  @override
+  String get systemReadyForScanning => 'النظام جاهز لمسح QR للحافلات';
 }

@@ -305,7 +305,21 @@
   },
   "noDriversInQueue": "No drivers in queue",
   "waitingDriversQueue": "Waiting for drivers to join the station queue.",
-   "language": "Language"
+   "language": "Language",
+    "busGateScanner": "Bus Gate Scanner",
+  "readyForScanning": "Ready for QR scanning",
+  "busEntry": "Microbus Entry",
+  "busExit": "Microbus Exit",
+  "allowBusEntry": "Allow Microbus to enter station",
+  "registerBusExit": "Register Microbus exit",
+  "tapToScan": "Tap to scan",
+  "scanInstruction": "Point the camera toward the Microbus QR code",
+  "scannerStatus": "Scanner Status",
+  "changeLanguage": "Change Language",
+  "changeTheme": "Change Theme",
+  "logout": "Logout",
+  "placeQrInsideFrame": "Place QR code inside the frame",
+  "systemReadyForScanning": "System ready for Microbus QR scanning"
 
 
 

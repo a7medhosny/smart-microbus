@@ -104,6 +104,13 @@ import '../../features/register/domain/usecases/register_driver_use_case.dart';
 import '../../features/register/domain/usecases/register_passenger_use_case.dart';
 import '../../features/register/domain/usecases/verify_otp_use_case.dart';
 import '../../features/register/presentation/cubit/register_cubit.dart';
+import '../../features/staff_qr/data/datasource/staff_qr_api_service.dart';
+import '../../features/staff_qr/data/datasource/staff_remote_datasource.dart';
+import '../../features/staff_qr/data/repositories/staff_repository_impl.dart';
+import '../../features/staff_qr/domain/repositories/staff_repository.dart';
+import '../../features/staff_qr/domain/usecases/check_in_usecase.dart';
+import '../../features/staff_qr/domain/usecases/check_out_usecase.dart';
+import '../../features/staff_qr/presentation/cubit/staff_qr_cubit.dart';
 import '../storage/cache_helper.dart';
 
 import '../localization/locale_cubit.dart';
@@ -527,5 +534,26 @@ void _driverDependencies() {
   // Cubit
   getIt.registerFactory(
     () => OnboardingCubit(getIt<CompleteOnboardingUseCase>()),
+  );
+
+  getIt.registerLazySingleton(() => StaffQrApiService(getIt()));
+
+  getIt.registerLazySingleton<StaffRemoteDataSource>(
+    () => StaffRemoteDataSourceImpl(getIt<StaffQrApiService>()),
+  );
+
+  getIt.registerLazySingleton<StaffRepository>(
+    () => StaffRepositoryImpl(getIt<StaffRemoteDataSource>()),
+  );
+
+  getIt.registerLazySingleton(() => CheckInUseCase(getIt<StaffRepository>()));
+
+  getIt.registerLazySingleton(() => CheckOutUseCase(getIt<StaffRepository>()));
+
+  getIt.registerFactory(
+    () => StaffQrCubit(
+      checkInUseCase: getIt<CheckInUseCase>(),
+      checkOutUseCase: getIt<CheckOutUseCase>(),
+    ),
   );
 }

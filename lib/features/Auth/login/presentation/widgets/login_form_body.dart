@@ -142,12 +142,12 @@ class _LoginFormBodyState extends State<LoginFormBody> {
                 }
 
                 if (role != 'Driver' && role != 'Passenger') {
-                  ShowToastHelper.showToast(
-                    context,
-                    loc.roleNotSupportedMessage,
-                    backgroundColor: Colors.red,
-                  );
-                  return;
+                  // ShowToastHelper.showToast(
+                  //   context,
+                  //   loc.roleNotSupportedMessage,
+                  //   backgroundColor: Colors.red,
+                  // );
+                  // return;
                 }
 
                 ShowToastHelper.showToast(context, loc.loginSuccess);
@@ -165,6 +165,11 @@ class _LoginFormBodyState extends State<LoginFormBody> {
                 );
 
                 DioFactory.setTokenIntoHeaderAfterLogin(user.token);
+
+                if (role != 'Driver' && role != 'Passenger') {
+                  context.pushNamedAndRemoveUntilRoot(Routes.staffScreen);
+                  return;
+                }
                 if (isDriver) {
                   context.pushNamedAndRemoveUntilRoot(
                     Routes.driverNavigationScreen,
