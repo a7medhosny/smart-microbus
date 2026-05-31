@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
 import '../../../../core/networking/api_constants.dart';
+import '../../../passener/data/models/base_response_model.dart';
 
 part 'staff_qr_api_service.g.dart';
 
@@ -13,12 +14,12 @@ abstract class StaffQrApiService {
   }) = _StaffQrApiService;
 
   @POST(ApiConstants.staffCheckIn)
-  Future<void> checkIn(
+  Future<BaseResponseModel> checkIn(
     @Body() Map<String, dynamic> body,
   );
 
   @POST(ApiConstants.staffCheckOut)
-  Future<void> checkOut(
+  Future<BaseResponseModel> checkOut(
     @Body() Map<String, dynamic> body,
   );
 }

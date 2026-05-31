@@ -30,10 +30,10 @@ class StaffQrCubit extends Cubit<StaffQrState> {
           ),
         );
       },
-      (_) {
+      (response) {
         emit(
           StaffQrSuccess(
-            "Check In Success",
+            response.message,
           ),
         );
       },
@@ -58,10 +58,10 @@ class StaffQrCubit extends Cubit<StaffQrState> {
           ),
         );
       },
-      (_) {
+      (response) {
         emit(
           StaffQrSuccess(
-            "Check Out Success",
+            response.message,
           ),
         );
       },

@@ -1,9 +1,10 @@
+import '../../../passener/data/models/base_response_model.dart';
 import 'staff_qr_api_service.dart';
 
 abstract class StaffRemoteDataSource {
-  Future<void> checkIn(String qrCode);
+  Future<BaseResponseModel> checkIn(String qrCode);
 
-  Future<void> checkOut(String qrCode);
+  Future<BaseResponseModel> checkOut(String qrCode);
 }
 
 class StaffRemoteDataSourceImpl implements StaffRemoteDataSource {
@@ -12,12 +13,12 @@ class StaffRemoteDataSourceImpl implements StaffRemoteDataSource {
   StaffRemoteDataSourceImpl(this.apiService);
 
   @override
-  Future<void> checkIn(String qrCode) async {
-    await apiService.checkIn({"qrCode": qrCode});
+  Future<BaseResponseModel> checkIn(String qrCode) async {
+    return await apiService.checkIn({"qrCode": qrCode});
   }
 
   @override
-  Future<void> checkOut(String qrCode) async {
-    await apiService.checkOut({"qrCode": qrCode});
+  Future<BaseResponseModel> checkOut(String qrCode) async {
+    return await apiService.checkOut({"qrCode": qrCode});
   }
 }
