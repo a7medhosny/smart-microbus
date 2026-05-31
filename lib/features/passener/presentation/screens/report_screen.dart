@@ -26,9 +26,11 @@ class _ReportPageState extends State<ReportPage> {
 
   bool get isEdit => widget.existingReport != null;
 
-  bool get isOtherSelected =>
-      (reasons.isNotEmpty && selectedReasonIds.contains(reasons.last.id) ||
-      (isEdit && widget.existingReport!.reasons.contains("other")));
+  bool get isOtherSelected {
+    if (reasons.isEmpty) return false;
+
+    return selectedReasonIds.contains(reasons.last.id);
+  }
 
   @override
   void initState() {
@@ -87,8 +89,10 @@ class _ReportPageState extends State<ReportPage> {
                           .where((r) => existingReasons.contains(r.name))
                           .map((e) => e.id)
                           .toList();
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        if (mounted) setState(() {});
+                      });
                     }
-
                     return ListView.separated(
                       itemCount: reasons.length,
                       separatorBuilder: (_, __) => const SizedBox(height: 10),

@@ -10,7 +10,6 @@ import '../../../../core/helpers/app_error_helper.dart';
 import '../../../../core/routing/routes.dart';
 import '../../../../core/storage/cache_helper.dart';
 import '../../../../core/storage/cache_keys.dart';
-import '../widgets/guest_widgets/guest_banner.dart';
 
 class PassengerSearchView extends StatefulWidget {
   const PassengerSearchView({super.key});

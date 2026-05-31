@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smart_microbus/features/profile/domain/entities/profile.dart';
 
 import '../../../../core/auth/guest_guard.dart';
 import '../../../../core/storage/cache_helper.dart';
@@ -33,7 +34,6 @@ import '../../domain/usecases/is_route_favourite_use_case.dart';
 import '../../domain/usecases/remove_route_from_fav_use_case.dart';
 import '../../domain/usecases/submit_report_use_case.dart';
 import '../../domain/usecases/update_report_use_case.dart';
-import '../widgets/guest_widgets/guest_required_bottom_sheet.dart';
 
 part 'passenger_state.dart';
 
@@ -486,5 +486,11 @@ class PassengerCubit extends Cubit<PassengerState> {
   void resetDriverSearch() {
     driverByPlate = null;
     emit(PassengerInitial());
+  }
+
+  Future<void> onLoginSuccess() async {
+    await getFavorites();
+    await getAllReports();
+    emit(ChangePassengerBottomNavState(currentNavIndex));
   }
 }

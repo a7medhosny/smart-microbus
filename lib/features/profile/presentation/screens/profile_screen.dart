@@ -35,7 +35,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void initState() {
     super.initState();
 
+    print("isGuest = ${SessionManager.isGuest}");
+
     if (!SessionManager.isGuest) {
+      print("LOAD PROFILE");
       context.read<ProfileCubit>().loadProfile();
     }
   }

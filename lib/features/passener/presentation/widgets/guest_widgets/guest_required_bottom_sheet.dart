@@ -90,9 +90,7 @@ Future<void> showGuestRequiredBottomSheet(BuildContext context) {
 
                 child: FilledButton(
                   onPressed: () {
-                    Navigator.pop(context);
-
-                    context.pushReplacementNamed(Routes.login);
+                    context.pushNamed(Routes.login);
                   },
 
                   child: Text(tr.login),
@@ -105,9 +103,7 @@ Future<void> showGuestRequiredBottomSheet(BuildContext context) {
                 width: double.infinity,
                 child: OutlinedButton(
                   onPressed: () {
-                    Navigator.pop(context);
-
-                    context.pushReplacementNamed(Routes.register);
+                    context.pushNamed(Routes.register);
                   },
 
                   child: Text(tr.create_account),
