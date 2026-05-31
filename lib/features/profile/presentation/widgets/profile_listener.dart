@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_microbus/core/helpers/show_toast_helper.dart';
@@ -19,13 +18,10 @@ class ProfileListener extends StatelessWidget {
     return BlocListener<ProfileCubit, ProfileState>(
       listener: (context, state) {
         if (state is LogoutSuccess) {
-          
-          ShowToastHelper.showToast(context, 'Logout successful');
           TokenManager.clearLoginData();
 
-    DioFactory.removeAuthInterceptor();
+          DioFactory.removeAuthInterceptor();
 
- 
           context.read<PassengerCubit>().currentNavIndex = 0;
           context.read<DriverHomeCubit>().currentNavIndex = 0;
           navigatorKey.currentState!.pushNamedAndRemoveUntil(
@@ -35,7 +31,7 @@ class ProfileListener extends StatelessWidget {
         } else if (state is ProfileDeleteAccountSuccess) {
           ShowToastHelper.showToast(context, state.message);
           TokenManager.clearLoginData();
-              DioFactory.removeAuthInterceptor();
+          DioFactory.removeAuthInterceptor();
 
           navigatorKey.currentState!.pushNamedAndRemoveUntil(
             Routes.register,

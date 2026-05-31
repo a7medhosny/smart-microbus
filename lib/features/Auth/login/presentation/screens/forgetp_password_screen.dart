@@ -10,6 +10,7 @@ class ForgetpPasswordScreen extends StatelessWidget {
     final formKey = GlobalKey<FormState>();
 
     return Scaffold(
+      appBar: AppBar(),
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(

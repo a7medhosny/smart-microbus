@@ -129,6 +129,8 @@ class _LoginFormBodyState extends State<LoginFormBody> {
                   );
                 }
               } else if (state is LoginSuccess) {
+                final wasGuest =
+                    CacheHelper.getCacheData(key: CacheKeys.guestId) != null;
                 CacheHelper.deleteCacheItem(key: CacheKeys.guestId);
                 final user = state.user;
                 final String role = TokenHelper.extractRoles(user.token);
@@ -175,10 +177,16 @@ class _LoginFormBodyState extends State<LoginFormBody> {
                     Routes.driverNavigationScreen,
                   );
                 } else {
-                  if (context.read<ProfileCubit>().currentUserProfile == null) {
-                    context.read<ProfileCubit>().loadProfile();
-                  }
                   context.read<PassengerCubit>().changeBottomNavIndex(0);
+                  if (wasGuest) {
+                    context.read<PassengerCubit>().onLoginSuccess();
+
+                    if (context.read<ProfileCubit>().currentUserProfile ==
+                        null) {
+                      context.read<ProfileCubit>().loadProfile();
+                    }
+                  }
+
                   context.pushNamedAndRemoveUntilRoot(
                     Routes.passengerNavigationScreen,
                   );

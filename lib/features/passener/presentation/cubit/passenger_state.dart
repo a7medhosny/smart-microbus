@@ -359,3 +359,5 @@ class GuestRestrictedState extends PassengerState {
   @override
   List<Object?> get props => [trigger];
 }
+
+class SessionChangedState extends PassengerState {}
