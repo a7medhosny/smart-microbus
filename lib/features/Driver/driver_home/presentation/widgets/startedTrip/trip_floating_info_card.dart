@@ -1,4 +1,5 @@
 /// presentation/widgets/trip/trip_floating_info_card.dart
+library;
 
 import 'dart:ui';
 

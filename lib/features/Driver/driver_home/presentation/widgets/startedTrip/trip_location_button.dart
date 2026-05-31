@@ -1,4 +1,5 @@
 /// presentation/widgets/trip/trip_location_button.dart
+library;
 
 import 'dart:ui';
 

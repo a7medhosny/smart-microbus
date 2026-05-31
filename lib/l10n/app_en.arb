@@ -310,6 +310,8 @@
   "readyForScanning": "Ready for QR scanning",
   "busEntry": "Microbus Entry",
   "busExit": "Microbus Exit",
+    "busGateScanner": "Bus Gate Scanner",
+  "readyForScanning": "Ready for QR scanning",
   "allowBusEntry": "Allow Microbus to enter station",
   "registerBusExit": "Register Microbus exit",
   "tapToScan": "Tap to scan",

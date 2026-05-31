@@ -309,6 +309,7 @@
   "noDriversInQueue": "لا يوجد سائقون في الطابور",
   "waitingDriversQueue": "في انتظار انضمام السائقين إلى طابور المحطة.",
   "language": "اللغة",
+
     "busGateScanner": "ماسح بوابة الحافلات",
   "readyForScanning": "جاهز لمسح رمز QR",
   "busEntry": "دخول حافلة",

@@ -4,7 +4,6 @@ import 'package:smart_microbus/features/Auth/login/presentation/widgets/login_he
 import '../controllers/register_controllers.dart';
 import '../widgets/register_widgets/register_footer.dart';
 import '../widgets/register_widgets/register_form.dart';
-import '../widgets/register_widgets/register_header.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});

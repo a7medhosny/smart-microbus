@@ -1,4 +1,5 @@
 /// presentation/widgets/queue/queue_info_card.dart
+library;
 
 import 'dart:ui';
 

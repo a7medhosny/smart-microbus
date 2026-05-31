@@ -1,4 +1,5 @@
 /// presentation/widgets/trip/trip_route_item.dart
+library;
 
 import 'package:flutter/material.dart';
 

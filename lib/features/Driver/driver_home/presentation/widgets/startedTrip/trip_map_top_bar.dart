@@ -1,4 +1,5 @@
 /// presentation/widgets/trip/trip_map_top_bar.dart
+library;
 
 import 'dart:ui';
 

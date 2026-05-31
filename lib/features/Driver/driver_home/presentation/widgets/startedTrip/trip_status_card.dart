@@ -1,4 +1,5 @@
 /// presentation/widgets/trip/trip_status_card.dart
+library;
 
 import 'package:flutter/material.dart';
 

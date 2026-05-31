@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:smart_microbus/features/profile/domain/entities/profile.dart';
 
 import '../../../../core/auth/guest_guard.dart';
 import '../../../../core/storage/cache_helper.dart';

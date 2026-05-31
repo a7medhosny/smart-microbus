@@ -1,4 +1,5 @@
 /// presentation/widgets/queue/queue_info_cards.dart
+library;
 
 import 'package:flutter/material.dart';
 

@@ -1,4 +1,5 @@
 /// presentation/widgets/queue/queue_live_indicator.dart
+library;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';

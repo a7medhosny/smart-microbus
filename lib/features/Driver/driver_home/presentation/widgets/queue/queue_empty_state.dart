@@ -1,4 +1,5 @@
 /// presentation/widgets/queue/queue_empty_state.dart
+library;
 
 import 'package:flutter/material.dart';
 

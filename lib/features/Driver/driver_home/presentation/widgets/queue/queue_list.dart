@@ -1,4 +1,5 @@
 /// presentation/widgets/queue/queue_list.dart
+library;
 
 import 'dart:math';
 import 'dart:ui';

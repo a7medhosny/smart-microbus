@@ -1,4 +1,5 @@
 /// presentation/widgets/queue/queue_item.dart
+library;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

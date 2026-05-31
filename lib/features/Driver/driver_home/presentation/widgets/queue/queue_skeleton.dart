@@ -1,4 +1,5 @@
 /// presentation/widgets/queue/queue_skeleton.dart
+library;
 
 import 'package:flutter/material.dart';
 

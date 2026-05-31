@@ -25,7 +25,6 @@ import 'core/storage/cache_keys.dart';
 import 'features/Driver/driver_home/presentation/cubit/driver_home_cubit.dart';
 import 'features/on_boarding/presentation/cubit/onboarding_cubit.dart';
 import 'features/passener/presentation/cubit/passenger_cubit.dart';
-import 'features/staff_qr/presentation/cubit/staff_qr_cubit.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key, required this.sessionState});

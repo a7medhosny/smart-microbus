@@ -1,7 +1,5 @@
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_microbus/features/staff_qr/presentation/widgets/V1_widgets/scanner_view.dart';
 import 'package:smart_microbus/l10n/app_localizations.dart';

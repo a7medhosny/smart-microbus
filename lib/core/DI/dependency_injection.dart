@@ -63,7 +63,6 @@ import '../../features/maps/presentation/cubit/map_cubit.dart';
 import '../../features/on_boarding/data/data_sources/onboarding_local_data_source.dart';
 import '../../features/on_boarding/data/repositories/onboarding_repository_impl.dart';
 import '../../features/on_boarding/domain/repositories/onboarding_repository.dart';
-import '../../features/on_boarding/domain/use_cases/check_onboarding_usecase.dart';
 import '../../features/on_boarding/domain/use_cases/complete_onboarding_usecase.dart';
 import '../../features/on_boarding/presentation/cubit/onboarding_cubit.dart';
 import '../../features/passener/data/datasource/passenger_location_datasource.dart';

@@ -4,7 +4,6 @@ import 'package:dio/dio.dart';
 import '../../../../core/error/error_handler.dart';
 import '../../../../core/error/failure.dart';
 import '../../../passener/data/models/base_response_model.dart';
-import '../../../passener/domain/entities/base_response.dart';
 import '../../domain/repositories/staff_repository.dart';
 import '../datasource/staff_remote_datasource.dart';
 
