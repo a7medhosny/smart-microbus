@@ -53,7 +53,7 @@ class ResetPasswordForm extends StatelessWidget {
             ),
           ),
 
-          const SizedBox(height: 25),
+          verticalSpace( 25),
 
           /// title
           Text(
@@ -64,7 +64,7 @@ class ResetPasswordForm extends StatelessWidget {
             ),
           ),
 
-          const SizedBox(height: 6),
+          verticalSpace(6),
           Text(
             loc.enterNewPasswordDesc,
             textAlign: TextAlign.center,
@@ -104,7 +104,7 @@ class ResetPasswordForm extends StatelessWidget {
             isPasswordField: true,
           ),
 
-          const SizedBox(height: 35),
+          verticalSpace(35),
 
           BlocListener<LoginCubit, LoginState>(
             listener: (context, state) {

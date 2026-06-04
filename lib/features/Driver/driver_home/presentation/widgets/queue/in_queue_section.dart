@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 
 import '../../../../../../core/helpers/app_error_helper.dart';
+import '../../../../../../core/helpers/spacing.dart';
 import '../../cubit/driver_home_cubit.dart';
 import 'queue_empty_state.dart';
 import 'queue_header.dart';
@@ -70,13 +71,13 @@ class InQueueSection extends StatelessWidget {
           children: [
             QueueHeader(queueLength: queue.length),
 
-            const SizedBox(height: 18),
+            verticalSpace(18),
 
             QueueInfoCards(
               vehiclesAhead: cubit.getVehiclesAhead(),
             ),
 
-            const SizedBox(height: 22),
+            verticalSpace(22),
 
             QueueList(
               queue: queue,

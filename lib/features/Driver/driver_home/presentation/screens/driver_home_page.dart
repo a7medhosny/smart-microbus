@@ -163,7 +163,7 @@ class _DriverHomeViewState extends State<DriverHomeView> {
               color: theme.colorScheme.primary.withOpacity(.6),
             ),
 
-            const SizedBox(height: 20),
+            verticalSpace(20),
 
             /// Title
             Text(
@@ -173,7 +173,7 @@ class _DriverHomeViewState extends State<DriverHomeView> {
               ),
             ),
 
-            const SizedBox(height: 10),
+            verticalSpace(10),
 
             /// Description
             Text(
@@ -184,7 +184,7 @@ class _DriverHomeViewState extends State<DriverHomeView> {
               ),
             ),
 
-            const SizedBox(height: 24),
+            verticalSpace(24),
 
             /// Retry Button
             ElevatedButton.icon(
@@ -248,12 +248,12 @@ class _DriverHomeViewState extends State<DriverHomeView> {
             size: 70,
             color: Theme.of(context).colorScheme.primary,
           ),
-          const SizedBox(height: 20),
+          verticalSpace(20),
           Text(
             l10n.driverNotInQueueTitle,
             style: Theme.of(context).textTheme.titleMedium,
           ),
-          const SizedBox(height: 10),
+          verticalSpace(10),
           Text(
             l10n.driverNotInQueueDescription,
             textAlign: TextAlign.center,

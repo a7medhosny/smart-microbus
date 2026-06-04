@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../../../../l10n/app_localizations.dart';
+import 'plate_letter_field.dart';
 
 class PlateInputField extends StatelessWidget {
   final TextEditingController letter1Controller;
   final TextEditingController letter2Controller;
+  final TextEditingController letter3Controller;
   final TextEditingController numbersController;
   final String? label;
   final void Function(String plate)? onChanged;
@@ -14,16 +16,13 @@ class PlateInputField extends StatelessWidget {
     super.key,
     required this.letter1Controller,
     required this.letter2Controller,
+    required this.letter3Controller,
     required this.numbersController,
     this.label,
     this.onChanged,
   });
 
-  String getPlate() {
-    return "${letter1Controller.text} ${letter2Controller.text} ${numbersController.text}"
-        .trim()
-        .replaceAll(RegExp(r'\s+'), ' ');
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +32,7 @@ class PlateInputField extends StatelessWidget {
     final focus1 = FocusNode();
     final focus2 = FocusNode();
     final focus3 = FocusNode();
+    final focus4 = FocusNode();
 
     OutlineInputBorder border(Color color, {double width = 1.5}) {
       return OutlineInputBorder(
@@ -60,14 +60,18 @@ class PlateInputField extends StatelessWidget {
 
     void triggerOnChange() {
       if (onChanged != null) {
-        onChanged!(getPlate());
+        onChanged!(getPlate(
+          letter1Controller: letter1Controller,
+          letter2Controller: letter2Controller,
+          letter3Controller: letter3Controller,
+          numbersController: numbersController,
+        ));
       }
     }
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // if (label != null)
         Padding(
           padding: const EdgeInsets.only(bottom: 8),
           child: Text(
@@ -79,49 +83,34 @@ class PlateInputField extends StatelessWidget {
         Row(
           children: [
             /// ===== حرف 1 =====
-            Expanded(
-              child: TextField(
-                focusNode: focus1,
-                controller: letter1Controller,
-                maxLength: 1,
-                textAlign: TextAlign.center,
-                style: theme.textTheme.titleLarge,
-                inputFormatters: [
-                  FilteringTextInputFormatter.allow(RegExp(r'[\u0600-\u06FF]')),
-                ],
-                decoration: buildDecoration('أ'),
-                onChanged: (value) {
-                  if (value.length == 1) {
-                    FocusScope.of(context).requestFocus(focus2);
-                  }
-                  triggerOnChange();
-                },
-              ),
+            PlateLetterField(
+              controller: letter1Controller,
+              focusNode: focus1,
+              nextFocus: focus2,
+              hint: 'أ',
+              onChanged: triggerOnChange,
             ),
 
             const SizedBox(width: 8),
 
-            /// ===== حرف 2 =====
-            Expanded(
-              child: TextField(
-                focusNode: focus2,
-                controller: letter2Controller,
-                maxLength: 1,
-                textAlign: TextAlign.center,
-                style: theme.textTheme.titleLarge,
-                inputFormatters: [
-                  FilteringTextInputFormatter.allow(RegExp(r'[\u0600-\u06FF]')),
-                ],
-                decoration: buildDecoration('ب'),
-                onChanged: (value) {
-                  if (value.length == 1) {
-                    FocusScope.of(context).requestFocus(focus3);
-                  } else if (value.isEmpty) {
-                    FocusScope.of(context).requestFocus(focus1);
-                  }
-                  triggerOnChange();
-                },
-              ),
+            PlateLetterField(
+              controller: letter2Controller,
+              focusNode: focus2,
+              previousFocus: focus1,
+              nextFocus: focus3,
+              hint: 'ب',
+              onChanged: triggerOnChange,
+            ),
+
+            const SizedBox(width: 8),
+
+            PlateLetterField(
+              controller: letter3Controller,
+              focusNode: focus3,
+              previousFocus: focus2,
+              nextFocus: focus4,
+              hint: 'ج',
+              onChanged: triggerOnChange,
             ),
 
             const SizedBox(width: 8),
@@ -130,7 +119,7 @@ class PlateInputField extends StatelessWidget {
             Expanded(
               flex: 2,
               child: TextField(
-                focusNode: focus3,
+                focusNode: focus4,
                 controller: numbersController,
                 maxLength: 4,
                 keyboardType: TextInputType.number,
@@ -140,7 +129,7 @@ class PlateInputField extends StatelessWidget {
                 decoration: buildDecoration('1234'),
                 onChanged: (value) {
                   if (value.isEmpty) {
-                    FocusScope.of(context).requestFocus(focus2);
+                    FocusScope.of(context).requestFocus(focus3);
                   }
                   triggerOnChange();
                 },
@@ -152,3 +141,17 @@ class PlateInputField extends StatelessWidget {
     );
   }
 }
+
+  String getPlate({
+    required TextEditingController letter1Controller,
+    required TextEditingController letter2Controller,
+    required TextEditingController letter3Controller,
+    required TextEditingController numbersController,
+  }) {
+    return [
+      letter1Controller.text.trim(),
+      letter2Controller.text.trim(),
+      letter3Controller.text.trim(),
+      numbersController.text.trim(),
+    ].where((e) => e.isNotEmpty).join(' ');
+  }

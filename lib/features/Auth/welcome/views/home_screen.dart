@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/helpers/extensions.dart';
+import '../../../../core/helpers/spacing.dart';
 import '../../../../core/localization/locale_cubit.dart';
 import '../../../../core/routing/routes.dart';
 import '../../../../core/theme/theme_cubit.dart';
@@ -115,7 +116,7 @@ class HomeScreen extends StatelessWidget {
                   ],
                 ),
 
-                const SizedBox(height: 42),
+                verticalSpace(42),
 
                 /// HERO ICON
                 Center(
@@ -160,7 +161,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
 
-                const SizedBox(height: 35),
+                verticalSpace(35),
 
                 /// TITLE
                 Center(
@@ -177,7 +178,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
 
-                const SizedBox(height: 10),
+                verticalSpace(10),
 
                 /// DESCRIPTION
                 Container(
@@ -210,7 +211,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
 
-                const SizedBox(height: 30),
+                verticalSpace(30),
 
                 /// LOGIN
                 _button(
@@ -227,7 +228,7 @@ class HomeScreen extends StatelessWidget {
                   },
                 ),
 
-                const SizedBox(height: 14),
+                verticalSpace(14),
 
                 /// REGISTER
                 _button(
@@ -242,7 +243,7 @@ class HomeScreen extends StatelessWidget {
                   },
                 ),
 
-                const SizedBox(height: 14),
+                verticalSpace(14),
 
                 /// GUEST
                 _button(
@@ -257,7 +258,7 @@ class HomeScreen extends StatelessWidget {
                   },
                 ),
 
-                const SizedBox(height: 38),
+                verticalSpace(38),
 
                 /// LANGUAGE
                 Center(
@@ -292,7 +293,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
 
-                const SizedBox(height: 18),
+                verticalSpace(18),
               ],
             ),
           ),
@@ -358,7 +359,7 @@ class HomeScreen extends StatelessWidget {
               color: filled ? Colors.white : theme.colorScheme.primary,
             ),
 
-            const SizedBox(width: 16),
+            horizontalSpace(16),
 
             Expanded(
               child: Text(

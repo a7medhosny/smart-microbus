@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:smart_microbus/l10n/app_localizations.dart';
 
+import 'spacing.dart';
+
 class AppErrorWidget extends StatelessWidget {
   final String message;
   final VoidCallback onRetry;
@@ -50,7 +52,7 @@ class AppErrorWidget extends StatelessWidget {
                 ),
               ).animate().scale(duration: 400.ms, curve: Curves.easeOutBack),
 
-              const SizedBox(height: 20),
+              verticalSpace(20),
 
               // Title
               Text(
@@ -60,7 +62,7 @@ class AppErrorWidget extends StatelessWidget {
                 ),
               ),
 
-              const SizedBox(height: 10),
+              verticalSpace(10),
 
               // Message
               Text(
@@ -71,7 +73,7 @@ class AppErrorWidget extends StatelessWidget {
                 ),
               ),
 
-              const SizedBox(height: 25),
+              verticalSpace(25),
 
               // Button
               SizedBox(

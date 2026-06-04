@@ -111,7 +111,7 @@ class HeaderCard extends StatelessWidget {
                               size: 16,
                               color: Colors.white,
                             ),
-                            const SizedBox(width: 6),
+                           horizontalSpace( 6),
                             Text(
                               route,
                               style: theme.textTheme.bodySmall?.copyWith(
@@ -168,15 +168,15 @@ class HeaderCardSkeleton extends StatelessWidget {
           color: Colors.white,
         ),
         child: Row(
-          children: const [
+          children:  [
             SkeletonCircle(size: 48),
-            SizedBox(width: 12),
+            horizontalSpace( 12),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SkeletonBox(width: 140, height: 16),
-                  SizedBox(height: 8),
+                  horizontalSpace(8),
                   SkeletonBox(width: 100, height: 12),
                 ],
               ),

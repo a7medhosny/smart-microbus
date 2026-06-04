@@ -4,6 +4,7 @@ import 'package:smart_microbus/core/helpers/show_toast_helper.dart';
 import 'package:smart_microbus/features/Driver/driver_home/presentation/cubit/driver_home_cubit.dart';
 
 import '../../../../../core/helpers/app_error_helper.dart';
+import '../../../../../core/helpers/spacing.dart';
 import '../../../../../l10n/app_localizations.dart';
 import '../widgets/tripHistory/date_filter_info.dart';
 import '../widgets/tripHistory/trip_card.dart';
@@ -116,7 +117,7 @@ class _DriverTripHistoryScreenState extends State<DriverTripHistoryScreen> {
                       controller: _scrollController,
                       padding: const EdgeInsets.all(16),
                       itemCount: trips.data.trips.length,
-                      separatorBuilder: (_, __) => const SizedBox(height: 12),
+                      separatorBuilder: (_, __) => verticalSpace( 12),
                       itemBuilder: (_, index) {
                         final trip = trips.data.trips[index];
                         return TripCard(trip: trip);
@@ -247,7 +248,7 @@ class _DriverTripHistoryScreenState extends State<DriverTripHistoryScreen> {
               size: 80,
               color: Colors.grey.shade400,
             ),
-            const SizedBox(height: 20),
+            verticalSpace(20),
             Text(
               l10n.noTripsTitle,
               style: Theme.of(
@@ -255,7 +256,7 @@ class _DriverTripHistoryScreenState extends State<DriverTripHistoryScreen> {
               ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 10),
+            verticalSpace(10),
             Text(
               l10n.noTripsDescription,
               style: Theme.of(

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'spacing.dart';
+
 class ShowToastHelper {
   static void showToast(
     BuildContext context,
@@ -32,7 +34,7 @@ class ShowToastHelper {
             child: Row(
               children: [
                 Icon(icon ?? Icons.check_circle, color: Colors.white),
-                const SizedBox(width: 10),
+                horizontalSpace( 10),
                 Expanded(
                   child: Text(
                     message,

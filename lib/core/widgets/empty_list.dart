@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../l10n/app_localizations.dart';
+import '../helpers/spacing.dart';
 
 class EmptyList extends StatelessWidget {
   const EmptyList({
@@ -28,7 +29,7 @@ class EmptyList extends StatelessWidget {
               size: 60,
               color: theme.colorScheme.primary.withOpacity(0.6),
             ),
-            const SizedBox(height: 16),
+           verticalSpace(16),
 
             Text(
               title,
@@ -38,7 +39,7 @@ class EmptyList extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
 
-            const SizedBox(height: 8),
+            verticalSpace(8),
 
             Text(
               message,

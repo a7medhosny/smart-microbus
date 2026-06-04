@@ -28,8 +28,17 @@ class AddReportSheetContent extends StatelessWidget {
   AddReportSheetContent({super.key});
   final letter1Controller = TextEditingController();
   final letter2Controller = TextEditingController();
+  final letter3Controller = TextEditingController();
   final numbersController = TextEditingController();
 
+  // String getPlate() {
+  //   return [
+  //     letter1Controller.text.trim(),
+  //     letter2Controller.text.trim(),
+  //     letter3Controller.text.trim(),
+  //     numbersController.text.trim(),
+  //   ].where((e) => e.isNotEmpty).join(' ');
+  // }
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
@@ -197,6 +206,7 @@ class AddReportSheetContent extends StatelessWidget {
                 PlateInputField(
                   letter1Controller: letter1Controller,
                   letter2Controller: letter2Controller,
+                  letter3Controller: letter3Controller,
                   numbersController: numbersController,
                 ),
 
@@ -207,10 +217,12 @@ class AddReportSheetContent extends StatelessWidget {
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () {
-                      final plate =
-                         "${letter1Controller.text} ${letter2Controller.text} ${numbersController.text}"
-        .trim()
-        .replaceAll(RegExp(r'\s+'), ' ');
+                      final plate = getPlate(
+                        letter1Controller: letter1Controller,
+                        letter2Controller: letter2Controller,
+                        letter3Controller: letter3Controller,
+                        numbersController: numbersController,
+                      );
 
                       if (plate.length < 5) return;
 

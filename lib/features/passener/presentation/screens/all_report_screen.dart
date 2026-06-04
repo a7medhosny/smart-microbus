@@ -79,7 +79,17 @@ class _AllReportScreenState extends State<AllReportScreen> {
     final tr = AppLocalizations.of(context)!;
     final letter1Controller = TextEditingController();
     final letter2Controller = TextEditingController();
+    final letter3Controller = TextEditingController();
     final numbersController = TextEditingController();
+
+  //     String getPlate() {
+  //   return [
+  //     letter1Controller.text.trim(),
+  //     letter2Controller.text.trim(),
+  //     letter3Controller.text.trim(),
+  //     numbersController.text.trim(),
+  //   ].where((e) => e.isNotEmpty).join(' ');
+  // }
 
     if (plateController.text.isNotEmpty && plateController.text.length >= 3) {
       final plate = plateController.text;
@@ -136,6 +146,7 @@ class _AllReportScreenState extends State<AllReportScreen> {
                       label: tr.plate_number,
                       letter1Controller: letter1Controller,
                       letter2Controller: letter2Controller,
+                      letter3Controller: letter3Controller,
                       numbersController: numbersController,
                     ),
 
@@ -184,9 +195,12 @@ class _AllReportScreenState extends State<AllReportScreen> {
                             onPressed: () {
                               setState(() {
                                 final plate =
-                                    "${letter1Controller.text} ${letter2Controller.text} ${numbersController.text}"
-                                        .trim()
-                                        .replaceAll(RegExp(r'\s+'), ' ');
+                                   getPlate(
+                                      letter1Controller: letter1Controller,
+                                      letter2Controller: letter2Controller,
+                                      letter3Controller: letter3Controller,
+                                      numbersController: numbersController,
+                                   );
 
                                 plateController.text = plate;
                                 fromDate = tempFrom;
