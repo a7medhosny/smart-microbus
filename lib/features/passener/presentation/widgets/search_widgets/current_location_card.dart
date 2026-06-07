@@ -32,7 +32,7 @@ class CurrentLocationCard extends StatelessWidget {
           /// 👤 Avatar
           InkWell(
             onTap: () {
-              context.read<PassengerCubit>().changeBottomNavIndex(3);
+              context.read<PassengerCubit>().changeBottomNavIndex(4);
             },
             child: CircleAvatar(
               radius: 24,

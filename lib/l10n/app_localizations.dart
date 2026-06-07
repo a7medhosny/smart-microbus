@@ -662,7 +662,7 @@ abstract class AppLocalizations {
   /// No description provided for @currentLocationHint.
   ///
   /// In en, this message translates to:
-  /// **'Welcome to Smart Microbus\nChoose your starting point to find available trips around you'**
+  /// **'Welcome to Wasla\nChoose your starting point to find available trips around you'**
   String get currentLocationHint;
 
   /// No description provided for @selectDestination.

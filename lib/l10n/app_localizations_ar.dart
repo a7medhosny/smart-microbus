@@ -299,7 +299,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get selectCity => 'اختر المدينة';
 
   @override
-  String get currentLocationHint => 'مرحبًا بك في سمارت ميكروباص\nاختر نقطة الانطلاق لعرض الرحلات المتاحة حولك';
+  String get currentLocationHint => 'مرحبًا بك في وصلة\nاختر نقطة الانطلاق لعرض الرحلات المتاحة حولك';
 
   @override
   String get selectDestination => 'اختر الوجهة';

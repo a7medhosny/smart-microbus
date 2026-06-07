@@ -5,6 +5,7 @@ class RouteSummaryEntity {
   final int numberOfMicrobusesOnTheWay;
   final int? nearestArrivalMinutes;
 
+
   RouteSummaryEntity({
     required this.price,
     required this.distanceKm,

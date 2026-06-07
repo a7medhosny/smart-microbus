@@ -299,7 +299,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get selectCity => 'Select city';
 
   @override
-  String get currentLocationHint => 'Welcome to Smart Microbus\nChoose your starting point to find available trips around you';
+  String get currentLocationHint => 'Welcome to Wasla\nChoose your starting point to find available trips around you';
 
   @override
   String get selectDestination => 'Select destination';
