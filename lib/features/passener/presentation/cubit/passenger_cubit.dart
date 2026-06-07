@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,10 +17,13 @@ import '../../domain/entities/report_entity.dart';
 import '../../domain/entities/report_reason_entity.dart';
 import '../../domain/entities/route_entity.dart';
 import '../../domain/entities/route_summary_entity.dart';
+import '../../domain/entities/route_tracking_entity.dart';
 import '../../domain/entities/station_microbus_entity.dart';
 
 import '../../domain/usecases/add_route_to_favourite_use_case.dart';
+import '../../domain/usecases/connect_to_route_tracking_use_case.dart';
 import '../../domain/usecases/delete_report_by_id_use_case.dart';
+import '../../domain/usecases/disconnect_tracking_route_use_case.dart';
 import '../../domain/usecases/get_all_reports_use_case.dart';
 import '../../domain/usecases/get_driver_by_plate_number.dart';
 import '../../domain/usecases/get_favourite_routes.dart';
@@ -30,6 +35,7 @@ import '../../domain/usecases/get_route_summary_use_case.dart';
 import '../../domain/usecases/get_routes_use_case.dart';
 import '../../domain/usecases/get_station_microbuses_use_case.dart';
 import '../../domain/usecases/is_route_favourite_use_case.dart';
+import '../../domain/usecases/listen_to_route_tracking_use_case.dart';
 import '../../domain/usecases/remove_route_from_fav_use_case.dart';
 import '../../domain/usecases/submit_report_use_case.dart';
 import '../../domain/usecases/update_report_use_case.dart';
@@ -54,6 +60,11 @@ class PassengerCubit extends Cubit<PassengerState> {
   final DeleteReportByIdUseCase deleteReportByIdUseCase;
   final UpdateReportUseCase updateReportUseCase;
   final GetDriverByPlateNumber getDriverByPlateNumber;
+  final ConnectToRouteTrackingUseCase connectToRouteTrackingUseCase;
+
+  final DisconnectRouteTrackingUseCase disconnectRouteTrackingUseCase;
+
+  final ListenToRouteTrackingUseCase listenToRouteTrackingUseCase;
   int _guestTrigger = 0;
   PassengerCubit(
     this.getRoutesUseCase,
@@ -72,6 +83,9 @@ class PassengerCubit extends Cubit<PassengerState> {
     this.deleteReportByIdUseCase,
     this.updateReportUseCase,
     this.getDriverByPlateNumber,
+    this.connectToRouteTrackingUseCase,
+    this.disconnectRouteTrackingUseCase,
+    this.listenToRouteTrackingUseCase,
   ) : super(PassengerInitial());
 
   // ================= STATE DATA =================
@@ -82,12 +96,14 @@ class PassengerCubit extends Cubit<PassengerState> {
   List<DestinationEntity> destinations = [];
   List<PassengerRouteEntity> routes = [];
   List<FavouriteRouteEntity> favouriteRoutes = [];
+  List<OnTheWayMicrobusEntity>? onTheWay;
   // List<ReportItemEntity> reportItems = [];
   Report? currentReport;
   AllReportResponseEntity? allReports;
   AllReportResponseEntity? filteredReports;
 
   int? selectedReasonId;
+  StreamSubscription<RouteTrackingEntity>? _routeTrackingSubscription;
 
   // ================= NAVIGATION =================
   int currentNavIndex = 0;
@@ -103,6 +119,7 @@ class PassengerCubit extends Cubit<PassengerState> {
 
   bool showSearchField = false;
   final TextEditingController searchPlateController = TextEditingController();
+  RouteTrackingEntity? routeTracking;
 
   // void changeBottomNavIndex(int index) {
   //   currentNavIndex = index;
@@ -208,21 +225,34 @@ class PassengerCubit extends Cubit<PassengerState> {
 
     String? error;
 
-    summaryResult.fold(
-      (failure) => error ??= failure.message,
-      (data) => summary = data,
-    );
+    // summaryResult.fold(
+    //   (failure) => error ??= failure.message,
+    //   (data) => summary = data,
+    // );
 
-    stationResult.fold(
-      (failure) => error ??= failure.message,
-      (data) => station = data,
-    );
+    // stationResult.fold(
+    //   (failure) => error ??= failure.message,
+    //   (data) => station = data,
+    // );
 
-    onTheWayResult.fold(
-      (failure) => error ??= failure.message,
-      (data) => onTheWay = data,
-    );
+    // onTheWayResult.fold(
+    //   (failure) => error ??= failure.message,
+    //   (data) => onTheWay = data,
+    // );
+    summaryResult.fold((failure) {
+      print("SUMMARY ERROR => ${failure.message}");
+      error ??= failure.message;
+    }, (data) => summary = data);
 
+    stationResult.fold((failure) {
+      print("STATION ERROR => ${failure.message}");
+      error ??= failure.message;
+    }, (data) => station = data);
+
+    onTheWayResult.fold((failure) {
+      print("ON_THE_WAY ERROR => ${failure.message}");
+      error ??= failure.message;
+    }, (data) => onTheWay = data);
     if (error != null) {
       emit(PassengerDataError(error!));
       return;
@@ -235,6 +265,39 @@ class PassengerCubit extends Cubit<PassengerState> {
         onTheWay: onTheWay,
         isLoading: false,
       ),
+    );
+  }
+
+  Future<void> getOnTheWayMicrobuses(String routeId) async {
+    emit(GetOnTheWayMicrobusesLoading());
+
+    final result = await getOnTheWayMicrobusesUseCase(routeId);
+
+    result.fold(
+      (failure) => emit(GetOnTheWayMicrobusesError(failure.message)),
+      (data) => emit(GetOnTheWayMicrobusesSuccess(data)),
+    );
+  }
+
+  Future<void> getStationMicrobuses(String routeId) async {
+    emit(GetStationMicrobusesLoading());
+
+    final result = await getStationMicrobusesUseCase(routeId);
+
+    result.fold(
+      (failure) => emit(GetStationMicrobusesError(failure.message)),
+      (data) => emit(GetStationMicrobusesSuccess(data)),
+    );
+  }
+
+  Future<void> getRouteSummary(String routeId) async {
+    emit(GetRouteSummaryLoading());
+
+    final result = await getRouteSummaryUseCase(routeId);
+
+    result.fold(
+      (failure) => emit(GetRouteSummaryError(failure.message)),
+      (data) => emit(GetRouteSummarySuccess(data)),
     );
   }
 
@@ -491,5 +554,48 @@ class PassengerCubit extends Cubit<PassengerState> {
     await getFavorites();
     await getAllReports();
     emit(ChangePassengerBottomNavState(currentNavIndex));
+  }
+
+  //-----------------SignalR Connection-------------------
+
+  Future<void> connectToRouteTracking(String routeId) async {
+    emit(RouteTrackingLoading());
+
+    final result = await connectToRouteTrackingUseCase(routeId);
+
+    result.fold(
+      (failure) {
+        emit(RouteTrackingError(failure.message));
+      },
+      (_) async {
+        emit(RouteTrackingConnected());
+
+        await _routeTrackingSubscription?.cancel();
+
+        _routeTrackingSubscription = listenToRouteTrackingUseCase().listen((
+          tracking,
+        ) {
+          print("QUEUE: ${tracking.numberOfMicrobusesInQueue}");
+
+          routeTracking = tracking;
+          emit(RouteTrackingUpdated(tracking));
+        });
+      },
+    );
+  }
+
+  Future<void> disconnectRouteTracking() async {
+    await _routeTrackingSubscription?.cancel();
+
+    _routeTrackingSubscription = null;
+
+    await disconnectRouteTrackingUseCase();
+  }
+
+  @override
+  Future<void> close() async {
+    await disconnectRouteTracking();
+
+    return super.close();
   }
 }

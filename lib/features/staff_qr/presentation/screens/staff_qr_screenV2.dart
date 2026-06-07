@@ -7,14 +7,12 @@ import 'package:smart_microbus/l10n/app_localizations.dart';
 import '../cubit/staff_qr_cubit.dart';
 import '../cubit/staff_qr_state.dart';
 
-
-
 import '../widgets/V2_widgets/qr_scanner_card.dart';
 import '../widgets/V2_widgets/scan_result_overlay.dart';
 import '../widgets/V2_widgets/scanner_status_card.dart';
 import '../widgets/V2_widgets/scanner_type_switch.dart';
+import '../widgets/V2_widgets/staff_drawer.dart';
 import '../widgets/V2_widgets/staff_qr_header.dart';
-
 
 class StaffQrScreen extends StatefulWidget {
   const StaffQrScreen({super.key});
@@ -76,9 +74,7 @@ class _StaffQrScreenState extends State<StaffQrScreen>
   void onDetectQr(BarcodeCapture capture) {
     final code = capture.barcodes.first.rawValue;
 
-    if (code == null ||
-        scanned ||
-        resultState == ScanResultState.loading) {
+    if (code == null || scanned || resultState == ScanResultState.loading) {
       return;
     }
 
@@ -131,6 +127,7 @@ class _StaffQrScreenState extends State<StaffQrScreen>
       },
       builder: (context, state) {
         return Scaffold(
+          drawer: const StaffDrawer(),
           backgroundColor: theme.colorScheme.surface,
           body: Stack(
             children: [
@@ -145,7 +142,6 @@ class _StaffQrScreenState extends State<StaffQrScreen>
                       // =========================
                       // HEADER
                       // =========================
-
                       StaffQrHeader(
                         color: selectedColor,
                         pulseController: pulseController,
@@ -158,7 +154,6 @@ class _StaffQrScreenState extends State<StaffQrScreen>
                       // =========================
                       // TYPE SWITCH
                       // =========================
-
                       ScannerTypeSwitch(
                         selectedType: selectedType,
 
@@ -170,15 +165,13 @@ class _StaffQrScreenState extends State<StaffQrScreen>
 
                         onEntryTap: () {
                           setState(() {
-                            selectedType =
-                                ScanActionType.entry;
+                            selectedType = ScanActionType.entry;
                           });
                         },
 
                         onExitTap: () {
                           setState(() {
-                            selectedType =
-                                ScanActionType.exit;
+                            selectedType = ScanActionType.exit;
                           });
                         },
                       ),
@@ -188,7 +181,6 @@ class _StaffQrScreenState extends State<StaffQrScreen>
                       // =========================
                       // QR SCANNER
                       // =========================
-
                       QrScannerCard(
                         color: selectedColor,
                         resultState: resultState,
@@ -200,7 +192,6 @@ class _StaffQrScreenState extends State<StaffQrScreen>
                       // =========================
                       // STATUS CARD
                       // =========================
-
                       ScannerStatusCard(
                         resultState: resultState,
                         loadingText: tr.loading,
@@ -216,10 +207,8 @@ class _StaffQrScreenState extends State<StaffQrScreen>
               // =========================
               // RESULT OVERLAY
               // =========================
-
               AnimatedSwitcher(
-                duration:
-                    const Duration(milliseconds: 350),
+                duration: const Duration(milliseconds: 350),
                 child: ScanResultOverlay(
                   resultState: resultState,
                   message: statusMessage,
@@ -234,12 +223,7 @@ class _StaffQrScreenState extends State<StaffQrScreen>
   }
 }
 
-enum ScanResultState {
-  idle,
-  loading,
-  success,
-  error,
-}
+enum ScanResultState { idle, loading, success, error }
 
 enum ScanActionType { entry, exit }
 
@@ -261,8 +245,6 @@ extension ScanActionTypeX on ScanActionType {
   Color color(BuildContext context) {
     final theme = Theme.of(context);
 
-    return isEntry
-        ? theme.colorScheme.primary
-        : theme.colorScheme.error;
+    return isEntry ? theme.colorScheme.primary : theme.colorScheme.error;
   }
 }

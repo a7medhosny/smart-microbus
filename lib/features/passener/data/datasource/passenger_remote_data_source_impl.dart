@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:smart_microbus/features/passener/data/datasource/passenger_remote_data_source.dart';
 import 'package:smart_microbus/features/passener/data/models/all_report_request_model.dart';
 import 'package:smart_microbus/features/passener/data/models/all_report_response_model.dart';
@@ -12,12 +14,18 @@ import 'package:smart_microbus/features/passener/data/models/station_microbus_mo
 
 import '../models/base_response_model.dart';
 import '../models/destination_model.dart';
+import '../models/route_tracking_model.dart';
+import '../services/route_tracking_service.dart';
 import 'passenger_api_service.dart';
 
 class PassengerRemoteDataSourceImpl implements PassengerRemoteDataSource {
+  final RouteTrackingService routeTrackingService;
+  final _routeTrackingController =
+      StreamController<RouteTrackingModel>.broadcast();
+  String? _currentRouteId;
   final PassengerApiService apiService;
 
-  PassengerRemoteDataSourceImpl(this.apiService);
+  PassengerRemoteDataSourceImpl(this.apiService, this.routeTrackingService);
   @override
   Future<List<PassengerRouteModel>> getRoutes() {
     return apiService.getRoutes();
@@ -99,5 +107,33 @@ class PassengerRemoteDataSourceImpl implements PassengerRemoteDataSource {
   @override
   Future<StationMicrobusModel> getDriverByPlateNumber(String plateNumber) {
     return apiService.getDriverByPlateNumber(plateNumber);
+  }
+
+  //-----------------------SignalR-------------------
+  @override
+  Stream<RouteTrackingModel> get routeTrackingStream =>
+      _routeTrackingController.stream;
+  @override
+  Future<void> connectToRouteTracking(String routeId) async {
+    _currentRouteId = routeId;
+
+    await routeTrackingService.connect(
+      routeId: routeId,
+      onRouteUpdated: (data) {
+        _routeTrackingController.add(RouteTrackingModel.fromJson(data));
+      },
+    );
+  }
+
+  @override
+  Future<void> leaveRouteTracking() async {
+    if (_currentRouteId == null) return;
+
+    await routeTrackingService.leaveRoute(_currentRouteId!);
+  }
+
+  @override
+  Future<void> disconnectRouteTracking() async {
+    await routeTrackingService.disconnect();
   }
 }

@@ -9,6 +9,7 @@ import '../models/report_reason_model.dart';
 import '../models/report_request_body_model.dart';
 import '../models/route_model.dart';
 import '../models/route_summary_model.dart';
+import '../models/route_tracking_model.dart';
 import '../models/station_microbus_model.dart';
 
 abstract class PassengerRemoteDataSource {
@@ -32,4 +33,11 @@ abstract class PassengerRemoteDataSource {
   Future<AllReportResponseModel> getAllReports(AllReportRequestModel request);
 
   Future<StationMicrobusModel> getDriverByPlateNumber(String plateNumber);
+  Stream<RouteTrackingModel> get routeTrackingStream;
+
+  Future<void> connectToRouteTracking(String routeId);
+
+  Future<void> disconnectRouteTracking();
+
+  Future<void> leaveRouteTracking();
 }

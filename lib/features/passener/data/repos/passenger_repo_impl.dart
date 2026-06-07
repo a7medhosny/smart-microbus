@@ -17,6 +17,7 @@ import 'package:smart_microbus/features/passener/domain/entities/station_microbu
 import 'package:smart_microbus/features/passener/domain/repos/passenger_repo.dart';
 
 import '../../../../core/error/error_handler.dart';
+import '../../domain/entities/route_tracking_entity.dart';
 import '../datasource/passenger_remote_data_source.dart';
 import '../models/all_report_request_model.dart';
 import '../models/base_response_model.dart';
@@ -258,5 +259,38 @@ class PassengerRepoImpl implements PassengerRepo {
     } catch (e) {
       return Left(ServerFailure(errorMessage));
     }
+  }
+
+  //-----------------------SignalR-------------------------
+
+  @override
+  Stream<RouteTrackingEntity> get routeTrackingStream =>
+      remoteDataSource.routeTrackingStream;
+
+  @override
+  Future<Either<Failure, void>> connectToRouteTracking(String routeId) async {
+    try {
+      await remoteDataSource.connectToRouteTracking(routeId);
+
+      return const Right(null);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> disconnectRouteTracking() async {
+    try {
+      await remoteDataSource.disconnectRouteTracking();
+
+      return const Right(null);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<void> leaveRouteTracking() {
+    return remoteDataSource.leaveRouteTracking();
   }
 }

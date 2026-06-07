@@ -3,13 +3,13 @@ class RouteSummaryEntity {
   final double distanceKm;
   final int numberOfMicrobusesInQueue;
   final int numberOfMicrobusesOnTheWay;
-  final int nearestArrivalMinutes;
+  final int? nearestArrivalMinutes;
 
   RouteSummaryEntity({
     required this.price,
     required this.distanceKm,
     required this.numberOfMicrobusesInQueue,
     required this.numberOfMicrobusesOnTheWay,
-    required this.nearestArrivalMinutes,
+    this.nearestArrivalMinutes,
   });
 }

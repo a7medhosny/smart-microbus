@@ -33,163 +33,181 @@ class _RouteSummaryCardState extends State<RouteSummaryCard> {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context)!;
 
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            theme.colorScheme.primary,
-            theme.colorScheme.primaryContainer,
-          ],
-        ),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ///  Header
-          Row(
+    return BlocBuilder<PassengerCubit, PassengerState>(
+      buildWhen: (previous, current) => current is RouteTrackingUpdated,
+      builder: (context, state) {
+        final cubit = context.watch<PassengerCubit>();
+        final tracking = cubit.routeTracking;
+        return Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                theme.colorScheme.primary,
+                theme.colorScheme.primaryContainer,
+              ],
+            ),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Icon(Icons.alt_route, color: Colors.white, size: 24),
-              const SizedBox(width: 8),
+              ///  Header
+              Row(
+                children: [
+                  Icon(Icons.alt_route, color: Colors.white, size: 24),
+                  const SizedBox(width: 8),
 
-              Expanded(
-                child: Text(
-                  l10n.tripSummary,
-                  style: theme.textTheme.titleMedium?.copyWith(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-
-              ///  Favorite Button
-              BlocConsumer<PassengerCubit, PassengerState>(
-                listenWhen: (prev, curr) =>
-                    curr is AddFavoriteError || curr is RemoveFavoriteError,
-
-                listener: (context, state) {
-                  if (state is GuestRestrictedState) {
-                    showGuestRequiredBottomSheet(context);
-                  }
-                  if (state is AddFavoriteError) {
-                    ScaffoldMessenger.of(
-                      context,
-                    ).showSnackBar(SnackBar(content: Text(state.message)));
-                  }
-
-                  if (state is RemoveFavoriteError) {
-                    ScaffoldMessenger.of(
-                      context,
-                    ).showSnackBar(SnackBar(content: Text(state.message)));
-                  }
-                },
-
-                buildWhen: (prev, curr) =>
-                    curr is GetFavoritesSuccess ||
-                    curr is AddFavoriteSuccess ||
-                    curr is RemoveFavoriteSuccess,
-                builder: (context, state) {
-                  final cubit = context.read<PassengerCubit>();
-                  final isFav = cubit.favouriteRoutes.any(
-                    (e) => e.routeId == widget.routeId,
-                  );
-                  print(
-                    "Fav Length : ${cubit.favouriteRoutes.length} , IsFav : $isFav , route ${cubit.selectedRouteId}",
-                  );
-
-                  return IconButton(
-                    onPressed: () {
-                      if (isFav) {
-                        cubit.removeFromFavorites(widget.routeId);
-                      } else {
-                        cubit.addToFavorites(widget.routeId);
-                      }
-                    },
-                    icon: AnimatedSwitcher(
-                      duration: const Duration(milliseconds: 300),
-                      child: Icon(
-                        isFav ? Icons.favorite : Icons.favorite_border,
-                        key: ValueKey(isFav),
-                        color: isFav
-                            ? Colors.white
-                            : theme.colorScheme.onPrimary,
+                  Expanded(
+                    child: Text(
+                      l10n.tripSummary,
+                      style: theme.textTheme.titleMedium?.copyWith(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                  );
-                },
+                  ),
+
+                  ///  Favorite Button
+                  BlocConsumer<PassengerCubit, PassengerState>(
+                    listenWhen: (prev, curr) =>
+                        curr is AddFavoriteError || curr is RemoveFavoriteError,
+
+                    listener: (context, state) {
+                      if (state is GuestRestrictedState) {
+                        showGuestRequiredBottomSheet(context);
+                      }
+                      if (state is AddFavoriteError) {
+                        ScaffoldMessenger.of(
+                          context,
+                        ).showSnackBar(SnackBar(content: Text(state.message)));
+                      }
+
+                      if (state is RemoveFavoriteError) {
+                        ScaffoldMessenger.of(
+                          context,
+                        ).showSnackBar(SnackBar(content: Text(state.message)));
+                      }
+                    },
+
+                    buildWhen: (prev, curr) =>
+                        curr is GetFavoritesSuccess ||
+                        curr is AddFavoriteSuccess ||
+                        curr is RemoveFavoriteSuccess,
+                    builder: (context, state) {
+                      final cubit = context.read<PassengerCubit>();
+                      final isFav = cubit.favouriteRoutes.any(
+                        (e) => e.routeId == widget.routeId,
+                      );
+                      print(
+                        "Fav Length : ${cubit.favouriteRoutes.length} , IsFav : $isFav , route ${cubit.selectedRouteId}",
+                      );
+
+                      return IconButton(
+                        onPressed: () {
+                          if (isFav) {
+                            cubit.removeFromFavorites(widget.routeId);
+                          } else {
+                            cubit.addToFavorites(widget.routeId);
+                          }
+                        },
+                        icon: AnimatedSwitcher(
+                          duration: const Duration(milliseconds: 300),
+                          child: Icon(
+                            isFav ? Icons.favorite : Icons.favorite_border,
+                            key: ValueKey(isFav),
+                            color: isFav
+                                ? Colors.white
+                                : theme.colorScheme.onPrimary,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ],
               ),
-            ],
-          ),
 
-          const SizedBox(height: 16),
+              const SizedBox(height: 16),
 
-          ///  السعر
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 14),
-            decoration: BoxDecoration(
-              color: theme.colorScheme.onPrimary.withOpacity(0.15),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Text(
-              l10n.priceInCurrency(widget.summary.price),
-              style: theme.textTheme.headlineSmall?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-            ),
-          ),
-
-          const SizedBox(height: 16),
-
-          ///  التفاصيل
-          Row(
-            children: [
-              Expanded(
-                child: _item(
-                  context: context,
-                  icon: Icons.route,
-                  label: l10n.distance,
-                  value: l10n.distanceKm(widget.summary.distanceKm),
+              ///  السعر
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 10,
+                  horizontal: 14,
                 ),
-              ),
-              Expanded(
-                child: _item(
-                  context: context,
-                  icon: Icons.directions_bus,
-                  label: l10n.atStation,
-                  value: "${widget.summary.numberOfMicrobusesInQueue}",
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.onPrimary.withOpacity(0.15),
+                  borderRadius: BorderRadius.circular(12),
                 ),
-              ),
-            ],
-          ),
-
-          const SizedBox(height: 12),
-
-          Row(
-            children: [
-              Expanded(
-                child: _item(
-                  context: context,
-                  icon: Icons.access_time,
-                  label: l10n.onTheWay,
-                  value: "${widget.summary.numberOfMicrobusesOnTheWay}",
-                ),
-              ),
-              Expanded(
-                child: _item(
-                  context: context,
-                  icon: Icons.timer,
-                  label: l10n.nearestArrival,
-                  value: l10n.minutesShort(
-                    widget.summary.nearestArrivalMinutes,
+                child: Text(
+                  l10n.priceInCurrency(widget.summary.price),
+                  style: theme.textTheme.headlineSmall?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
                   ),
                 ),
               ),
+
+              const SizedBox(height: 16),
+
+              ///  التفاصيل
+              Row(
+                children: [
+                  Expanded(
+                    child: _item(
+                      context: context,
+                      icon: Icons.route,
+                      label: l10n.distance,
+                      value: l10n.distanceKm(widget.summary.distanceKm),
+                    ),
+                  ),
+                  Expanded(
+                    child: _item(
+                      context: context,
+                      icon: Icons.directions_bus,
+                      label: l10n.atStation,
+                      value:
+                          "${tracking?.numberOfMicrobusesInQueue ?? widget.summary.numberOfMicrobusesInQueue}",
+                    ),
+                  ),
+                ],
+              ),
+
+              const SizedBox(height: 12),
+
+              Row(
+                children: [
+                  Expanded(
+                    child: _item(
+                      context: context,
+                      icon: Icons.access_time,
+                      label: l10n.onTheWay,
+                      value:
+                          "${tracking?.numberOfMicrobusesOnTheWay ?? widget.summary.numberOfMicrobusesOnTheWay}",
+                    ),
+                  ),
+                  Expanded(
+                    child: _item(
+                      context: context,
+                      icon: Icons.timer,
+                      label: l10n.nearestArrival,
+                      value:
+                          (tracking?.nearestArrivalMinutes ??
+                                  widget.summary.nearestArrivalMinutes) !=
+                              null
+                          ? l10n.minutesShort(
+                              tracking?.nearestArrivalMinutes ??
+                                  widget.summary.nearestArrivalMinutes!,
+                            )
+                          : '--',
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 

@@ -361,3 +361,27 @@ class GuestRestrictedState extends PassengerState {
 }
 
 class SessionChangedState extends PassengerState {}
+
+//-------------------SignalR States------------------
+
+class RouteTrackingLoading extends PassengerState {}
+
+class RouteTrackingConnected extends PassengerState {}
+
+class RouteTrackingUpdated extends PassengerState {
+  final RouteTrackingEntity tracking;
+
+  const RouteTrackingUpdated(this.tracking);
+
+  @override
+  List<Object?> get props => [tracking];
+}
+
+class RouteTrackingError extends PassengerState {
+  final String message;
+
+  const RouteTrackingError(this.message);
+
+  @override
+  List<Object?> get props => [message];
+}

@@ -9,9 +9,28 @@ import '../../../../core/helpers/app_error_helper.dart';
 import '../../../../core/helpers/extensions.dart';
 import '../../../../core/routing/routes.dart';
 
-class SearchResultScreen extends StatelessWidget {
+class SearchResultScreen extends StatefulWidget {
   final String routeId;
   const SearchResultScreen({super.key, required this.routeId});
+
+  @override
+  State<SearchResultScreen> createState() => _SearchResultScreenState();
+}
+
+class _SearchResultScreenState extends State<SearchResultScreen> {
+  @override
+  void initState() {
+    super.initState();
+
+    context.read<PassengerCubit>().connectToRouteTracking(widget.routeId);
+  }
+
+  @override
+  void dispose() {
+    context.read<PassengerCubit>().disconnectRouteTracking();
+
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,23 +68,23 @@ class SearchResultScreen extends StatelessWidget {
             final station = state.station ?? [];
             final onTheWay = state.onTheWay ?? [];
             final cubit = context.read<PassengerCubit>();
-
+            final tracking = context.watch<PassengerCubit>().routeTracking;
             return ListView(
               padding: const EdgeInsets.all(16),
               children: [
                 if (summary != null)
-                  RouteSummaryCard(summary: summary, routeId: routeId),
+                  RouteSummaryCard(summary: summary, routeId: widget.routeId),
 
                 const SizedBox(height: 20),
 
                 SectionCard(
                   title: l10n.availableAtStation,
-                  count: station.length,
+                  count: tracking?.numberOfMicrobusesInQueue ?? station.length,
                   icon: Icons.directions_bus,
                   onTap: () {
                     cubit.currentNavigatorKey.currentState?.pushNamed(
                       Routes.stationListScreen,
-                      arguments: station,
+                      arguments: widget.routeId,
                     );
                   },
                 ),
@@ -74,12 +93,13 @@ class SearchResultScreen extends StatelessWidget {
 
                 SectionCard(
                   title: l10n.onTheWay,
-                  count: onTheWay.length,
+                  count:
+                      tracking?.numberOfMicrobusesOnTheWay ?? onTheWay.length,
                   icon: Icons.access_time,
                   onTap: () {
                     context.pushNamed(
                       Routes.onTheWayListScreen,
-                      arguments: onTheWay,
+                      arguments: widget.routeId,
                     );
                   },
                 ),

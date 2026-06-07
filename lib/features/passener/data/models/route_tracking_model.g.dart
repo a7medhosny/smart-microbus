@@ -1,15 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'route_summary_model.dart';
+part of 'route_tracking_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-RouteSummaryModel _$RouteSummaryModelFromJson(Map<String, dynamic> json) =>
-    RouteSummaryModel(
-      price: (json['price'] as num).toDouble(),
-      distanceKm: (json['distanceKm'] as num).toDouble(),
+RouteTrackingModel _$RouteTrackingModelFromJson(Map<String, dynamic> json) =>
+    RouteTrackingModel(
       numberOfMicrobusesInQueue: (json['numberOfMicrobusesInQueue'] as num)
           .toInt(),
       numberOfMicrobusesOnTheWay: (json['numberOfMicrobusesOnTheWay'] as num)
@@ -17,10 +15,8 @@ RouteSummaryModel _$RouteSummaryModelFromJson(Map<String, dynamic> json) =>
       nearestArrivalMinutes: (json['nearestArrivalMinutes'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$RouteSummaryModelToJson(RouteSummaryModel instance) =>
+Map<String, dynamic> _$RouteTrackingModelToJson(RouteTrackingModel instance) =>
     <String, dynamic>{
-      'price': instance.price,
-      'distanceKm': instance.distanceKm,
       'numberOfMicrobusesInQueue': instance.numberOfMicrobusesInQueue,
       'numberOfMicrobusesOnTheWay': instance.numberOfMicrobusesOnTheWay,
       'nearestArrivalMinutes': instance.nearestArrivalMinutes,

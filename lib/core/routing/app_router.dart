@@ -137,14 +137,11 @@ class AppRouter {
         final String routeId = settings.arguments as String;
         return _materialRoute(SearchResultScreen(routeId: routeId));
       case Routes.stationListScreen:
-        final stationMicrobuses = settings.arguments as List;
-        return _materialRoute(
-          StationListScreen(stationMicrobuses: stationMicrobuses),
-        );
+        final String routeId = settings.arguments as String;
+        return _materialRoute(StationListScreen(routeId: routeId));
       case Routes.onTheWayListScreen:
-        final onTheWayMicrobuses =
-            settings.arguments as List<OnTheWayMicrobusEntity>;
-        return _materialRoute(OnTheWayListScreen(onTheWay: onTheWayMicrobuses));
+        final routeId = settings.arguments as String;
+        return _materialRoute(OnTheWayListScreen(routeId: routeId));
 
       case Routes.passengerNavigationScreen:
         return _materialRoute(PassengerNavigationScreen());

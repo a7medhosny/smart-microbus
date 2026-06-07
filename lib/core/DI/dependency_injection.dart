@@ -70,8 +70,11 @@ import '../../features/passener/data/datasource/passenger_location_datasource_im
 import '../../features/passener/data/datasource/passenger_remote_data_source_impl.dart';
 import '../../features/passener/data/repos/passenger_location_repo_impl.dart';
 import '../../features/passener/data/repos/passenger_repo_impl.dart';
+import '../../features/passener/data/services/route_tracking_service.dart';
 import '../../features/passener/domain/repos/passenger_location_repo.dart';
 import '../../features/passener/domain/usecases/add_route_to_favourite_use_case.dart';
+import '../../features/passener/domain/usecases/connect_to_route_tracking_use_case.dart';
+import '../../features/passener/domain/usecases/disconnect_tracking_route_use_case.dart';
 import '../../features/passener/domain/usecases/get_driver_by_plate_number.dart';
 import '../../features/passener/domain/usecases/get_favourite_routes.dart';
 import '../../features/passener/domain/usecases/get_on_the_way_microbuses_use_case.dart';
@@ -81,6 +84,7 @@ import '../../features/passener/domain/usecases/get_route_summary_use_case.dart'
 import '../../features/passener/domain/usecases/get_routes_use_case.dart';
 import '../../features/passener/domain/usecases/get_station_microbuses_use_case.dart';
 import '../../features/passener/domain/usecases/is_route_favourite_use_case.dart';
+import '../../features/passener/domain/usecases/listen_to_route_tracking_use_case.dart';
 import '../../features/passener/domain/usecases/location_usecases/connect_to_driver_location_usecase.dart';
 import '../../features/passener/domain/usecases/location_usecases/disconnect_driver_location_usecase.dart';
 import '../../features/passener/domain/usecases/location_usecases/listen_to_driver_location_usecase.dart';
@@ -343,8 +347,14 @@ void _driverDependencies() {
   getIt.registerLazySingleton<PassengerApiService>(
     () => PassengerApiService(getIt<Dio>()),
   );
+  getIt.registerLazySingleton<RouteTrackingService>(
+    () => RouteTrackingService(),
+  );
   getIt.registerLazySingleton<PassengerRemoteDataSource>(
-    () => PassengerRemoteDataSourceImpl(getIt<PassengerApiService>()),
+    () => PassengerRemoteDataSourceImpl(
+      getIt<PassengerApiService>(),
+      getIt<RouteTrackingService>(),
+    ),
   );
   getIt.registerLazySingleton<PassengerRepo>(
     () => PassengerRepoImpl(getIt<PassengerRemoteDataSource>()),
@@ -405,7 +415,17 @@ void _driverDependencies() {
   getIt.registerLazySingleton<GetDriverByPlateNumber>(
     () => GetDriverByPlateNumber(getIt<PassengerRepo>()),
   );
+  getIt.registerLazySingleton<ConnectToRouteTrackingUseCase>(
+    () => ConnectToRouteTrackingUseCase(getIt<PassengerRepo>()),
+  );
 
+  getIt.registerLazySingleton<DisconnectRouteTrackingUseCase>(
+    () => DisconnectRouteTrackingUseCase(getIt<PassengerRepo>()),
+  );
+
+  getIt.registerLazySingleton<ListenToRouteTrackingUseCase>(
+    () => ListenToRouteTrackingUseCase(getIt<PassengerRepo>()),
+  );
   getIt.registerFactory<PassengerCubit>(
     () => PassengerCubit(
       getIt<GetRoutesUseCase>(),
@@ -424,6 +444,9 @@ void _driverDependencies() {
       getIt<DeleteReportByIdUseCase>(),
       getIt<UpdateReportUseCase>(),
       getIt<GetDriverByPlateNumber>(),
+      getIt<ConnectToRouteTrackingUseCase>(),
+      getIt<DisconnectRouteTrackingUseCase>(),
+      getIt<ListenToRouteTrackingUseCase>(),
     ),
   );
   // ================= Maps Dependencies =================

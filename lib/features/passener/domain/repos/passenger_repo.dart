@@ -13,6 +13,7 @@ import '../entities/report_entity.dart';
 import '../entities/report_reason_entity.dart';
 import '../entities/route_entity.dart';
 import '../entities/route_summary_entity.dart';
+import '../entities/route_tracking_entity.dart';
 
 abstract class PassengerRepo {
   Future<Either<Failure, List<PassengerRouteEntity>>> getRoutes();
@@ -47,4 +48,12 @@ abstract class PassengerRepo {
   Future<Either<Failure, StationMicrobusEntity>> getDriverByPlateNumber(
     String plateNumber,
   );
+  //signalR
+  Stream<RouteTrackingEntity> get routeTrackingStream;
+
+  Future<Either<Failure, void>> connectToRouteTracking(String routeId);
+
+  Future<Either<Failure, void>> disconnectRouteTracking();
+
+  Future<void> leaveRouteTracking();
 }

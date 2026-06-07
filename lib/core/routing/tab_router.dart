@@ -72,12 +72,12 @@ class TabRouter {
         return _route(SearchResultScreen(routeId: routeId));
 
       case Routes.stationListScreen:
-        final stationMicrobuses = settings.arguments as List;
-        return _route(StationListScreen(stationMicrobuses: stationMicrobuses));
+        final String routeId = settings.arguments as String;
+        return _route(StationListScreen(routeId: routeId));
 
       case Routes.onTheWayListScreen:
-        final onTheWay = settings.arguments as List<OnTheWayMicrobusEntity>;
-        return _route(OnTheWayListScreen(onTheWay: onTheWay));
+        final routeId = settings.arguments as String;
+        return _route(OnTheWayListScreen(routeId: routeId));
       case Routes.reportDetailsPage:
         final routeId = settings.arguments as String;
         return _route(ReportDetailsPage(reportId: routeId));
