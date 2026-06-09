@@ -35,6 +35,7 @@ import '../../domain/usecases/get_route_summary_use_case.dart';
 import '../../domain/usecases/get_routes_use_case.dart';
 import '../../domain/usecases/get_station_microbuses_use_case.dart';
 import '../../domain/usecases/is_route_favourite_use_case.dart';
+import '../../domain/usecases/leave_route_tracking_use_case.dart';
 import '../../domain/usecases/listen_to_route_tracking_use_case.dart';
 import '../../domain/usecases/remove_route_from_fav_use_case.dart';
 import '../../domain/usecases/submit_report_use_case.dart';
@@ -61,7 +62,7 @@ class PassengerCubit extends Cubit<PassengerState> {
   final UpdateReportUseCase updateReportUseCase;
   final GetDriverByPlateNumber getDriverByPlateNumber;
   final ConnectToRouteTrackingUseCase connectToRouteTrackingUseCase;
-
+  final LeaveRouteTrackingUseCase leaveRouteTrackingUseCase;
   final DisconnectRouteTrackingUseCase disconnectRouteTrackingUseCase;
 
   final ListenToRouteTrackingUseCase listenToRouteTrackingUseCase;
@@ -86,6 +87,7 @@ class PassengerCubit extends Cubit<PassengerState> {
     this.connectToRouteTrackingUseCase,
     this.disconnectRouteTrackingUseCase,
     this.listenToRouteTrackingUseCase,
+    this.leaveRouteTrackingUseCase,
   ) : super(PassengerInitial());
 
   // ================= STATE DATA =================
@@ -588,6 +590,7 @@ class PassengerCubit extends Cubit<PassengerState> {
     await _routeTrackingSubscription?.cancel();
 
     _routeTrackingSubscription = null;
+    routeTracking = null;
 
     await disconnectRouteTrackingUseCase();
   }

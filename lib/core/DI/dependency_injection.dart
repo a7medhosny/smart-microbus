@@ -84,6 +84,7 @@ import '../../features/passener/domain/usecases/get_route_summary_use_case.dart'
 import '../../features/passener/domain/usecases/get_routes_use_case.dart';
 import '../../features/passener/domain/usecases/get_station_microbuses_use_case.dart';
 import '../../features/passener/domain/usecases/is_route_favourite_use_case.dart';
+import '../../features/passener/domain/usecases/leave_route_tracking_use_case.dart';
 import '../../features/passener/domain/usecases/listen_to_route_tracking_use_case.dart';
 import '../../features/passener/domain/usecases/location_usecases/connect_to_driver_location_usecase.dart';
 import '../../features/passener/domain/usecases/location_usecases/disconnect_driver_location_usecase.dart';
@@ -426,6 +427,9 @@ void _driverDependencies() {
   getIt.registerLazySingleton<ListenToRouteTrackingUseCase>(
     () => ListenToRouteTrackingUseCase(getIt<PassengerRepo>()),
   );
+  getIt.registerLazySingleton<LeaveRouteTrackingUseCase>(
+    () => LeaveRouteTrackingUseCase(getIt<PassengerRepo>()),
+  );
   getIt.registerFactory<PassengerCubit>(
     () => PassengerCubit(
       getIt<GetRoutesUseCase>(),
@@ -447,6 +451,7 @@ void _driverDependencies() {
       getIt<ConnectToRouteTrackingUseCase>(),
       getIt<DisconnectRouteTrackingUseCase>(),
       getIt<ListenToRouteTrackingUseCase>(),
+      getIt<LeaveRouteTrackingUseCase>(),
     ),
   );
   // ================= Maps Dependencies =================
