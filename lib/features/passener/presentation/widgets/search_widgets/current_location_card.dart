@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_microbus/l10n/app_localizations.dart';
+import '../../../../../core/auth/token_manager.dart';
 import '../../cubit/passenger_cubit.dart';
 
 class CurrentLocationCard extends StatelessWidget {
@@ -10,7 +11,8 @@ class CurrentLocationCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context)!;
-
+    final userName = (TokenManager.userName ?? '').split(' ').first;
+    print("CurrentLocationCard build with userName: $userName");
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -27,8 +29,6 @@ class CurrentLocationCard extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-         
-
           /// 👤 Avatar
           InkWell(
             onTap: () {
@@ -60,7 +60,7 @@ class CurrentLocationCard extends StatelessWidget {
 
                     Expanded(
                       child: Text(
-                        l10n.welcomeToMinya,
+                        l10n.welcomeToUser(userName),
                         style: theme.textTheme.titleSmall?.copyWith(
                           color: Colors.white,
                           fontWeight: FontWeight.w600,

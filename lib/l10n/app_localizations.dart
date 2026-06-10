@@ -101,11 +101,17 @@ abstract class AppLocalizations {
   /// **'Wasla'**
   String get appName;
 
-  /// No description provided for @welcomeToMinya.
+  /// No description provided for @welcomeToUser.
   ///
   /// In en, this message translates to:
-  /// **'Welcome to Minya'**
-  String get welcomeToMinya;
+  /// **'Welcome {name}'**
+  String welcomeToUser(Object name);
+
+  /// No description provided for @welcomeToWasla.
+  ///
+  /// In en, this message translates to:
+  /// **'ًWelcome To Wasla'**
+  String get welcomeToWasla;
 
   /// No description provided for @chooseRoleDescription.
   ///
@@ -719,6 +725,12 @@ abstract class AppLocalizations {
   /// **'After {minutes} minutes'**
   String afterMinutes(Object minutes);
 
+  /// No description provided for @afterhours.
+  ///
+  /// In en, this message translates to:
+  /// **'After {hours} hour'**
+  String afterhours(Object hours);
+
   /// No description provided for @afterMinutes_one.
   ///
   /// In en, this message translates to:
@@ -802,6 +814,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{minutes} min'**
   String minutesShort(Object minutes);
+
+  /// No description provided for @hoursShort.
+  ///
+  /// In en, this message translates to:
+  /// **'{hours} h'**
+  String hoursShort(Object hours);
 
   /// No description provided for @noMicrobuses.
   ///
@@ -1588,6 +1606,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'System ready for Microbus QR scanning'**
   String get systemReadyForScanning;
+
+  /// No description provided for @success.
+  ///
+  /// In en, this message translates to:
+  /// **'Success'**
+  String get success;
+
+  /// No description provided for @failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed'**
+  String get failed;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

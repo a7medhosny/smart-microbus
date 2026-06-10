@@ -12,7 +12,12 @@ class AppLocalizationsAr extends AppLocalizations {
   String get appName => 'وصلة';
 
   @override
-  String get welcomeToMinya => 'أهلاً بك في المنيا';
+  String welcomeToUser(Object name) {
+    return 'أهلاً بك $name';
+  }
+
+  @override
+  String get welcomeToWasla => 'أهلاً بك في وصلة';
 
   @override
   String get chooseRoleDescription => 'تبدأ رحلتك الذكية من هنا. تتبّع رحلتك، تنقّل بسهولة، واستمتع بتجربة نقل أذكى';
@@ -331,6 +336,11 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String afterhours(Object hours) {
+    return 'بعد $hours ساعة';
+  }
+
+  @override
   String afterMinutes_one(Object minutes) {
     return 'بعد $minutes دقيقة';
   }
@@ -380,6 +390,11 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String minutesShort(Object minutes) {
     return '$minutes د';
+  }
+
+  @override
+  String hoursShort(Object hours) {
+    return '$hours س';
   }
 
   @override
@@ -780,4 +795,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get systemReadyForScanning => 'النظام جاهز لمسح QR للحافلات';
+
+  @override
+  String get success => 'نجح التحقق';
+
+  @override
+  String get failed => 'فشل التحقق';
 }

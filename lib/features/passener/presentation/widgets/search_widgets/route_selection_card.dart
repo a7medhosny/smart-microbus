@@ -72,7 +72,7 @@ class _RouteSelectionCardState extends State<RouteSelectionCard> {
         children: [
           /// ================= FROM =================
           Text(
-            l10n.selectCity,
+            l10n.tripStartPoint,
             style: theme.textTheme.labelMedium!.copyWith(color: Colors.grey),
           ),
           const SizedBox(height: 6),
@@ -134,7 +134,7 @@ class _RouteSelectionCardState extends State<RouteSelectionCard> {
 
           /// ================= TO =================
           Text(
-            l10n.selectDestination,
+            l10n.tripDestination,
             style: theme.textTheme.labelMedium!.copyWith(color: Colors.grey),
           ),
           const SizedBox(height: 6),

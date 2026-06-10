@@ -6,6 +6,7 @@ import 'package:smart_microbus/l10n/app_localizations.dart';
 
 import '../../../../../core/auth/guest_guard.dart';
 import '../../../../../core/helpers/extensions.dart';
+import '../../../../../core/helpers/get_arrival_time.dart';
 import '../../../../../core/routing/routes.dart';
 import '../../cubit/passenger_cubit.dart';
 import '../../screens/report_details_screen.dart';
@@ -70,6 +71,8 @@ class MicrobusCard extends StatelessWidget {
 
     final bool isOnTheWay = estimatedArrivalMinutes != null;
 
+    final arrivalTime = getArrivalTime( context: context, minutes: estimatedArrivalMinutes);
+
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(16),
@@ -91,11 +94,12 @@ class MicrobusCard extends StatelessWidget {
             children: [
               /// الوقت (لو On The Way)
               if (isOnTheWay)
+              
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      l10n.afterMinutes(estimatedArrivalMinutes!),
+                     arrivalTime,
                       style: theme.textTheme.titleMedium?.copyWith(
                         color: theme.colorScheme.primary,
                         fontWeight: FontWeight.bold,

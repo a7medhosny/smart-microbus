@@ -3,7 +3,8 @@
 
   "appName": "وصلة",
 
-  "welcomeToMinya": "أهلاً بك في المنيا",
+  "welcomeToUser": "أهلاً بك {name}",
+  "welcomeToWasla":"أهلاً بك في وصلة",
   "chooseRoleDescription": "تبدأ رحلتك الذكية من هنا. تتبّع رحلتك، تنقّل بسهولة، واستمتع بتجربة نقل أذكى",
 "smart_transport_platform": "منصة النقل الذكي",
   "passenger": "راكب",
@@ -127,6 +128,7 @@
   "microbusesAtStation": "ميكروباصات في المحطة",
   "comingToYou": "في الطريق إليك",
   "afterMinutes": "بعد {minutes} دقيقة",
+  "afterhours": "بعد {hours} ساعة",
   "afterMinutes_one": "بعد {minutes} دقيقة",
   "order": "ترتيب {position}",
 
@@ -143,6 +145,7 @@
   "onTheWay": "في الطريق",
   "nearestArrival": "أقرب وصول",
   "minutesShort": "{minutes} د",
+  "hoursShort": "{hours} س",
     "noMicrobuses": "لا يوجد ميكروباصات",
   "noMicrobusesDesc": "حاول مرة أخرى لاحقًا أو غيّر الوجهة",
   "plateNumber": "رقم اللوحة",
@@ -323,7 +326,11 @@
   "changeTheme": "تغيير الثيم",
   "logout": "تسجيل الخروج",
   "placeQrInsideFrame": "ضع رمز QR داخل الإطار",
-  "systemReadyForScanning": "النظام جاهز لمسح QR للحافلات"
+  "systemReadyForScanning": "النظام جاهز لمسح QR للحافلات",
+  
+  "success": "نجح التحقق",
+  "failed": "فشل التحقق"
+
 
 
 }

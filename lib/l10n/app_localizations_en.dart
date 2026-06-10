@@ -12,7 +12,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get appName => 'Wasla';
 
   @override
-  String get welcomeToMinya => 'Welcome to Minya';
+  String welcomeToUser(Object name) {
+    return 'Welcome $name';
+  }
+
+  @override
+  String get welcomeToWasla => 'ًWelcome To Wasla';
 
   @override
   String get chooseRoleDescription => 'Smart transportation starts here. Track, ride, and travel smarter';
@@ -331,6 +336,11 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String afterhours(Object hours) {
+    return 'After $hours hour';
+  }
+
+  @override
   String afterMinutes_one(Object minutes) {
     return 'After $minutes minute';
   }
@@ -380,6 +390,11 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String minutesShort(Object minutes) {
     return '$minutes min';
+  }
+
+  @override
+  String hoursShort(Object hours) {
+    return '$hours h';
   }
 
   @override
@@ -780,4 +795,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get systemReadyForScanning => 'System ready for Microbus QR scanning';
+
+  @override
+  String get success => 'Success';
+
+  @override
+  String get failed => 'Failed';
 }

@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import '../../../../../l10n/app_localizations.dart';
 import '../../screens/staff_qr_screenV2.dart';
 
 
@@ -21,6 +22,8 @@ class ScanResultOverlay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final tr = AppLocalizations.of(context)!;
+
 
     if (resultState == ScanResultState.idle) {
       return const SizedBox.shrink();
@@ -75,8 +78,8 @@ class ScanResultOverlay extends StatelessWidget {
                       ? loadingText
                       : resultState ==
                               ScanResultState.success
-                          ? "Success"
-                          : "Failed",
+                          ? tr.success
+                          : tr.failed,
                   style: theme.textTheme.titleLarge
                       ?.copyWith(
                     fontWeight: FontWeight.w900,

@@ -3,7 +3,9 @@
 
   "appName": "Wasla",
 
-  "welcomeToMinya": "Welcome to Minya",
+  "welcomeToUser": "Welcome {name}",
+    "welcomeToWasla":"ًWelcome To Wasla",
+
   "chooseRoleDescription": "Smart transportation starts here. Track, ride, and travel smarter",
 "smart_transport_platform": "Smart Transport Platform",
   "passenger": "Passenger",
@@ -127,6 +129,7 @@
   "microbusesAtStation": "Microbuses at station",
   "comingToYou": "Coming to you",
   "afterMinutes": "After {minutes} minutes",
+  "afterhours": "After {hours} hour",
   "afterMinutes_one": "After {minutes} minute",
   "order": "Order {position}",
 
@@ -143,6 +146,8 @@
   "onTheWay": "On The Way",
   "nearestArrival": "Nearest Arrival",
   "minutesShort": "{minutes} min",
+  "hoursShort": "{hours} h",
+
   "noMicrobuses": "No microbuses available",
   "noMicrobusesDesc": "Try again later or change your destination",
     "plateNumber": "Plate Number",
@@ -321,7 +326,9 @@
   "changeTheme": "Change Theme",
   "logout": "Logout",
   "placeQrInsideFrame": "Place QR code inside the frame",
-  "systemReadyForScanning": "System ready for Microbus QR scanning"
+  "systemReadyForScanning": "System ready for Microbus QR scanning",
+ "success": "Success",
+  "failed": "Failed"
 
 
 

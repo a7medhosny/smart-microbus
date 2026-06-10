@@ -166,7 +166,7 @@ class HomeScreen extends StatelessWidget {
                 /// TITLE
                 Center(
                   child: Text(
-                    tr.welcomeToMinya,
+                    tr.welcomeToWasla,
 
                     textAlign: TextAlign.center,
 

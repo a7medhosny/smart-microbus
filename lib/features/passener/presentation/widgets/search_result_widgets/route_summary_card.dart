@@ -5,6 +5,7 @@ import 'package:smart_microbus/features/passener/domain/entities/route_summary_e
 import 'package:smart_microbus/features/passener/presentation/cubit/passenger_cubit.dart';
 import 'package:smart_microbus/l10n/app_localizations.dart';
 
+import '../../../../../core/helpers/get_arrival_time.dart';
 import '../guest_widgets/guest_required_bottom_sheet.dart';
 
 class RouteSummaryCard extends StatefulWidget {
@@ -38,6 +39,8 @@ class _RouteSummaryCardState extends State<RouteSummaryCard> {
       builder: (context, state) {
         final cubit = context.watch<PassengerCubit>();
         final tracking = cubit.routeTracking;
+            final arrivalTime = getArrivalTime( context: context, minutes: tracking?.nearestArrivalMinutes ?? widget.summary.nearestArrivalMinutes);
+
         return Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
