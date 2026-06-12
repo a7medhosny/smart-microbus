@@ -28,10 +28,13 @@ class SearchButton extends StatelessWidget {
             );
             return;
           }
-    //  cubit.getFavorites(); 
+          //  cubit.getFavorites();
 
-          cubit.getAllRouteData(routeId);
-          Navigator.pushNamed(context, Routes.passengerSearchResultScreen,arguments: routeId);
+          Navigator.pushNamed(
+            context,
+            Routes.passengerSearchResultScreen,
+            arguments: routeId,
+          );
         },
         icon: const Icon(Icons.search),
         label: Text(l10n.searchTrips),

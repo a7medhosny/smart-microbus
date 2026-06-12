@@ -18,16 +18,24 @@ class SearchResultScreen extends StatefulWidget {
 }
 
 class _SearchResultScreenState extends State<SearchResultScreen> {
+  late PassengerCubit cubit;
+
   @override
   void initState() {
     super.initState();
 
-    context.read<PassengerCubit>().connectToRouteTracking(widget.routeId);
+    cubit = context.read<PassengerCubit>();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      cubit.getAllRouteData(widget.routeId);
+      cubit.connectToRouteTracking(widget.routeId);
+    });
   }
 
   @override
   void dispose() {
-    context.read<PassengerCubit>().disconnectRouteTracking();
+    print("❌SEARCH RESULT DISPOSE");
+    cubit.leaveRouteTrackingUseCase();
+    cubit.disconnectRouteTracking();
 
     super.dispose();
   }
