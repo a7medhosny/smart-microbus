@@ -26,7 +26,9 @@ class StartedTripSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        TripStatusCard(startedSince: "10"),
+       TripStatusCard(
+  startedAt: trip.startedAt,
+),
 
         verticalSpace(18),
 

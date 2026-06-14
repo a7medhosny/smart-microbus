@@ -632,8 +632,14 @@ abstract class AppLocalizations {
   /// No description provided for @tripStartedSince.
   ///
   /// In en, this message translates to:
-  /// **'Started {minutes} minutes ago'**
+  /// **'Started {minutes} m ago'**
   String tripStartedSince(Object minutes);
+
+  /// No description provided for @tripStartedNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Started Just Now'**
+  String get tripStartedNow;
 
   /// No description provided for @tripStartPoint.
   ///

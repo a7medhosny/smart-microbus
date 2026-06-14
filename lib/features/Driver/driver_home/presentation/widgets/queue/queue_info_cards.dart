@@ -15,6 +15,7 @@ class QueueInfoCards extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context)!;
+    final waitingTime = vehiclesAhead * 5;
 
     return Row(
       children: [
@@ -22,7 +23,7 @@ class QueueInfoCards extends StatelessWidget {
           child: QueueInfoCard(
             icon: Icons.timer_rounded,
             iconColor: const Color(0xff8B5CF6),
-            value: "0",
+            value: l10n.minutesShort(waitingTime),
             label: l10n.waitingTime,
           ),
         ),
