@@ -55,6 +55,10 @@ class PassengerLocationCubit extends Cubit<PassengerLocationState> {
         emit(state.copyWith(loading: false, error: failure.message));
       },
       (location) {
+        print(
+          'PassengerLocationCubit: first location: ${location.coordinates}',
+        );
+
         emit(state.copyWith(loading: false, location: location));
       },
     );
@@ -73,6 +77,7 @@ class PassengerLocationCubit extends Cubit<PassengerLocationState> {
         await _locationSubscription?.cancel();
 
         _locationSubscription = listenUseCase().listen((location) {
+          print('PassengerLocationCubit: new location received: ${location.coordinates}');
           emit(state.copyWith(location: location));
         });
       },

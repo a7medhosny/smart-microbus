@@ -117,7 +117,7 @@ class _TripStatusCardState extends State<TripStatusCard> {
 
                     Expanded(
                       child: Text(
-                        l10n.tripStartedSince(_startedSince(context)),
+                        _startedSince(context),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: theme.textTheme.bodySmall?.copyWith(

@@ -34,7 +34,7 @@ class _TrackingMapViewState extends State<TrackingMapView> {
 
     if (points.isEmpty) return;
 
-    _mapController.moveAndRotate(points.last, _mapController.camera.zoom, 0);
+    _mapController.moveAndRotate(points.first, _mapController.camera.zoom, 0);
   }
 
   @override
@@ -45,14 +45,15 @@ class _TrackingMapViewState extends State<TrackingMapView> {
       return const SizedBox();
     }
 
-    final driverPoint = points.last;
-    final destinationPoint = points.first;
-
+    final driverPoint = points.first;
+    final destinationPoint = points.last;
+    print('TrackingMapView: driverPoint: $driverPoint, destinationPoint: $destinationPoint');
+//30.801751  28.494189 bani mazar
     return Stack(
       children: [
         FlutterMap(
           mapController: _mapController,
-          options: MapOptions(initialCenter: driverPoint, initialZoom: 15),
+          options: MapOptions(initialCenter: driverPoint, initialZoom: 18),
           children: [
             TileLayer(
               urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -72,14 +73,14 @@ class _TrackingMapViewState extends State<TrackingMapView> {
             MarkerLayer(
               markers: [
                 Marker(
-                  point: destinationPoint,
+                  point:driverPoint ,
                   width: 40,
                   height: 40,
                   child: const BusMarker(),
                 ),
 
                 Marker(
-                  point: driverPoint,
+                  point: destinationPoint,
                   width: 50,
                   height: 50,
                   child: const StartMarker(),
