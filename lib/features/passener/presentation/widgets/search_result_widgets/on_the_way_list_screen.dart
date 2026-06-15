@@ -46,19 +46,41 @@ class _OnTheWayListScreenState extends State<OnTheWayListScreen> {
             final onTheWay = state.microbuses;
 
             if (onTheWay.isEmpty) {
-              return EmptyState(
-                title: l10n.noMicrobuses,
-                description: l10n.noMicrobusesDesc,
-                icon: Icons.directions_bus_outlined,
+              return RefreshIndicator(
+                onRefresh: () async {
+                  await context.read<PassengerCubit>().getOnTheWayMicrobuses(
+                    widget.routeId,
+                  );
+                },
+                child: ListView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  children: [
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.8,
+                      child: EmptyState(
+                        title: l10n.noMicrobuses,
+                        description: l10n.noMicrobusesDesc,
+                        icon: Icons.directions_bus_outlined,
+                      ),
+                    ),
+                  ],
+                ),
               );
             }
 
-            return ListView.builder(
-              padding: const EdgeInsets.all(16),
-              itemCount: onTheWay.length,
-              itemBuilder: (context, index) {
-                return MicrobusCard.fromOnTheWay(onTheWay[index]);
+            return RefreshIndicator(
+              onRefresh: () async {
+                await context.read<PassengerCubit>().getOnTheWayMicrobuses(
+                  widget.routeId,
+                );
               },
+              child: ListView.builder(
+                padding: const EdgeInsets.all(16),
+                itemCount: onTheWay.length,
+                itemBuilder: (context, index) {
+                  return MicrobusCard.fromOnTheWay(onTheWay[index]);
+                },
+              ),
             );
           }
 

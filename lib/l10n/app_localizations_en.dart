@@ -632,7 +632,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get rejected => 'Rejected';
 
   @override
-  String get approved => 'Approved';
+  String get approved => 'Reviewed';
 
   @override
   String get pending => 'Pending';

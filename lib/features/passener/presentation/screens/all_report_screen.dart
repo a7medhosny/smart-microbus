@@ -82,14 +82,14 @@ class _AllReportScreenState extends State<AllReportScreen> {
     final letter3Controller = TextEditingController();
     final numbersController = TextEditingController();
 
-  //     String getPlate() {
-  //   return [
-  //     letter1Controller.text.trim(),
-  //     letter2Controller.text.trim(),
-  //     letter3Controller.text.trim(),
-  //     numbersController.text.trim(),
-  //   ].where((e) => e.isNotEmpty).join(' ');
-  // }
+    //     String getPlate() {
+    //   return [
+    //     letter1Controller.text.trim(),
+    //     letter2Controller.text.trim(),
+    //     letter3Controller.text.trim(),
+    //     numbersController.text.trim(),
+    //   ].where((e) => e.isNotEmpty).join(' ');
+    // }
 
     if (plateController.text.isNotEmpty && plateController.text.length >= 3) {
       final plate = plateController.text;
@@ -194,13 +194,12 @@ class _AllReportScreenState extends State<AllReportScreen> {
                           child: ElevatedButton(
                             onPressed: () {
                               setState(() {
-                                final plate =
-                                   getPlate(
-                                      letter1Controller: letter1Controller,
-                                      letter2Controller: letter2Controller,
-                                      letter3Controller: letter3Controller,
-                                      numbersController: numbersController,
-                                   );
+                                final plate = getPlate(
+                                  letter1Controller: letter1Controller,
+                                  letter2Controller: letter2Controller,
+                                  letter3Controller: letter3Controller,
+                                  numbersController: numbersController,
+                                );
 
                                 plateController.text = plate;
                                 fromDate = tempFrom;
@@ -308,24 +307,29 @@ class _AllReportScreenState extends State<AllReportScreen> {
                     );
                   }
 
-                  return ListView.builder(
-                    // padding: const EdgeInsets.only(
-                    //   bottom: 80,
-                    // ), // مهم عشان الزرار
-                    itemCount: reports.items.length,
-                    itemBuilder: (context, index) {
-                      final report = reports.items[index];
-
-                      return ReportCardMini(
-                        report: report,
-                        onTap: () {
-                          context.pushNamed(
-                            Routes.reportDetailsPage,
-                            arguments: report.id,
-                          );
-                        },
-                      );
+                  return RefreshIndicator(
+                    onRefresh: () async {
+                      context.read<PassengerCubit>().getAllReports();
                     },
+                    child: ListView.builder(
+                      // padding: const EdgeInsets.only(
+                      //   bottom: 80,
+                      // ), // مهم عشان الزرار
+                      itemCount: reports.items.length,
+                      itemBuilder: (context, index) {
+                        final report = reports.items[index];
+
+                        return ReportCardMini(
+                          report: report,
+                          onTap: () {
+                            context.pushNamed(
+                              Routes.reportDetailsPage,
+                              arguments: report.id,
+                            );
+                          },
+                        );
+                      },
+                    ),
                   );
                 }
 

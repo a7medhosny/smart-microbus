@@ -1292,7 +1292,7 @@ abstract class AppLocalizations {
   /// No description provided for @approved.
   ///
   /// In en, this message translates to:
-  /// **'Approved'**
+  /// **'Reviewed'**
   String get approved;
 
   /// No description provided for @pending.

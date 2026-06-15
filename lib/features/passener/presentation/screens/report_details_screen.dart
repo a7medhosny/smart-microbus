@@ -22,8 +22,6 @@ class _ReportDetailsPageState extends State<ReportDetailsPage> {
     context.read<PassengerCubit>().getReportById(widget.reportId);
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -88,12 +86,13 @@ class _ReportDetailsPageState extends State<ReportDetailsPage> {
 
               if (state is GetReportByIdSuccess) {
                 final report = state.report;
+                final isReviewed = report.status.toLowerCase() == "reviewed";
                 String getStatusText() {
                   final l10n = AppLocalizations.of(context)!;
                   switch (report.status.toLowerCase()) {
                     case "pending":
                       return l10n.pending;
-                    case "approved":
+                    case "reviewed":
                       return l10n.approved;
                     case "rejected":
                       return l10n.rejected;
@@ -248,84 +247,86 @@ class _ReportDetailsPageState extends State<ReportDetailsPage> {
                       const SizedBox(height: 30),
 
                       /// ACTIONS
-                      Row(
-                        children: [
-                          Expanded(
-                            child: OutlinedButton.icon(
-                              icon: isLoading
-                                  ? const SizedBox(
-                                      height: 16,
-                                      width: 16,
-                                      child: CircularProgressIndicator(
-                                        strokeWidth: 2,
-                                      ),
-                                    )
-                                  : Icon(Icons.delete, color: colors.error),
-                              label: Text(
-                                l10n.delete,
-                                style: TextStyle(
-                                  color: colors.error,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                              style: OutlinedButton.styleFrom(
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 14,
-                                ),
-                                side: BorderSide(color: colors.error),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(14),
-                                ),
-                              ),
-                              onPressed: isLoading
-                                  ? null
-                                  : () {
-                                      _showDeleteDialog(
-                                        context,
-                                        cubit,
-                                        report.id,
-                                      );
-                                    },
-                            ),
-                          ),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: ElevatedButton.icon(
-                              icon: const Icon(Icons.edit),
-                              label: Text(
-                                l10n.edit,
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 14,
-                                ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(14),
-                                ),
-                                elevation: 2,
-                              ),
-                              onPressed: isLoading
-                                  ? null
-                                  : () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (_) => ReportPage(
-                                            plateNumber: report.plateNumber,
-                                            existingReport: report,
-                                          ),
+                      if (!isReviewed) ...[
+                        Row(
+                          children: [
+                            Expanded(
+                              child: OutlinedButton.icon(
+                                icon: isLoading
+                                    ? const SizedBox(
+                                        height: 16,
+                                        width: 16,
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2,
                                         ),
-                                      );
-                                    },
+                                      )
+                                    : Icon(Icons.delete, color: colors.error),
+                                label: Text(
+                                  l10n.delete,
+                                  style: TextStyle(
+                                    color: colors.error,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                style: OutlinedButton.styleFrom(
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 14,
+                                  ),
+                                  side: BorderSide(color: colors.error),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(14),
+                                  ),
+                                ),
+                                onPressed: isLoading
+                                    ? null
+                                    : () {
+                                        _showDeleteDialog(
+                                          context,
+                                          cubit,
+                                          report.id,
+                                        );
+                                      },
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: ElevatedButton.icon(
+                                icon: const Icon(Icons.edit),
+                                label: Text(
+                                  l10n.edit,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                style: ElevatedButton.styleFrom(
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 14,
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(14),
+                                  ),
+                                  elevation: 2,
+                                ),
+                                onPressed: isLoading
+                                    ? null
+                                    : () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (_) => ReportPage(
+                                              plateNumber: report.plateNumber,
+                                              existingReport: report,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                              ),
+                            ),
+                          ],
+                        ),
 
-                      const SizedBox(height: 20),
+                        const SizedBox(height: 20),
+                      ],
                     ],
                   ),
                 );
