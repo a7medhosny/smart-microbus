@@ -1,21 +1,54 @@
-/// presentation/widgets/trip/trip_status_card.dart
-library;
+import 'dart:async';
 
 import 'package:flutter/material.dart';
 
 import '../../../../../../core/helpers/spacing.dart';
-
-
 import '../../../../../../l10n/app_localizations.dart';
 import 'trip_live_badge.dart';
 
-class TripStatusCard extends StatelessWidget {
-  final String startedSince;
+class TripStatusCard extends StatefulWidget {
+  final DateTime startedAt;
 
-  const TripStatusCard({
-    super.key,
-    required this.startedSince,
-  });
+  const TripStatusCard({super.key, required this.startedAt});
+
+  @override
+  State<TripStatusCard> createState() => _TripStatusCardState();
+}
+
+class _TripStatusCardState extends State<TripStatusCard> {
+  late Timer _timer;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _timer = Timer.periodic(const Duration(minutes: 1), (_) => setState(() {}));
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
+  String _startedSince(BuildContext context) {
+    final diff = DateTime.now().difference(widget.startedAt);
+    final l10n = AppLocalizations.of(context)!;
+
+    if (diff.inMinutes < 1) {
+      return l10n.tripStartedNow;
+    }
+
+    if (diff.inHours < 1) {
+      return l10n.tripStartedSince("${diff.inMinutes}");
+    }
+
+    if (diff.inDays < 1) {
+      return l10n.tripStartedSince("${diff.inHours} س ${diff.inMinutes % 60}");
+    }
+
+    return "${diff.inDays} d";
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +117,7 @@ class TripStatusCard extends StatelessWidget {
 
                     Expanded(
                       child: Text(
-                        l10n.tripStartedSince(startedSince),
+                        l10n.tripStartedSince(_startedSince(context)),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: theme.textTheme.bodySmall?.copyWith(

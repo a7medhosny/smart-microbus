@@ -285,8 +285,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String tripStartedSince(Object minutes) {
-    return 'Started $minutes minutes ago';
+    return 'Started $minutes m ago';
   }
+
+  @override
+  String get tripStartedNow => 'Started Just Now';
 
   @override
   String get tripStartPoint => 'Start Point';
