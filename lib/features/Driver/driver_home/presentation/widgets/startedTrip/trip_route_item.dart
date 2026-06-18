@@ -23,8 +23,7 @@ class TripRouteItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return SizedBox(
-      height: isLast ? 65 : 80,
+    return IntrinsicHeight(
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -69,8 +68,8 @@ class TripRouteItem extends StatelessWidget {
 
           Expanded(
             child: Container(
-              height: 70,
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              margin: EdgeInsets.only(bottom: isLast ? 0 : 10),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
                 color: theme.colorScheme.surfaceContainerHighest.withOpacity(
@@ -78,7 +77,7 @@ class TripRouteItem extends StatelessWidget {
                 ),
               ),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
@@ -93,7 +92,7 @@ class TripRouteItem extends StatelessWidget {
 
                   Text(
                     value,
-                    maxLines: 1,
+                    maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: theme.textTheme.bodyLarge?.copyWith(
                       fontWeight: FontWeight.w700,

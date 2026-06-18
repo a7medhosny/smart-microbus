@@ -65,7 +65,6 @@ dev_dependencies:
 
 # =========================
 # Flutter Launcher Icons Config
-# =========================
 flutter_launcher_icons:
   android: true
   ios: true

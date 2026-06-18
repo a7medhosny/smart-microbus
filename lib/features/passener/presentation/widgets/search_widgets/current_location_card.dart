@@ -12,7 +12,7 @@ class CurrentLocationCard extends StatelessWidget {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context)!;
     final userName = (TokenManager.userName ?? '').split(' ').first;
-    print("CurrentLocationCard build with userName: $userName");
+    print("🟢🟢CurrentLocationCard build with userName: $userName");
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(

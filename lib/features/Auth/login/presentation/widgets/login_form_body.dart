@@ -92,7 +92,7 @@ class _LoginFormBodyState extends State<LoginFormBody> {
           ),
           verticalSpace(40),
           BlocConsumer<LoginCubit, LoginState>(
-            listener: (context, state) {
+            listener: (context, state) async {
               if (state is LoginLoading) {
                 showDialog(
                   context: context,
@@ -155,6 +155,10 @@ class _LoginFormBodyState extends State<LoginFormBody> {
                 ShowToastHelper.showToast(context, loc.loginSuccess);
                 widget.phoneController.clear();
                 widget.passwordController.clear();
+                await CacheHelper.insertToCache(
+                  key: CacheKeys.userName,
+                  value: user.userName,
+                );
                 TokenManager.saveLoginData(
                   token: user.token,
                   refreshToken: user.refreshToken,

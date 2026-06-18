@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:smart_microbus/features/passener/domain/entities/report_item_entity.dart';
@@ -24,23 +23,21 @@ class ReportCardMini extends StatelessWidget {
     switch (report.status.toLowerCase()) {
       case "pending":
         return Colors.orange;
-      case "approved":
+      case "reviewed":
         return Colors.green;
-      case "rejected":
-        return Colors.red;
       default:
         return colors.primary;
     }
   }
+
   String getStatusText(BuildContext context) {
-     final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context)!;
     switch (report.status.toLowerCase()) {
       case "pending":
         return l10n.pending;
-      case "approved":
+      case "reviewed":
         return l10n.approved;
-      case "rejected":
-        return l10n.rejected;
+
       default:
         return l10n.pending;
     }
@@ -50,7 +47,7 @@ class ReportCardMini extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
     final statusColor = getStatusColor(colors);
-
+    print("🟢 status = ${report.status}");
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(16),

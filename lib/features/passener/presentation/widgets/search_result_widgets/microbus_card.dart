@@ -71,7 +71,7 @@ class MicrobusCard extends StatelessWidget {
 
     final bool isOnTheWay = estimatedArrivalMinutes != null;
 
-    final arrivalTime = getArrivalTime( context: context, minutes: estimatedArrivalMinutes);
+    // final arrivalTime = getArrivalTime( context: context, minutes: estimatedArrivalMinutes);
 
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
@@ -93,22 +93,21 @@ class MicrobusCard extends StatelessWidget {
           Row(
             children: [
               /// الوقت (لو On The Way)
-              if (isOnTheWay)
-              
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                     arrivalTime,
-                      style: theme.textTheme.titleMedium?.copyWith(
-                        color: theme.colorScheme.primary,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(l10n.arrivalTime, style: theme.textTheme.bodySmall),
-                  ],
-                ),
+              // if (isOnTheWay)
 
+              // Column(
+              //   crossAxisAlignment: CrossAxisAlignment.start,
+              //   children: [
+              //     Text(
+              //      arrivalTime,
+              //       style: theme.textTheme.titleMedium?.copyWith(
+              //         color: theme.colorScheme.primary,
+              //         fontWeight: FontWeight.bold,
+              //       ),
+              //     ),
+              //     Text(l10n.arrivalTime, style: theme.textTheme.bodySmall),
+              //   ],
+              // ),
               const SizedBox(width: 12),
 
               /// اسم السواق + التفاصيل
