@@ -7,9 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_microbus/features/Driver/driver_home/domain/entities/driver_trip.dart';
 
+import '../../../../../../core/helpers/get_arrival_time.dart';
 import '../../../../../../core/helpers/spacing.dart';
-
 import '../../../../../../l10n/app_localizations.dart';
+import '../../../../../maps/domain/entities/route_info_entity.dart';
 import '../../../../../maps/presentation/cubit/map_cubit.dart';
 import '../../../../../maps/presentation/widgets/map/map_view.dart';
 
@@ -74,39 +75,83 @@ class TripMapSection extends StatelessWidget {
             ),
           ),
 
-          Positioned(
-            top: 14,
-            left: 14,
-            right: 14,
-            child: TripMapTopBar(
-              estimatedMinutes: trip.estimatedArrivalMinutes ?? 0,
-            ),
+          BlocSelector<MapCubit, MapState, RouteInfoEntity?>(
+            selector: (state) => state.currentRoute,
+            builder: (context, route) {
+              return Positioned(
+                top: 14,
+                left: 14,
+                right: 14,
+                child: TripMapTopBar(
+                  arrivalTime: route == null
+                      ? "..."
+                      : getArrivalTime(
+                          context: context,
+                          minutes: route.etaMinutes.round(),
+                          shortFormat: true,
+                        ),
+                ),
+              );
+            },
           ),
 
           Positioned(
             left: 14,
             right: 14,
             bottom: 14,
-            child: Row(
-              children: [
-                Expanded(
-                  child: TripFloatingInfoCard(
-                    title: l10n.tripDistance,
-                    value: l10n.distance_km(trip.distanceKm ?? 0),
-                    icon: Icons.route_rounded,
-                  ),
-                ),
+            child: BlocSelector<MapCubit, MapState, RouteInfoEntity?>(
+              selector: (state) => state.currentRoute,
+              builder: (context, route) {
+                if (route == null) {
+                  return Row(
+                    children: [
+                      Expanded(
+                        child: TripFloatingInfoCard(
+                          title: l10n.tripDistance,
+                          value: "...",
+                          icon: Icons.route_rounded,
+                        ),
+                      ),
 
-                horizontalSpace(12),
+                      horizontalSpace(12),
 
-                Expanded(
-                  child: TripFloatingInfoCard(
-                    title: l10n.tripEstimatedTime,
-                    value: l10n.duration_min(trip.estimatedArrivalMinutes ?? 0),
-                    icon: Icons.timer_rounded,
-                  ),
-                ),
-              ],
+                      Expanded(
+                        child: TripFloatingInfoCard(
+                          title: l10n.tripEstimatedTime,
+                          value: "...",
+                          icon: Icons.timer_rounded,
+                        ),
+                      ),
+                    ],
+                  );
+                }
+
+                return Row(
+                  children: [
+                    Expanded(
+                      child: TripFloatingInfoCard(
+                        title: l10n.tripDistance,
+                        value: l10n.distance_km(route.distanceKm.round()),
+                        icon: Icons.route_rounded,
+                      ),
+                    ),
+
+                    horizontalSpace(12),
+
+                    Expanded(
+                      child: TripFloatingInfoCard(
+                        title: l10n.tripEstimatedTime,
+                        value: getArrivalTime(
+                          context: context,
+                          minutes: route.etaMinutes.round(),
+                          shortFormat: true,
+                        ),
+                        icon: Icons.timer_rounded,
+                      ),
+                    ),
+                  ],
+                );
+              },
             ),
           ),
 

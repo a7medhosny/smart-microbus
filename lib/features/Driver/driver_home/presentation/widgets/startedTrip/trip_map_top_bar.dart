@@ -9,9 +9,9 @@ import '../../../../../../core/helpers/spacing.dart';
 import '../../../../../../l10n/app_localizations.dart';
 
 class TripMapTopBar extends StatelessWidget {
-  final num estimatedMinutes;
+  final String arrivalTime;
 
-  const TripMapTopBar({super.key, required this.estimatedMinutes});
+  const TripMapTopBar({super.key, required this.arrivalTime});
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +58,7 @@ class TripMapTopBar extends StatelessWidget {
               ),
 
               Text(
-                l10n.duration_min(estimatedMinutes),
+                arrivalTime,
                 style: const TextStyle(
                   color: Colors.white70,
                   fontWeight: FontWeight.w600,
