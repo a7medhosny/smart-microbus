@@ -101,233 +101,241 @@ class _ReportDetailsPageState extends State<ReportDetailsPage> {
                   }
                 }
 
-                return SingleChildScrollView(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    children: [
-                      /// CARD
-                      Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 18,
-                          vertical: 20,
-                        ),
-                        decoration: BoxDecoration(
-                          color: colors.surface,
-                          borderRadius: BorderRadius.circular(22),
-                          border: Border.all(
-                            color: colors.outline.withOpacity(0.1),
+                return RefreshIndicator(
+                  onRefresh: () async {
+                    await context.read<PassengerCubit>().getReportById(
+                      widget.reportId,
+                    );
+                  },
+                  child: SingleChildScrollView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      children: [
+                        /// CARD
+                        Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 18,
+                            vertical: 20,
                           ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: colors.shadow.withOpacity(0.08),
-                              blurRadius: 24,
-                              offset: const Offset(0, 12),
+                          decoration: BoxDecoration(
+                            color: colors.surface,
+                            borderRadius: BorderRadius.circular(22),
+                            border: Border.all(
+                              color: colors.outline.withOpacity(0.1),
                             ),
-                          ],
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            /// TOP ACCENT
-                            Container(
-                              height: 4,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                gradient: LinearGradient(
-                                  colors: [colors.primary, colors.secondary],
+                            boxShadow: [
+                              BoxShadow(
+                                color: colors.shadow.withOpacity(0.08),
+                                blurRadius: 24,
+                                offset: const Offset(0, 12),
+                              ),
+                            ],
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              /// TOP ACCENT
+                              Container(
+                                height: 4,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  gradient: LinearGradient(
+                                    colors: [colors.primary, colors.secondary],
+                                  ),
                                 ),
                               ),
-                            ),
 
-                            const SizedBox(height: 20),
-
-                            /// PLATE NUMBER
-                            Container(
-                              width: double.infinity,
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 20,
-                                vertical: 16,
-                              ),
-                              decoration: BoxDecoration(
-                                color: colors.surface.withOpacity(0.6),
-                                borderRadius: BorderRadius.circular(16),
-                                border: Border.all(
-                                  color: colors.primary.withOpacity(0.2),
-                                ),
-                              ),
-                              child: Column(
-                                children: [
-                                  Text(
-                                    l10n.plateNumber,
-                                    style: textTheme.labelSmall?.copyWith(
-                                      color: colors.onSurfaceVariant,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 6),
-                                  Text(
-                                    report.plateNumber,
-                                    style: textTheme.titleLarge?.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                      letterSpacing: 1.3,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-
-                            const SizedBox(height: 20),
-
-                            _buildRow(
-                              context,
-                              title: l10n.status,
-                              value: getStatusText(),
-                              isStatus: true,
-                            ),
-
-                            if (report.description.isNotEmpty) ...[
                               const SizedBox(height: 20),
+
+                              /// PLATE NUMBER
+                              Container(
+                                width: double.infinity,
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 20,
+                                  vertical: 16,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: colors.surface.withOpacity(0.6),
+                                  borderRadius: BorderRadius.circular(16),
+                                  border: Border.all(
+                                    color: colors.primary.withOpacity(0.2),
+                                  ),
+                                ),
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      l10n.plateNumber,
+                                      style: textTheme.labelSmall?.copyWith(
+                                        color: colors.onSurfaceVariant,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 6),
+                                    Text(
+                                      report.plateNumber,
+                                      style: textTheme.titleLarge?.copyWith(
+                                        fontWeight: FontWeight.bold,
+                                        letterSpacing: 1.3,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+
+                              const SizedBox(height: 20),
+
                               _buildRow(
                                 context,
-                                title: l10n.description,
-                                value: report.description,
+                                title: l10n.status,
+                                value: getStatusText(),
+                                isStatus: true,
                               ),
-                            ],
 
-                            const SizedBox(height: 24),
-
-                            /// REASONS
-                            if (report.reasons.isNotEmpty) ...[
-                              Text(
-                                l10n.reasons,
-                                style: textTheme.labelMedium?.copyWith(
-                                  color: colors.onSurfaceVariant,
-                                  fontWeight: FontWeight.w600,
+                              if (report.description.isNotEmpty) ...[
+                                const SizedBox(height: 20),
+                                _buildRow(
+                                  context,
+                                  title: l10n.description,
+                                  value: report.description,
                                 ),
-                              ),
-                              const SizedBox(height: 12),
-                              Wrap(
-                                spacing: 10,
-                                runSpacing: 10,
-                                children: report.reasons.map((reason) {
-                                  return Container(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 14,
-                                      vertical: 8,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      gradient: LinearGradient(
-                                        colors: [
-                                          colors.secondary.withOpacity(0.2),
-                                          colors.secondary.withOpacity(0.05),
-                                        ],
-                                      ),
-                                      borderRadius: BorderRadius.circular(14),
-                                      border: Border.all(
-                                        color: colors.secondary.withOpacity(
-                                          0.25,
-                                        ),
-                                      ),
-                                    ),
-                                    child: Text(
-                                      reason,
-                                      style: textTheme.bodyMedium?.copyWith(
-                                        color: colors.secondary,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  );
-                                }).toList(),
-                              ),
-                            ],
-                          ],
-                        ),
-                      ),
+                              ],
 
-                      const SizedBox(height: 30),
+                              const SizedBox(height: 24),
 
-                      /// ACTIONS
-                      if (!isReviewed) ...[
-                        Row(
-                          children: [
-                            Expanded(
-                              child: OutlinedButton.icon(
-                                icon: isLoading
-                                    ? const SizedBox(
-                                        height: 16,
-                                        width: 16,
-                                        child: CircularProgressIndicator(
-                                          strokeWidth: 2,
-                                        ),
-                                      )
-                                    : Icon(Icons.delete, color: colors.error),
-                                label: Text(
-                                  l10n.delete,
-                                  style: TextStyle(
-                                    color: colors.error,
+                              /// REASONS
+                              if (report.reasons.isNotEmpty) ...[
+                                Text(
+                                  l10n.reasons,
+                                  style: textTheme.labelMedium?.copyWith(
+                                    color: colors.onSurfaceVariant,
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
-                                style: OutlinedButton.styleFrom(
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 14,
-                                  ),
-                                  side: BorderSide(color: colors.error),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(14),
-                                  ),
-                                ),
-                                onPressed: isLoading
-                                    ? null
-                                    : () {
-                                        _showDeleteDialog(
-                                          context,
-                                          cubit,
-                                          report.id,
-                                        );
-                                      },
-                              ),
-                            ),
-                            const SizedBox(width: 12),
-                            Expanded(
-                              child: ElevatedButton.icon(
-                                icon: const Icon(Icons.edit),
-                                label: Text(
-                                  l10n.edit,
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                                style: ElevatedButton.styleFrom(
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 14,
-                                  ),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(14),
-                                  ),
-                                  elevation: 2,
-                                ),
-                                onPressed: isLoading
-                                    ? null
-                                    : () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (_) => ReportPage(
-                                              plateNumber: report.plateNumber,
-                                              existingReport: report,
-                                            ),
+                                const SizedBox(height: 12),
+                                Wrap(
+                                  spacing: 10,
+                                  runSpacing: 10,
+                                  children: report.reasons.map((reason) {
+                                    return Container(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 14,
+                                        vertical: 8,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        gradient: LinearGradient(
+                                          colors: [
+                                            colors.secondary.withOpacity(0.2),
+                                            colors.secondary.withOpacity(0.05),
+                                          ],
+                                        ),
+                                        borderRadius: BorderRadius.circular(14),
+                                        border: Border.all(
+                                          color: colors.secondary.withOpacity(
+                                            0.25,
                                           ),
-                                        );
-                                      },
-                              ),
-                            ),
-                          ],
+                                        ),
+                                      ),
+                                      child: Text(
+                                        reason,
+                                        style: textTheme.bodyMedium?.copyWith(
+                                          color: colors.secondary,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                    );
+                                  }).toList(),
+                                ),
+                              ],
+                            ],
+                          ),
                         ),
 
-                        const SizedBox(height: 20),
+                        const SizedBox(height: 30),
+
+                        /// ACTIONS
+                        if (!isReviewed) ...[
+                          Row(
+                            children: [
+                              Expanded(
+                                child: OutlinedButton.icon(
+                                  icon: isLoading
+                                      ? const SizedBox(
+                                          height: 16,
+                                          width: 16,
+                                          child: CircularProgressIndicator(
+                                            strokeWidth: 2,
+                                          ),
+                                        )
+                                      : Icon(Icons.delete, color: colors.error),
+                                  label: Text(
+                                    l10n.delete,
+                                    style: TextStyle(
+                                      color: colors.error,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  style: OutlinedButton.styleFrom(
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 14,
+                                    ),
+                                    side: BorderSide(color: colors.error),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(14),
+                                    ),
+                                  ),
+                                  onPressed: isLoading
+                                      ? null
+                                      : () {
+                                          _showDeleteDialog(
+                                            context,
+                                            cubit,
+                                            report.id,
+                                          );
+                                        },
+                                ),
+                              ),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: ElevatedButton.icon(
+                                  icon: const Icon(Icons.edit),
+                                  label: Text(
+                                    l10n.edit,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  style: ElevatedButton.styleFrom(
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 14,
+                                    ),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(14),
+                                    ),
+                                    elevation: 2,
+                                  ),
+                                  onPressed: isLoading
+                                      ? null
+                                      : () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (_) => ReportPage(
+                                                plateNumber: report.plateNumber,
+                                                existingReport: report,
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                ),
+                              ),
+                            ],
+                          ),
+
+                          const SizedBox(height: 20),
+                        ],
                       ],
-                    ],
+                    ),
                   ),
                 );
               }

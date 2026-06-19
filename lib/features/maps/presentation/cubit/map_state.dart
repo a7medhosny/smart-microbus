@@ -24,6 +24,8 @@ class MapState {
   final String searchQuery;
   final DriverLocationEntity? driverLocation;
   final MapMode mode;
+  final bool locationDenied;
+  final bool locationServiceDisabled;
 
   const MapState({
     this.searchQuery = '',
@@ -40,6 +42,8 @@ class MapState {
     this.selectedMode = TravelMode.driving,
     this.driverLocation,
     this.mode = MapMode.station,
+    this.locationDenied = false,
+    this.locationServiceDisabled = false,
   });
 
   MapState copyWith({
@@ -57,6 +61,8 @@ class MapState {
     String? searchQuery,
     DriverLocationEntity? driverLocation,
     MapMode? mode,
+    bool? locationDenied,
+    bool? locationServiceDisabled,
   }) {
     return MapState(
       loading: loading ?? this.loading,
@@ -73,6 +79,10 @@ class MapState {
       searchQuery: searchQuery ?? this.searchQuery,
       driverLocation: driverLocation ?? this.driverLocation,
       mode: mode ?? this.mode,
+      locationDenied: locationDenied ?? this.locationDenied,
+
+      locationServiceDisabled:
+          locationServiceDisabled ?? this.locationServiceDisabled,
     );
   }
 }

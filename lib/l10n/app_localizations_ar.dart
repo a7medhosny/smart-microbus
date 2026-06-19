@@ -632,10 +632,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get rejected => 'مرفوض';
 
   @override
-  String get approved => 'مقبول';
+  String get approved => 'تمت مراجعته';
 
   @override
-  String get pending => 'قيد الانتظار';
+  String get pending => 'قيد المراجعة';
 
   @override
   String get darkMode => 'الوضع الليلي';

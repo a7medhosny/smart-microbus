@@ -239,9 +239,8 @@
   "report": "بلاغ",
   "already_reported": "تم الإبلاغ بالفعل",
   "rejected": "مرفوض",
-    "approved": "مقبول",
-    "pending": "قيد الانتظار",
-    
+   "pending": "قيد المراجعة",
+"approved": "تمت مراجعته",
   "darkMode": "الوضع الليلي",
   "english": "الإنجليزية",
   "searchHere": "ابحث عن محطة",
